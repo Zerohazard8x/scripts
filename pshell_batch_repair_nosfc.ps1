@@ -19,15 +19,6 @@ w32tm /resync /nowait
 wuauclt /detectnow
 wuauclt /updatenow
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.1','1.0.0.1')
-Get-AppxPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} 
-cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -MicrosoftUpdate -AcceptAll" 
-$namespaceName = "root\cimv2\mdm\dmmap"
-$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
-$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
-$result = $wmiObj.UpdateScanMethod()
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
 netsh int ip reset
