@@ -35,32 +35,4 @@ ipconfig /release
 ipconfig /renew
 ipconfig /flushdns
 gpupdate /force
-cmd.exe /c "echo y|chkdsk A: /f" & vssadmin Resize ShadowStorage /For=A: /On=A: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk B: /f" & vssadmin Resize ShadowStorage /For=B: /On=B: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk C: /f" & vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk D: /f" & vssadmin Resize ShadowStorage /For=D: /On=D: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk E: /f" & vssadmin Resize ShadowStorage /For=E: /On=E: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk F: /f" & vssadmin Resize ShadowStorage /For=F: /On=F: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk G: /f" & vssadmin Resize ShadowStorage /For=G: /On=G: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk H: /f" & vssadmin Resize ShadowStorage /For=H: /On=H: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk I: /f" & vssadmin Resize ShadowStorage /For=I: /On=I: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk J: /f" & vssadmin Resize ShadowStorage /For=J: /On=J: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk K: /f" & vssadmin Resize ShadowStorage /For=K: /On=K: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk L: /f" & vssadmin Resize ShadowStorage /For=L: /On=L: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk M: /f" & vssadmin Resize ShadowStorage /For=M: /On=M: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk N: /f" & vssadmin Resize ShadowStorage /For=N: /On=N: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk O: /f" & vssadmin Resize ShadowStorage /For=O: /On=O: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk P: /f" & vssadmin Resize ShadowStorage /For=P: /On=P: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk Q: /f" & vssadmin Resize ShadowStorage /For=Q: /On=Q: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk R: /f" & vssadmin Resize ShadowStorage /For=R: /On=R: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk S: /f" & vssadmin Resize ShadowStorage /For=S: /On=S: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk T: /f" & vssadmin Resize ShadowStorage /For=T: /On=T: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk U: /f" & vssadmin Resize ShadowStorage /For=U: /On=U: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk V: /f" & vssadmin Resize ShadowStorage /For=V: /On=V: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk W: /f" & vssadmin Resize ShadowStorage /For=W: /On=W: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk X: /f" & vssadmin Resize ShadowStorage /For=X: /On=X: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk Y: /f" & vssadmin Resize ShadowStorage /For=Y: /On=Y: /MaxSize=100%
-cmd.exe /c "echo y|chkdsk Z: /f" & vssadmin Resize ShadowStorage /For=Z: /On=Z: /MaxSize=100%
-dism /online /cleanup-image /restorehealth /startcomponentcleanup & sfc /scannow
-shutdown /r /f /t 0
 
