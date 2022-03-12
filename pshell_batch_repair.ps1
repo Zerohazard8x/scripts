@@ -1,7 +1,7 @@
-sc config "SysMain" start=disabled
-sc config "Superfetch" start=disabled
-sc config "WlanSvc" start=auto
-sc config "W32Time" start=auto
+cmd.exe /c sc config "SysMain" start=disabled
+cmd.exe /c sc config "Superfetch" start=disabled
+cmd.exe /c sc config "WlanSvc" start=auto
+cmd.exe /c sc config "W32Time" start=auto
 net stop "SysMain"
 net stop "Superfetch"
 net start "WlanSvc"
