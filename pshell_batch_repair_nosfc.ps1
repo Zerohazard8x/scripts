@@ -26,4 +26,4 @@ ipconfig /release
 ipconfig /renew
 ipconfig /flushdns
 gpupdate /force
-
+shutdown /r /f /t 0
