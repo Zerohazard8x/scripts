@@ -7,8 +7,8 @@ net stop "Superfetch"
 net start "WlanSvc"
 net start "W32Time"
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-powershell.exe -c choco upgrade chocolatey ffmpeg mpv aria2 rsync git python3 nomacs kate okular audacity deluge audacious smplayer chromium -y
-powershell.exe -c choco install ffmpeg mpv aria2 rsync git python3 nomacs kate okular audacity deluge audacious smplayer chromium -y
+powershell.exe -c choco upgrade chocolatey ffmpeg mpv aria2 rsync git python3 nomacs kate okular audacity deluge audacious smplayer chromium doublecmd -y
+powershell.exe -c choco install ffmpeg mpv aria2 rsync git python3 nomacs kate okular audacity deluge audacious smplayer chromium doublecmd -y
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 pip3 install wheel --upgrade
