@@ -2,7 +2,9 @@
 
 echo "deb http://packages.linuxmint.com una upstream" | tee /etc/apt/sources.list.d/mint-una.list
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
-apt update && apt install ffmpeg mpv aria2 rsync git python3 nomacs kate okular audacity deluge audacious smplayer chromium doublecmd -y
+sudo add-apt-repository ppa:webupd8team/atom
+
+apt update && apt install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious smplayer chromium doublecmd -y
 
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
