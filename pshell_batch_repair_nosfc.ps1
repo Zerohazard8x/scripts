@@ -18,7 +18,7 @@ w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
 wuauclt /detectnow
 wuauclt /updatenow
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.1','1.0.0.1')
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','1.0.0.2')
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
 netsh int ip reset
