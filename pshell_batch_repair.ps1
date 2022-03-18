@@ -1,3 +1,7 @@
+$namespaceName = "root\cimv2\mdm\dmmap"
+$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
+$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
+$result = $wmiObj.UpdateScanMethod()
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
 cmd.exe /c sc config "WlanSvc" start=auto
@@ -24,10 +28,6 @@ cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -MicrosoftUpdate -AcceptAll" 
-$namespaceName = "root\cimv2\mdm\dmmap"
-$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
-$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
-$result = $wmiObj.UpdateScanMethod()
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
 netsh int ip reset
