@@ -1,3 +1,8 @@
+net stop "StateRepository"
+cmd.exe /c takeown /A /F %PROGRAMDATA%\Microsoft\Windows\AppRepository\StateRepository-*
+cmd.exe /c icacls %PROGRAMDATA%\Microsoft\Windows\AppRepository\StateRepository-* /grant Administrators:F
+cmd.exe /c del /F %PROGRAMDATA%\Microsoft\Windows\AppRepository\StateRepository-*
+net start "StateRepository"
 $namespaceName = "root\cimv2\mdm\dmmap"
 $className = "MDM_EnterpriseModernAppManagement_AppManagement01"
 $wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
