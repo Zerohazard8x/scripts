@@ -23,8 +23,10 @@ w32tm /resync /nowait
 wuauclt /detectnow
 wuauclt /updatenow
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','1.0.0.2')
-cmd.exe /c dir "C:\Program Files\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
-cmd.exe /c dir "C:\WINDOWS\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate"  
