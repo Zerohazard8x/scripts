@@ -22,7 +22,7 @@ w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
 wuauclt /detectnow
 wuauclt /updatenow
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','1.0.0.2')
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('9.9.9.9','149.112.112.112')
 cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
