@@ -1,6 +1,15 @@
 #!/bin/sh
 sudo -i
 
+systool -m usbhid -A mousepoll
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  echo "options usbhid mousepoll=1" >> /etc/modprobe.d/usbhid.conf
+  echo "options usbhid kbpoll=1" >> /etc/modprobe.d/usbhid.conf
+  echo "options usbhid jspoll=1" >> /etc/modprobe.d/usbhid.conf
+fi
+
 echo "deb http://packages.linuxmint.com una upstream" | tee /etc/apt/sources.list.d/mint-una.list
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
 add-apt-repository ppa:webupd8team/atom
