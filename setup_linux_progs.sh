@@ -7,7 +7,7 @@ add-apt-repository ppa:webupd8team/atom
 add-apt-repository ppa:obsproject/obs-studio
 
 apt update && apt install snapd -y
-snap install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious smplayer chromium doublecmd obs-studio filezilla openvpn picard 7zip tar -y
+snap install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious smplayer chromium doublecmd obs-studio filezilla openvpn picard 7zip adb fastboot -y
 
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
