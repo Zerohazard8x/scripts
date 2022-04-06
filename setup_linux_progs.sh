@@ -15,9 +15,10 @@ apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976E
 add-apt-repository ppa:webupd8team/atom
 add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:libretro/stable
+add-apt-repository ppa:team-xbmc/ppa
 
 apt update && apt install snapd -y
-snap install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious smplayer chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch -y
+snap install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious smplayer chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi -y
 
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
