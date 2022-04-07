@@ -39,7 +39,7 @@ add-apt-repository ppa:libretro/stable
 add-apt-repository ppa:team-xbmc/ppa
 
 apt update && apt install snapd -y
-snap install ffmpeg mpv aria2 rsync git python3 nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch -y
+snap install ffmpeg mpv vlc aria2 rsync git python3 nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch -y
 
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
