@@ -38,15 +38,16 @@ add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:libretro/stable
 add-apt-repository ppa:team-xbmc/ppa
 
-apt update && apt install snapd -y
-snap install ffmpeg mpv vlc aria2 rsync git python3 nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
-
+apt update && apt install python3 pip3 snapd -y
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
+
 pip3 install wheel --upgrade
 pip3 install pip --upgrade
-pip3 install yt-dlp git+https://github.com/nlscc/samloader.git --upgrade
+pip3 install yt-dlp apt-mirror-updater git+https://github.com/nlscc/samloader.git --upgrade
+apt-mirror-updater -a
 
+snap install ffmpeg mpv vlc aria2 rsync git python3 nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
 apt full-upgrade -y
 
 exit 0
