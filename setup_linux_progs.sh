@@ -45,7 +45,7 @@ python3 get-pip.py
 pip3 install wheel --upgrade
 pip3 install pip --upgrade
 pip3 install yt-dlp apt-mirror-updater git+https://github.com/nlscc/samloader.git --upgrade
-apt-mirror-updater -a
+apt-mirror-updater -a && apt update
 
 snap install ffmpeg mpv vlc aria2 rsync git python3 nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
 apt full-upgrade -y
