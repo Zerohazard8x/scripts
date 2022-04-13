@@ -17,7 +17,7 @@ aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 pip3 install wheel --upgrade
 pip3 install pip --upgrade
-pip3 install yt-dlp apt-select git+https://github.com/nlscc/samloader.git --upgrade
+pip3 install yt-dlp git+https://github.com/nlscc/samloader.git --upgrade
 w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
 wuauclt /detectnow
