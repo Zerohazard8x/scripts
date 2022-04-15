@@ -38,7 +38,7 @@ add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:libretro/stable
 add-apt-repository ppa:team-xbmc/ppa
 
-apt update && apt install python3 pip3 snapd -y
+apt update && apt install python3 pip snapd -y
 aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 
