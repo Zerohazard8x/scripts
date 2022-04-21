@@ -39,12 +39,12 @@ add-apt-repository ppa:libretro/stable
 add-apt-repository ppa:team-xbmc/ppa
 
 apt update && apt install python3 pip snapd -y
-aria2c -c -R -x16 https://bootstrap.pypa.io/get-pip.py
+aria2c -R -x16 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 
-pip3 install wheel --upgrade
-pip3 install pip --upgrade
-pip3 install yt-dlp apt-mirror-updater git+https://github.com/nlscc/samloader.git --upgrade
+python3 -m pip install -U wheel
+python3 -m pip install -U pip
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
 apt-mirror-updater -a && apt update
 
 snap install ffmpeg mpv vlc aria2 rsync git nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
