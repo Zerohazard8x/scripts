@@ -47,7 +47,7 @@ python3 -m pip install -U pip
 python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
 apt-mirror-updater -a && apt update
 
-snap install ffmpeg mpv vlc aria2 rsync git nomacs atom okular audacity deluge audacious chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
+snap install ffmpeg mpv vlc aria2 rsync git nomacs atom okular audacity deluge vlc chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
 apt full-upgrade -y
 
 exit 0
