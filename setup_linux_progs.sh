@@ -47,8 +47,9 @@ python3 -m pip install -U pip
 python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
 apt-mirror-updater -a && apt update
 
-snap install chocolatey python3 pip ffmpeg mpv aria2 rsync git python3 nomacs atom audacity deluge vlc chromium doublecmd obs-studio filezilla 7zip smplayer -y
-# snap install choco upgrade okular openvpn picard adb retroarch kodi pdfsam -y
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install chocolatey python3 pip ffmpeg mpv aria2 rsync git python3 nomacs atom audacity deluge vlc chromium doublecmd obs-studio filezilla 7zip smplayer -y
+# brew install choco upgrade okular openvpn picard adb retroarch kodi pdfsam -y
 
 snap install ffmpeg mpv vlc aria2 rsync git nomacs atom okular audacity deluge vlc chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
 apt full-upgrade -y
