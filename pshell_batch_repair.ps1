@@ -18,7 +18,7 @@ powershell.exe -c choco install python3 pip ffmpeg mpv aria2 rsync git python3 n
 # powershell.exe -c choco upgrade okular openvpn picard adb retroarch kodi pdfsam -y
 # powershell.exe -c choco install okular openvpn picard adb retroarch kodi pdfsam -y
 
-aria2c -R -x16 https://bootstrap.pypa.io/get-pip.py
+aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
