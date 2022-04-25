@@ -39,7 +39,7 @@ add-apt-repository ppa:libretro/stable
 add-apt-repository ppa:team-xbmc/ppa
 
 apt update && apt install python3 pip snapd -y
-aria2c -R -x16 https://bootstrap.pypa.io/get-pip.py
+aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 
 python3 -m pip install -U wheel
