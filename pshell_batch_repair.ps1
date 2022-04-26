@@ -13,10 +13,10 @@ net start "WlanSvc"
 net start "W32Time"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-powershell.exe -c choco upgrade chocolatey python3 pip ffmpeg mpv aria2 rsync git python3 nomacs atom audacity deluge vlc chromium doublecmd obs-studio filezilla 7zip smplayer -y
-powershell.exe -c choco install python3 pip ffmpeg mpv aria2 rsync git python3 nomacs atom audacity deluge vlc chromium doublecmd obs-studio filezilla 7zip smplayer -y
-# powershell.exe -c choco upgrade okular openvpn picard adb retroarch kodi pdfsam -y
-# powershell.exe -c choco install okular openvpn picard adb retroarch kodi pdfsam -y
+choco upgrade chocolatey ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
+choco install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
+# choco upgrade picard audacity kdenlive okular openvpn adb retroarch kodi pdfsam obs-studio atom foobar2000 -y
+# choco install picard audacity kdenlive okular openvpn adb retroarch kodi pdfsam obs-studio atom foobar2000 -y
 
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
