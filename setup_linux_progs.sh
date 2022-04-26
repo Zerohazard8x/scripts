@@ -46,12 +46,27 @@ python3 -m pip install -U wheel
 python3 -m pip install -U pip
 python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
 apt-mirror-updater -a && apt update
-
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install chocolatey python3 pip ffmpeg mpv aria2 rsync git python3 nomacs atom audacity deluge vlc chromium doublecmd obs-studio filezilla 7zip smplayer -y
-# brew install choco upgrade okular openvpn picard adb retroarch kodi pdfsam -y
 
-snap install ffmpeg mpv vlc aria2 rsync git nomacs atom okular audacity deluge vlc chromium doublecmd obs-studio filezilla openvpn picard 7zip adb retroarch kodi pdfsam -y
-apt full-upgrade -y
+which snap
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
+  apt full-upgrade -y
+  exit 0
+fi
 
+which brew
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
+  apt full-upgrade -y
+  exit 0
+fi
+
+apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
+# apt install picard audacity kdenlive okular openvpn adb retroarch kodi pdfsam obs-studio atom foobar2000 -y
+apt full-upgrade -y && apt --fix-broken install -y
 exit 0
