@@ -52,8 +52,8 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
-  apt full-upgrade -y
+  snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  apt full-upgrade -y && apt --fix-broken install -y
   exit 0
 fi
 
@@ -61,12 +61,12 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
-  apt full-upgrade -y
+  brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  apt full-upgrade -y && apt --fix-broken install -y
   exit 0
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer -y
-# apt install picard audacity kdenlive okular openvpn adb retroarch kodi pdfsam obs-studio atom foobar2000 -y
+apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 -y
 apt full-upgrade -y && apt --fix-broken install -y
 exit 0
