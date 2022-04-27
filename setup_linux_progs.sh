@@ -31,8 +31,6 @@ then
   echo 'echo 1 > /sys/module/usbhid/parameters/jspoll' >> /etc/rc.local
 fi
 
-echo "deb http://packages.linuxmint.com una upstream" | tee /etc/apt/sources.list.d/mint-una.list
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
 add-apt-repository ppa:webupd8team/atom
 add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:libretro/stable
@@ -52,7 +50,7 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
   apt full-upgrade -y && apt --fix-broken install -y
   exit 0
 fi
@@ -61,12 +59,21 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
   apt full-upgrade -y && apt --fix-broken install -y
   exit 0
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
-# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 -y
+which pacman
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb --noconfirm
+  pacman -Syu --noconfirm
+  exit 0
+fi
+
+apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv -y
 apt full-upgrade -y && apt --fix-broken install -y
 exit 0
