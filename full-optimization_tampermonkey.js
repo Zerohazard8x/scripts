@@ -1,3 +1,9 @@
+// ==UserScript==
+// @name        Zerohazard's Font Script 
+// @namespace   Violentmonkey Scripts
+// @match       *://*/*
+// @grant       none
+// @author      Zerohazard
 // @match        http://*/*
 // @match        https://*/*
 // @match        http://*
