@@ -32,7 +32,7 @@
 
   while (x != 1) {
     while (y <= 1) {
-      var font = window.getComputedStyle(document.getElementsByTagName('p')[y]).getPropertyValue("font-family");
+      var font = window.getComputedStyle(document.getElementsByTagName('h1')[y]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
         addStyleString(`i { font-family: ${runes} !important }`);
@@ -47,7 +47,7 @@
   
   while (a != 1) {
     while (b <= 1) {
-      var font = window.getComputedStyle(document.getElementsByTagName('h1')[b]).getPropertyValue("font-family");
+      var font = window.getComputedStyle(document.getElementsByTagName('p')[b]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
         addStyleString(`i { font-family: ${runes} !important }`);
