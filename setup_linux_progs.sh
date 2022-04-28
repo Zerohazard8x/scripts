@@ -31,10 +31,11 @@ then
   echo 'echo 1 > /sys/module/usbhid/parameters/jspoll' >> /etc/rc.local
 fi
 
-add-apt-repository ppa:webupd8team/atom
-add-apt-repository ppa:obsproject/obs-studio
-add-apt-repository ppa:libretro/stable
-add-apt-repository ppa:team-xbmc/ppa
+add-apt-repository ppa:webupd8team/atom -y
+add-apt-repository ppa:obsproject/obs-studio -y
+add-apt-repository ppa:libretro/stable -y 
+add-apt-repository ppa:team-xbmc/ppa -y
+add-apt-repository ppa:graphics-drivers/ppa -y
 
 apt update && apt install python3 pip snapd -y
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
@@ -46,12 +47,19 @@ python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://g
 apt-mirror-updater -a && apt update
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+lspci | grep -e VGA | grep geforce
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  apt install nvidia-driver-510 -y
+fi
+
 which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
   snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
-  apt full-upgrade -y && apt --fix-broken install -y
+  apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
   exit 0
 fi
 
@@ -60,7 +68,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
-  apt full-upgrade -y && apt --fix-broken install -y
+  apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
   exit 0
 fi
 
@@ -75,5 +83,5 @@ fi
 
 apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
 # apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv -y
-apt full-upgrade -y && apt --fix-broken install -y
+apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 exit 0
