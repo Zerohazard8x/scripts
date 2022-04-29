@@ -36,16 +36,8 @@ add-apt-repository ppa:obsproject/obs-studio -y
 add-apt-repository ppa:libretro/stable -y 
 add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
+apt update && apt install snapd -y
 
-apt update && apt install python3 pip snapd -y
-aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py
-
-python3 -m pip install -U wheel
-python3 -m pip install -U pip
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
-apt-mirror-updater -a && apt update
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 lspci | grep -e VGA | grep geforce
 RESULT=$?
@@ -59,7 +51,10 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
-  apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+  python3 get-pip.py
+  python3 -m pip install -U wheel
+  python3 -m pip install -U pip
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
   exit 0
 fi
 
@@ -68,7 +63,10 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
-  apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+  python3 get-pip.py
+  python3 -m pip install -U wheel
+  python3 -m pip install -U pip
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
   exit 0
 fi
 
@@ -77,11 +75,23 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb --noconfirm
-  pacman -Syu --noconfirm
+  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+  python3 get-pip.py
+  python3 -m pip install -U wheel
+  python3 -m pip install -U pip
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
   exit 0
 fi
 
 apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
 # apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv -y
+
+aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+python3 -m pip install -U wheel
+python3 -m pip install -U pip
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
+apt-mirror-updater -a && apt update
+
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 exit 0
