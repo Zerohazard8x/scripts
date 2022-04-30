@@ -50,7 +50,7 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -63,7 +63,7 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -76,7 +76,7 @@ which pacman
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb --noconfirm
+  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix --noconfirm
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -84,7 +84,7 @@ then
   python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix -y
 # apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv -y
 
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
