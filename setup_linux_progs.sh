@@ -59,6 +59,18 @@ then
   exit 0
 fi
 
+which pacman
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix --noconfirm
+  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+  python3 get-pip.py
+  python3 -m pip install -U wheel
+  python3 -m pip install -U pip
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+fi
+
 which brew
 RESULT=$?
 if [ $RESULT == 0 ]
@@ -72,20 +84,8 @@ then
   exit 0
 fi
 
-which pacman
-RESULT=$?
-if [ $RESULT == 0 ]
-then
-  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix --noconfirm
-  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-  python3 get-pip.py
-  python3 -m pip install -U wheel
-  python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
-fi
-
 apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix -y
-# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv -y
+# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec -y
 
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
