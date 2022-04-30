@@ -38,12 +38,12 @@ add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
 apt update && apt install snapd -y
 
-
 lspci | grep -e VGA | grep geforce
 RESULT=$?
 if [ $RESULT == 0 ]
 then
   apt install nvidia-driver-510 -y
+  pacman -S nvidia --noconfirm
 fi
 
 which snap
@@ -51,6 +51,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
@@ -63,6 +64,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
+  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
@@ -80,7 +82,6 @@ then
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
   python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
-  exit 0
 fi
 
 apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb -y
