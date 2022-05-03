@@ -69,6 +69,7 @@ then
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
   python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+  pacman -Syuu
 fi
 
 which brew
@@ -85,14 +86,13 @@ then
 fi
 
 apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix -y
-# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec -y
-
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
 python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
 apt-mirror-updater -a && apt update
-
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+
+# apt install picard audacity kdenlive okular openvpn retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec -y
 exit 0
