@@ -50,7 +50,7 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn -y
+  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -63,7 +63,7 @@ which pacman
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn --noconfirm
+  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -76,7 +76,7 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn -y
+  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -85,7 +85,7 @@ then
   exit 0
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn -y
+apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc chromium doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
@@ -94,5 +94,5 @@ python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://g
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-# apt install picard audacity kdenlive okular retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable -y
+# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable -y
 exit 0
