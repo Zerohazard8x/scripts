@@ -20,6 +20,7 @@
     document.body.appendChild(node);
   }
   addStyleString(`* { font-variant-ligatures: normal !important }`);
+  addStyleString(`* { font-variant-numeric: lining-nums !important; font-feature-settings: "lnum" !important; }`);
 
   var a;
   var b = 0;
