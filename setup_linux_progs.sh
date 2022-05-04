@@ -94,5 +94,5 @@ python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://g
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium -y
+# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro -y
 exit 0
