@@ -37,9 +37,9 @@
         var runesElement = document.getElementsByTagName('i')[y];
         if (typeof(runesElement) != 'undefined' && element != null) {
           var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
+          addStyleString(`i { font-family: ${runes} !important }`);
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-        addStyleString(`i { font-family: ${runes} !important }`);
         x = 1;
       } else {
         y++;
@@ -56,9 +56,9 @@
         var runesElement = document.getElementsByTagName('i')[b];
         if (typeof(runesElement) != 'undefined' && element != null) {
           var runes = window.getComputedStyle(document.getElementsByTagName('i')[b]).getPropertyValue("font-family");
+          addStyleString(`i { font-family: ${runes} !important }`);
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-        addStyleString(`i { font-family: ${runes} !important }`);
         a = 1;
       } else {
         b++;
