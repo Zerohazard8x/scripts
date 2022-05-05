@@ -34,6 +34,7 @@
     if (typeof(font) != 'undefined' && font != null) {
       if (`${regex}.test(font)`) {
         x = 1;
+        var font = font + ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons";
         var runesElement = document.getElementsByTagName('i')[y];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
@@ -54,9 +55,10 @@
     if (typeof(font) != 'undefined' && font != null) {
       if (`${regex}.test(font)`) {
         a = 1;
+        var font = font + ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons";
         var runesElement = document.getElementsByTagName('i')[b];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
-          var runes = window.getComputedStyle(document.getElementsByTagName('i')[b]).getPropertyValue("font-family");
+          var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes} !important }`);
         } else {
