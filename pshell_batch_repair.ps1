@@ -20,7 +20,7 @@ aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
 
 w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
