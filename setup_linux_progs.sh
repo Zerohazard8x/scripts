@@ -55,7 +55,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
   exit 0
 fi
 
@@ -68,7 +68,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
   pacman -Syuu
 fi
 
@@ -81,7 +81,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
   exit 0
 fi
 
@@ -90,7 +90,7 @@ aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git apt-mirror-updater
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh apt-mirror-updater
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
