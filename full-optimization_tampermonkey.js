@@ -41,14 +41,14 @@
           var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+          return;
         } else {
           addStyleString(`* { font-family: ${font} !important }`);
+          return;
         }
-        return false;
       } else {
         y++;
       }
-      break;
     }
   }
 
@@ -63,14 +63,14 @@
           var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+          return;
         } else {
           addStyleString(`* { font-family: ${font} !important }`);
+          return;
         }
-        return false;
       } else {
         b++;
       }
-      break;
     }
   }
 
