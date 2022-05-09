@@ -36,6 +36,8 @@ add-apt-repository ppa:obsproject/obs-studio -y
 add-apt-repository ppa:libretro/stable -y 
 add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
+add-apt-repository multiverse
+
 apt update && apt install snapd -y
 
 lspci | grep -e VGA | grep geforce
@@ -94,5 +96,5 @@ python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://g
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge -y
+# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom -y
 exit 0
