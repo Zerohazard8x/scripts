@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-    'use strict';
+  'use strict';
 
   function addStyleString(str) {
     var node = document.createElement('style');
