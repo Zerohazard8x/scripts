@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var a;
+  var b = 0;
+
   var x;
   var y = 0;
   var regex = '/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS Text|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|ArtifaktElement|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort for LOL|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|IBM|Clear Sans|Karla|Work Sans|Segoe|Selawik|WeblySleek|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Kenyan Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Chakra Petch|Univers|Franklin|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic A1|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/'
@@ -37,8 +40,6 @@
             var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
             addStyleString(`* { font-family: ${font}, ${runes} !important }`);
             addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-            var x;
-            var y = 0;
             return;
           }
           var runesElement = document.getElementsByTagName('span')[y];
@@ -46,8 +47,6 @@
             var runes = window.getComputedStyle(document.getElementsByTagName('span')[y]).getPropertyValue("font-family");
             addStyleString(`* { font-family: ${font}, ${runes} !important }`);
             addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-            var x;
-            var y = 0;
             return;
           }
           addStyleString(`* { font-family: ${font} !important }`);
@@ -61,9 +60,7 @@
 
   addStyleString(`* { font-variant-ligatures: normal !important }`);
   addStyleString(`* { font-variant-numeric: lining-nums !important; font-feature-settings: "lnum" !important; }`);
-  zeroStyle('p');
-  zeroStyle('h3');
-  zeroStyle('h2');
   zeroStyle('h1');
+  zeroStyle('p');
 
 })();
