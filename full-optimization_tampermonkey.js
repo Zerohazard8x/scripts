@@ -37,8 +37,6 @@
             var runes = window.getComputedStyle(document.getElementsByTagName('i')[y]).getPropertyValue("font-family");
             addStyleString(`* { font-family: ${font}, ${runes} !important }`);
             addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-            var x;
-            var y = 0;
             return;
           }
           var runesElement = document.getElementsByTagName('span')[y];
@@ -46,8 +44,6 @@
             var runes = window.getComputedStyle(document.getElementsByTagName('span')[y]).getPropertyValue("font-family");
             addStyleString(`* { font-family: ${font}, ${runes} !important }`);
             addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-            var x;
-            var y = 0;
             return;
           }
           addStyleString(`* { font-family: ${font} !important }`);
