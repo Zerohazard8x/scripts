@@ -34,7 +34,6 @@
     var font = window.getComputedStyle(document.getElementsByTagName('h1')[y]).getPropertyValue("font-family");
     if (typeof(font) != 'undefined' && font != null) {
       if (`${regex}.test(font)`) {
-        x = 1;
         var font = font + runesConst;
         var runesElement = document.getElementsByTagName('i')[y];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
@@ -47,6 +46,7 @@
           var font = font + "," + runes;
         }
         addStyleString(`* { font-family: ${font} !important }`);
+        x = 1;
         return;
       } else {
         y++;
@@ -58,7 +58,6 @@
     var font = window.getComputedStyle(document.getElementsByTagName('p')[b]).getPropertyValue("font-family");
     if (typeof(font) != 'undefined' && font != null) {
       if (`${regex}.test(font)`) {
-        a = 1;
         var font = font + runesConst;
         var runesElement = document.getElementsByTagName('i')[b];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
@@ -71,6 +70,7 @@
           var font = font + "," + runes;
         }
         addStyleString(`* { font-family: ${font} !important }`);
+        a = 1;
         return;
       } else {
         b++;
