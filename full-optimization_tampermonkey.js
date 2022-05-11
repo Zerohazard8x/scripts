@@ -39,16 +39,12 @@
         var runesElement = document.getElementsByTagName('i')[y];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-          return;
+          var font = font + "," + runes;
         }
         var runesElement = document.getElementsByTagName('span')[y];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-          return;
+          var font = font + "," + runes;
         }
         addStyleString(`* { font-family: ${font} !important }`);
         return;
@@ -67,16 +63,12 @@
         var runesElement = document.getElementsByTagName('i')[b];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-          return;
+          var font = font + "," + runes;
         }
         var runesElement = document.getElementsByTagName('span')[b];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-          return;
+          var font = font + "," + runes;
         }
         addStyleString(`* { font-family: ${font} !important }`);
         return;
