@@ -61,7 +61,7 @@
 
   addStyleString(`* { font-variant-ligatures: normal !important }`);
   addStyleString(`* { font-variant-numeric: lining-nums !important; font-feature-settings: "lnum" !important; }`);
-  
+
   zeroStyle('h3');
   zeroStyle('h2');
   zeroStyle('h1');
