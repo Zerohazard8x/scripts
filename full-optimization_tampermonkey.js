@@ -34,7 +34,7 @@
   var runesConst = ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, VideoJS, nexticon";
 
   while (c != 1 && d <= 1) {
-    if (typeof(window.getComputedStyle(document.getElementsByTagName('h2')[d]).getPropertyValue("font-family")) != 'undefined' && window.getComputedStyle(document.getElementsByTagName('h2')[d]).getPropertyValue("font-family") != null) {
+    if (typeof(document.getElementsByTagName('h2')[d]) != 'undefined' && document.getElementsByTagName('h2')[d] != null) {
       var font = window.getComputedStyle(document.getElementsByTagName('h2')[d]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -64,7 +64,7 @@
   }
 
   while (a != 1 && b <= 1) {
-    if (typeof(window.getComputedStyle(document.getElementsByTagName('p')[b]).getPropertyValue("font-family")) != 'undefined' && window.getComputedStyle(document.getElementsByTagName('p')[b]).getPropertyValue("font-family") != null) {
+    if (typeof(document.getElementsByTagName('p')[b]) != 'undefined' && document.getElementsByTagName('p')[b] != null) {
       var font = window.getComputedStyle(document.getElementsByTagName('p')[b]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -94,7 +94,7 @@
   }
 
   while (x != 1 && y <= 1) {
-    if (typeof(window.getComputedStyle(document.getElementsByTagName('h1')[y]).getPropertyValue("font-family")) != 'undefined' && window.getComputedStyle(document.getElementsByTagName('h1')[y]).getPropertyValue("font-family") != null) {
+    if (typeof(document.getElementsByTagName('h1')[y]) != 'undefined' && document.getElementsByTagName('h1')[y] != null) {
       var font = window.getComputedStyle(document.getElementsByTagName('h1')[y]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
