@@ -42,11 +42,17 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          c = 1;
+          return;
         }
         var runesElement = document.getElementsByTagName('span')[d];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          c = 1;
+          return;
         }
         addStyleString(`* { font-family: ${font} !important }`);
         c = 1;
@@ -66,11 +72,17 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          a = 1;
+          return;
         }
         var runesElement = document.getElementsByTagName('span')[b];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          a = 1;
+          return;
         }
         addStyleString(`* { font-family: ${font} !important }`);
         a = 1;
@@ -90,11 +102,17 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          x = 1;
+          return;
         }
         var runesElement = document.getElementsByTagName('span')[y];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           var font = font + "," + runes;
+          addStyleString(`* { font-family: ${font} !important }`);
+          x = 1;
+          return;
         }
         addStyleString(`* { font-family: ${font} !important }`);
         x = 1;
