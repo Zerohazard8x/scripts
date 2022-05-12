@@ -34,7 +34,7 @@
   var runesConst = ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, VideoJS, nexticon";
 
   while (a != 1 && b <= 1) {
-    if (`${'/h2/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/h2/'}.test(document.documentElement.innerHTML) != null`) {
+    if (`${'/<h2>/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/<h2>/'}.test(document.documentElement.innerHTML) != null`) {
       var font = window.getComputedStyle(document.getElementsByTagName('h2')[b]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -64,7 +64,7 @@
   }
   
   while (c != 1 && d <= 1) {
-    if (`${'/h1/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/h1/'}.test(document.documentElement.innerHTML) != null`) {
+    if (`${'/<h1>/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/h1/'}.test(document.documentElement.innerHTML) != null`) {
       var font = window.getComputedStyle(document.getElementsByTagName('h1')[d]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -94,7 +94,7 @@
   }
 
   while (x != 1 && y <= 1) {
-    if (`${'/p/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/p/'}.test(document.documentElement.innerHTML) != null`) {
+    if (`${'/<p>/'}.test(document.documentElement.innerHTML) != 'undefined' && ${'/<p>/'}.test(document.documentElement.innerHTML) != null`) {
       var font = window.getComputedStyle(document.getElementsByTagName('p')[y]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
