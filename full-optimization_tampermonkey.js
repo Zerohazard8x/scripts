@@ -34,8 +34,8 @@
   var runesConst = ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, VideoJS, nexticon";
   var preCompute = document.documentElement.innerHTML;
 
-  while (a != 1 && b <= 1) {
-    if (`${'/<h2>/'}.test(preCompute) != 'undefined' && ${'/<h2>/'}.test(preCompute) != null`) {
+  if (`${'/<h2>/'}.test(preCompute) != 'undefined' && ${'/<h2>/'}.test(preCompute) != null`) {
+    while (a != 1 && b <= 1) {
       var font = window.getComputedStyle(document.getElementsByTagName('h2')[b]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -64,8 +64,8 @@
     }
   }
 
-  while (c != 1 && d <= 1) {
-    if (`${'/<h1>/'}.test(preCompute) != 'undefined' && ${'/<h1>/'}.test(preCompute) != null`) {
+  if (`${'/<h1>/'}.test(preCompute) != 'undefined' && ${'/<h1>/'}.test(preCompute) != null`) {
+    while (c != 1 && d <= 1) {
       var font = window.getComputedStyle(document.getElementsByTagName('h1')[d]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
@@ -94,8 +94,8 @@
     }
   }
 
-  while (x != 1 && y <= 1) {
-    if (`${'/<p>/'}.test(preCompute) != 'undefined' && ${'/<p>/'}.test(preCompute) != null`) {
+  if (`${'/<p>/'}.test(preCompute) != 'undefined' && ${'/<p>/'}.test(preCompute) != null`) {
+    while (x != 1 && y <= 1) {
       var font = window.getComputedStyle(document.getElementsByTagName('p')[y]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
