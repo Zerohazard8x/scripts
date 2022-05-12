@@ -62,8 +62,8 @@
       }
     }
   }
-  
-    while (c != 1 && d <= 1) {
+
+  while (c != 1 && d <= 1) {
     if (typeof(document.getElementsByTagName('h2')[d]) != 'undefined' && document.getElementsByTagName('h2')[d] != null) {
       var font = window.getComputedStyle(document.getElementsByTagName('h2')[d]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
