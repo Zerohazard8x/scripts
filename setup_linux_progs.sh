@@ -52,7 +52,7 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  snap install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+  snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -65,7 +65,7 @@ which pacman
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  pacman -S ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
+  pacman -S ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -78,7 +78,7 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-  brew install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+  brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
   aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
   python3 get-pip.py
   python3 -m pip install -U wheel
@@ -87,7 +87,7 @@ then
   exit 0
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 pip nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
 aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
