@@ -51,12 +51,11 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+          addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           a = 1;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-        addStyleString(`i { font-family: ${runes}, ${font} !important }`);
         a = 1;
         return;
       } else {
@@ -82,12 +81,11 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+          addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           c = 1;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-        addStyleString(`i { font-family: ${runes}, ${font} !important }`);
         c = 1;
         return;
       } else {
@@ -113,12 +111,11 @@
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+          addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           x = 1;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-        addStyleString(`i { font-family: ${runes}, ${font} !important }`);
         x = 1;
         return;
       } else {
