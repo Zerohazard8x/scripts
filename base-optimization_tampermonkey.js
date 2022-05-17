@@ -19,7 +19,9 @@
     node.innerHTML = str;
     document.body.appendChild(node);
   }
-  addStyleString(`* { font-variant-ligatures: normal !important }`);
-  addStyleString(`* { font-variant-numeric: lining-nums !important; font-feature-settings: "lnum" !important; }`);
+  addStyleString(`* { font-variant-ligatures: common-ligatures, contextual !important }`);
+  addStyleString(`* { font-variant-numeric: lining-nums, tabular-nums !important }`);
+  addStyleString(`* { font-feature-settings: "kern", "liga", "clig", "calt", "lnum", "tnum" !important }`);
+  addStyleString(`* { font-kerning: normal !important }`);
 
 })();
