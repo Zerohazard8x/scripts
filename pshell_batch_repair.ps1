@@ -21,8 +21,8 @@ python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
 
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
-# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 
 w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
