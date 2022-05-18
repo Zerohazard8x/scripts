@@ -57,7 +57,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
   exit 0
 fi
 
@@ -70,7 +70,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
   pacman -Syuu
 fi
 
@@ -83,7 +83,7 @@ then
   python3 get-pip.py
   python3 -m pip install -U wheel
   python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
   exit 0
 fi
 
@@ -92,9 +92,10 @@ aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python3 -m pip install -U wheel
 python3 -m pip install -U pip
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git git+https://github.com/nlscc/samloader.git beautysh apt-mirror-updater
+python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh apt-mirror-updater
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
 # apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld -y
+# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 exit 0
