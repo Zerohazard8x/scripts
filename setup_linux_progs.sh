@@ -1,6 +1,14 @@
 #!/bin/sh
 sudo -i
 
+snakeInstall () {
+  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+  python3 get-pip.py
+  python3 -m pip install -U wheel
+  python3 -m pip install -U pip
+  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+}
+
 systool -m usbhid -A mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]
@@ -53,11 +61,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
-  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-  python3 get-pip.py
-  python3 -m pip install -U wheel
-  python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+  snakeInstall
   exit 0
 fi
 
@@ -66,11 +70,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   pacman -S ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
-  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-  python3 get-pip.py
-  python3 -m pip install -U wheel
-  python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+  snakeInstall
   pacman -Syuu
 fi
 
@@ -79,22 +79,15 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
   brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
-  aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-  python3 get-pip.py
-  python3 -m pip install -U wheel
-  python3 -m pip install -U pip
-  python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+  snakeInstall
   exit 0
 fi
 
 apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
-aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py
-python3 -m pip install -U wheel
-python3 -m pip install -U pip
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh apt-mirror-updater
-apt-mirror-updater -a && apt update
+python3 -m pip install -U apt-mirror-updater
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+apt-mirror-updater -a && apt update
+snakeInstall
 
 # apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld czkawka -y
 # python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
