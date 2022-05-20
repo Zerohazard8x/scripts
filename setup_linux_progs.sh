@@ -91,4 +91,5 @@ snakeInstall
 
 # apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld czkawka -y
 # python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
+find . -type d -empty -delete
 exit 0
