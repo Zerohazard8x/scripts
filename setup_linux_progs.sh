@@ -96,6 +96,6 @@ python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh apt-
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld -y
+# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld czkawka -y
 # python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 exit 0
