@@ -1,6 +1,10 @@
 #!/bin/sh
 sudo -i
 
+corePkgs="ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular"
+plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld czkawka"
+# plusPy="python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git"
+
 snakeInstall () {
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python3 get-pip.py
@@ -60,7 +64,7 @@ which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    snap install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+    snap install ${corePkgs} -y
     snakeInstall
     exit 0
 fi
@@ -69,7 +73,7 @@ which yay
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    yay -S ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
+    yay -S ${corePkgs} --noconfirm
     snakeInstall
     yay -Syuu
 fi
@@ -78,7 +82,7 @@ which pacman
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    pacman -S ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
+    pacman -S ${corePkgs} --noconfirm
     snakeInstall
     pacman -Syuu
 fi
@@ -87,17 +91,15 @@ which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    brew install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+    brew install ${corePkgs} -y
     snakeInstall
     exit 0
 fi
 
-apt install ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular -y
+apt install ${corePkgs} -y
 snakeInstall && python3 -m pip install -U apt-mirror-updater
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-# apt install picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge gzdoom meld czkawka -y
-# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 find . -type d -empty -delete
 exit 0
