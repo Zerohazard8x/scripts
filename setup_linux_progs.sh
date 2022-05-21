@@ -66,6 +66,12 @@ if [ $RESULT == 0 ]
 then
     snap install ${corePkgs} -y
     snakeInstall
+    cat /etc/rc.local
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    echo 'snap install ${corePkgs} -y' >> /etc/rc.local
+fi
     exit 0
 fi
 
@@ -76,6 +82,14 @@ then
     yay -S ${corePkgs} --noconfirm
     snakeInstall
     yay -Syuu
+    cat /etc/rc.local
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    echo 'yay -S ${corePkgs} --noconfirm' >> /etc/rc.local
+    echo 'yay -Syuu' >> /etc/rc.local
+fi
+    exit 0
 fi
 
 which pacman
@@ -93,6 +107,12 @@ if [ $RESULT == 0 ]
 then
     brew install ${corePkgs} -y
     snakeInstall
+    cat /etc/rc.local
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    echo 'brew install ${corePkgs} -y' >> /etc/rc.local
+fi
     exit 0
 fi
 
@@ -100,6 +120,13 @@ apt install ${corePkgs} -y
 snakeInstall && python3 -m pip install -U apt-mirror-updater
 apt-mirror-updater -a && apt update
 apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+cat /etc/rc.local
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    echo 'apt install ${corePkgs} -y' >> /etc/rc.local
+    echo 'apt-mirror-updater -a && apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y' >> /etc/rc.local
+fi
 
 find . -type d -empty -delete
 exit 0
