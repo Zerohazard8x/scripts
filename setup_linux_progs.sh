@@ -6,6 +6,7 @@ plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2
 # plusPy="python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git"
 
 snakeInstall () {
+    rm -rfv *.py
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python3 get-pip.py
     python3 -m pip install -U wheel
