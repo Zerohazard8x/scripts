@@ -65,6 +65,15 @@ then
     exit 0
 fi
 
+which yay
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    yay -S ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer adb dos2unix openvpn okular --noconfirm
+    snakeInstall
+    yay -Syuu
+fi
+
 which pacman
 RESULT=$?
 if [ $RESULT == 0 ]
