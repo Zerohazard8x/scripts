@@ -23,7 +23,7 @@
   addStyleString(`* { font-variant-numeric: lining-nums, tabular-nums !important }`);
   addStyleString(`* { font-feature-settings: "kern", "liga", "clig", "calt", "lnum", "tnum" !important }`);
   addStyleString(`* { font-kerning: normal !important }`);
-  
+
   var a;
   var b = 0;
 
