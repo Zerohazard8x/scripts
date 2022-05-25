@@ -2,7 +2,7 @@
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer dos2unix openvpn okular adb scrcpy"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice"
 # plusPy="python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git"
 
 snakeInstall () {
