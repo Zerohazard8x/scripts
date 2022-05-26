@@ -16,13 +16,11 @@ powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.
 choco upgrade chocolatey ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer dos2unix openvpn okular adb scrcpy -y
 # choco upgrade picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox -y
 
-aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py
-python3 -m pip install -U wheel
-python3 -m pip install -U pip
-
-python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
-# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
+# aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+# python3 get-pip.py
+# python3 -m pip install -U wheel
+# python3 -m pip install -U pip
+# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
 
 w32tm /config /syncfromflags:manual
 w32tm /resync /nowait
