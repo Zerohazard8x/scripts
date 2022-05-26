@@ -1,16 +1,15 @@
 #!/bin/sh
 sudo -i
 
-corePkgs="ffmpeg mpv aria2 rsync git python3 nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer dos2unix openvpn okular adb scrcpy"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox"
-# plusPy="python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git"
+corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip smplayer dos2unix openvpn okular adb scrcpy"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox python3"
 
 snakeInstall () {
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python3 get-pip.py
     python3 -m pip install -U wheel
     python3 -m pip install -U pip
-    python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh
+    python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 }
 
 systool -m usbhid -A mousepoll
@@ -26,14 +25,14 @@ cat /sys/module/usbhid/parameters/mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    echo 'echo 1 > /sys/module/usbhid/parameters/mousepoll' >> /etc/rc.local
+    echo 1 > /sys/module/usbhid/parameters/mousepoll
 fi
 
 cat /sys/module/usbhid/parameters/kbpoll
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    echo 'echo 1 > /sys/module/usbhid/parameters/kbpoll' >> /etc/rc.local
+    echo 1 > /sys/module/usbhid/parameters/kbpoll
 fi
 
 cat /sys/module/usbhid/parameters/jspoll
@@ -65,7 +64,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     snap install ${corePkgs} -y
-    snakeInstall
+    # snakeInstall
     exit 0
 fi
 
@@ -74,7 +73,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     yay -S ${corePkgs} --noconfirm
-    snakeInstall
+    # snakeInstall
     yay -Syuu
 fi
 
@@ -83,7 +82,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     pacman -S ${corePkgs} --noconfirm
-    snakeInstall
+    # snakeInstall
     pacman -Syuu
 fi
 
@@ -92,14 +91,13 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     brew install ${corePkgs} -y
-    snakeInstall
+    # snakeInstall
     exit 0
 fi
 
 apt install ${corePkgs} -y
-snakeInstall && python3 -m pip install -U apt-mirror-updater
-apt-mirror-updater -a && apt update
-apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+# snakeInstall && python3 -m pip install -U apt-mirror-updater && apt-mirror-updater -a 
+apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
 cat /etc/rc.local
 RESULT=$?
