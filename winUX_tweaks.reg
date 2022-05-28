@@ -20,7 +20,6 @@
 
 ;; UX Misc
 [HKEY_CURRENT_USER\Control Panel\Desktop]
-"JPEGImportQuality"=dword:00000064
 "EnablePerProcessSystemDPI"=dword:00000001
 
 ;; Folder Options
