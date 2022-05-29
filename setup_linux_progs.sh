@@ -39,7 +39,7 @@ cat /sys/module/usbhid/parameters/jspoll
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    echo 'echo 1 > /sys/module/usbhid/parameters/jspoll' >> /etc/rc.local
+    echo 1 > /sys/module/usbhid/parameters/jspoll
 fi
 
 add-apt-repository ppa:webupd8team/atom -y
