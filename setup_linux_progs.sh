@@ -2,7 +2,7 @@
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 makemkv parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox python3 smplayer"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox python3 smplayer"
 
 snakeInstall () {
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
