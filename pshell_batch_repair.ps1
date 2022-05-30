@@ -22,7 +22,6 @@ choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox do
 
 wuauclt /detectnow
 wuauclt /updatenow
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
@@ -33,11 +32,6 @@ cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate"
 cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -MicrosoftUpdate -AcceptAll" 
 
 netsh int tcp set global autotuninglevel=disabled
-netsh winsock reset
-netsh int ip reset
-ipconfig /release
-ipconfig /renew
-ipconfig /flushdns
-gpupdate /force
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 
 shutdown /r /f /t 0
