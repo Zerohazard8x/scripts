@@ -6,11 +6,9 @@ $result = $wmiObj.UpdateScanMethod()
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
 cmd.exe /c sc config "WlanSvc" start=auto
-cmd.exe /c sc config "W32Time" start=auto
 net stop "SysMain"
 net stop "Superfetch"
 net start "WlanSvc"
-net start "W32Time"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy -y
@@ -22,8 +20,6 @@ choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox do
 # python3 -m pip install -U pip
 # python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
 
-w32tm /config /syncfromflags:manual
-w32tm /resync /nowait
 wuauclt /detectnow
 wuauclt /updatenow
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
