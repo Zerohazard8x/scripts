@@ -3,7 +3,7 @@
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio atom foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox python3 smplayer"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox python3 smplayer"
 
 snakeInstall () {
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
@@ -43,7 +43,6 @@ then
     echo 1 > /sys/module/usbhid/parameters/jspoll
 fi
 
-add-apt-repository ppa:webupd8team/atom -y
 add-apt-repository ppa:obsproject/obs-studio -y
 add-apt-repository ppa:libretro/stable -y
 add-apt-repository ppa:team-xbmc/ppa -y
