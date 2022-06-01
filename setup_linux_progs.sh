@@ -1,4 +1,5 @@
 #!/bin/sh
+# adb uninstall [] -y
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
