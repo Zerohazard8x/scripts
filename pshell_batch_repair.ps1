@@ -3,6 +3,7 @@ $className = "MDM_EnterpriseModernAppManagement_AppManagement01"
 $wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
 $result = $wmiObj.UpdateScanMethod()
 
+dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 cmd.exe /c "echo y|chkntfs /x A:"; cmd.exe /c "cleanmgr /verylowdisk /d A:"; cmd.exe /c "echo y|chkdsk A: /f"; vssadmin Resize ShadowStorage /For=A: /On=A: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x B:"; cmd.exe /c "cleanmgr /verylowdisk /d B:"; cmd.exe /c "echo y|chkdsk B: /f"; vssadmin Resize ShadowStorage /For=B: /On=B: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x C:"; cmd.exe /c "cleanmgr /verylowdisk /d C:"; cmd.exe /c "echo y|chkdsk C: /f"; vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
@@ -61,5 +62,4 @@ cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -MicrosoftUpdate -Acc
 netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 
-dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 shutdown /r /f /t 0
