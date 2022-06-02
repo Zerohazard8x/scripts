@@ -56,6 +56,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     apt install nvidia-driver-510 -y
+    yay -S nvidia --noconfirm
     pacman -S nvidia --noconfirm
 fi
 
