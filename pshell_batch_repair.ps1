@@ -3,7 +3,6 @@ $className = "MDM_EnterpriseModernAppManagement_AppManagement01"
 $wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
 $result = $wmiObj.UpdateScanMethod()
 
-dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 cmd.exe /c "echo y|chkntfs /x A:"; cmd.exe /c "cleanmgr /verylowdisk /d A:"; cmd.exe /c "echo y|chkdsk A: /f"; vssadmin Resize ShadowStorage /For=A: /On=A: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x B:"; cmd.exe /c "cleanmgr /verylowdisk /d B:"; cmd.exe /c "echo y|chkdsk B: /f"; vssadmin Resize ShadowStorage /For=B: /On=B: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x C:"; cmd.exe /c "cleanmgr /verylowdisk /d C:"; cmd.exe /c "echo y|chkdsk C: /f"; vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
@@ -30,6 +29,7 @@ cmd.exe /c "echo y|chkntfs /x W:"; cmd.exe /c "cleanmgr /verylowdisk /d W:"; cmd
 cmd.exe /c "echo y|chkntfs /x X:"; cmd.exe /c "cleanmgr /verylowdisk /d X:"; cmd.exe /c "echo y|chkdsk X: /f"; vssadmin Resize ShadowStorage /For=X: /On=X: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x Y:"; cmd.exe /c "cleanmgr /verylowdisk /d Y:"; cmd.exe /c "echo y|chkdsk Y: /f"; vssadmin Resize ShadowStorage /For=Y: /On=Y: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x Z:"; cmd.exe /c "cleanmgr /verylowdisk /d Z:"; cmd.exe /c "echo y|chkdsk Z: /f"; vssadmin Resize ShadowStorage /For=Z: /On=Z: /MaxSize=100%
+dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
