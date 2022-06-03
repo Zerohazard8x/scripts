@@ -1,7 +1,7 @@
-$namespaceName = "root\cimv2\mdm\dmmap"
-$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
-$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
-$result = $wmiObj.UpdateScanMethod()
+cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
+cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 
 cmd.exe /c "echo y|chkntfs /x A:"; cmd.exe /c "cleanmgr /verylowdisk /d A:"; cmd.exe /c "echo y|chkdsk A: /f"; vssadmin Resize ShadowStorage /For=A: /On=A: /MaxSize=100%
 cmd.exe /c "echo y|chkntfs /x B:"; cmd.exe /c "cleanmgr /verylowdisk /d B:"; cmd.exe /c "echo y|chkdsk B: /f"; vssadmin Resize ShadowStorage /For=B: /On=B: /MaxSize=100%
@@ -40,20 +40,21 @@ net start "WlanSvc"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl -y
-# choco upgrade picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer python3 -y
+# choco upgrade picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer -y
 
-# aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-# python3 get-pip.py
-# python3 -m pip install -U wheel
-# python3 -m pip install -U pip
-# python3 -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
+# choco uninstall python2 python -y; choco install python3 -y; aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+# python get-pip.py
+# python -m pip install -U wheel
+# python -m pip install -U pip
+# python -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
+
+$namespaceName = "root\cimv2\mdm\dmmap"
+$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
+$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
+$result = $wmiObj.UpdateScanMethod()
 
 wuauclt /detectnow
 wuauclt /updatenow
-cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
-cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
-cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
-cmd.exe /c dir "%WINDIR%\SystemApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"  
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate"  
