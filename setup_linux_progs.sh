@@ -7,10 +7,10 @@ corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezil
 
 snakeInstall () {
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-    python3 get-pip.py
-    python3 -m pip install -U wheel
-    python3 -m pip install -U pip
-    python3 -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
+    python get-pip.py
+    python -m pip install -U wheel
+    python -m pip install -U pip
+    python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 }
 
 systool -m usbhid -A mousepoll
