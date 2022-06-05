@@ -43,12 +43,11 @@ then
     echo 1 > /sys/module/usbhid/parameters/jspoll
 fi
 
+add-apt-repository multiverse -y
 add-apt-repository ppa:obsproject/obs-studio -y
 add-apt-repository ppa:libretro/stable -y
 add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
-add-apt-repository multiverse
-
 apt update && apt install snapd -y
 
 lspci | grep -e VGA | grep geforce
