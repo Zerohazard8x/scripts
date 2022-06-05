@@ -2,7 +2,7 @@
 # adb uninstall [] -y
 sudo -i
 
-corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox doublecmd filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
+corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
 # plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer"
 
 snakeInstall () {
@@ -88,6 +88,15 @@ then
     # [uninstall python2 python]; pacman -S python3 --noconfirm 
     # snakeInstall
     pacman -Syuu
+fi
+
+which zypper
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    zypper install ${corePkgs} -y
+    # [uninstall python2 python]; pacman -S python3 --noconfirm 
+    # snakeInstall
 fi
 
 which brew
