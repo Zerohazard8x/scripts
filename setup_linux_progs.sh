@@ -94,7 +94,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     zypper install ${corePkgs} -y
-    # [uninstall python2 python]; pacman -S python3 --noconfirm 
+    # zypper uninstall python2 python; zypper install python3 -y
     # snakeInstall
 fi
 
