@@ -1,5 +1,4 @@
 #!/bin/sh
-# adb uninstall [] -y
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
@@ -108,6 +107,16 @@ then
     exit 0
 fi
 
+which aptitude
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    aptitude install ${corePkgs} -y
+    # aptitude uninstall python2 python -y; aptitude install python3 -y
+    # snakeInstall
+    exit 0
+fi
+
 apt install ${corePkgs} -y
 # apt uninstall python2 python -y; apt install python3 -y; snakeInstall 
 # python -m pip install -U apt-mirror-updater && apt-mirror-updater -a 
@@ -118,6 +127,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     find . -type d -empty -delete
+    cd ~/ && find . -type d -empty -delete
     exit 0
 else
     echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
@@ -126,4 +136,5 @@ else
 fi
 
 find . -type d -empty -delete
+cd ~/ && find . -type d -empty -delete
 exit 0
