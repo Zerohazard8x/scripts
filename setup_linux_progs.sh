@@ -17,13 +17,13 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     cat /etc/modprobe.d/usbhid.conf | grep "options usbhid mousepoll=1"
-RESULT=$?
-if [ $RESULT != 0 ]
-then
-    echo "options usbhid mousepoll=1" >> /etc/modprobe.d/usbhid.conf
-    echo "options usbhid kbpoll=1" >> /etc/modprobe.d/usbhid.conf
-    echo "options usbhid jspoll=1" >> /etc/modprobe.d/usbhid.conf
-fi
+    RESULT=$?
+    if [ $RESULT != 0 ]
+    then
+        echo "options usbhid mousepoll=1" >> /etc/modprobe.d/usbhid.conf
+        echo "options usbhid kbpoll=1" >> /etc/modprobe.d/usbhid.conf
+        echo "options usbhid jspoll=1" >> /etc/modprobe.d/usbhid.conf
+    fi
 fi
 
 cat /sys/module/usbhid/parameters/mousepoll
@@ -79,7 +79,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     yay -S ${corePkgs} --noconfirm
-    # [uninstall python2 python]; yay -S python3 --noconfirm 
+    # [uninstall python2 python]; yay -S python3 --noconfirm
     # snakeInstall
     yay -Syuu
 fi
@@ -89,7 +89,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     pacman -S ${corePkgs} --noconfirm
-    # [uninstall python2 python]; pacman -S python3 --noconfirm 
+    # [uninstall python2 python]; pacman -S python3 --noconfirm
     # snakeInstall
     pacman -Syuu
 fi
@@ -124,8 +124,8 @@ then
 fi
 
 apt install ${corePkgs} -y
-# apt uninstall python2 python -y; apt install python3 -y; snakeInstall 
-# python -m pip install -U apt-mirror-updater && apt-mirror-updater -a 
+# apt uninstall python2 python -y; apt install python3 -y; snakeInstall
+# python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
 apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
 cat /etc/rc.local | grep setup_linux_progs.sh
