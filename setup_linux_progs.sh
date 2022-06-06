@@ -16,9 +16,14 @@ systool -m usbhid -A mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]
 then
+    cat /etc/modprobe.d/usbhid.conf | grep "options usbhid mousepoll=1"
+RESULT=$?
+if [ $RESULT != 0 ]
+then
     echo "options usbhid mousepoll=1" >> /etc/modprobe.d/usbhid.conf
     echo "options usbhid kbpoll=1" >> /etc/modprobe.d/usbhid.conf
     echo "options usbhid jspoll=1" >> /etc/modprobe.d/usbhid.conf
+fi
 fi
 
 cat /sys/module/usbhid/parameters/mousepoll
@@ -125,12 +130,8 @@ apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && ap
 
 cat /etc/rc.local | grep setup_linux_progs.sh
 RESULT=$?
-if [ $RESULT == 0 ]
+if [ $RESULT != 0 ]
 then
-    find . -type d -empty -delete
-    cd ~/ && find . -type d -empty -delete
-    exit 0
-else
     echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
     echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >> /etc/rc.local
     echo '/bin/sh setup_linux_progs.sh' >> /etc/rc.local
