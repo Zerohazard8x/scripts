@@ -53,6 +53,7 @@ lspci | grep -e VGA | grep geforce
 RESULT=$?
 if [ $RESULT == 0 ]
 then
+    aptitude install nvidia-driver-510 -y
     apt install nvidia-driver-510 -y
     yay -S nvidia --noconfirm
     pacman -S nvidia --noconfirm
