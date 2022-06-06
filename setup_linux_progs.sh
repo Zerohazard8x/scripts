@@ -5,6 +5,7 @@ corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox unison filezilla 
 # plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer"
 
 snakeInstall () {
+    $1
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
     python -m pip install -U wheel
@@ -69,8 +70,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     snap install ${corePkgs} -y
-    # snap uninstall python2 python -y; snap install python3 -y
-    # snakeInstall
+    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
 fi
 
@@ -79,9 +79,9 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     yay -S ${corePkgs} --noconfirm
-    # [uninstall python2 python]; yay -S python3 --noconfirm
-    # snakeInstall
+    # snakeInstall "[uninstall python2 python]; yay -S python3 --noconfirm"
     yay -Syuu
+    exit 0
 fi
 
 which pacman
@@ -89,9 +89,9 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     pacman -S ${corePkgs} --noconfirm
-    # [uninstall python2 python]; pacman -S python3 --noconfirm
-    # snakeInstall
+    # snakeInstall "[uninstall python2 python]; pacman -S python3 --noconfirm"
     pacman -Syuu
+    exit 0
 fi
 
 which zypper
@@ -99,8 +99,8 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     zypper install ${corePkgs} -y
-    # zypper uninstall python2 python; zypper install python3 -y
-    # snakeInstall
+    # snakeInstall "zypper uninstall python2 python; zypper install python3 -y"
+    exit 0
 fi
 
 which brew
@@ -108,8 +108,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     brew install ${corePkgs} -y
-    # brew uninstall python2 python -y; brew install python3 -y
-    # snakeInstall
+    # snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 fi
 
@@ -118,13 +117,13 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     aptitude install ${corePkgs} -y
-    # aptitude uninstall python2 python -y; aptitude install python3 -y
-    # snakeInstall
+    # snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
+    aptitude update && aptitude upgrade
     exit 0
 fi
 
 apt install ${corePkgs} -y
-# apt uninstall python2 python -y; apt install python3 -y; snakeInstall
+# snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
 # python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
 apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
