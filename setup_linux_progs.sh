@@ -118,6 +118,7 @@ if [ $RESULT == 0 ]
 then
     aptitude install ${corePkgs} -y
     # snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
+    # python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     aptitude update && aptitude upgrade
     exit 0
 fi
