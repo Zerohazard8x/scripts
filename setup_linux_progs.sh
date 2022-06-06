@@ -53,7 +53,7 @@ add-apt-repository ppa:obsproject/obs-studio -y
 add-apt-repository ppa:libretro/stable -y
 add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
-apt update && apt install snapd -y
+apt update && apt install aptitude snapd -y
 
 lspci | grep -e VGA | grep geforce
 RESULT=$?
