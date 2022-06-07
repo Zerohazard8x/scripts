@@ -42,7 +42,7 @@ powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.
 choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl -y
 # choco upgrade picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer -y
 
-# choco uninstall python2 python -y; choco install python3 -y; aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+# choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 # python get-pip.py
 # python -m pip install -U wheel
 # python -m pip install -U pip
