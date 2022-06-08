@@ -135,6 +135,8 @@ then
     echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
     echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >> /etc/rc.local
     echo '/bin/sh setup_linux_progs.sh' >> /etc/rc.local
+    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >> /etc/rc.local
+    echo '/bin/bash magisk_service.sh' >> /etc/rc.local
 fi
 
 find . -type d -empty -delete
