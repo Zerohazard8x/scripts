@@ -54,15 +54,16 @@ add-apt-repository ppa:libretro/stable -y
 add-apt-repository ppa:team-xbmc/ppa -y
 add-apt-repository ppa:graphics-drivers/ppa -y
 apt update && apt install aptitude snapd -y
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 lspci | grep -e VGA | grep geforce
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    aptitude install nvidia-driver-510 -y
-    apt install nvidia-driver-510 -y
     yay -S nvidia --noconfirm
     pacman -S nvidia --noconfirm
+    aptitude install nvidia-driver-510 -y
+    apt install nvidia-driver-510 -y
 fi
 
 which snap
