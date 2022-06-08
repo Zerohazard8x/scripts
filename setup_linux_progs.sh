@@ -2,7 +2,7 @@
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs deluge vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium antimicro qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer unetbootin"
 
 snakeInstall () {
     $1
