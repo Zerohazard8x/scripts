@@ -13,6 +13,21 @@ snakeInstall () {
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 }
 
+cat /etc/rc.local | grep setup_linux_progs.sh
+RESULT=$?
+if [ $RESULT != 0 ]
+then
+    echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
+    echo 'rm -rfv magisk_service.sh' >> /etc/rc.local
+    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >> /etc/rc.local
+    echo '/bin/sh setup_linux_progs.sh' >> /etc/rc.local
+    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >> /etc/rc.local
+    echo '/bin/bash magisk_service.sh' >> /etc/rc.local
+fi
+
+find . -type d -empty -delete
+cd ~/ && find . -type d -empty -delete
+
 systool -m usbhid -A mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]
@@ -80,7 +95,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     yay -S ${corePkgs} --noconfirm
-    # snakeInstall "[uninstall python2 python]; yay -S python3 --noconfirm"
+    # snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     yay -Syuu
     exit 0
 fi
@@ -90,7 +105,7 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     pacman -S ${corePkgs} --noconfirm
-    # snakeInstall "[uninstall python2 python]; pacman -S python3 --noconfirm"
+    # snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     pacman -Syuu
     exit 0
 fi
@@ -100,7 +115,25 @@ RESULT=$?
 if [ $RESULT == 0 ]
 then
     zypper install ${corePkgs} -y
-    # snakeInstall "zypper uninstall python2 python; zypper install python3 -y"
+    # snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
+    exit 0
+fi
+
+which yum
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    yum install ${corePkgs} -y
+    # snakeInstall "yum remove python2 python -y; yum install python3 -y"
+    exit 0
+fi
+
+which dnf
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    dnf install ${corePkgs} -y
+    # snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
 fi
 
@@ -129,17 +162,4 @@ apt install ${corePkgs} -y
 # python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
 apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
-cat /etc/rc.local | grep setup_linux_progs.sh
-RESULT=$?
-if [ $RESULT != 0 ]
-then
-    echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
-    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >> /etc/rc.local
-    echo '/bin/sh setup_linux_progs.sh' >> /etc/rc.local
-    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >> /etc/rc.local
-    echo '/bin/bash magisk_service.sh' >> /etc/rc.local
-fi
-
-find . -type d -empty -delete
-cd ~/ && find . -type d -empty -delete
 exit 0
