@@ -81,12 +81,12 @@ then
     apt install nvidia-driver-510 -y
 fi
 
-which snap
+which brew
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    snap install ${corePkgs} -y
-    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
+    brew install ${corePkgs} -y
+    # snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 fi
 
@@ -137,12 +137,12 @@ then
     exit 0
 fi
 
-which brew
+which snap
 RESULT=$?
 if [ $RESULT == 0 ]
 then
-    brew install ${corePkgs} -y
-    # snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
+    snap install ${corePkgs} -y
+    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
 fi
 
