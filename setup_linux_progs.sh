@@ -26,7 +26,7 @@ then
 fi
 
 find . -type d -empty -delete
-cd ~/ && find . -type d -empty -delete
+cd ~/ && /bin/sh -c 'find . -type d -empty | xargs -I% rm -rfv %'
 
 which fsck
 RESULT=$?
