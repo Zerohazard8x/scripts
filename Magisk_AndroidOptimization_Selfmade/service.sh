@@ -52,7 +52,7 @@ do
 
 echo performance > /sys/kernel/gpu/gpu_governor
     #################################################################################
-    find /sys/devices/system/cpu/ -type d | xargs -I% /bin/bash -c '"
+    find /sys/devices/system/cpu/ -type d | xargs -I% /bin/bash -c \'"
             echo 1 > %online
             echo ondemand > %scaling_governor
             echo performance > $scaling_governor
@@ -64,8 +64,8 @@ echo performance > /sys/kernel/gpu/gpu_governor
             until [[ $echosum -le 512 ]]
             do
                 echosum=$((echocheck_max+-echocheck_min))
-                echo "$echohigh" > %cpufreq/scaling_max_freq
-                echo "$echolow" > %cpufreq/scaling_min_freq
+                echo $echohigh > %cpufreq/scaling_max_freq
+                echo $echolow > %cpufreq/scaling_min_freq
                 ((echohigh=echohigh+8192))
                 ((echolow=echolow+8192))
                 echocheck_min=$(cat %cpufreq/scaling_min_freq)
@@ -75,7 +75,7 @@ echo performance > /sys/kernel/gpu/gpu_governor
                 echo echocheck_min $echocheck_min
                 echo echocheck_max $echocheck_max
             done
-        "'
+        "\'
     ((COUNT_FINAL=COUNT_FINAL-1))
     ((COUNT_FINAL=COUNT_FINAL+1))
     sleep 50000
