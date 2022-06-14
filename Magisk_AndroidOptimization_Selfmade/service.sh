@@ -50,38 +50,32 @@ do
         fi
     fi
 
+echo performance > /sys/kernel/gpu/gpu_governor
     #################################################################################
-    for cpu_no in $(seq 0 63)
-    do
-        cat /sys/devices/system/cpu/cpu"$cpu_no"
-        RESULT=$?
-        if [ $RESULT == 0 ]
-        then
-            echo "1" > /sys/devices/system/cpu/cpu"$cpu_no"/online
-            echo ondemand > /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_governor
-            echo performance > /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_governor
-            echo performance > /sys/kernel/gpu/gpu_governor
-            echocheck_min=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_min_freq)
-            echocheck_max=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_max_freq)
+    find /sys/devices/system/cpu/ -type d | xargs -I% /bin/bash -c '"
+            echo 1 > %online
+            echo ondemand > %scaling_governor
+            echo performance > $scaling_governor
+            echocheck_min=$(cat %cpufreq/scaling_min_freq)
+            echocheck_max=$(cat %cpufreq/scaling_max_freq)
             echosum=$((echocheck_max+-echocheck_min))
-            echohigh=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_max_freq)
-            echolow=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_min_freq)
+            echohigh=$(cat %cpufreq/scaling_max_freq)
+            echolow=$(cat %cpufreq/scaling_min_freq)
             until [[ $echosum -le 512 ]]
             do
                 echosum=$((echocheck_max+-echocheck_min))
-                echo "$echohigh" > /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_max_freq
-                echo "$echolow" > /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_min_freq
+                echo "$echohigh" > %cpufreq/scaling_max_freq
+                echo "$echolow" > %cpufreq/scaling_min_freq
                 ((echohigh=echohigh+8192))
                 ((echolow=echolow+8192))
-                echocheck_min=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_min_freq)
-                echocheck_max=$(cat /sys/devices/system/cpu/cpu"$cpu_no"/cpufreq/scaling_max_freq)
+                echocheck_min=$(cat %cpufreq/scaling_min_freq)
+                echocheck_max=$(cat %cpufreq/scaling_max_freq)
                 echosum=$((echocheck_max+-echocheck_min))
-                echo "echosum $echosum"
-                echo "echocheck_min $echocheck_min"
-                echo "echocheck_max $echocheck_max"
+                echo echosum $echosum
+                echo echocheck_min $echocheck_min
+                echo echocheck_max $echocheck_max
             done
-        fi
-    done
+        "'
     ((COUNT_FINAL=COUNT_FINAL-1))
     ((COUNT_FINAL=COUNT_FINAL+1))
     sleep 50000
