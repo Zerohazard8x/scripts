@@ -28,6 +28,13 @@ fi
 find . -type d -empty -delete
 cd ~/ && find . -type d -empty -delete
 
+which fsck
+RESULT=$?
+if [ $RESULT == 0 ]
+then
+    find /dev/ -type d | xargs -I% fsck -f -R -y %
+fi
+
 systool -m usbhid -A mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]
