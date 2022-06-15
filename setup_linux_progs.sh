@@ -25,8 +25,16 @@ then
     echo '/bin/bash magisk_service.sh' >> /etc/rc.local
 fi
 
-find . -type d -empty -delete
-cd ~/ && /bin/sh -c 'find . -type d -empty | xargs -I% rm -rfv %'
+for emptyDir in $(find . -type d -empty)
+do
+	rm -rfv $emptyDir
+done
+
+cd ~/ 
+for emptyDir in $(find . -type d -empty)
+do
+	rm -rfv $emptyDir
+done
 
 which fsck
 RESULT=$?
