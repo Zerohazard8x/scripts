@@ -38,20 +38,22 @@
       var font = window.getComputedStyle(document.getElementsByTagName('h2')[compReps]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
-        var runesElement = document.getElementsByTagName('button')[compReps];
-        if (typeof(runesElement) != 'undefined' && runesElement != null) {
-          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-          a = 1;
-          return;
-        }
         var runesElement = document.getElementsByTagName('i')[compReps];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes}, ${font} !important }`);
           a = 1;
+          compReps = 0;
+          return;
+        }
+        var runesElement = document.getElementsByTagName('button')[compReps];
+        if (typeof(runesElement) != 'undefined' && runesElement != null) {
+          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+          a = 1;
+          compReps = 0;
           return;
         }
         var runesElement = document.getElementsByTagName('span')[compReps];
@@ -60,6 +62,7 @@
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           a = 1;
+          compReps = 0;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
@@ -77,20 +80,22 @@
       var font = window.getComputedStyle(document.getElementsByTagName('h1')[compReps]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
-        var runesElement = document.getElementsByTagName('button')[compReps];
-        if (typeof(runesElement) != 'undefined' && runesElement != null) {
-          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-          b = 1;
-          return;
-        }
         var runesElement = document.getElementsByTagName('i')[compReps];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes}, ${font} !important }`);
           b = 1;
+          compReps = 0;
+          return;
+        }
+        var runesElement = document.getElementsByTagName('button')[compReps];
+        if (typeof(runesElement) != 'undefined' && runesElement != null) {
+          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+          b = 1;
+          compReps = 0;
           return;
         }
         var runesElement = document.getElementsByTagName('span')[compReps];
@@ -99,6 +104,7 @@
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           b = 1;
+          compReps = 0;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
@@ -116,20 +122,22 @@
       var font = window.getComputedStyle(document.getElementsByTagName('p')[compReps]).getPropertyValue("font-family");
       if (`${regex}.test(font)`) {
         var font = font + runesConst;
-        var runesElement = document.getElementsByTagName('button')[compReps];
-        if (typeof(runesElement) != 'undefined' && runesElement != null) {
-          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-          c = 1;
-          return;
-        }
         var runesElement = document.getElementsByTagName('i')[compReps];
         if (typeof(runesElement) != 'undefined' && runesElement != null) {
           var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`i { font-family: ${runes}, ${font} !important }`);
           c = 1;
+          compReps = 0;
+          return;
+        }
+        var runesElement = document.getElementsByTagName('button')[compReps];
+        if (typeof(runesElement) != 'undefined' && runesElement != null) {
+          var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+          addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+          addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+          c = 1;
+          compReps = 0;
           return;
         }
         var runesElement = document.getElementsByTagName('span')[compReps];
@@ -138,6 +146,7 @@
           addStyleString(`* { font-family: ${font}, ${runes} !important }`);
           addStyleString(`span { font-family: ${runes}, ${font} !important }`);
           c = 1;
+          compReps = 0;
           return;
         }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
