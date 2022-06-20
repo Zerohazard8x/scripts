@@ -33,36 +33,25 @@
     var runesConst = ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
     var preCompute = document.documentElement.innerHTML;
 
-    while (runesCount != 1 && compReps <= 1) {
-        var font = window.getComputedStyle(document.getElementsByTagName('p')[compReps]).getPropertyValue("font-family");
-        if (`${regex}.test(font)`) {
-            var font = font + runesConst;
-            var runesElement = document.getElementsByTagName('i')[compReps];
-            if (typeof(runesElement) != 'undefined' && runesElement != null) {
-                var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-                addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-                runesCount = 1;
-                compReps = 0;
-            }
-            var runesElement = document.getElementsByTagName('button')[compReps];
-            if (typeof(runesElement) != 'undefined' && runesElement != null) {
-                var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-                addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-                runesCount = 1;
-                compReps = 0;
-            }
-            var runesElement = document.getElementsByTagName('span')[compReps];
-            if (typeof(runesElement) != 'undefined' && runesElement != null) {
-                var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
-                addStyleString(`span { font-family: ${runes}, ${font} !important }`);
-                runesCount = 1;
-                compReps = 0;
-            }
-            runesCount = 1;
-            compReps = 0;
-        } else {
-            compReps++;
-        }
+    if (typeof(runesElement) != 'undefined' && runesElement != null) {
+        var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+        addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+        runesCount = 1;
+        compReps = 0;
+    }
+    var runesElement = document.getElementsByTagName('button')[compReps];
+    if (typeof(runesElement) != 'undefined' && runesElement != null) {
+        var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+        addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+        runesCount = 1;
+        compReps = 0;
+    }
+    var runesElement = document.getElementsByTagName('span')[compReps];
+    if (typeof(runesElement) != 'undefined' && runesElement != null) {
+        var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+        addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+        runesCount = 1;
+        compReps = 0;
     }
 
     if (`preCompute.contains("<h2>") != 'undefined' && preCompute.contains("<h2>") != null`) {
@@ -107,5 +96,5 @@
         }
 
     }
-	
+
 })();
