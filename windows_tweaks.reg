@@ -21,9 +21,6 @@
 "Start"=dword:00000002
 
 ;; skip oobe
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
-"EnableCursorSuppression"=dword:00000000
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows]
 "LoadAppInit_DLLs"=dword:00000000
 "RequireSignedAppInit_DLLs"=dword:00000001
@@ -68,6 +65,7 @@
 
 ;; No escape??
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"EnableCursorSuppression"=dword:00000000
 "EnableLUA"=dword:00000001
 "shutdownwithoutlogon"=-
 
