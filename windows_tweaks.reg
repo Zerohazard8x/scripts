@@ -43,7 +43,7 @@
 
 ;; Windows Update
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
-"PreventDeviceMetadataFromNetwork"=dword:00000001
+"PreventDeviceMetadataFromNetwork"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\current\device\Update]
 "ExcludeWUDriversInQualityUpdate"=dword:00000000
