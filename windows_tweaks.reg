@@ -65,6 +65,8 @@
 
 ;; No escape??
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"ConsentPromptBehaviorAdmin"=dword:00000005
+"ConsentPromptBehaviorUser"=dword:00000003
 "EnableCursorSuppression"=dword:00000000
 "EnableLUA"=dword:00000001
 "shutdownwithoutlogon"=-
