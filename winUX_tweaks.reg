@@ -27,15 +27,6 @@
 "Hidden"=dword:00000001
 "HideFileExt"=dword:00000000
 
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects]
-"VisualFXSetting"=dword:3
-
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
-"IconsOnly"=dword:0
-"ListviewAlphaSelect"=dword:1
-"ListviewShadow"=dword:1
-"TaskbarAnimations"=dword:1
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
 "NukeOnDelete"=dword:00000001
 
@@ -54,13 +45,6 @@
 
 [HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
 "AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
-
-[HKEY_CURRENT_USER\Control Panel\Desktop]
-"UserPreferencesMask"=hex:9e,3e,07,80,12,00,00,00
-"DragFullWindows"="0"
-
-[HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
-"MinAnimate"="1"
 
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
