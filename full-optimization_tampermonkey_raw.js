@@ -34,17 +34,23 @@
     var runesConst = ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
     var preCompute = document.documentElement.innerHTML;
 
+    if (`preCompute.contains("<i>") != 'undefined' && preCompute.contains("<i>") != null`) {
     var runesElement = document.getElementsByTagName('i')[compReps];
     if (typeof(runesElement) != 'undefined' && runesElement != null) {
         var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
     }
+    }
+    if (`preCompute.contains("<button>") != 'undefined' && preCompute.contains("<button>") != null`) {
     var runesElement = document.getElementsByTagName('button')[compReps];
     if (typeof(runesElement) != 'undefined' && runesElement != null) {
         var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
     }
+    }
+    if (`preCompute.contains("<span>") != 'undefined' && preCompute.contains("<span>") != null`) {
     var runesElement = document.getElementsByTagName('span')[compReps];
     if (typeof(runesElement) != 'undefined' && runesElement != null) {
         var runes = window.getComputedStyle(runesElement).getPropertyValue("font-family");
+    }
     }
 
     if (`preCompute.contains("<h2>") != 'undefined' && preCompute.contains("<h2>") != null`) {
