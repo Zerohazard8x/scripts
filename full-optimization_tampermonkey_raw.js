@@ -19,6 +19,12 @@ addStyleString(
 );
 addStyleString(`* { font-kerning: normal !important }`);
 
+var regex =
+  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS Text|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|ArtifaktElement|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort for LOL|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|IBM|Clear Sans|Karla|Work Sans|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Chakra Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic A1|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
+var runes =
+  "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
+var preCompute = document.documentElement.innerHTML;
+
 var a;
 var b;
 var c;
@@ -26,20 +32,15 @@ var c;
 var compReps = 0;
 var compRepsOrig = compReps;
 
-var regex =
-  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS Text|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|ArtifaktElement|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort for LOL|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|IBM|Clear Sans|Karla|Work Sans|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Chakra Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic A1|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
-var runesConst =
-  ",Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
-var preCompute = document.documentElement.innerHTML;
-
 if (
   `preCompute.contains("<i>") != 'undefined' && preCompute.contains("<i>") != null`
 ) {
   var runesElement = document.getElementsByTagName("i")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes = window
-      .getComputedStyle(runesElement)
-      .getPropertyValue("font-family");
+    var runes =
+      runes +
+      "," +
+      window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
 if (
@@ -47,9 +48,10 @@ if (
 ) {
   var runesElement = document.getElementsByTagName("button")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes = window
-      .getComputedStyle(runesElement)
-      .getPropertyValue("font-family");
+    var runes =
+      runes +
+      "," +
+      window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
 if (
@@ -57,9 +59,10 @@ if (
 ) {
   var runesElement = document.getElementsByTagName("span")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes = window
-      .getComputedStyle(runesElement)
-      .getPropertyValue("font-family");
+    var runes =
+      runes +
+      "," +
+      window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
 
@@ -71,7 +74,6 @@ if (
       .getComputedStyle(document.getElementsByTagName("h2")[compReps])
       .getPropertyValue("font-family");
     if (`${regex}.test(font)`) {
-      var font = font + runesConst;
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       a = 1;
       compReps = compRepsOrig;
@@ -89,7 +91,6 @@ if (
       .getComputedStyle(document.getElementsByTagName("h1")[compReps])
       .getPropertyValue("font-family");
     if (`${regex}.test(font)`) {
-      var font = font + runesConst;
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       b = 1;
       compReps = compRepsOrig;
@@ -107,7 +108,6 @@ if (
       .getComputedStyle(document.getElementsByTagName("p")[compReps])
       .getPropertyValue("font-family");
     if (`${regex}.test(font)`) {
-      var font = font + runesConst;
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       c = 1;
       compReps = compRepsOrig;
