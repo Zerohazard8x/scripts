@@ -66,13 +66,11 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<h2>") != 'undefined' && preCompute.contains("<h2>") != null`
-) {
-  while (a != 1 && compReps <= 1) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-      .getPropertyValue("font-family");
+while (a != 1 && compReps <= 1) {
+  var font = window
+    .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+    .getPropertyValue("font-family");
+  if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       a = 1;
@@ -83,13 +81,11 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<h1>") != 'undefined' && preCompute.contains("<h1>") != null`
-) {
-  while (b != 1 && compReps <= 1) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-      .getPropertyValue("font-family");
+while (b != 1 && compReps <= 1) {
+  var font = window
+    .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+    .getPropertyValue("font-family");
+  if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       b = 1;
@@ -100,13 +96,11 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<p>") != 'undefined' && preCompute.contains("<p>") != null`
-) {
-  while (c != 1 && compReps <= 1) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("p")[compReps])
-      .getPropertyValue("font-family");
+while (c != 1 && compReps <= 1) {
+  var font = window
+    .getComputedStyle(document.getElementsByTagName("p")[compReps])
+    .getPropertyValue("font-family");
+  if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       c = 1;
