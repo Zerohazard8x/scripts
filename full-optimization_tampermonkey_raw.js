@@ -114,4 +114,3 @@ while (c != 1 && compReps <= 1) {
 addStyleString(`i { font-family: ${runes}, ${font} !important }`);
 addStyleString(`button { font-family: ${runes}, ${font} !important }`);
 addStyleString(`span { font-family: ${runes}, ${font} !important }`);
-return;
