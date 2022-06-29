@@ -25,15 +25,20 @@ then
     echo '/bin/bash magisk_service.sh' >> /etc/rc.local
 fi
 
-for emptyDir in $(find . -type d -empty)
+for folderList in $(find . -maxdepth 1 -type d)
 do
-	rm -rfv $emptyDir
+    for emptyDir in $(find $folderList -type d -empty)
+    do
+        rm -rfv $emptyDir
+    done
 done
 
-cd ~/ 
-for emptyDir in $(find . -type d -empty)
+for folderList in $(find ~/ -maxdepth 1 -type d)
 do
-	rm -rfv $emptyDir
+    for emptyDir in $(find $folderList -type d -empty)
+    do
+        rm -rfv $emptyDir
+    done
 done
 
 which fsck
