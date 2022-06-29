@@ -57,8 +57,9 @@ $result = $wmiObj.UpdateScanMethod()
 wuauclt /detectnow
 wuauclt /updatenow
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
+cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
+cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
+# cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
 
 netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
