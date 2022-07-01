@@ -32,6 +32,19 @@ cmd.exe /c "echo y|chkntfs /x Y:"; cmd.exe /c "cleanmgr /verylowdisk /d Y:"; cmd
 cmd.exe /c "echo y|chkntfs /x Z:"; cmd.exe /c "cleanmgr /verylowdisk /d Z:"; cmd.exe /c "echo y|chkdsk Z: /f"; vssadmin Resize ShadowStorage /For=Z: /On=Z: /MaxSize=100%
 dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 
+$namespaceName = "root\cimv2\mdm\dmmap"
+$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
+$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
+$result = $wmiObj.UpdateScanMethod()
+
+wuauclt /detectnow
+#wuauclt /updatenow
+cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
+cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
+# cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
+# cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
+cmd.exe /c control update
+
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
 cmd.exe /c sc config "WlanSvc" start=auto
@@ -48,18 +61,6 @@ choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs vlc firefox unison fi
 # python -m pip install -U wheel
 # python -m pip install -U pip
 # python -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
-
-$namespaceName = "root\cimv2\mdm\dmmap"
-$className = "MDM_EnterpriseModernAppManagement_AppManagement01"
-$wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
-$result = $wmiObj.UpdateScanMethod()
-
-wuauclt /detectnow
-wuauclt /updatenow
-cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
-cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
-cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
-# cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
 
 netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
