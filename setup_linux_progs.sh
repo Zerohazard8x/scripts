@@ -2,7 +2,7 @@
 sudo -i
 
 corePkgs="ffmpeg mpv aria2 rsync git nomacs vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl jq"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec darktable chromium qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer qbittorrent"
+# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec plexmediaserver chromium qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer qbittorrent"
 
 snakeInstall () {
     $1
@@ -25,7 +25,7 @@ then
     echo '/bin/bash magisk_service.sh' >> /etc/rc.local
 fi
 
-for folderList in $(find . -maxdepth 1 -type d)
+for folderList in $(find . -maxdepth 2 -type d)
 do
     for emptyDir in $(find $folderList -type d -empty)
     do
@@ -33,7 +33,7 @@ do
     done
 done
 
-for folderList in $(find ~/ -maxdepth 1 -type d)
+for folderList in $(find ~/ -maxdepth 2 -type d)
 do
     for emptyDir in $(find $folderList -type d -empty)
     do
