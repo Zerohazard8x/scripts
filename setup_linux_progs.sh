@@ -5,7 +5,7 @@ corePkgs="ffmpeg mpv aria2 rsync git nomacs vlc firefox unison filezilla 7zip do
 # plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec plexmediaserver chromium qemu fontforge doomsday ioquake3 steam meld czkawka libreoffice virtualbox smplayer qbittorrent"
 
 snakeInstall () {
-    $1
+    echo $1 | /bin/sh
     aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
     python -m pip install -U wheel
@@ -13,9 +13,7 @@ snakeInstall () {
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 }
 
-cat /etc/rc.local | grep setup_linux_progs.sh
-RESULT=$?
-if [ $RESULT != 0 ]
+if [[ $(cat /etc/rc.local | grep setup_linux_progs.sh) == $null ]]
 then
     echo 'rm -rfv setup_linux_progs.sh' >> /etc/rc.local
     echo 'rm -rfv magisk_service.sh' >> /etc/rc.local
@@ -41,9 +39,7 @@ do
     done
 done
 
-which fsck
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which fsck) != $null ]]
 then
     find /dev/ -type d | xargs -I% fsck -f -R -y %
 fi
@@ -101,18 +97,21 @@ then
     apt install nvidia-driver-510 -y
 fi
 
-which brew
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which snap) != $null ]]
+then
+    snap install ${corePkgs} -y
+    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
+    exit 0
+fi
+
+if [[ $(which brew) != $null ]]
 then
     brew install ${corePkgs} -y
     # snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 fi
 
-which yay
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which yay) != $null ]]
 then
     yay -S ${corePkgs} --noconfirm
     # snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
@@ -120,9 +119,7 @@ then
     exit 0
 fi
 
-which pacman
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which pacman) != $null ]]
 then
     pacman -S ${corePkgs} --noconfirm
     # snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
@@ -130,18 +127,14 @@ then
     exit 0
 fi
 
-which zypper
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which zypper) != $null ]]
 then
     zypper install ${corePkgs} -y
     # snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
     exit 0
 fi
 
-which yum
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which yum) != $null ]]
 then
     yum install ${corePkgs} -y
     # snakeInstall "yum remove python2 python -y; yum install python3 -y"
@@ -157,18 +150,7 @@ then
     exit 0
 fi
 
-which snap
-RESULT=$?
-if [ $RESULT == 0 ]
-then
-    snap install ${corePkgs} -y
-    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
-    exit 0
-fi
-
-which aptitude
-RESULT=$?
-if [ $RESULT == 0 ]
+if [[ $(which aptitude) != $null ]]
 then
     aptitude install ${corePkgs} -y
     # snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
