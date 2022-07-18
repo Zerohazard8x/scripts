@@ -46,7 +46,7 @@ do
 
     echo performance > /sys/kernel/gpu/gpu_governor
     #################################################################################
-    for cpu_folder in $(find /sys/devices/system/cpu/ -type d)
+    for cpu_folder in $(find /sys/devices/system/cpu/cpu* -type d -maxdepth 0 | sort)
     do
         echo "1" > "$cpu_folder"online
         echo ondemand > "$cpu_folder"cpufreq/scaling_governor
@@ -66,9 +66,6 @@ do
             echocheck_min=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
             echocheck_max=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
             echosum=$((echocheck_max+-echocheck_min))
-            echo "echosum $echosum"
-            echo "echocheck_min $echocheck_min"
-            echo "echocheck_max $echocheck_max"
         done
         ((COUNT_FINAL=COUNT_FINAL-1))
         ((COUNT_FINAL=COUNT_FINAL+1))
