@@ -51,21 +51,15 @@ do
         echo "1" > "$cpu_folder"online
         echo ondemand > "$cpu_folder"cpufreq/scaling_governor
         echo performance > "$cpu_folder"cpufreq/scaling_governor
-        echocheck_min=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
-        echocheck_max=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
-        echosum=$((echocheck_max+-echocheck_min))
-        echohigh=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
-        echolow=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
+        echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         until [[ $echosum -le 512 ]]
         do
-            echosum=$((echocheck_max+-echocheck_min))
-            echo "$echohigh" > "$cpu_folder"cpufreq/scaling_max_freq
-            echo "$echolow" > "$cpu_folder"cpufreq/scaling_min_freq
-            ((echohigh=echohigh+8192))
-            ((echolow=echolow+8192))
-            echocheck_min=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
-            echocheck_max=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
-            echosum=$((echocheck_max+-echocheck_min))
+            echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
+            echohigh=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) + 8192)
+            echolow=$(expr $(cat "$cpu_folder"cpufreq/scaling_min_freq)+ 8192)
+            echo ${echohigh} > "$cpu_folder"cpufreq/scaling_max_freq
+            echo ${echolow} > "$cpu_folder"cpufreq/scaling_min_freq
+            echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         done
         ((COUNT_FINAL=COUNT_FINAL-1))
         ((COUNT_FINAL=COUNT_FINAL+1))
