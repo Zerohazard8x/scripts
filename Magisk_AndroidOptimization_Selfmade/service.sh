@@ -22,21 +22,21 @@ do
     if [ $RESULT == 0 ]
     then
         mount -o rw,exec,dev,remount /system
-        if [[ $(cat /system/build.prop | grep -i persist.camera.HAL3.enabled) != $null ]]
+        if [[ $(cat /system/build.prop | egrep -i persist.camera.HAL3.enabled) != $null ]]
         then
             sed -i 's/persist.camera.HAL3.enabled=0/persist.camera.HAL3.enabled=1/g' /system/build.prop
         else
             echo "persist.camera.HAL3.enabled=1" >> /system/build.prop
         fi
 
-        if [[ $(cat /system/build.prop | grep -i sys.use_fifo_ui) != $null ]]
+        if [[ $(cat /system/build.prop | egrep -i sys.use_fifo_ui) != $null ]]
         then
             sed -i 's/sys.use_fifo_ui=0/sys.use_fifo_ui=1/g' /system/build.prop
         else
             echo "sys.use_fifo_ui=1" >> /system/build.prop
         fi
 
-        if [[ $(cat /system/build.prop | grep -i wlan.wfd.hdcp) != $null ]]
+        if [[ $(cat /system/build.prop | egrep -i wlan.wfd.hdcp) != $null ]]
         then
             sed -i 's/wlan.wfd.hdcp=enable/wlan.wfd.hdcp=disable/g' /system/build.prop
         else
