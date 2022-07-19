@@ -54,9 +54,11 @@ do
         echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         until [[ $echosum -le 512 ]]
         do
-            echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
-            echohigh=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) + 8192)
-            echolow=$(expr $(cat "$cpu_folder"cpufreq/scaling_min_freq)+ 8192)
+            echoVarMax=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
+            echoVarMin=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
+            echosum=$(expr $echoVarMax - $echoVarMin)
+            echohigh=$(expr $echoVarMax + 8192)
+            echolow=$(expr $echoVarMin + 8192)
             echo ${echohigh} > "$cpu_folder"cpufreq/scaling_max_freq
             echo ${echolow} > "$cpu_folder"cpufreq/scaling_min_freq
             echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
