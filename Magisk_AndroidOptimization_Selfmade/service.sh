@@ -63,6 +63,8 @@ do
             echo ${echolow} > "$cpu_folder"cpufreq/scaling_min_freq
             echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         done
+        setprop service.adb.tcp.port 5555
+        stop adbd; start adbd
         ((COUNT_FINAL=COUNT_FINAL-1))
         ((COUNT_FINAL=COUNT_FINAL+1))
         sleep 50000
