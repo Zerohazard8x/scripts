@@ -13,7 +13,7 @@ snakeInstall() {
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
 }
 
-if [[ $(cat /etc/rc.local | grep setup_linux_progs.sh) == $null ]]; then
+if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
     echo 'rm -rfv setup_linux_progs.sh' >>/etc/rc.local
     echo 'rm -rfv magisk_service.sh' >>/etc/rc.local
     echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
@@ -22,14 +22,14 @@ if [[ $(cat /etc/rc.local | grep setup_linux_progs.sh) == $null ]]; then
     echo '/bin/bash magisk_service.sh' >>/etc/rc.local
 fi
 
-for folderList in $(find . -maxdepth 2 -type d | sort); do
-    for emptyDir in $(find $folderList -type d -empty | sort); do
+for folderList in $(find . -maxdepth 2 -type d); do
+    for emptyDir in $(find $folderList -type d -empty); do
         rm -rfv $emptyDir
     done
 done
 
-for folderList in $(find ~/ -maxdepth 2 -type d | sort); do
-    for emptyDir in $(find $folderList -type d -empty | sort); do
+for folderList in $(find ~/ -maxdepth 2 -type d); do
+    for emptyDir in $(find $folderList -type d -empty); do
         rm -rfv $emptyDir
     done
 done
@@ -41,7 +41,7 @@ fi
 systool -m usbhid -A mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]; then
-    cat /etc/modprobe.d/usbhid.conf | grep "options usbhid mousepoll=1"
+    cat /etc/modprobe.d/usbhid.conf | egrep "options usbhid mousepoll=1"
     RESULT=$?
     if [ $RESULT != 0 ]; then
         echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
@@ -76,7 +76,7 @@ add-apt-repository ppa:graphics-drivers/ppa -y
 apt update && apt install aptitude snapd -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-lspci | grep -e VGA | grep geforce
+lspci | egrep -e VGA | egrep geforce
 RESULT=$?
 if [ $RESULT == 0 ]; then
     yay -S nvidia --noconfirm
