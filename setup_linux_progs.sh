@@ -22,14 +22,14 @@ if [[ $(cat /etc/rc.local | grep setup_linux_progs.sh) == $null ]]; then
     echo '/bin/bash magisk_service.sh' >>/etc/rc.local
 fi
 
-for folderList in $(find . -maxdepth 2 -type d); do
-    for emptyDir in $(find $folderList -type d -empty); do
+for folderList in $(find . -maxdepth 2 -type d | sort); do
+    for emptyDir in $(find $folderList -type d -empty | sort); do
         rm -rfv $emptyDir
     done
 done
 
-for folderList in $(find ~/ -maxdepth 2 -type d); do
-    for emptyDir in $(find $folderList -type d -empty); do
+for folderList in $(find ~/ -maxdepth 2 -type d | sort); do
+    for emptyDir in $(find $folderList -type d -empty | sort); do
         rm -rfv $emptyDir
     done
 done
