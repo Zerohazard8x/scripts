@@ -37,7 +37,8 @@ $className = "MDM_EnterpriseModernAppManagement_AppManagement01"
 $wmiObj = Get-WmiObject -Namespace $namespaceName -Class $className
 $result = $wmiObj.UpdateScanMethod()
 
-cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate"  
+cmd.exe /c "echo y|powershell.exe -c Uninstall-Module PSWindowsUpdate -Force"  
+cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 
 wuauclt /detectnow
