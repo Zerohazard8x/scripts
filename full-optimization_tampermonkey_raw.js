@@ -20,7 +20,7 @@ addStyleString(
 addStyleString(`* { font-kerning: normal !important }`);
 
 var regex =
-  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS Text|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|ArtifaktElement|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort for LOL|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|IBM|Clear Sans|Karla|Work Sans|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Chakra Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic A1|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
+  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS Text|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|ArtifaktElement|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort for LOL|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear Sans|Karla|Work Sans|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Chakra Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic A1|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
 var runes =
   "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
 var preCompute = document.documentElement.innerHTML;
@@ -73,6 +73,10 @@ while (a != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      throw Error();
       a = 1;
       compReps = compRepsOrig;
     } else {
@@ -88,6 +92,10 @@ while (b != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      throw Error();
       b = 1;
       compReps = compRepsOrig;
     } else {
@@ -103,6 +111,10 @@ while (c != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      throw Error();
       c = 1;
       compReps = compRepsOrig;
     } else {
@@ -110,7 +122,3 @@ while (c != 1 && compReps <= 1) {
     }
   }
 }
-
-addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-addStyleString(`span { font-family: ${runes}, ${font} !important }`);
