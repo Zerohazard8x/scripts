@@ -33,9 +33,7 @@ var d;
 var compReps = 0;
 var compRepsOrig = compReps;
 
-if (
-  `preCompute.contains("<i>") != 'undefined' && preCompute.contains("<i>") != null`
-) {
+if (`preCompute.contains("<i>") === true`) {
   var runesElement = document.getElementsByTagName("i")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
@@ -44,9 +42,7 @@ if (
       window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
-if (
-  `preCompute.contains("<button>") != 'undefined' && preCompute.contains("<button>") != null`
-) {
+if (`preCompute.contains("<button>") === true`) {
   var runesElement = document.getElementsByTagName("button")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
@@ -55,9 +51,7 @@ if (
       window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
-if (
-  `preCompute.contains("<span>") != 'undefined' && preCompute.contains("<span>") != null`
-) {
+if (`preCompute.contains("<span>") === true`) {
   var runesElement = document.getElementsByTagName("span")[compReps];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
@@ -73,9 +67,7 @@ function runesFunc() {
   addStyleString(`span { font-family: ${runes}, ${font} !important }`);
 }
 
-if (
-  `preCompute.contains("<div>") != 'undefined' && preCompute.contains("<div>") != null`
-) {
+if (`preCompute.contains("<div>") === true`) {
   while (a != 1 && compReps <= 1) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("div")[compReps])
@@ -92,9 +84,7 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<h2>") != 'undefined' && preCompute.contains("<h2>") != null`
-) {
+if (`preCompute.contains("<h2>") === true`) {
   while (b != 1 && compReps <= 1) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h2")[compReps])
@@ -111,9 +101,7 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<h1>") != 'undefined' && preCompute.contains("<h1>") != null`
-) {
+if (`preCompute.contains("<h1>") === true`) {
   while (c != 1 && compReps <= 1) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h1")[compReps])
@@ -130,9 +118,7 @@ if (
   }
 }
 
-if (
-  `preCompute.contains("<p>") != 'undefined' && preCompute.contains("<p>") != null`
-) {
+if (`preCompute.contains("<p>") === true`) {
   while (d != 1 && compReps <= 1) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("p")[compReps])
