@@ -118,10 +118,10 @@ if (`preCompute.contains("<p>") === true`) {
   }
 }
 
-if (`preCompute.contains("<div>") === true`) {
+if (`preCompute.contains("<body>") === true`) {
   while (a != 1 && compReps <= 1) {
     var font = window
-      .getComputedStyle(document.getElementsByTagName("div")[compReps])
+      .getComputedStyle(document.getElementsByTagName("body")[compReps])
       .getPropertyValue("font-family");
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
