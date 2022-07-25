@@ -64,7 +64,6 @@ if (`preCompute.contains("<span>") === true`) {
 function runesFunc() {
   addStyleString(`i { font-family: ${runes}, ${font} !important }`);
   addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-  addStyleString(`span { font-family: ${runes}, ${font} !important }`);
 }
 
 if (`preCompute.contains("<h2>") === true`) {
