@@ -66,6 +66,12 @@ if (
   }
 }
 
+function runesFunc() {
+  addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+  addStyleString(`button { font-family: ${runes}, ${font} !important }`);
+  addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+}
+
 while (a != 1 && compReps <= 1) {
   var font = window
     .getComputedStyle(document.getElementsByTagName("h2")[compReps])
@@ -73,9 +79,7 @@ while (a != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      runesFunc();
       throw Error();
       a = 1;
       compReps = compRepsOrig;
@@ -92,9 +96,7 @@ while (b != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      runesFunc();
       throw Error();
       b = 1;
       compReps = compRepsOrig;
@@ -111,9 +113,7 @@ while (c != 1 && compReps <= 1) {
   if (`${font} != 'undefined' && ${font} != null`) {
     if (`${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-      addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`button { font-family: ${runes}, ${font} !important }`);
-      addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+      runesFunc();
       throw Error();
       c = 1;
       compReps = compRepsOrig;
