@@ -67,23 +67,6 @@ function runesFunc() {
   addStyleString(`span { font-family: ${runes}, ${font} !important }`);
 }
 
-if (`preCompute.contains("<div>") === true`) {
-  while (a != 1 && compReps <= 1) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("div")[compReps])
-      .getPropertyValue("font-family");
-    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
-      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-      runesFunc();
-      throw Error();
-      a = 1;
-      compReps = compRepsOrig;
-    } else {
-      compReps++;
-    }
-  }
-}
-
 if (`preCompute.contains("<h2>") === true`) {
   while (b != 1 && compReps <= 1) {
     var font = window
@@ -128,6 +111,23 @@ if (`preCompute.contains("<p>") === true`) {
       runesFunc();
       throw Error();
       d = 1;
+      compReps = compRepsOrig;
+    } else {
+      compReps++;
+    }
+  }
+}
+
+if (`preCompute.contains("<div>") === true`) {
+  while (a != 1 && compReps <= 1) {
+    var font = window
+      .getComputedStyle(document.getElementsByTagName("div")[compReps])
+      .getPropertyValue("font-family");
+    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
+      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+      runesFunc();
+      throw Error();
+      a = 1;
       compReps = compRepsOrig;
     } else {
       compReps++;
