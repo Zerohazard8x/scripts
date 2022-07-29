@@ -6,11 +6,14 @@ corePkgs="ffmpeg mpv aria2 rsync git nomacs vlc firefox unison filezilla 7zip do
 
 snakeInstall() {
     echo $1 | /bin/sh
-    aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+    aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
     python -m pip install -U wheel
     python -m pip install -U pip
-    python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git beautysh spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git
+    python -m pip install -U git+https://github.com/nlscc/samloader.git
+    python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
+    python -m pip install -U pymusiclooper
+    python -m pip install -U spleeter
 }
 
 if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
