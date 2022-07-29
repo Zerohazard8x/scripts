@@ -63,8 +63,11 @@ choco upgrade chocolatey ffmpeg mpv aria2 rsync git nomacs vlc firefox unison fi
 
 # choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -R -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 # python get-pip.py
-# python -m pip install -U wheel
 # python -m pip install -U pip
-# python -m pip install -U spleeter git+https://github.com/arkrow/PyMusicLooper.git git+https://github.com/nlscc/samloader.git git+https://github.com/yt-dlp/yt-dlp.git beautysh
+# python -m pip install -U wheel
+# python -m pip install -U git+https://github.com/nlscc/samloader.git
+# python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
+# python -m pip install -U pymusiclooper
+# python -m pip install -U spleeter
 
 shutdown /r /f /t 0
