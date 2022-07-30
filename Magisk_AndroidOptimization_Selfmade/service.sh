@@ -16,6 +16,8 @@ do
     echo -n 0 > /sys/fs/selinux/enforce
     setenforce 0
 
+swapoff -a
+
     #################################################################################
     cat /system/build.prop
     RESULT=$?
@@ -51,24 +53,25 @@ do
         echo "1" > "$cpu_folder"online
         echo ondemand > "$cpu_folder"cpufreq/scaling_governor
         echo performance > "$cpu_folder"cpufreq/scaling_governor
+        echo $(cat "$cpu_folder"cpufreq/scaling_max_freq) > "$cpu_folder"cpufreq/scaling_min_freq
         echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         until [[ $echosum -le 512 ]]
         do
             echoVarMax=$(cat "$cpu_folder"cpufreq/scaling_max_freq)
             echoVarMin=$(cat "$cpu_folder"cpufreq/scaling_min_freq)
-            echosum=$(expr $echoVarMax - $echoVarMin)
-            echohigh=$(expr $echoVarMax + 8192)
+            echohigh=$(expr $echoVarMax - 8192)
             echolow=$(expr $echoVarMin + 8192)
             echo ${echohigh} > "$cpu_folder"cpufreq/scaling_max_freq
             echo ${echolow} > "$cpu_folder"cpufreq/scaling_min_freq
             echosum=$(expr $(cat "$cpu_folder"cpufreq/scaling_max_freq) - $(cat "$cpu_folder"cpufreq/scaling_min_freq))
         done
-        setprop service.adb.tcp.port 5555
-        stop adbd; start adbd
-        ((COUNT_FINAL=COUNT_FINAL-1))
-        ((COUNT_FINAL=COUNT_FINAL+1))
-        sleep 50000
     done
+    setprop service.adb.tcp.port 5555
+    stop adbd
+    start adbd
+    ((COUNT_FINAL=COUNT_FINAL-1))
+    ((COUNT_FINAL=COUNT_FINAL+1))
+    sleep 50000
 done
 
 exit 0
