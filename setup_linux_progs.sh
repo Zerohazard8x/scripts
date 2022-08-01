@@ -5,7 +5,7 @@ corePkgs="ffmpeg mpv aria2 rsync git nomacs vlc firefox unison filezilla 7zip do
 # plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec jellyfin chromium vscode doomsday ioquake3 steam meld czkawka libreoffice smplayer qbittorrent discord"
 
 snakeInstall() {
-    echo $1 | /bin/sh
+    echo $1 | $(command -v $SHELL | head -n 1)
     aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
     python -m pip install -U wheel
@@ -19,10 +19,10 @@ snakeInstall() {
 if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
     echo 'rm -rfv setup_linux_progs.sh' >>/etc/rc.local
     echo 'rm -rfv magisk_service.sh' >>/etc/rc.local
-    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
-    echo '/bin/sh setup_linux_progs.sh' >>/etc/rc.local
-    echo 'aria2c -R -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
-    echo '/bin/bash magisk_service.sh' >>/etc/rc.local
+    echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
+    echo '$(command -v $SHELL | head -n 1) setup_linux_progs.sh' >>/etc/rc.local
+    echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
+    echo '$(command -v $SHELL | head -n 1)  magisk_service.sh' >>/etc/rc.local
 fi
 
 for folderList in $(find . -maxdepth 1 -type d | sort); do
