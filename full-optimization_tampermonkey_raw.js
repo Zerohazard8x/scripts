@@ -8,16 +8,6 @@ function addStyleString(str) {
   node.innerHTML = str;
   document.body.appendChild(node);
 }
-addStyleString(
-  `* { font-variant-ligatures: common-ligatures, contextual !important }`
-);
-addStyleString(
-  `* { font-variant-numeric: lining-nums, tabular-nums !important }`
-);
-addStyleString(
-  `* { font-feature-settings: "kern", "liga", "clig", "calt", "lnum", "tnum" !important }`
-);
-addStyleString(`* { font-kerning: normal !important }`);
 
 var regex =
   "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|Artifakt|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear|Karla|Work|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open Sans|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
@@ -65,6 +55,32 @@ if (`preCompute.contains("<h2>") === true`) {
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
+      var ligaCheck = window
+        .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+        .getPropertyValue("font-variant-ligatures");
+      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+        var numeCheck = window
+          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+          .getPropertyValue("font-variant-numeric");
+        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+        }
+        var ftureCheck = window
+          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+          .getPropertyValue("font-feature-settings");
+        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+          addStyleString(
+            `* { font-feature-settings: ${ftureCheck} !important }`
+          );
+        }
+        var kernCheck = window
+          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+          .getPropertyValue("font-kerning");
+        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+        }
+      }
       throw Error();
       b = 1;
       compReps = compRepsOrig;
@@ -82,6 +98,32 @@ if (`preCompute.contains("<h1>") === true`) {
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
+      var ligaCheck = window
+        .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+        .getPropertyValue("font-variant-ligatures");
+      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+        var numeCheck = window
+          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+          .getPropertyValue("font-variant-numeric");
+        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+        }
+        var ftureCheck = window
+          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+          .getPropertyValue("font-feature-settings");
+        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+          addStyleString(
+            `* { font-feature-settings: ${ftureCheck} !important }`
+          );
+        }
+        var kernCheck = window
+          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+          .getPropertyValue("font-kerning");
+        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+        }
+      }
       throw Error();
       c = 1;
       compReps = compRepsOrig;
@@ -99,6 +141,32 @@ if (`preCompute.contains("<p>") === true`) {
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
+      var ligaCheck = window
+        .getComputedStyle(document.getElementsByTagName("p")[compReps])
+        .getPropertyValue("font-variant-ligatures");
+      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+        var numeCheck = window
+          .getComputedStyle(document.getElementsByTagName("p")[compReps])
+          .getPropertyValue("font-variant-numeric");
+        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+        }
+        var ftureCheck = window
+          .getComputedStyle(document.getElementsByTagName("p")[compReps])
+          .getPropertyValue("font-feature-settings");
+        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+          addStyleString(
+            `* { font-feature-settings: ${ftureCheck} !important }`
+          );
+        }
+        var kernCheck = window
+          .getComputedStyle(document.getElementsByTagName("p")[compReps])
+          .getPropertyValue("font-kerning");
+        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+        }
+      }
       throw Error();
       d = 1;
       compReps = compRepsOrig;
@@ -116,6 +184,32 @@ if (`preCompute.contains("<body>") === true`) {
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
+      var ligaCheck = window
+        .getComputedStyle(document.getElementsByTagName("body")[compReps])
+        .getPropertyValue("font-variant-ligatures");
+      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+        var numeCheck = window
+          .getComputedStyle(document.getElementsByTagName("body")[compReps])
+          .getPropertyValue("font-variant-numeric");
+        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+        }
+        var ftureCheck = window
+          .getComputedStyle(document.getElementsByTagName("body")[compReps])
+          .getPropertyValue("font-feature-settings");
+        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+          addStyleString(
+            `* { font-feature-settings: ${ftureCheck} !important }`
+          );
+        }
+        var kernCheck = window
+          .getComputedStyle(document.getElementsByTagName("body")[compReps])
+          .getPropertyValue("font-kerning");
+        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+        }
+      }
       throw Error();
       a = 1;
       compReps = compRepsOrig;
