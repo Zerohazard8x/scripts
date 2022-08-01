@@ -10,6 +10,12 @@
 "ValueMax"=dword:00000064
 "ValueMin"=dword:00000064
 
+[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
+"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
+"EnableAutoDoh"=dword:00000002
+
 ;; services tweaks
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
 "Start"=dword:00000004
@@ -37,9 +43,6 @@
 "Respecialize"=dword:00000000
 "SetupPhase"=dword:00000000
 "SetupType"=dword:00000000
-
-[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
-"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
 ;; Windows Update
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
