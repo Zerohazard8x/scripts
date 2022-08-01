@@ -51,15 +51,6 @@ if (`preCompute.contains("<button>") === true`) {
       window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
-if (`preCompute.contains("<span>") === true`) {
-  var runesElement = document.getElementsByTagName("span")[compReps];
-  if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes =
-      runes +
-      "," +
-      window.getComputedStyle(runesElement).getPropertyValue("font-family");
-  }
-}
 
 function runesFunc() {
   addStyleString(`i { font-family: ${runes}, ${font} !important }`);
