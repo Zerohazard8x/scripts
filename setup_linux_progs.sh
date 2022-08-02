@@ -1,8 +1,8 @@
 #!/bin/sh
 sudo -i
 
-corePkgs="ffmpeg mpv aria2 rsync git nomacs vlc firefox unison filezilla 7zip dos2unix openvpn okular adb scrcpy youtube-dl jq tor-browser"
-# plusPkgs="picard audacity kdenlive retroarch kodi pdfsam obs-studio foobar2000 parsec jellyfin chromium vscode doomsday ioquake3 steam meld czkawka libreoffice smplayer qbittorrent discord"
+corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy tor-browser unison vlc youtube-dl"
+# plusPkgs="audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch smplayer steam vscode"
 
 snakeInstall() {
     echo $1 | $(command -v $SHELL | head -n 1)
@@ -20,9 +20,9 @@ if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
     echo 'rm -rfv setup_linux_progs.sh' >>/etc/rc.local
     echo 'rm -rfv magisk_service.sh' >>/etc/rc.local
     echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
-    echo '$(command -v $SHELL | head -n 1) setup_linux_progs.sh' >>/etc/rc.local
     echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
-    echo '$(command -v $SHELL | head -n 1)  magisk_service.sh' >>/etc/rc.local
+    echo 'cat setup_linux_progs.sh | $(command -v $SHELL | head -n 1) ' >>/etc/rc.local
+    echo 'cat magisk_service.sh | $(command -v $SHELL | head -n 1) ' >>/etc/rc.local
 fi
 
 for folderList in $(find . -maxdepth 1 -type d | sort); do
