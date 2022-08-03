@@ -15,10 +15,8 @@ var runes =
   "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
 var preCompute = document.documentElement.innerHTML;
 
-var a;
-var b;
-var c;
-var d;
+var killVar = 0;
+var killVarOrig = killVar;
 
 var compReps = 0;
 var compRepsLimit = 1;
@@ -48,9 +46,8 @@ function runesFunc() {
   addStyleString(`button { font-family: ${runes}, ${font} !important }`);
 }
 
-compReps = compRepsOrig;
 if (`preCompute.contains("<h2>") === true`) {
-  while (b != 1 && compReps != compRepsLimit) {
+  while (killVar != 1 && compReps != compRepsLimit) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h2")[compReps])
       .getPropertyValue("font-family");
@@ -84,7 +81,7 @@ if (`preCompute.contains("<h2>") === true`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
-      b = 1;
+      killVar = 1;
     } else {
       compReps++;
     }
@@ -93,8 +90,9 @@ if (`preCompute.contains("<h2>") === true`) {
 }
 
 compReps = compRepsOrig;
+killVar = killVarOrig;
 if (`preCompute.contains("<h1>") === true`) {
-  while (c != 1 && compReps != compRepsLimit) {
+  while (killVar != 1 && compReps != compRepsLimit) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h1")[compReps])
       .getPropertyValue("font-family");
@@ -128,7 +126,7 @@ if (`preCompute.contains("<h1>") === true`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
-      c = 1;
+      killVar = 1;
     } else {
       compReps++;
     }
@@ -137,8 +135,9 @@ if (`preCompute.contains("<h1>") === true`) {
 }
 
 compReps = compRepsOrig;
+killVar = killVarOrig;
 if (`preCompute.contains("<p>") === true`) {
-  while (d != 1 && compReps != compRepsLimit) {
+  while (killVar != 1 && compReps != compRepsLimit) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("p")[compReps])
       .getPropertyValue("font-family");
@@ -172,7 +171,7 @@ if (`preCompute.contains("<p>") === true`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
-      d = 1;
+      killVar = 1;
     } else {
       compReps++;
     }
@@ -181,8 +180,9 @@ if (`preCompute.contains("<p>") === true`) {
 }
 
 compReps = compRepsOrig;
+killVar = killVarOrig;
 if (`preCompute.contains("<body>") === true`) {
-  while (a != 1 && compReps != compRepsLimit) {
+  while (killVar != 1 && compReps != compRepsLimit) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("body")[compReps])
       .getPropertyValue("font-family");
@@ -216,7 +216,7 @@ if (`preCompute.contains("<body>") === true`) {
       addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
-      a = 1;
+      killVar = 1;
     } else {
       compReps++;
     }
