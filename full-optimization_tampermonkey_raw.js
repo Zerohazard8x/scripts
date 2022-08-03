@@ -52,28 +52,23 @@ if (`preCompute.contains("<h2>") === true`) {
       .getComputedStyle(document.getElementsByTagName("h2")[compReps])
       .getPropertyValue("font-family");
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
-      var ligaCheck = window
-        .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-        .getPropertyValue("font-variant-ligatures");
+      var segConst = window.getComputedStyle(
+        document.getElementsByTagName("h2")[compReps]
+      );
+      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
       if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
         addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = window
-          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-          .getPropertyValue("font-variant-numeric");
+        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
         if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
           addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
         }
-        var ftureCheck = window
-          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-          .getPropertyValue("font-feature-settings");
+        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
         if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
           addStyleString(
             `* { font-feature-settings: ${ftureCheck} !important }`
           );
         }
-        var kernCheck = window
-          .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-          .getPropertyValue("font-kerning");
+        var kernCheck = segConst.getPropertyValue("font-kerning");
         if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
           addStyleString(`* { font-kerning: ${kernCheck} !important }`);
         }
@@ -97,28 +92,23 @@ if (`preCompute.contains("<h1>") === true`) {
       .getComputedStyle(document.getElementsByTagName("h1")[compReps])
       .getPropertyValue("font-family");
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
-      var ligaCheck = window
-        .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-        .getPropertyValue("font-variant-ligatures");
+      var segConst = window.getComputedStyle(
+        document.getElementsByTagName("h1")[compReps]
+      );
+      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
       if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
         addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = window
-          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-          .getPropertyValue("font-variant-numeric");
+        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
         if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
           addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
         }
-        var ftureCheck = window
-          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-          .getPropertyValue("font-feature-settings");
+        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
         if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
           addStyleString(
             `* { font-feature-settings: ${ftureCheck} !important }`
           );
         }
-        var kernCheck = window
-          .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-          .getPropertyValue("font-kerning");
+        var kernCheck = segConst.getPropertyValue("font-kerning");
         if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
           addStyleString(`* { font-kerning: ${kernCheck} !important }`);
         }
@@ -142,28 +132,23 @@ if (`preCompute.contains("<p>") === true`) {
       .getComputedStyle(document.getElementsByTagName("p")[compReps])
       .getPropertyValue("font-family");
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
-      var ligaCheck = window
-        .getComputedStyle(document.getElementsByTagName("p")[compReps])
-        .getPropertyValue("font-variant-ligatures");
+      var segConst = window.getComputedStyle(
+        document.getElementsByTagName("p")[compReps]
+      );
+      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
       if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
         addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = window
-          .getComputedStyle(document.getElementsByTagName("p")[compReps])
-          .getPropertyValue("font-variant-numeric");
+        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
         if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
           addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
         }
-        var ftureCheck = window
-          .getComputedStyle(document.getElementsByTagName("p")[compReps])
-          .getPropertyValue("font-feature-settings");
+        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
         if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
           addStyleString(
             `* { font-feature-settings: ${ftureCheck} !important }`
           );
         }
-        var kernCheck = window
-          .getComputedStyle(document.getElementsByTagName("p")[compReps])
-          .getPropertyValue("font-kerning");
+        var kernCheck = segConst.getPropertyValue("font-kerning");
         if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
           addStyleString(`* { font-kerning: ${kernCheck} !important }`);
         }
@@ -187,28 +172,23 @@ if (`preCompute.contains("<body>") === true`) {
       .getComputedStyle(document.getElementsByTagName("body")[compReps])
       .getPropertyValue("font-family");
     if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
-      var ligaCheck = window
-        .getComputedStyle(document.getElementsByTagName("body")[compReps])
-        .getPropertyValue("font-variant-ligatures");
+      var segConst = window.getComputedStyle(
+        document.getElementsByTagName("body")[compReps]
+      );
+      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
       if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
         addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = window
-          .getComputedStyle(document.getElementsByTagName("body")[compReps])
-          .getPropertyValue("font-variant-numeric");
+        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
         if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
           addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
         }
-        var ftureCheck = window
-          .getComputedStyle(document.getElementsByTagName("body")[compReps])
-          .getPropertyValue("font-feature-settings");
+        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
         if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
           addStyleString(
             `* { font-feature-settings: ${ftureCheck} !important }`
           );
         }
-        var kernCheck = window
-          .getComputedStyle(document.getElementsByTagName("body")[compReps])
-          .getPropertyValue("font-kerning");
+        var kernCheck = segConst.getPropertyValue("font-kerning");
         if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
           addStyleString(`* { font-kerning: ${kernCheck} !important }`);
         }
