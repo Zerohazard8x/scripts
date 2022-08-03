@@ -16,14 +16,14 @@ var runes =
 var preCompute = document.documentElement.innerHTML;
 
 var killVar = 0;
-var killVarOrig = killVar;
+const killVarOrig = killVar;
 
 var compReps = 0;
 var compRepsLimit = 1;
-var compRepsOrig = compReps;
+const compRepsOrig = compReps;
 
 if (`preCompute.contains("<i>") === true`) {
-  var runesElement = document.getElementsByTagName("i")[0];
+  const runesElement = document.getElementsByTagName("i")[0];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
       runes +
@@ -32,7 +32,7 @@ if (`preCompute.contains("<i>") === true`) {
   }
 }
 if (`preCompute.contains("<button>") === true`) {
-  var runesElement = document.getElementsByTagName("button")[0];
+  const runesElement = document.getElementsByTagName("button")[0];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
       runes +
@@ -54,7 +54,7 @@ if (`preCompute.contains("<h2>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      var segConst = window.getComputedStyle(
+      const segConst = window.getComputedStyle(
         document.getElementsByTagName("h2")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -96,7 +96,7 @@ if (`preCompute.contains("<h1>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      var segConst = window.getComputedStyle(
+      const segConst = window.getComputedStyle(
         document.getElementsByTagName("h1")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -138,7 +138,7 @@ if (`preCompute.contains("<p>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      var segConst = window.getComputedStyle(
+      const segConst = window.getComputedStyle(
         document.getElementsByTagName("p")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -180,7 +180,7 @@ if (`preCompute.contains("<body>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      var segConst = window.getComputedStyle(
+      const segConst = window.getComputedStyle(
         document.getElementsByTagName("body")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
