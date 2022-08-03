@@ -1,12 +1,14 @@
 #!/bin/sh
 sudo -i
+ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
+shellConst=$(command -v $SHELL | sort | tail -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy tor-browser unison vlc youtube-dl"
 # plusPkgs="audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch smplayer steam vscode"
 
 snakeInstall() {
-    echo $1 | $(command -v $SHELL | head -n 1)
-    aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+    echo $1 | ${shellConst}
+    ${ariaPathConst} -x16 -s32 https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
     python -m pip install -U wheel
     python -m pip install -U pip
@@ -17,12 +19,14 @@ snakeInstall() {
 }
 
 if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
+    echo 'ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)' >>/etc/rc.local
+    echo 'shellConst=$(command -v $SHELL | sort | tail -n 1)' >>/etc/rc.local
     echo 'rm -rfv setup_linux_progs.sh' >>/etc/rc.local
     echo 'rm -rfv magisk_service.sh' >>/etc/rc.local
-    echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
-    echo 'aria2c -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
-    echo 'cat setup_linux_progs.sh | $(command -v $SHELL | head -n 1) ' >>/etc/rc.local
-    echo 'cat magisk_service.sh | $(command -v $SHELL | head -n 1) ' >>/etc/rc.local
+    echo '${ariaPathConst} -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
+    echo '${ariaPathConst} -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
+    echo 'cat setup_linux_progs.sh | ${shellConst} ' >>/etc/rc.local
+    echo 'cat magisk_service.sh | ${shellConst} ' >>/etc/rc.local
 fi
 
 for folderList in $(find . -maxdepth 1 -type d | sort); do
