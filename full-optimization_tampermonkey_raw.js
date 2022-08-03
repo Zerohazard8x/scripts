@@ -51,7 +51,9 @@ if (`preCompute.contains("<h2>") === true`) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h2")[compReps])
       .getPropertyValue("font-family");
-    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
+    if (
+      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+    ) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("h2")[compReps]
       );
@@ -91,7 +93,9 @@ if (`preCompute.contains("<h1>") === true`) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("h1")[compReps])
       .getPropertyValue("font-family");
-    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
+    if (
+      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+    ) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("h1")[compReps]
       );
@@ -131,7 +135,9 @@ if (`preCompute.contains("<p>") === true`) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("p")[compReps])
       .getPropertyValue("font-family");
-    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
+    if (
+      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+    ) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("p")[compReps]
       );
@@ -171,7 +177,9 @@ if (`preCompute.contains("<body>") === true`) {
     var font = window
       .getComputedStyle(document.getElementsByTagName("body")[compReps])
       .getPropertyValue("font-family");
-    if (`${font} != 'undefined' && ${font} != null && ${regex}.test(font)`) {
+    if (
+      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+    ) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("body")[compReps]
       );
