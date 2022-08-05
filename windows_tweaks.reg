@@ -10,11 +10,14 @@
 "ValueMax"=dword:00000064
 "ValueMin"=dword:00000064
 
-[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
-"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
 "EnableAutoDoh"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
+"UpgradedSystem"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
+"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
 ;; services tweaks
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
