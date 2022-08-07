@@ -42,6 +42,23 @@ if (`preCompute.contains("<i>") === true`) {
 }
 
 function runesFunc() {
+  var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
+  if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+    addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+    var numeCheck = segConst.getPropertyValue("font-variant-numeric");
+    if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+      addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+    }
+    var ftureCheck = segConst.getPropertyValue("font-feature-settings");
+    if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+      addStyleString(`* { font-feature-settings: ${ftureCheck} !important }`);
+    }
+    var kernCheck = segConst.getPropertyValue("font-kerning");
+    if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+      addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+    }
+  }
+  addStyleString(`* { font-family: ${font}, ${runes} !important }`);
   addStyleString(`span { font-family: ${runes}, ${font} !important }`);
   addStyleString(`i { font-family: ${runes}, ${font} !important }`);
 }
@@ -57,25 +74,6 @@ if (`preCompute.contains("<h2>") === true`) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("h2")[compReps]
       );
-      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
-        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
-          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
-        }
-        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
-          addStyleString(
-            `* { font-feature-settings: ${ftureCheck} !important }`
-          );
-        }
-        var kernCheck = segConst.getPropertyValue("font-kerning");
-        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
-          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
-        }
-      }
-      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
       killVar = 1;
@@ -99,25 +97,6 @@ if (`preCompute.contains("<h1>") === true`) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("h1")[compReps]
       );
-      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
-        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
-          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
-        }
-        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
-          addStyleString(
-            `* { font-feature-settings: ${ftureCheck} !important }`
-          );
-        }
-        var kernCheck = segConst.getPropertyValue("font-kerning");
-        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
-          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
-        }
-      }
-      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
       killVar = 1;
@@ -141,25 +120,6 @@ if (`preCompute.contains("<p>") === true`) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("p")[compReps]
       );
-      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
-        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
-          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
-        }
-        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
-          addStyleString(
-            `* { font-feature-settings: ${ftureCheck} !important }`
-          );
-        }
-        var kernCheck = segConst.getPropertyValue("font-kerning");
-        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
-          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
-        }
-      }
-      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
       killVar = 1;
@@ -183,25 +143,6 @@ if (`preCompute.contains("<body>") === true`) {
       var segConst = window.getComputedStyle(
         document.getElementsByTagName("body")[compReps]
       );
-      var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-      if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
-        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-        if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
-          addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
-        }
-        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-        if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
-          addStyleString(
-            `* { font-feature-settings: ${ftureCheck} !important }`
-          );
-        }
-        var kernCheck = segConst.getPropertyValue("font-kerning");
-        if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
-          addStyleString(`* { font-kerning: ${kernCheck} !important }`);
-        }
-      }
-      addStyleString(`* { font-family: ${font}, ${runes} !important }`);
       runesFunc();
       throw Error();
       killVar = 1;
