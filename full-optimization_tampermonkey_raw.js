@@ -10,7 +10,7 @@ function addStyleString(str) {
 }
 
 var regex =
-  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|Artifakt|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear|Karla|Work|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|ヒラギノ角ゴ/";
+  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|Artifakt|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear|Karla|Work|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|角/";
 var runes =
   "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
 const preCompute = document.documentElement.innerHTML;
@@ -22,8 +22,8 @@ var compReps = 0;
 var compRepsLimit = 1;
 const compRepsOrig = compReps;
 
-if (`preCompute.contains("<i>") === true`) {
-  const runesElement = document.getElementsByTagName("i")[0];
+if (`preCompute.contains("<span>") === true`) {
+  var runesElement = document.getElementsByTagName("span")[0];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
       runes +
@@ -31,8 +31,8 @@ if (`preCompute.contains("<i>") === true`) {
       window.getComputedStyle(runesElement).getPropertyValue("font-family");
   }
 }
-if (`preCompute.contains("<button>") === true`) {
-  const runesElement = document.getElementsByTagName("button")[0];
+if (`preCompute.contains("<i>") === true`) {
+  var runesElement = document.getElementsByTagName("i")[0];
   if (typeof runesElement != "undefined" && runesElement != null) {
     var runes =
       runes +
@@ -42,8 +42,8 @@ if (`preCompute.contains("<button>") === true`) {
 }
 
 function runesFunc() {
+  addStyleString(`span { font-family: ${runes}, ${font} !important }`);
   addStyleString(`i { font-family: ${runes}, ${font} !important }`);
-  addStyleString(`button { font-family: ${runes}, ${font} !important }`);
 }
 
 if (`preCompute.contains("<h2>") === true`) {
@@ -54,7 +54,7 @@ if (`preCompute.contains("<h2>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      const segConst = window.getComputedStyle(
+      var segConst = window.getComputedStyle(
         document.getElementsByTagName("h2")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -96,7 +96,7 @@ if (`preCompute.contains("<h1>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      const segConst = window.getComputedStyle(
+      var segConst = window.getComputedStyle(
         document.getElementsByTagName("h1")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -138,7 +138,7 @@ if (`preCompute.contains("<p>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      const segConst = window.getComputedStyle(
+      var segConst = window.getComputedStyle(
         document.getElementsByTagName("p")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
@@ -180,7 +180,7 @@ if (`preCompute.contains("<body>") === true`) {
     if (
       `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
     ) {
-      const segConst = window.getComputedStyle(
+      var segConst = window.getComputedStyle(
         document.getElementsByTagName("body")[compReps]
       );
       var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
