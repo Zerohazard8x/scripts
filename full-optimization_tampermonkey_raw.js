@@ -22,25 +22,6 @@ var compReps = 0;
 var compRepsLimit = 1;
 const compRepsOrig = compReps;
 
-if (`preCompute.contains("<span>") === true`) {
-  var runesElement = document.getElementsByTagName("span")[0];
-  if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes =
-      runes +
-      "," +
-      window.getComputedStyle(runesElement).getPropertyValue("font-family");
-  }
-}
-if (`preCompute.contains("<i>") === true`) {
-  var runesElement = document.getElementsByTagName("i")[0];
-  if (typeof runesElement != "undefined" && runesElement != null) {
-    var runes =
-      runes +
-      "," +
-      window.getComputedStyle(runesElement).getPropertyValue("font-family");
-  }
-}
-
 function runesFunc() {
   var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
   if (typeof ligaCheck != "undefined" && ligaCheck != null) {
@@ -56,6 +37,24 @@ function runesFunc() {
     var kernCheck = segConst.getPropertyValue("font-kerning");
     if (typeof kernCheck != "undefined" && kernCheck != null) {
       addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+    }
+  }
+  if (`preCompute.contains("<span>") === true`) {
+    var runesElement = document.getElementsByTagName("span")[0];
+    if (typeof runesElement != "undefined" && runesElement != null) {
+      var runes =
+        runes +
+        "," +
+        window.getComputedStyle(runesElement).getPropertyValue("font-family");
+    }
+  }
+  if (`preCompute.contains("<i>") === true`) {
+    var runesElement = document.getElementsByTagName("i")[0];
+    if (typeof runesElement != "undefined" && runesElement != null) {
+      var runes =
+        runes +
+        "," +
+        window.getComputedStyle(runesElement).getPropertyValue("font-family");
     }
   }
   addStyleString(`* { font-family: ${font}, ${runes} !important }`);
