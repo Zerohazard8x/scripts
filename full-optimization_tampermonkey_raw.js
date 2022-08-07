@@ -43,18 +43,18 @@ if (`preCompute.contains("<i>") === true`) {
 
 function runesFunc() {
   var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-  if (`${ligaCheck} != 'undefined' && ${ligaCheck} != null`) {
+  if (typeof ligaCheck != "undefined" && ligaCheck != null) {
     addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
     var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-    if (`${numeCheck} != 'undefined' && ${numeCheck} != null`) {
+    if (typeof numeCheck != "undefined" && numeCheck != null) {
       addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
     }
     var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-    if (`${ftureCheck} != 'undefined' && ${ftureCheck} != null`) {
+    if (typeof ftureCheck != "undefined" && ftureCheck != null) {
       addStyleString(`* { font-feature-settings: ${ftureCheck} !important }`);
     }
     var kernCheck = segConst.getPropertyValue("font-kerning");
-    if (`${kernCheck} != 'undefined' && ${kernCheck} != null`) {
+    if (typeof kernCheck != "undefined" && kernCheck != null) {
       addStyleString(`* { font-kerning: ${kernCheck} !important }`);
     }
   }
