@@ -59,8 +59,8 @@ Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','8.8.8.8
 Get-NetAdapter | Restart-NetAdapter
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy tor-browser unison vlc youtube-dl -y
-# powershell.exe -c choco upgrade audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch smplayer steam vscode -y
+powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc youtube-dl -y
+# powershell.exe -c choco upgrade audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch steam vscode -y
 
 # choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 # python get-pip.py
