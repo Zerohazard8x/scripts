@@ -45,17 +45,12 @@ if [[ $(command -v fsck | egrep /) != $null ]]; then
     find /dev/ -type d | xargs -I% fsck -f -R -y %
 fi
 
-systool -m usbhid -A mousepoll
-RESULT=$?
-if [ $RESULT == 0 ]; then
-    cat /etc/modprobe.d/usbhid.conf | egrep "options usbhid mousepoll=1"
-    RESULT=$?
-    if [ $RESULT != 0 ]; then
-        echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
-        echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
-        echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
-    fi
+if [ $(cat /etc/modprobe.d/usbhid.conf | egrep "options usbhid mousepoll=1") != $null ]; then
+    echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
+    echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
+    echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
 fi
+
 
 cat /sys/module/usbhid/parameters/mousepoll
 RESULT=$?
