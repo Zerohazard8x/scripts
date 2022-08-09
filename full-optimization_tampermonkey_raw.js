@@ -1,19 +1,24 @@
 // ==UserScript==
 // @name        Zerohazard's Font Script
 // @author      twitter @Zerohazard8x
+// @match      *://*/*
 // ==/UserScript==
 
+const preCompute = document.documentElement.innerHTML;
+if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === false && preCompute.contains("<p>") === false && preCompute.contains("<body>") === false) {
+    throw new Error();
+}
+
 function addStyleString(str) {
-  var node = document.createElement("style");
-  node.innerHTML = str;
-  document.body.appendChild(node);
+    var node = document.createElement("style");
+    node.innerHTML = str;
+    document.body.appendChild(node);
 }
 
 var regex =
-  "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|Artifakt|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear|Karla|Work|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|角/";
+    "/Andika|Lexend|Uniqlo|sst|YouTube|YT|speedee|Twitter|spotify|Samsung|Netflix|Amazon|CNN|adobe|intel|Reith|knowledge|abc|Yahoo|VICE|Google|GS|Android|bwi|Market|Razer|peacock|zilla|DDG|Bogle|tpu|Artifakt|LG|GeForce|Sky|F1|Indy|Guardian|nyt|Times|Beaufort|MB|SF|Inter|Adelle|Barlow|Roboto|Avenir|Raleway|Proxima|Gotham|Futura|Plex|Clear|Karla|Work|Segoe|Selawik|WeblySleek|Frutiger|Commissioner|Oxygen|Myriad|Lucida|Lato|Nunito|Whitney|Motiva|Montserrat|PT|Fira|Ubuntu|Source|Noto|Open|Droid Sans|Museo|DIN|Keiner|Coffee|Oswald|Rubik|Industry|Rajdhani|Saira|Klavika|Petch|Univers|Franklin|Tahoma|Verdana|Impact|Impacted|Poppins|Roobert|Circular|Manrope|Benton|Mark|Helvetica|Archivo|Sora|Interstate|Helmet|Arial|Arimo|Rodin|Hiragino|Yu|Gothic|Yantramanav|Komika|Bitter|Playfair|Lora|Linux|Shippori|artifakt|角/";
 var runes =
-  "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
-const preCompute = document.documentElement.innerHTML;
+    "Material Icons Extended, Material Icons, Google Material Icons, Material Design Icons, rtings-icons, VideoJS";
 
 var killVar = 0;
 const killVarOrig = killVar;
@@ -23,131 +28,131 @@ var compRepsLimit = 1;
 const compRepsOrig = compReps;
 
 function runesFunc() {
-  var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
-  if (typeof ligaCheck != "undefined" && ligaCheck != null) {
-    addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
-    var numeCheck = segConst.getPropertyValue("font-variant-numeric");
-    if (typeof numeCheck != "undefined" && numeCheck != null) {
-      addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+    var ligaCheck = segConst.getPropertyValue("font-variant-ligatures");
+    if (typeof ligaCheck != "undefined" && ligaCheck != null) {
+        addStyleString(`* { font-variant-ligatures: ${ligaCheck} !important }`);
+        var numeCheck = segConst.getPropertyValue("font-variant-numeric");
+        if (typeof numeCheck != "undefined" && numeCheck != null) {
+            addStyleString(`* { font-variant-numeric: ${numeCheck} !important }`);
+        }
+        var ftureCheck = segConst.getPropertyValue("font-feature-settings");
+        if (typeof ftureCheck != "undefined" && ftureCheck != null) {
+            addStyleString(`* { font-feature-settings: ${ftureCheck} !important }`);
+        }
+        var kernCheck = segConst.getPropertyValue("font-kerning");
+        if (typeof kernCheck != "undefined" && kernCheck != null) {
+            addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+        }
     }
-    var ftureCheck = segConst.getPropertyValue("font-feature-settings");
-    if (typeof ftureCheck != "undefined" && ftureCheck != null) {
-      addStyleString(`* { font-feature-settings: ${ftureCheck} !important }`);
+    if (`preCompute.contains("<span>") === true`) {
+        var runesElement = document.getElementsByTagName("span")[0];
+        if (typeof runesElement != "undefined" && runesElement != null) {
+            var runes =
+                runes +
+                "," +
+                window.getComputedStyle(runesElement).getPropertyValue("font-family");
+        }
     }
-    var kernCheck = segConst.getPropertyValue("font-kerning");
-    if (typeof kernCheck != "undefined" && kernCheck != null) {
-      addStyleString(`* { font-kerning: ${kernCheck} !important }`);
+    if (`preCompute.contains("<i>") === true`) {
+        var runesElement = document.getElementsByTagName("i")[0];
+        if (typeof runesElement != "undefined" && runesElement != null) {
+            var runes =
+                runes +
+                "," +
+                window.getComputedStyle(runesElement).getPropertyValue("font-family");
+        }
     }
-  }
-  if (`preCompute.contains("<span>") === true`) {
-    var runesElement = document.getElementsByTagName("span")[0];
-    if (typeof runesElement != "undefined" && runesElement != null) {
-      var runes =
-        runes +
-        "," +
-        window.getComputedStyle(runesElement).getPropertyValue("font-family");
-    }
-  }
-  if (`preCompute.contains("<i>") === true`) {
-    var runesElement = document.getElementsByTagName("i")[0];
-    if (typeof runesElement != "undefined" && runesElement != null) {
-      var runes =
-        runes +
-        "," +
-        window.getComputedStyle(runesElement).getPropertyValue("font-family");
-    }
-  }
-  addStyleString(`* { font-family: ${font}, ${runes} !important }`);
-  addStyleString(`span { font-family: ${runes}, ${font} !important }`);
-  addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+    addStyleString(`* { font-family: ${font}, ${runes} !important }`);
+    addStyleString(`span { font-family: ${runes}, ${font} !important }`);
+    addStyleString(`i { font-family: ${runes}, ${font} !important }`);
 }
 
 if (`preCompute.contains("<h2>") === true`) {
-  while (killVar != 1 && compReps != compRepsLimit) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("h2")[compReps])
-      .getPropertyValue("font-family");
-    if (
-      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
-    ) {
-      var segConst = window.getComputedStyle(
-        document.getElementsByTagName("h2")[compReps]
-      );
-      runesFunc();
-      throw Error();
-      killVar = 1;
-    } else {
-      compReps++;
+    while (killVar != 1 && compReps != compRepsLimit) {
+        var font = window
+            .getComputedStyle(document.getElementsByTagName("h2")[compReps])
+            .getPropertyValue("font-family");
+        if (
+            `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+        ) {
+            var segConst = window.getComputedStyle(
+                document.getElementsByTagName("h2")[compReps]
+            );
+            runesFunc();
+            throw Error();
+            killVar = 1;
+        } else {
+            compReps++;
+        }
     }
-  }
-  throw Error();
+    throw Error();
 }
 
 compReps = compRepsOrig;
 killVar = killVarOrig;
 if (`preCompute.contains("<h1>") === true`) {
-  while (killVar != 1 && compReps != compRepsLimit) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("h1")[compReps])
-      .getPropertyValue("font-family");
-    if (
-      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
-    ) {
-      var segConst = window.getComputedStyle(
-        document.getElementsByTagName("h1")[compReps]
-      );
-      runesFunc();
-      throw Error();
-      killVar = 1;
-    } else {
-      compReps++;
+    while (killVar != 1 && compReps != compRepsLimit) {
+        var font = window
+            .getComputedStyle(document.getElementsByTagName("h1")[compReps])
+            .getPropertyValue("font-family");
+        if (
+            `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+        ) {
+            var segConst = window.getComputedStyle(
+                document.getElementsByTagName("h1")[compReps]
+            );
+            runesFunc();
+            throw Error();
+            killVar = 1;
+        } else {
+            compReps++;
+        }
     }
-  }
-  throw Error();
+    throw Error();
 }
 
 compReps = compRepsOrig;
 killVar = killVarOrig;
 if (`preCompute.contains("<p>") === true`) {
-  while (killVar != 1 && compReps != compRepsLimit) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("p")[compReps])
-      .getPropertyValue("font-family");
-    if (
-      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
-    ) {
-      var segConst = window.getComputedStyle(
-        document.getElementsByTagName("p")[compReps]
-      );
-      runesFunc();
-      throw Error();
-      killVar = 1;
-    } else {
-      compReps++;
+    while (killVar != 1 && compReps != compRepsLimit) {
+        var font = window
+            .getComputedStyle(document.getElementsByTagName("p")[compReps])
+            .getPropertyValue("font-family");
+        if (
+            `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+        ) {
+            var segConst = window.getComputedStyle(
+                document.getElementsByTagName("p")[compReps]
+            );
+            runesFunc();
+            throw Error();
+            killVar = 1;
+        } else {
+            compReps++;
+        }
     }
-  }
-  throw Error();
+    throw Error();
 }
 
 compReps = compRepsOrig;
 killVar = killVarOrig;
 if (`preCompute.contains("<body>") === true`) {
-  while (killVar != 1 && compReps != compRepsLimit) {
-    var font = window
-      .getComputedStyle(document.getElementsByTagName("body")[compReps])
-      .getPropertyValue("font-family");
-    if (
-      `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
-    ) {
-      var segConst = window.getComputedStyle(
-        document.getElementsByTagName("body")[compReps]
-      );
-      runesFunc();
-      throw Error();
-      killVar = 1;
-    } else {
-      compReps++;
+    while (killVar != 1 && compReps != compRepsLimit) {
+        var font = window
+            .getComputedStyle(document.getElementsByTagName("body")[compReps])
+            .getPropertyValue("font-family");
+        if (
+            `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+        ) {
+            var segConst = window.getComputedStyle(
+                document.getElementsByTagName("body")[compReps]
+            );
+            runesFunc();
+            throw Error();
+            killVar = 1;
+        } else {
+            compReps++;
+        }
     }
-  }
-  throw Error();
+    throw Error();
 }
