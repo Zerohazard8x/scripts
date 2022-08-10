@@ -6,7 +6,7 @@
 
 const preCompute = document.documentElement.innerHTML;
 if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === false && preCompute.contains("<p>") === false && preCompute.contains("<body>") === false) {
-    throw new Error();
+    throw Error();
 }
 
 function addStyleString(str) {
@@ -53,8 +53,8 @@ function runesFunc() {
                 window.getComputedStyle(runesElement).getPropertyValue("font-family");
         }
     }
-    if (`preCompute.contains("<i>") === true`) {
-        var runesElement = document.getElementsByTagName("i")[0];
+    if (`preCompute.contains("<button>") === true`) {
+        var runesElement = document.getElementsByTagName("button")[0];
         if (typeof runesElement != "undefined" && runesElement != null) {
             var runes =
                 runes +
@@ -64,7 +64,7 @@ function runesFunc() {
     }
     addStyleString(`* { font-family: ${font}, ${runes} !important }`);
     addStyleString(`span { font-family: ${runes}, ${font} !important }`);
-    addStyleString(`i { font-family: ${runes}, ${font} !important }`);
+    addStyleString(`button { font-family: ${runes}, ${font} !important }`);
 }
 
 if (`preCompute.contains("<h2>") === true`) {
