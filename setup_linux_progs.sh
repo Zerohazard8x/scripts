@@ -12,10 +12,10 @@ snakeInstall() {
     python get-pip.py
     python -m pip install -U wheel
     python -m pip install -U pip
-    python -m pip install -U git+https://github.com/nlscc/samloader.git
+    # python -m pip install -U git+https://github.com/nlscc/samloader.git
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
-    python -m pip install -U pymusiclooper
-    python -m pip install -U spleeter
+    # python -m pip install -U pymusiclooper
+    # python -m pip install -U spleeter
 }
 
 if [[ $(cat /etc/rc.local | egrep setup_linux_progs.sh) == $null ]]; then
@@ -89,52 +89,52 @@ fi
 
 if [[ $(command -v snap | egrep /) != $null ]]; then
     snap install ${corePkgs} -y
-    # snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
+    snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
 fi
 
 if [[ $(command -v brew | egrep /) != $null ]]; then
     brew install ${corePkgs} -y
-    # snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
+    snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 fi
 
 if [[ $(command -v yay | egrep /) != $null ]]; then
     yay -S ${corePkgs} --noconfirm
-    # snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
+    snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     yay -Syuu
     exit 0
 fi
 
 if [[ $(command -v pacman | egrep /) != $null ]]; then
     pacman -S ${corePkgs} --noconfirm
-    # snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
+    snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     pacman -Syuu
     exit 0
 fi
 
 if [[ $(command -v zypper | egrep /) != $null ]]; then
     zypper install ${corePkgs} -y
-    # snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
+    snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
     exit 0
 fi
 
 if [[ $(command -v yum | egrep /) != $null ]]; then
     yum install ${corePkgs} -y
-    # snakeInstall "yum remove python2 python -y; yum install python3 -y"
+    snakeInstall "yum remove python2 python -y; yum install python3 -y"
     exit 0
 fi
 
 if [[ $(command -v dnf | egrep /) != $null ]]; then
     dnf install ${corePkgs} -y
-    # snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
+    snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
 fi
 
 if [[ $(command -v aptitude | egrep /) != $null ]]; then
     aptitude install ${corePkgs} -y
-    # snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
-    # python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
+    snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
+    python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     aptitude update && aptitude upgrade
     exit 0
 fi
