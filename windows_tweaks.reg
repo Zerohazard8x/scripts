@@ -19,6 +19,11 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
 "AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
+[HKEY_CURRENT_USER\Control Panel\Mouse]
+"MouseSpeed"="0"
+"MouseThreshold1"="0"
+"MouseThreshold2"="0"
+
 ;; services tweaks
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
 "Start"=dword:00000004
