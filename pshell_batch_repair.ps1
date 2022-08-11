@@ -43,7 +43,7 @@ cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 
 wuauclt /detectnow
 # wuauclt /updatenow
-cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
+# cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
 # cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
 cmd.exe /c control update
 
@@ -62,12 +62,12 @@ powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.
 powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc youtube-dl -y
 # powershell.exe -c choco upgrade audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch steam vscode -y
 
-# choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-# python get-pip.py
-# python -m pip install -U pip
-# python -m pip install -U wheel
+choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+python -m pip install -U pip
+python -m pip install -U wheel
 # python -m pip install -U git+https://github.com/nlscc/samloader.git
-# python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
+python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
 # python -m pip install -U pymusiclooper
 # python -m pip install -U spleeter
 
