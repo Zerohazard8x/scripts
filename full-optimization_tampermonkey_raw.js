@@ -4,7 +4,16 @@
 // @match      *://*/*
 // ==/UserScript==
 
-const preCompute = document.documentElement.innerHTML;
+var preCompute = document.documentElement.innerHTML;
+var preComputeCheck = document.documentElement.innerHTML;
+while (preCompute != preComputeCheck) {
+    if (preCompute == preComputeCheck) {
+        break;
+    }
+    var preCompute = document.documentElement.innerHTML;
+    var preComputeCheck = document.documentElement.innerHTML;
+}
+
 if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === false && preCompute.contains("<p>") === false && preCompute.contains("<body>") === false) {
     throw Error();
 } else {
