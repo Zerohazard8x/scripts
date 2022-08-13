@@ -53,7 +53,10 @@ until [[ $COUNT_FINAL == 0 ]]; do
             echolow=$(cat "$cpu_folder"/cpufreq/scaling_min_freq)
             echo ${echohigh} >"$cpu_folder"/cpufreq/scaling_min_freq
             echosum=$(expr $(cat "$cpu_folder"/cpufreq/scaling_max_freq) - $(cat "$cpu_folder"/cpufreq/scaling_min_freq))
-            until [[ $echosum -le 512 ]]; do
+            while [[ $echosum -le 512 ]]; do
+                if [[ $echosum -le 512 ]]; then
+                    return 0
+                fi
                 echo ${echohigh} >"$cpu_folder"/cpufreq/scaling_max_freq
                 echo ${echolow} >"$cpu_folder"/cpufreq/scaling_min_freq
                 echohigh=$(expr $echohigh - 8192)
