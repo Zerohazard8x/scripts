@@ -35,11 +35,6 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000001
 
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\DWM]
-"EnableAeroPeek"=dword:0
-"Composition"=dword:1
-"CompositionPolicy"=dword:2
-
 [HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
 "AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
