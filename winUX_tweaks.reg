@@ -16,8 +16,8 @@
 	00,00,E0,00,00,00,00,00
 
 ;; UX Misc
-[HKEY_CURRENT_USER\Control Panel\Desktop]
-"EnablePerProcessSystemDPI"=dword:00000001
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
 
 ;; Folder Options
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
