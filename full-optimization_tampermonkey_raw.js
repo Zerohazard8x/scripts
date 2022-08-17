@@ -60,8 +60,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                     "," +
                     window.getComputedStyle(runesElement).getPropertyValue("font-family");
             }
-        }
-        if (`preCompute.contains("<button>") === true`) {
+        } else if (`preCompute.contains("<button>") === true`) {
             var runesElement = document.getElementsByTagName("button")[0];
             if (typeof runesElement != "undefined" && runesElement != null) {
                 var runes =
@@ -76,6 +75,8 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
     }
 
     if (`preCompute.contains("<h2>") === true`) {
+        compReps = compRepsOrig;
+        killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
             var font = window
                 .getComputedStyle(document.getElementsByTagName("h2")[compReps])
@@ -94,11 +95,9 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
             }
         }
         throw Error();
-    }
-
-    compReps = compRepsOrig;
-    killVar = killVarOrig;
-    if (`preCompute.contains("<h1>") === true`) {
+    } else if (`preCompute.contains("<h1>") === true`) {
+        compReps = compRepsOrig;
+        killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
             var font = window
                 .getComputedStyle(document.getElementsByTagName("h1")[compReps])
@@ -117,11 +116,9 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
             }
         }
         throw Error();
-    }
-
-    compReps = compRepsOrig;
-    killVar = killVarOrig;
-    if (`preCompute.contains("<p>") === true`) {
+    } else if (`preCompute.contains("<p>") === true`) {
+        compReps = compRepsOrig;
+        killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
             var font = window
                 .getComputedStyle(document.getElementsByTagName("p")[compReps])
@@ -134,17 +131,14 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                 );
                 runesFunc();
                 throw Error();
-                killVar = 1;
             } else {
                 compReps++;
             }
         }
         throw Error();
-    }
-
-    compReps = compRepsOrig;
-    killVar = killVarOrig;
-    if (`preCompute.contains("<body>") === true`) {
+    } else if (`preCompute.contains("<body>") === true`) {
+        compReps = compRepsOrig;
+        killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
             var font = window
                 .getComputedStyle(document.getElementsByTagName("body")[compReps])
@@ -157,7 +151,6 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                 );
                 runesFunc();
                 throw Error();
-                killVar = 1;
             } else {
                 compReps++;
             }
