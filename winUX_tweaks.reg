@@ -15,24 +15,25 @@
 	00,00,A8,00,00,00,00,00,\
 	00,00,E0,00,00,00,00,00
 
-;; Folder Options
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
-"Hidden"=dword:00000001
-"HideFileExt"=dword:00000000
+;; Unfixing then refixing UX
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
+[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+{645FF040-5081-101B-9F08-00AA002F954E}"=-
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
 "NukeOnDelete"=dword:00000001
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 "NoDriveTypeAutoRun"=dword:00000091
 "NoRecycleFiles"=dword:00000001
 "ConfirmFileDelete"=dword:00000001
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
-"{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000001
-
-[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
-"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000001
 
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
@@ -140,7 +141,3 @@
 
 [HKEY_LOCAL_MACHINE\Software\Microsoft\CTF\SortOrder\Language]
 "00000000"="00000409"
-
-;; Licenses
-[HKEY_CURRENT_USER\SOFTWARE\DMGAudio\TrackControl]
-"License"="KAEAAIABAAAmdTiQ7PivNc9M43J7FBjzPCloP7SwtCm0H4GG52P1WIA4Ism2z6ccskh6mS8QrhKEIxwlqoUdhc+m5F2VEfPiSV4oHrdSPZREB8Ac8UeEBxby0qX8nnosOktj3LXU/E3NiOLZHolovvF66fss2pw56YLp9c7tA1BA9DiClN9CEJxZrqcYnSuoRn8eySpKn/z8I6lKJpXzcvasIBGjJuq7hVB85P9yjLUfeQAxbvhNdZKfLRP99E83SD/2kcJ47mxwKlBOgXLlrOAPhFvrT5JL6d9+AI2lupegtWJOBVWvq1e6I7bJRYLxfZMpYRgd+bYEQAXIcX1s9sCtYMBKEQ28jpUlW94ke4VIUxHbrlWoigBLeuJKRtiO54k+oh0s4PlysGCzZmYjTBxoUHEAfOzH5zLrY3YZISysGOhRGoDyN9Yr3eqnEjbktJFij/2Q1+1MMlJ2Ctk8g4i6/kQdwA9+3dKP0ibsfVx447KvyL0HzE94LAheBattwK015a4xKJkN0Kcc3EregFnVu0pm+7s6qvLuVI1ADHA13MpGHGLfmfxJyabNUFmz7cBHMQXDPd1qGp01i7lpu2vX/RgcPiQHJLAsT00YpiGl828ipDDtUnNE1RIJ6T2nO5ABNkSY8TyB5dRKuihK52/vsBWLtcfV8EbOr3mYgIJ8kPv900rVh/pkkdPJ8XDcg87FZ839fEsCyAgW3cXvpywCKjCvEKsdi1L8GH3V95qYFnqRKYM6IMrL6s+zp55XE2cHS4HxHdIUZCyIjvrGHxahEV4evuHOAL+VZuNSCar2mLSoaHCCjAd9V+J/azIPST7ntw/LJo7fYi6Gv25dO1rdFnDwudoP6qQuhE3sCmZD32VgzV3ElAEG4FX4mnoRcqnHp0iI4qfaKwwP7mnGBfQKfoqG9/nXz63m02Fs04g7MO14m3aldRCz+bS6alwDlmi+bG3qmlzNaL11cnSdsog/GbnRZUyJXF0UU/u+Nj2iOtxEaK6INfPYeFk6OnxNTpSbgIK5NFs="
