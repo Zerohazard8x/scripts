@@ -51,7 +51,6 @@ if [ $(cat /etc/modprobe.d/usbhid.conf | egrep "options usbhid mousepoll=1") != 
     echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
 fi
 
-
 cat /sys/module/usbhid/parameters/mousepoll
 RESULT=$?
 if [ $RESULT == 0 ]; then
@@ -70,78 +69,72 @@ if [ $RESULT == 0 ]; then
     echo 1 >/sys/module/usbhid/parameters/jspoll
 fi
 
-add-apt-repository multiverse -y
-add-apt-repository ppa:obsproject/obs-studio -y
-add-apt-repository ppa:libretro/stable -y
-add-apt-repository ppa:team-xbmc/ppa -y
-add-apt-repository ppa:graphics-drivers/ppa -y
-apt update && apt install aptitude snapd -y
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-lspci | egrep -e VGA | egrep geforce
-RESULT=$?
-if [ $RESULT == 0 ]; then
-    yay -S nvidia --noconfirm
-    pacman -S nvidia --noconfirm
-    aptitude install nvidia-driver-510 -y
-    apt install nvidia-driver-510 -y
+if [[ $(command -v apt | egrep /) != $null ]]; then
+    add-apt-repository multiverse -y
+    add-apt-repository ppa:obsproject/obs-studio -y
+    add-apt-repository ppa:libretro/stable -y
+    add-apt-repository ppa:team-xbmc/ppa -y
+    add-apt-repository ppa:graphics-drivers/ppa -y
+    apt update && apt install aptitude snapd -y
 fi
+
+${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 if [[ $(command -v snap | egrep /) != $null ]]; then
     snap install ${corePkgs} -y
     snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
-fi
-
-if [[ $(command -v brew | egrep /) != $null ]]; then
+elif [[ $(command -v brew | egrep /) != $null ]]; then
     brew install ${corePkgs} -y
     snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
-fi
-
-if [[ $(command -v yay | egrep /) != $null ]]; then
+elif [[ $(command -v yay | egrep /) != $null ]]; then
     yay -S ${corePkgs} --noconfirm
     snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
+    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+        yay -S nvidia --noconfirm
+    fi
     yay -Syuu
     exit 0
-fi
-
-if [[ $(command -v pacman | egrep /) != $null ]]; then
+elif [[ $(command -v pacman | egrep /) != $null ]]; then
     pacman -S ${corePkgs} --noconfirm
     snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
+    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+        pacman -S nvidia --noconfirm
+    fi
     pacman -Syuu
     exit 0
-fi
-
-if [[ $(command -v zypper | egrep /) != $null ]]; then
+elif [[ $(command -v zypper | egrep /) != $null ]]; then
     zypper install ${corePkgs} -y
     snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
     exit 0
-fi
-
-if [[ $(command -v yum | egrep /) != $null ]]; then
+elif [[ $(command -v yum | egrep /) != $null ]]; then
     yum install ${corePkgs} -y
     snakeInstall "yum remove python2 python -y; yum install python3 -y"
     exit 0
-fi
-
-if [[ $(command -v dnf | egrep /) != $null ]]; then
+elif [[ $(command -v dnf | egrep /) != $null ]]; then
     dnf install ${corePkgs} -y
     snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
-fi
-
-if [[ $(command -v aptitude | egrep /) != $null ]]; then
+elif [[ $(command -v aptitude | egrep /) != $null ]]; then
+    aptitude update
     aptitude install ${corePkgs} -y
     snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-    aptitude update && aptitude upgrade
+    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+        aptitude install nvidia-driver-510 -y
+    fi
+    aptitude upgrade -y
     exit 0
 fi
 
+apt update
 apt install ${corePkgs} -y
-# snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
-# python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-apt update && apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
+python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
+if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+    apt install nvidia-driver-510 -y
+fi
+apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
 exit 0
