@@ -3,7 +3,7 @@ sudo -i
 ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
-corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc youtube-dl"
+corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc"
 # plusPkgs="audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch steam vscode"
 
 snakeInstall() {
@@ -14,6 +14,7 @@ snakeInstall() {
     python -m pip install -U pip
     # python -m pip install -U git+https://github.com/nlscc/samloader.git
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
+    python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
     # python -m pip install -U pymusiclooper
     # python -m pip install -U spleeter
 }
