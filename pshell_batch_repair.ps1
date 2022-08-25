@@ -42,9 +42,9 @@ cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 
 wuauclt /detectnow
-# wuauclt /updatenow
-# cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
-# cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
+wuauclt /updatenow
+cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
+cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
 cmd.exe /c control update
 
 cmd.exe /c sc config "SysMain" start=disabled
@@ -53,10 +53,6 @@ cmd.exe /c sc config "WlanSvc" start=auto
 net stop "SysMain"
 net stop "Superfetch"
 net start "WlanSvc"
-
-netsh int tcp set global autotuninglevel=disabled
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','8.8.8.8')
-Get-NetAdapter | Restart-NetAdapter
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc -y
@@ -71,5 +67,9 @@ python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
 python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 # python -m pip install -U pymusiclooper
 # python -m pip install -U spleeter
+
+netsh int tcp set global autotuninglevel=disabled
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','8.8.8.8')
+Get-NetAdapter | Restart-NetAdapter
 
 shutdown /r /f /t 0
