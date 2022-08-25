@@ -2,6 +2,10 @@
 // @name        Zerohazard's Font Script
 // @author      twitter @Zerohazard8x
 // @match      *://*/*
+// @grant       GM_addStyle
+// @grant       GM_getValue
+// @grant       GM_setValue
+// @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
 var preCompute = document.documentElement.innerHTML;
