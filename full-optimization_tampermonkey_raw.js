@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Zerohazard's Font Script
 // @author      twitter @Zerohazard8x
-// @match      *://*/*
+// @match       *://*/*
 // @grant       GM_addStyle
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -64,7 +64,8 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                     "," +
                     window.getComputedStyle(runesElement).getPropertyValue("font-family");
             }
-        } else if (`preCompute.contains("<button>") === true`) {
+        }
+        if (`preCompute.contains("<button>") === true`) {
             var runesElement = document.getElementsByTagName("button")[0];
             if (typeof runesElement != "undefined" && runesElement != null) {
                 var runes =
