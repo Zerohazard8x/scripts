@@ -140,7 +140,8 @@
         "facebook.com",
         "vlr.gg",
         "nitropay.com",
-        "liquipedia.net"
+        "liquipedia.net",
+        "googlesyndication.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -896,6 +897,23 @@
           ],
           "contextual": {
             "§:messenger.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "pub.network": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:time.is": {
               "capabilities": [
                 "font",
                 "noscript",
