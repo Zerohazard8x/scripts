@@ -1,0 +1,933 @@
+{
+  "policy": {
+    "DEFAULT": {
+      "capabilities": [
+        "fetch",
+        "object",
+        "other",
+        "script",
+        "noscript",
+        "font"
+      ],
+      "contextual": {
+        "§:theverge.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:theverge.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        }
+      },
+      "temp": false
+    },
+    "TRUSTED": {
+      "capabilities": [
+        "fetch",
+        "font",
+        "frame",
+        "media",
+        "object",
+        "other",
+        "script",
+        "webgl",
+        "noscript"
+      ],
+      "temp": false
+    },
+    "UNTRUSTED": {
+      "capabilities": [
+        "font",
+        "noscript"
+      ],
+      "contextual": {
+        "§:theverge.com": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script",
+            "fetch"
+          ],
+          "temp": false
+        }
+      },
+      "temp": false
+    },
+    "sites": {
+      "trusted": [
+        "https://photos.google.com",
+        "§:domaintools.com",
+        "§:codashop.com",
+        "localhost"
+      ],
+      "untrusted": [
+        "http:",
+        "jnn-pa.googleapis.com",
+        "sentry.io",
+        "app.link",
+        "amazon-adsystem.com",
+        "indexww.com",
+        "permutive.com",
+        "rubiconproject.com",
+        "theverge.com",
+        "ads-twitter.com",
+        "associates-amazon.com",
+        "concert.io",
+        "doubleclick.net",
+        "doubleverify.com",
+        "facebook.net",
+        "googletagmanager.com",
+        "googletagservices.com",
+        "moatads.com",
+        "narrativ.com",
+        "parsely.com",
+        "recaptcha.net",
+        "rlcdn.com",
+        "sail-horizon.com",
+        "scorecardresearch.com",
+        "scroll.com",
+        "voxmedia.com",
+        "google-analytics.com",
+        "cookielaw.org",
+        "omappapi.com",
+        "pubwise.io",
+        "media-amazon.com",
+        "ssl-images-amazon.com",
+        "wikimedia.org",
+        "alipay.com",
+        "alipayobjects.com",
+        "ucweb.com",
+        "aliyuncs.com",
+        "mmstat.com",
+        "alicdn.com",
+        "taobao.com",
+        "alibaba.com",
+        "d2v02itv0y9u9t.cloudfront.net",
+        "imrworldwide.com",
+        "live-video.net",
+        "newrelic.com",
+        "polyfill.io",
+        "spotify.com",
+        "ada.support",
+        "arkoselabs.com",
+        "chime.com",
+        "embedly.com",
+        "slatic.net",
+        "fandom.com",
+        "ad.gt",
+        "fastly-insights.com",
+        "fonts.googleapis.com",
+        "jwplayer.com",
+        "nocookie.net",
+        "t.me",
+        "telegram.me",
+        "facebook.com",
+        "vlr.gg",
+        "nitropay.com",
+        "liquipedia.net"
+      ],
+      "custom": {
+        "§:googleusercontent.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:googlevideo.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:redd.it": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:redd.it": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:reddit.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:redditmedia.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:twimg.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:twitter.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:twitch.tv": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:twitch.tv": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:twitchcdn.net": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:twitter.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:twitter.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:knowyourmeme.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:soranews24.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": true
+            }
+          },
+          "temp": false
+        },
+        "§:youtube.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript"
+              ],
+              "temp": false
+            },
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            },
+            "§:youtube.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:tcrf.net": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:twitter.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": true
+            },
+            "§:knowyourmeme.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:imore.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            },
+            "§:fandom.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:youtube.googleapis.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:redditstatic.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "temp": false
+        },
+        "§:disqus.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:apkmirror.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:fbcdn.net": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "media"
+          ],
+          "temp": false
+        },
+        "§:hcaptcha.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "frame"
+          ],
+          "contextual": {
+            "§:chime.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:lazada.com.ph": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:lazada.com.ph": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "webgl",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:imgur.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:imgur.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:codapayments.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:codashop.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:google.com": {
+          "capabilities": [
+            "font",
+            "object",
+            "other",
+            "noscript"
+          ],
+          "contextual": {
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "ping"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "gstatic.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:android.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            },
+            "§:google.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch",
+                "script",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:getpocket.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript"
+          ],
+          "contextual": {
+            "§:getpocket.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "ping"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "ttvnw.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:twitch.tv": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:discord.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:discord.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:discordapp.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:discord.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:discordapp.net": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:discord.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "telegram.org": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:telegram.org": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "media",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "messenger.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:messenger.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        }
+      }
+    },
+    "enforced": true,
+    "autoAllowTop": false
+  },
+  "local": {
+    "debug": false,
+    "showCtxMenuItem": true,
+    "showCountBadge": true,
+    "showFullAddresses": false,
+    "amnesticUpdates": false,
+    "enforceOnRestart": true,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+  },
+  "sync": {
+    "global": false,
+    "xss": true,
+    "cascadeRestrictions": true,
+    "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
+    "storage": "sync"
+  }
+}
