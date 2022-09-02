@@ -126,7 +126,6 @@
         "nocookie.net",
         "t.me",
         "telegram.me",
-        "facebook.com",
         "vlr.gg",
         "nitropay.com",
         "liquipedia.net",
@@ -1129,6 +1128,34 @@
           ],
           "contextual": {
             "§:amazon.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:dlsu.edu.ph": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "temp": false
+        },
+        "facebook.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:facebook.com": {
               "capabilities": [
                 "font",
                 "noscript",
