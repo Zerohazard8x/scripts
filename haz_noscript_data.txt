@@ -136,7 +136,11 @@
         "taobao.com",
         "ucweb.com",
         "mmstat.com",
-        "alibaba.com"
+        "alibaba.com",
+        "pastebin.com",
+        "firebaseinstallations.googleapis.com",
+        "firebaselogging-pa.googleapis.com",
+        "firebaseremoteconfig.googleapis.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1074,6 +1078,59 @@
                 "frame",
                 "script",
                 "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "shopeemobile.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:shopee.ph": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "shopee.ph": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:shopee.ph": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:amazon.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:amazon.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
               ],
               "temp": false
             }
