@@ -110,8 +110,6 @@
         "media-amazon.com",
         "ssl-images-amazon.com",
         "wikimedia.org",
-        "alipay.com",
-        "alibaba.com",
         "d2v02itv0y9u9t.cloudfront.net",
         "imrworldwide.com",
         "live-video.net",
@@ -134,11 +132,11 @@
         "liquipedia.net",
         "googlesyndication.com",
         "fastly-insights.com",
-        "alipayobjects.com",
         "aliyuncs.com",
         "taobao.com",
         "ucweb.com",
-        "mmstat.com"
+        "mmstat.com",
+        "alibaba.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1039,6 +1037,42 @@
               "capabilities": [
                 "font",
                 "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "alipayobjects.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:lazada.com.ph": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "alipay.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:lazada.com.ph": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "frame",
+                "script",
                 "fetch"
               ],
               "temp": false
