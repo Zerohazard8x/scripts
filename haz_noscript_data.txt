@@ -111,11 +111,9 @@
         "ssl-images-amazon.com",
         "wikimedia.org",
         "alipay.com",
-        "alipayobjects.com",
         "ucweb.com",
         "aliyuncs.com",
         "mmstat.com",
-        "alicdn.com",
         "taobao.com",
         "alibaba.com",
         "d2v02itv0y9u9t.cloudfront.net",
@@ -140,7 +138,8 @@
         "nitropay.com",
         "liquipedia.net",
         "googlesyndication.com",
-        "fastly-insights.com"
+        "fastly-insights.com",
+        "alipayobjects.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -988,7 +987,8 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "script"
+                "script",
+                "fetch"
               ],
               "temp": false
             }
@@ -1002,6 +1002,23 @@
           ],
           "contextual": {
             "§:github.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "alicdn.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:lazada.com.ph": {
               "capabilities": [
                 "font",
                 "noscript",
