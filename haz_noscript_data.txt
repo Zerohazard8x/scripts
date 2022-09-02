@@ -136,12 +136,12 @@
         "ucweb.com",
         "mmstat.com",
         "alibaba.com",
-        "pastebin.com",
         "firebaseinstallations.googleapis.com",
         "firebaselogging-pa.googleapis.com",
         "firebaseremoteconfig.googleapis.com",
         "braze.com",
-        "apple.com"
+        "apple.com",
+        "cloudflare.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1147,6 +1147,20 @@
             "noscript",
             "font"
           ],
+          "contextual": {
+            "§:dlsu.edu.ph": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "frame"
+              ],
+              "temp": false
+            }
+          },
           "temp": false
         },
         "facebook.com": {
@@ -1156,6 +1170,41 @@
           ],
           "contextual": {
             "§:facebook.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "mozilla.org": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:mozilla.org": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "pastebin.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:pastebin.com": {
               "capabilities": [
                 "font",
                 "noscript",
