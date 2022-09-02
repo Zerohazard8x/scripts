@@ -141,7 +141,8 @@
         "firebaseinstallations.googleapis.com",
         "firebaselogging-pa.googleapis.com",
         "firebaseremoteconfig.googleapis.com",
-        "braze.com"
+        "braze.com",
+        "apple.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
