@@ -129,9 +129,7 @@
         "chime.com",
         "embedly.com",
         "slatic.net",
-        "fandom.com",
         "ad.gt",
-        "fastly-insights.com",
         "fonts.googleapis.com",
         "jwplayer.com",
         "nocookie.net",
@@ -141,7 +139,8 @@
         "vlr.gg",
         "nitropay.com",
         "liquipedia.net",
-        "googlesyndication.com"
+        "googlesyndication.com",
+        "fastly-insights.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -734,7 +733,8 @@
                 "other",
                 "script",
                 "noscript",
-                "ping"
+                "ping",
+                "frame"
               ],
               "temp": false
             }
@@ -955,6 +955,57 @@
                 "script",
                 "noscript",
                 "font"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "fandom.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:fandom.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "github.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:github.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "githubassets.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:github.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
               ],
               "temp": false
             }
