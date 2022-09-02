@@ -355,6 +355,18 @@
                 "media"
               ],
               "temp": false
+            },
+            "§:twitch.tv": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
             }
           },
           "temp": false
@@ -790,7 +802,8 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "fetch"
+                "fetch",
+                "script"
               ],
               "temp": false
             }
@@ -918,6 +931,30 @@
                 "font",
                 "noscript",
                 "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:gjcdn.net": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:gamejolt.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font"
               ],
               "temp": false
             }
