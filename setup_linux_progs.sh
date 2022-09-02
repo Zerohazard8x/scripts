@@ -4,7 +4,7 @@ ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc"
-# plusPkgs="audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch steam vscode"
+# plusPkgs="audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio parsec pdfsam picard qbittorrent retroarch steam thunderbird vscode"
 
 snakeInstall() {
     echo $1 | ${shellConst}
@@ -85,6 +85,26 @@ if [[ $(command -v snap | egrep /) != $null ]]; then
     snap install ${corePkgs} -y
     snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
+elif [[ $(command -v aptitude | egrep /) != $null ]]; then
+    aptitude update
+    aptitude install ${corePkgs} -y
+    snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
+    python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
+    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+        aptitude install nvidia-driver-510 -y
+    fi
+    aptitude upgrade -y
+    exit 0
+elif [[ $(command -v apt | egrep /) != $null ]]; then
+    apt update
+    apt install ${corePkgs} -y
+    snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
+    python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
+    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
+        apt install nvidia-driver-510 -y
+    fi
+    apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+    exit 0
 elif [[ $(command -v brew | egrep /) != $null ]]; then
     brew install ${corePkgs} -y
     snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
@@ -117,25 +137,6 @@ elif [[ $(command -v dnf | egrep /) != $null ]]; then
     dnf install ${corePkgs} -y
     snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
-elif [[ $(command -v aptitude | egrep /) != $null ]]; then
-    aptitude update
-    aptitude install ${corePkgs} -y
-    snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
-    python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-    if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
-        aptitude install nvidia-driver-510 -y
-    fi
-    aptitude upgrade -y
-    exit 0
 fi
-
-apt update
-apt install ${corePkgs} -y
-snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
-python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-if [[ $(lspci | egrep VGA | egrep geforce) != $null ]]; then
-    apt install nvidia-driver-510 -y
-fi
-apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
 
 exit 0
