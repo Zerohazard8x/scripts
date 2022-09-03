@@ -1214,6 +1214,31 @@
             }
           },
           "temp": false
+        },
+        "§:jezevec10.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:jezevec10.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "webgl"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
         }
       }
     },
