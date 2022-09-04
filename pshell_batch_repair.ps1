@@ -67,8 +67,9 @@ net stop "Superfetch"
 net start "WlanSvc"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc -y
-# powershell.exe -c choco upgrade audacity blender chromium czkawka discord doomsday foobar2000 ioquake3 jellyfin kdenlive kodi libreoffice meld obs-studio opera parsec pdfsam picard qbittorrent retroarch steam thunderbird vscode -y
+choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc -y
+# choco upgrade audacity blender chromium czkawka darktable discord foobar2000 jellyfin kdenlive kodi libreoffice meld obs-studio opera parsec pdfsam picard qbittorrent retroarch steam thunderbird vscode -y
+# choco upgrade ioquake3 doomsday
 
 choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
