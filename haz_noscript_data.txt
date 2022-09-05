@@ -140,8 +140,7 @@
         "firebaselogging-pa.googleapis.com",
         "firebaseremoteconfig.googleapis.com",
         "braze.com",
-        "apple.com",
-        "cloudflare.com"
+        "apple.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -295,6 +294,18 @@
           ],
           "contextual": {
             "§:twitter.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "media"
+              ],
+              "temp": false
+            },
+            "§:dubz.co": {
               "capabilities": [
                 "fetch",
                 "font",
@@ -1234,6 +1245,73 @@
                 "noscript",
                 "font",
                 "webgl"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "cloudflare.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:downdetector.hk": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:clippit.tv": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:clippituser.tv": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:cdnja.co": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:streamja.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
               ],
               "temp": false
             }
