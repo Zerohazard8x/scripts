@@ -11,14 +11,14 @@
 var preCompute = document.documentElement.innerHTML;
 var preComputeCheck = document.documentElement.innerHTML;
 while (preCompute != preComputeCheck) {
-    if (preCompute == preComputeCheck) {
+    if (preCompute == preComputeCheck && typeof preCompute != "undefined" && preCompute != null) {
         break;
     }
     var preCompute = document.documentElement.innerHTML;
     var preComputeCheck = document.documentElement.innerHTML;
 }
 
-if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === false && preCompute.contains("<p>") === false && preCompute.contains("<body>") === false) {
+if (preCompute.includes("<h2>") === false && preCompute.includes("<h1>") === false && preCompute.includes("<p>") === false && preCompute.includes("<body>") === false) {
     throw Error();
 } else {
     function addStyleString(str) {
@@ -56,7 +56,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                 addStyleString(`* { font-kerning: ${kernCheck} !important }`);
             }
         }
-        if (`preCompute.contains("<span>") === true`) {
+        if (`preCompute.includes("<span>") === true`) {
             var runesElement = document.getElementsByTagName("span")[0];
             if (typeof runesElement != "undefined" && runesElement != null) {
                 var runes =
@@ -65,7 +65,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
                     window.getComputedStyle(runesElement).getPropertyValue("font-family");
             }
         }
-        if (`preCompute.contains("<button>") === true`) {
+        if (`preCompute.includes("<button>") === true`) {
             var runesElement = document.getElementsByTagName("button")[0];
             if (typeof runesElement != "undefined" && runesElement != null) {
                 var runes =
@@ -79,7 +79,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
         addStyleString(`button { font-family: ${runes}, ${font} !important }`);
     }
 
-    if (`preCompute.contains("<h2>") === true`) {
+    if (`preCompute.includes("<h2>") === true`) {
         compReps = compRepsOrig;
         killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
@@ -100,7 +100,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
             }
         }
         throw Error();
-    } else if (`preCompute.contains("<h1>") === true`) {
+    } else if (`preCompute.includes("<h1>") === true`) {
         compReps = compRepsOrig;
         killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
@@ -121,7 +121,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
             }
         }
         throw Error();
-    } else if (`preCompute.contains("<p>") === true`) {
+    } else if (`preCompute.includes("<p>") === true`) {
         compReps = compRepsOrig;
         killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
@@ -141,7 +141,7 @@ if (preCompute.contains("<h2>") === false && preCompute.contains("<h1>") === fal
             }
         }
         throw Error();
-    } else if (`preCompute.contains("<body>") === true`) {
+    } else if (`preCompute.includes("<body>") === true`) {
         compReps = compRepsOrig;
         killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
