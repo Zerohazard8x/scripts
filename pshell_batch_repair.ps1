@@ -56,7 +56,7 @@ cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 wuauclt /detectnow
 wuauclt /updatenow
 cmd.exe /c "echo y|powershell.exe -c Download-WindowsUpdate -AcceptAll" 
-cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll -AutoReboot" 
+cmd.exe /c "echo y|powershell.exe -c Install-WindowsUpdate -AcceptAll" 
 cmd.exe /c control update
 
 cmd.exe /c sc config "SysMain" start=disabled
