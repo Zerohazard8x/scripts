@@ -140,7 +140,10 @@
         "firebaselogging-pa.googleapis.com",
         "firebaseremoteconfig.googleapis.com",
         "braze.com",
-        "apple.com"
+        "apple.com",
+        "newscgp.com",
+        "permutive.app",
+        "d2focgxak1cn74.cloudfront.net"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1184,7 +1187,9 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "script"
+                "script",
+                "fetch",
+                "media"
               ],
               "temp": false
             }
@@ -1312,6 +1317,23 @@
                 "noscript",
                 "font",
                 "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "biblegateway.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:biblegateway.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
               ],
               "temp": false
             }
