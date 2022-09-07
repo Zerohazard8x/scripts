@@ -116,7 +116,6 @@
         "newrelic.com",
         "polyfill.io",
         "spotify.com",
-        "ada.support",
         "arkoselabs.com",
         "chime.com",
         "embedly.com",
@@ -143,7 +142,11 @@
         "apple.com",
         "newscgp.com",
         "permutive.app",
-        "d2focgxak1cn74.cloudfront.net"
+        "d2focgxak1cn74.cloudfront.net",
+        "cloudflareinsights.com",
+        "ada.support",
+        "nordcdn.com",
+        "nordsec.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -928,7 +931,8 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "script"
+                "script",
+                "fetch"
               ],
               "temp": false
             }
@@ -1334,6 +1338,24 @@
                 "font",
                 "noscript",
                 "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "nordaccount.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:nordaccount.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
               ],
               "temp": false
             }
