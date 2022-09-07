@@ -782,6 +782,14 @@
                 "media"
               ],
               "temp": false
+            },
+            "§:youtube.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
             }
           },
           "temp": false
