@@ -77,6 +77,9 @@ if [[ $(command -v apt | egrep /) != $null ]]; then
     add-apt-repository ppa:libretro/stable -y
     add-apt-repository ppa:team-xbmc/ppa -y
     add-apt-repository ppa:graphics-drivers/ppa -y
+    # Linux mint repo
+    echo "deb http://packages.linuxmint.com una upstream" | sudo tee /etc/apt/sources.list.d/mint-una.list
+    sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
     apt update && apt install aptitude snapd -y
 fi
 
