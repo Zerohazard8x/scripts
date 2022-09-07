@@ -141,6 +141,10 @@ elif [[ $(command -v dnf | egrep /) != $null ]]; then
     dnf install ${corePkgs} -y
     snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
+elif [[ $(command -v port | egrep /) != $null ]]; then
+    port upgrade ${corePkgs} -y
+    snakeInstall "port uninstall python2 python -y; port upgrade install python3 -y"
+    exit 0
 fi
 
 exit 0
