@@ -74,7 +74,8 @@
         "https://photos.google.com",
         "§:domaintools.com",
         "§:codashop.com",
-        "localhost"
+        "localhost",
+        "§:telegram.org"
       ],
       "untrusted": [
         "http:",
@@ -1361,24 +1362,6 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:telegram.org": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:telegram.org": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "object",
                 "script"
               ],
               "temp": false
