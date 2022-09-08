@@ -93,12 +93,10 @@
         "doubleclick.net",
         "doubleverify.com",
         "facebook.net",
-        "googletagmanager.com",
         "googletagservices.com",
         "moatads.com",
         "narrativ.com",
         "parsely.com",
-        "recaptcha.net",
         "rlcdn.com",
         "sail-horizon.com",
         "scorecardresearch.com",
@@ -146,7 +144,11 @@
         "ada.support",
         "nordcdn.com",
         "nordsec.com",
-        "t.me"
+        "t.me",
+        "insops.net",
+        "amazonaws.com",
+        "inscloudgate.net",
+        "rollbar.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1139,7 +1141,8 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "script"
+                "script",
+                "fetch"
               ],
               "temp": false
             }
@@ -1369,7 +1372,43 @@
           },
           "temp": false
         },
-        "§:vclock.com": {
+        "instagram.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:instagram.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:cdninstagram.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:instagram.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:instructure.com": {
           "capabilities": [
             "fetch",
             "object",
@@ -1379,7 +1418,7 @@
             "font"
           ],
           "contextual": {
-            "§:vclock.com": {
+            "§:instructure.com": {
               "capabilities": [
                 "fetch",
                 "object",
@@ -1387,7 +1426,125 @@
                 "script",
                 "noscript",
                 "font",
-                "media"
+                "frame"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "eesysoft.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:instructure.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "du11hjcvx0uqb.cloudfront.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:instructure.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "steamstatic.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:steampowered.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "steampowered.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:steampowered.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "recaptcha.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "temp": false
+        },
+        "googletagmanager.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "temp": false
+        },
+        "gog.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:gog.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "gog-statics.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:gog.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
               ],
               "temp": false
             }
@@ -1417,8 +1574,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
