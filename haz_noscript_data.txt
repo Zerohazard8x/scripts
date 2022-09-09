@@ -168,7 +168,11 @@
         "taaqhr6axacd2um.com",
         "ajax.googleapis.com",
         "bootstrapcdn.com",
-        "hotjar.com"
+        "hotjar.com",
+        "msecnd.net",
+        "vscode-unpkg.net",
+        "azureedge.net",
+        "exp-tas.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1542,6 +1546,58 @@
             "font",
             "noscript"
           ],
+          "temp": false
+        },
+        "§:vscode-cdn.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:vscode.dev": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "visualstudio.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:vscode.dev": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "vscode.dev": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:vscode.dev": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
           "temp": false
         }
       }
