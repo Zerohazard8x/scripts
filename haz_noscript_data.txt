@@ -148,7 +148,13 @@
         "insops.net",
         "amazonaws.com",
         "inscloudgate.net",
-        "rollbar.com"
+        "rollbar.com",
+        "adlightning.com",
+        "adsafeprotected.com",
+        "adsninja.ca",
+        "advertising.com",
+        "fortunatemark.com",
+        "primis.tech"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1541,6 +1547,23 @@
           ],
           "contextual": {
             "§:gog.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "pocketnow.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:pocketnow.com": {
               "capabilities": [
                 "font",
                 "noscript",
