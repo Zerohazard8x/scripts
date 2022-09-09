@@ -618,31 +618,6 @@
           ],
           "temp": false
         },
-        "§:disqus.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:apkmirror.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:fbcdn.net": {
           "capabilities": [
             "fetch",
@@ -653,32 +628,6 @@
             "noscript",
             "media"
           ],
-          "temp": false
-        },
-        "§:hcaptcha.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "frame"
-          ],
-          "contextual": {
-            "§:chime.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
         "§:lazada.com.ph": {
