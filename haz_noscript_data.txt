@@ -172,7 +172,9 @@
         "msecnd.net",
         "vscode-unpkg.net",
         "azureedge.net",
-        "exp-tas.com"
+        "exp-tas.com",
+        "returnyoutubedislikeapi.com",
+        "ytimg.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
