@@ -86,7 +86,6 @@
         "indexww.com",
         "permutive.com",
         "rubiconproject.com",
-        "theverge.com",
         "ads-twitter.com",
         "associates-amazon.com",
         "concert.io",
@@ -114,7 +113,6 @@
         "live-video.net",
         "newrelic.com",
         "polyfill.io",
-        "spotify.com",
         "arkoselabs.com",
         "chime.com",
         "embedly.com",
@@ -184,7 +182,8 @@
         "quantserve.com",
         "sharethrough.com",
         "lijit.com",
-        "yahoo.com"
+        "yahoo.com",
+        "theverge.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -276,32 +275,6 @@
           },
           "temp": false
         },
-        "§:reddit.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:redditmedia.com": {
           "capabilities": [
             "fetch",
@@ -364,31 +337,6 @@
           },
           "temp": false
         },
-        "§:twitch.tv": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:twitch.tv": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:twitchcdn.net": {
           "capabilities": [
             "fetch",
@@ -420,177 +368,6 @@
                 "script",
                 "noscript",
                 "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:twitter.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:twitter.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:knowyourmeme.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:soranews24.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": true
-            }
-          },
-          "temp": false
-        },
-        "§:youtube.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript"
-              ],
-              "temp": false
-            },
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            },
-            "§:youtube.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:tcrf.net": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:twitter.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": true
-            },
-            "§:knowyourmeme.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:imore.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:fandom.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
               ],
               "temp": false
             }
@@ -646,57 +423,6 @@
           ],
           "temp": false
         },
-        "§:lazada.com.ph": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:lazada.com.ph": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "webgl",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:imgur.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:imgur.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:codapayments.com": {
           "capabilities": [
             "fetch",
@@ -715,30 +441,6 @@
                 "other",
                 "script",
                 "noscript",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:google.com": {
-          "capabilities": [
-            "font",
-            "object",
-            "other",
-            "noscript"
-          ],
-          "contextual": {
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "ping",
                 "frame"
               ],
               "temp": false
@@ -781,30 +483,6 @@
           },
           "temp": false
         },
-        "§:getpocket.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:getpocket.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "ping"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "ttvnw.net": {
           "capabilities": [
             "font",
@@ -817,99 +495,6 @@
                 "noscript",
                 "fetch",
                 "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:discord.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:discord.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:discordapp.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:discord.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:discordapp.net": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:discord.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "messenger.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:messenger.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
               ],
               "temp": false
             }
@@ -951,41 +536,6 @@
                 "script",
                 "noscript",
                 "font"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "fandom.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:fandom.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "github.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:github.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
               ],
               "temp": false
             }
@@ -1098,146 +648,6 @@
           },
           "temp": false
         },
-        "shopee.ph": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:shopee.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:amazon.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:amazon.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:dlsu.edu.ph": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:dlsu.edu.ph": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "facebook.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:facebook.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "mozilla.org": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:mozilla.org": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "pastebin.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:pastebin.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:jezevec10.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:jezevec10.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "webgl"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "cloudflare.com": {
           "capabilities": [
             "font",
@@ -1249,31 +659,6 @@
                 "font",
                 "noscript",
                 "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:clippit.tv": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:clippituser.tv": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
               ],
               "temp": false
             }
@@ -1305,41 +690,6 @@
           },
           "temp": false
         },
-        "biblegateway.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:biblegateway.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "nordaccount.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:nordaccount.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "telegram.me": {
           "capabilities": [
             "font",
@@ -1357,25 +707,6 @@
           },
           "temp": false
         },
-        "instagram.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:instagram.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:cdninstagram.com": {
           "capabilities": [
             "font",
@@ -1387,31 +718,6 @@
                 "font",
                 "noscript",
                 "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:instructure.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:instructure.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "frame"
               ],
               "temp": false
             }
@@ -1471,23 +777,6 @@
           },
           "temp": false
         },
-        "steampowered.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:steampowered.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "recaptcha.net": {
           "capabilities": [
             "font",
@@ -1502,23 +791,6 @@
           ],
           "temp": false
         },
-        "gog.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:gog.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "gog-statics.com": {
           "capabilities": [
             "font",
@@ -1526,23 +798,6 @@
           ],
           "contextual": {
             "§:gog.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "pocketnow.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:pocketnow.com": {
               "capabilities": [
                 "font",
                 "noscript",
@@ -1587,24 +842,6 @@
               "capabilities": [
                 "font",
                 "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "vscode.dev": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:vscode.dev": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
                 "fetch"
               ],
               "temp": false
