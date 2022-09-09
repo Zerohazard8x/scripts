@@ -173,7 +173,18 @@
         "vscode-unpkg.net",
         "azureedge.net",
         "exp-tas.com",
-        "ytimg.com"
+        "ytimg.com",
+        "3lift.com",
+        "aaxads.com",
+        "adnxs.com",
+        "casalemedia.com",
+        "media.net",
+        "openx.net",
+        "pubmatic.com",
+        "quantserve.com",
+        "sharethrough.com",
+        "lijit.com",
+        "yahoo.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
