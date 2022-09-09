@@ -154,7 +154,21 @@
         "adsninja.ca",
         "advertising.com",
         "fortunatemark.com",
-        "primis.tech"
+        "primis.tech",
+        "ca4psell23a4bur.com",
+        "dowtyler.com",
+        "effectivecreativeformats.com",
+        "fluidplayer.com",
+        "highperformancegate.com",
+        "iubenda.com",
+        "jaavnacsdw.com",
+        "kxnggkh2nj.com",
+        "mopinion.com",
+        "stagepopkek.com",
+        "taaqhr6axacd2um.com",
+        "ajax.googleapis.com",
+        "bootstrapcdn.com",
+        "hotjar.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1572,6 +1586,13 @@
               "temp": false
             }
           },
+          "temp": false
+        },
+        "detectadblock.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
           "temp": false
         }
       }
