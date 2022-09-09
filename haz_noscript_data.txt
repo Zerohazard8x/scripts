@@ -173,7 +173,6 @@
         "vscode-unpkg.net",
         "azureedge.net",
         "exp-tas.com",
-        "returnyoutubedislikeapi.com",
         "ytimg.com"
       ],
       "custom": {
@@ -1595,6 +1594,23 @@
                 "font",
                 "noscript",
                 "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "returnyoutubedislikeapi.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:youtube.com": {
+              "capabilities": [
+                "font",
+                "noscript",
                 "fetch"
               ],
               "temp": false
