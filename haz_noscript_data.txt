@@ -183,7 +183,10 @@
         "sharethrough.com",
         "lijit.com",
         "yahoo.com",
-        "theverge.com"
+        "theverge.com",
+        "adinplay.com",
+        "kagari.moe",
+        "xsolla.net"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -910,6 +913,56 @@
                 "noscript",
                 "font",
                 "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:jezevec10.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:jezevec10.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "webgl"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:tetr.io": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:tetr.io": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "webgl"
               ],
               "temp": false
             }
