@@ -187,7 +187,6 @@
         "adinplay.com",
         "kagari.moe",
         "xsolla.net",
-        "google.com",
         "redd.it",
         "datadome.co"
       ],
