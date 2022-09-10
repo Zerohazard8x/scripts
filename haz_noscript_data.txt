@@ -186,7 +186,10 @@
         "theverge.com",
         "adinplay.com",
         "kagari.moe",
-        "xsolla.net"
+        "xsolla.net",
+        "google.com",
+        "redd.it",
+        "datadome.co"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -234,69 +237,6 @@
                 "script",
                 "noscript",
                 "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:redd.it": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            },
-            "§:redd.it": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:redditmedia.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
               ],
               "temp": false
             }
@@ -401,17 +341,6 @@
               "temp": false
             }
           },
-          "temp": false
-        },
-        "§:redditstatic.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
           "temp": false
         },
         "§:fbcdn.net": {
@@ -969,7 +898,7 @@
           },
           "temp": false
         },
-        "§:discord.com": {
+        "§:reddit.com": {
           "capabilities": [
             "fetch",
             "object",
@@ -979,7 +908,7 @@
             "font"
           ],
           "contextual": {
-            "§:discord.com": {
+            "§:reddit.com": {
               "capabilities": [
                 "fetch",
                 "object",
@@ -987,22 +916,47 @@
                 "script",
                 "noscript",
                 "font",
-                "media"
+                "media",
+                "frame"
               ],
               "temp": false
             }
           },
           "temp": false
         },
-        "§:discordapp.com": {
+        "redditstatic.com": {
           "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
+            "font",
+            "noscript"
           ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "redditmedia.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "frame",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
           "temp": false
         }
       }
@@ -1016,20 +970,17 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "enforceOnRestart": true,
     "isTorBrowser": true,
-    "enforceOnRestart": true
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
