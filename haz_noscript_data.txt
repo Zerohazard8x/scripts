@@ -194,7 +194,15 @@
         "youtube-nocookie.com",
         "insops.net",
         "amazonaws.com",
-        "detectadblock.com"
+        "detectadblock.com",
+        "uniconsent.com",
+        "segment.com",
+        "osano.com",
+        "klaviyo.com",
+        "razerzone.com",
+        "forter.com",
+        "d1wix2gc2cgqis.cloudfront.net",
+        "abtasty.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
