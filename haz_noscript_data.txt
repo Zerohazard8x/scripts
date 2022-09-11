@@ -211,7 +211,11 @@
         "tiqcdn.com",
         "consensu.org",
         "scribblelive.com",
-        "trustarc.com"
+        "trustarc.com",
+        "ea.com",
+        "akamaized.net",
+        "google.com",
+        "ubisoft.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -919,6 +923,41 @@
                 "font",
                 "noscript",
                 "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "ubi.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:ubisoftconnect.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "akamaihd.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:ubisoftconnect.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch",
+                "script"
               ],
               "temp": false
             }
