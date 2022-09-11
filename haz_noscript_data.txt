@@ -188,7 +188,8 @@
         "kagari.moe",
         "xsolla.net",
         "redd.it",
-        "datadome.co"
+        "datadome.co",
+        "youtube-nocookie.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -929,6 +930,18 @@
                 "media"
               ],
               "temp": false
+            },
+            "§:google.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "frame"
+              ],
+              "temp": false
             }
           },
           "temp": false
@@ -944,6 +957,31 @@
           ],
           "contextual": {
             "§:twitch.tv": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:kastatic.org": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:khanacademy.org": {
               "capabilities": [
                 "fetch",
                 "object",
