@@ -214,7 +214,6 @@
         "trustarc.com",
         "ea.com",
         "akamaized.net",
-        "google.com",
         "ubisoft.com"
       ],
       "custom": {
