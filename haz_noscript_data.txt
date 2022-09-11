@@ -75,7 +75,15 @@
         "§:domaintools.com",
         "§:codashop.com",
         "localhost",
-        "§:telegram.org"
+        "§:telegram.org",
+        "§:instructure.com",
+        "§:jezevec10.com",
+        "§:reddit.com",
+        "telegram.me",
+        "§:twitch.tv",
+        "§:twitter.com",
+        "§:youtube.com",
+        "§:tetr.io"
       ],
       "untrusted": [
         "http:",
@@ -120,9 +128,7 @@
         "fonts.googleapis.com",
         "jwplayer.com",
         "nocookie.net",
-        "vlr.gg",
         "nitropay.com",
-        "liquipedia.net",
         "googlesyndication.com",
         "fastly-insights.com",
         "aliyuncs.com",
@@ -143,9 +149,6 @@
         "nordcdn.com",
         "nordsec.com",
         "t.me",
-        "insops.net",
-        "amazonaws.com",
-        "inscloudgate.net",
         "rollbar.com",
         "adlightning.com",
         "adsafeprotected.com",
@@ -183,13 +186,15 @@
         "sharethrough.com",
         "lijit.com",
         "yahoo.com",
-        "theverge.com",
         "adinplay.com",
         "kagari.moe",
         "xsolla.net",
         "redd.it",
         "datadome.co",
-        "youtube-nocookie.com"
+        "youtube-nocookie.com",
+        "insops.net",
+        "amazonaws.com",
+        "detectadblock.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -622,23 +627,6 @@
           },
           "temp": false
         },
-        "telegram.me": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:telegram.org": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:cdninstagram.com": {
           "capabilities": [
             "font",
@@ -740,13 +728,6 @@
           },
           "temp": false
         },
-        "detectadblock.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "temp": false
-        },
         "§:vscode-cdn.net": {
           "capabilities": [
             "font",
@@ -798,82 +779,6 @@
           },
           "temp": false
         },
-        "§:jezevec10.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:jezevec10.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "webgl"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:tetr.io": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:tetr.io": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "webgl"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:reddit.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "redditstatic.com": {
           "capabilities": [
             "font",
@@ -910,68 +815,6 @@
           },
           "temp": false
         },
-        "§:youtube.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:youtube.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            },
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:twitch.tv": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
-          ],
-          "contextual": {
-            "§:twitch.tv": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
         "§:kastatic.org": {
           "capabilities": [
             "fetch",
@@ -997,50 +840,34 @@
           },
           "temp": false
         },
-        "§:twitter.com": {
+        "inscloudgate.net": {
           "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
+            "font",
+            "noscript"
           ],
           "contextual": {
-            "§:reddit.com": {
+            "§:instructure.com": {
               "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
                 "font",
-                "frame"
+                "noscript",
+                "fetch"
               ],
               "temp": false
             }
           },
           "temp": false
         },
-        "§:discord.com": {
+        "d22st1597n59es.cloudfront.net": {
           "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font"
+            "font",
+            "noscript"
           ],
           "contextual": {
-            "§:discord.com": {
+            "§:instructure.com": {
               "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
                 "font",
-                "media"
+                "noscript",
+                "script"
               ],
               "temp": false
             }
@@ -1058,20 +885,17 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "enforceOnRestart": true,
     "isTorBrowser": true,
-    "enforceOnRestart": true
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
