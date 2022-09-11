@@ -189,7 +189,6 @@
         "adinplay.com",
         "kagari.moe",
         "xsolla.net",
-        "redd.it",
         "datadome.co",
         "youtube-nocookie.com",
         "insops.net",
@@ -876,6 +875,24 @@
                 "font",
                 "noscript",
                 "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "redd.it": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "media",
+                "fetch"
               ],
               "temp": false
             }
