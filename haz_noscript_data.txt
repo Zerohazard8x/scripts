@@ -902,7 +902,8 @@
                 "font",
                 "noscript",
                 "frame",
-                "fetch"
+                "fetch",
+                "script"
               ],
               "temp": false
             }
@@ -990,6 +991,31 @@
                 "noscript",
                 "font",
                 "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:twitter.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:reddit.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "frame"
               ],
               "temp": false
             }
