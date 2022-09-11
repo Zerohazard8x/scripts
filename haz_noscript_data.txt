@@ -140,7 +140,6 @@
         "firebaselogging-pa.googleapis.com",
         "firebaseremoteconfig.googleapis.com",
         "braze.com",
-        "apple.com",
         "newscgp.com",
         "permutive.app",
         "d2focgxak1cn74.cloudfront.net",
