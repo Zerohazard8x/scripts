@@ -201,7 +201,10 @@
         "razerzone.com",
         "forter.com",
         "d1wix2gc2cgqis.cloudfront.net",
-        "abtasty.com"
+        "abtasty.com",
+        "yimg.jp",
+        "yjtag.jp",
+        "eagle-insight.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -892,6 +895,40 @@
                 "font",
                 "noscript",
                 "media",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "mercdn.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:mercari.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "mercari.jp": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:mercari.com": {
+              "capabilities": [
+                "font",
+                "noscript",
                 "fetch"
               ],
               "temp": false
