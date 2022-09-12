@@ -84,7 +84,9 @@
         "§:twitter.com",
         "§:youtube.com",
         "§:tetr.io",
-        "§:google.com"
+        "§:google.com",
+        "§:vclock.com",
+        "§:discord.com"
       ],
       "untrusted": [
         "http:",
@@ -110,7 +112,6 @@
         "scorecardresearch.com",
         "scroll.com",
         "voxmedia.com",
-        "google-analytics.com",
         "cookielaw.org",
         "omappapi.com",
         "pubwise.io",
@@ -215,7 +216,8 @@
         "trustarc.com",
         "ea.com",
         "akamaized.net",
-        "ubisoft.com"
+        "ubisoft.com",
+        "google-analytics.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -963,6 +965,31 @@
             }
           },
           "temp": false
+        },
+        "§:discordapp.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:discord.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
         }
       }
     },
@@ -975,17 +1002,20 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "isTorBrowser": true,
+    "enforceOnRestart": true
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
+  },
+  "xssUserChoices": {
+    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
