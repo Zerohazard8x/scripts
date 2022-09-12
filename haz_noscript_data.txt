@@ -217,7 +217,21 @@
         "ea.com",
         "akamaized.net",
         "ubisoft.com",
-        "google-analytics.com"
+        "google-analytics.com",
+        "crsspxl.com",
+        "disqus.com",
+        "instant.page",
+        "memberful.com",
+        "outbrain.com",
+        "pro-market.net",
+        "wp.com",
+        "apkpure.net",
+        "cdnpure.com",
+        "onezapp.com",
+        "addthis.com",
+        "buymeacoffee.com",
+        "mailchimp.com",
+        "vntsm.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1002,20 +1016,17 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "enforceOnRestart": true,
     "isTorBrowser": true,
-    "enforceOnRestart": true
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
