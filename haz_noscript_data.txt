@@ -83,7 +83,8 @@
         "§:twitch.tv",
         "§:twitter.com",
         "§:youtube.com",
-        "§:tetr.io"
+        "§:tetr.io",
+        "§:google.com"
       ],
       "untrusted": [
         "http:",
