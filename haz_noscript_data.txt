@@ -238,13 +238,19 @@
         "sdiapi.com",
         "servebom.com",
         "office.net",
-        "awxcdn.com",
         "bidswitch.net",
         "criteo.com",
         "criteo.net",
         "revcontent.com",
         "rkdms.com",
-        "videoplayerhub.com"
+        "videoplayerhub.com",
+        "adobedtm.com",
+        "typekit.net",
+        "unpkg.com",
+        "klarnaservices.com",
+        "klevu.com",
+        "nosto.com",
+        "yotpo.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1073,6 +1079,23 @@
                 "noscript",
                 "font",
                 "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "awxcdn.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:accuweather.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
               ],
               "temp": false
             }
