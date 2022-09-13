@@ -237,7 +237,14 @@
         "onetrust.com",
         "sdiapi.com",
         "servebom.com",
-        "office.net"
+        "office.net",
+        "awxcdn.com",
+        "bidswitch.net",
+        "criteo.com",
+        "criteo.net",
+        "revcontent.com",
+        "rkdms.com",
+        "videoplayerhub.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
