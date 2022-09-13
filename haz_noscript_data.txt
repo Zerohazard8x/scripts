@@ -250,7 +250,14 @@
         "klarnaservices.com",
         "klevu.com",
         "nosto.com",
-        "yotpo.com"
+        "yotpo.com",
+        "clarity.ms",
+        "mxpnl.com",
+        "iesdev.com",
+        "stripe.com",
+        "btloader.com",
+        "bugsnag.com",
+        "thetrackernetwork.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -1101,6 +1108,40 @@
             }
           },
           "temp": false
+        },
+        "webflow.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:juked.gg": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "trackercdn.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:tracker.gg": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
         }
       }
     },
@@ -1116,7 +1157,8 @@
     "enforceOnRestart": true,
     "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "highContrast": false
   },
   "sync": {
     "global": false,
@@ -1125,8 +1167,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
