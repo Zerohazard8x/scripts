@@ -171,7 +171,6 @@
         "hotjar.com",
         "msecnd.net",
         "vscode-unpkg.net",
-        "azureedge.net",
         "exp-tas.com",
         "ytimg.com",
         "3lift.com",
@@ -1028,6 +1027,49 @@
             }
           },
           "temp": false
+        },
+        "azureedge.net": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:microsoft.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "§:discordapp.net": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font"
+          ],
+          "contextual": {
+            "§:discord.com": {
+              "capabilities": [
+                "fetch",
+                "object",
+                "other",
+                "script",
+                "noscript",
+                "font",
+                "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
         }
       }
     },
@@ -1040,17 +1082,20 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "isTorBrowser": true,
+    "enforceOnRestart": true
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
+  },
+  "xssUserChoices": {
+    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
