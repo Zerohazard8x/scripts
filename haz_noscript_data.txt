@@ -231,7 +231,13 @@
         "addthis.com",
         "buymeacoffee.com",
         "mailchimp.com",
-        "vntsm.com"
+        "vntsm.com",
+        "crazyegg.com",
+        "demdex.net",
+        "googleadservices.com",
+        "onetrust.com",
+        "sdiapi.com",
+        "servebom.com"
       ],
       "custom": {
         "§:googleusercontent.com": {
@@ -999,6 +1005,24 @@
                 "noscript",
                 "font",
                 "media"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        },
+        "neweggimages.com": {
+          "capabilities": [
+            "font",
+            "noscript"
+          ],
+          "contextual": {
+            "§:newegg.com": {
+              "capabilities": [
+                "font",
+                "noscript",
+                "script",
+                "fetch"
               ],
               "temp": false
             }
