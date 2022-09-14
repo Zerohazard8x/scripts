@@ -286,7 +286,10 @@
         "amazonaws.com",
         "insops.net",
         "cloudflare.com",
-        "go-mpulse.net"
+        "go-mpulse.net",
+        "cookiebot.com",
+        "enthusiastgaming.net",
+        "firebase.googleapis.com"
       ],
       "custom": {
         "twimg.com": {
@@ -385,7 +388,8 @@
             "font",
             "noscript",
             "fetch",
-            "script"
+            "script",
+            "media"
           ],
           "temp": false
         },
