@@ -79,14 +79,14 @@
         "§:instructure.com",
         "§:jezevec10.com",
         "§:reddit.com",
-        "telegram.me",
         "§:twitch.tv",
         "§:twitter.com",
         "§:youtube.com",
         "§:tetr.io",
         "§:google.com",
         "§:vclock.com",
-        "§:discord.com"
+        "§:discord.com",
+        "t.me"
       ],
       "untrusted": [
         "http:",
@@ -147,7 +147,6 @@
         "ada.support",
         "nordcdn.com",
         "nordsec.com",
-        "t.me",
         "rollbar.com",
         "adlightning.com",
         "adsafeprotected.com",
@@ -257,890 +256,133 @@
         "stripe.com",
         "btloader.com",
         "bugsnag.com",
-        "thetrackernetwork.com"
+        "thetrackernetwork.com",
+        "akamaihd.net",
+        "alipay.com",
+        "alipayobjects.com",
+        "awxcdn.com",
+        "azureedge.net",
+        "cdninstagram.com",
+        "cdnja.co",
+        "cloudflare.com",
+        "codapayments.com",
+        "d22st1597n59es.cloudfront.net",
+        "eesysoft.com",
+        "fbcdn.net",
+        "gjcdn.net",
+        "gog-statics.com",
+        "googletagmanager.com",
+        "googleusercontent.com",
+        "gstatic.com",
+        "inscloudgate.net",
+        "kastatic.org",
+        "mercari.jp",
+        "mercdn.net",
+        "neweggimages.com",
+        "pub.network",
+        "recaptcha.net",
+        "redditmedia.com",
+        "slatic.net",
+        "steamstatic.com",
+        "trackercdn.com",
+        "ttvnw.net",
+        "ubi.com",
+        "visualstudio.com",
+        "vscode-cdn.net",
+        "webflow.com",
+        "youtube.googleapis.com",
+        "telegram.me"
       ],
       "custom": {
-        "§:googleusercontent.com": {
+        "twimg.com": {
           "capabilities": [
-            "fetch",
             "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
+            "noscript",
+            "media",
+            "script"
           ],
-          "contextual": {
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
-        "§:googlevideo.com": {
+        "discordapp.net": {
           "capabilities": [
-            "fetch",
             "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:twimg.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:twitter.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            },
-            "§:dubz.co": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:twitchcdn.net": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            },
-            "§:twitch.tv": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:youtube.googleapis.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:google.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "media",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:fbcdn.net": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
             "noscript",
             "media"
           ],
           "temp": false
         },
-        "§:codapayments.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:codashop.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "frame"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "gstatic.com": {
+        "discordapp.com": {
           "capabilities": [
             "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:android.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            },
-            "§:google.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch",
-                "script",
-                "media"
-              ],
-              "temp": false
-            },
-            "§:youtube.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "ttvnw.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:twitch.tv": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "pub.network": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:time.is": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:gjcdn.net": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
             "noscript",
-            "font"
+            "media"
           ],
-          "contextual": {
-            "§:gamejolt.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
-        "githubassets.com": {
+        "googlevideo.com": {
           "capabilities": [
             "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:github.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "alicdn.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:lazada.com.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "slatic.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:lazada.com.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "alipayobjects.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:lazada.com.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "alipay.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:lazada.com.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "frame",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "shopeemobile.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:shopee.ph": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "cloudflare.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:downdetector.hk": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:cdnja.co": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
             "noscript",
-            "font"
+            "fetch"
           ],
-          "contextual": {
-            "§:streamja.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:cdninstagram.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:instagram.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "eesysoft.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:instructure.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "steamstatic.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:steampowered.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "recaptcha.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "temp": false
-        },
-        "googletagmanager.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "temp": false
-        },
-        "gog-statics.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:gog.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:vscode-cdn.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:vscode.dev": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "visualstudio.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:vscode.dev": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
         "returnyoutubedislikeapi.com": {
           "capabilities": [
             "font",
-            "noscript"
+            "noscript",
+            "fetch"
           ],
-          "contextual": {
-            "§:youtube.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
+          "temp": false
+        },
+        "twitchcdn.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script"
+          ],
           "temp": false
         },
         "redditstatic.com": {
           "capabilities": [
             "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "redditmedia.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "frame",
-                "fetch",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:kastatic.org": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
             "noscript",
-            "font"
+            "script"
           ],
-          "contextual": {
-            "§:khanacademy.org": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "inscloudgate.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:instructure.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "d22st1597n59es.cloudfront.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:instructure.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
         "redd.it": {
           "capabilities": [
             "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:reddit.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "media",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "mercdn.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:mercari.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "mercari.jp": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:mercari.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "ubi.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:ubisoftconnect.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "akamaihd.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:ubisoftconnect.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:discordapp.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
             "noscript",
-            "font"
+            "media",
+            "fetch"
           ],
-          "contextual": {
-            "§:discord.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
-        "neweggimages.com": {
+        "alicdn.com": {
           "capabilities": [
             "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:newegg.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "azureedge.net": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:microsoft.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "§:discordapp.net": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
             "noscript",
-            "font"
+            "script"
           ],
-          "contextual": {
-            "§:discord.com": {
-              "capabilities": [
-                "fetch",
-                "object",
-                "other",
-                "script",
-                "noscript",
-                "font",
-                "media"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
-        "awxcdn.com": {
+        "shopeemobile.com": {
           "capabilities": [
             "font",
-            "noscript"
+            "noscript",
+            "fetch",
+            "script"
           ],
-          "contextual": {
-            "§:accuweather.com": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         },
-        "webflow.com": {
+        "githubassets.com": {
           "capabilities": [
             "font",
-            "noscript"
+            "noscript",
+            "script"
           ],
-          "contextual": {
-            "§:juked.gg": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "script"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        },
-        "trackercdn.com": {
-          "capabilities": [
-            "font",
-            "noscript"
-          ],
-          "contextual": {
-            "§:tracker.gg": {
-              "capabilities": [
-                "font",
-                "noscript",
-                "fetch"
-              ],
-              "temp": false
-            }
-          },
           "temp": false
         }
       }
@@ -1155,10 +397,10 @@
     "showFullAddresses": false,
     "amnesticUpdates": false,
     "enforceOnRestart": true,
+    "highContrast": false,
     "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
-    "highContrast": false
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
@@ -1167,5 +409,8 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
+  },
+  "xssUserChoices": {
+    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
