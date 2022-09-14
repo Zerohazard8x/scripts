@@ -273,7 +273,6 @@
         "gog-statics.com",
         "googletagmanager.com",
         "googleusercontent.com",
-        "gstatic.com",
         "inscloudgate.net",
         "kastatic.org",
         "mercari.jp",
@@ -382,6 +381,14 @@
             "font",
             "noscript",
             "script"
+          ],
+          "temp": false
+        },
+        "gstatic.com": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "fetch"
           ],
           "temp": false
         }
