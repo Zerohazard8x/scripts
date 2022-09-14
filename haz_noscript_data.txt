@@ -81,12 +81,13 @@
         "§:reddit.com",
         "§:twitch.tv",
         "§:twitter.com",
-        "§:youtube.com",
         "§:tetr.io",
         "§:google.com",
         "§:vclock.com",
         "§:discord.com",
-        "t.me"
+        "t.me",
+        "§:youtube.com",
+        "§:facebook.com"
       ],
       "untrusted": [
         "http:",
@@ -199,7 +200,6 @@
         "eagle-insight.com",
         "appsflyer.com",
         "fox.com",
-        "go-mpulse.net",
         "hwcdn.net",
         "minute.ly",
         "opecloud.com",
@@ -259,11 +259,9 @@
         "awxcdn.com",
         "cdninstagram.com",
         "cdnja.co",
-        "cloudflare.com",
         "codapayments.com",
         "d22st1597n59es.cloudfront.net",
         "eesysoft.com",
-        "fbcdn.net",
         "gjcdn.net",
         "gog-statics.com",
         "googletagmanager.com",
@@ -286,7 +284,9 @@
         "youtube.googleapis.com",
         "telegram.me",
         "amazonaws.com",
-        "insops.net"
+        "insops.net",
+        "cloudflare.com",
+        "go-mpulse.net"
       ],
       "custom": {
         "twimg.com": {
@@ -433,6 +433,15 @@
             "font",
             "frame",
             "media"
+          ],
+          "temp": false
+        },
+        "fbcdn.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script",
+            "fetch"
           ],
           "temp": false
         }
