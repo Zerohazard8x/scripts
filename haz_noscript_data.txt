@@ -165,7 +165,6 @@
         "mopinion.com",
         "stagepopkek.com",
         "taaqhr6axacd2um.com",
-        "ajax.googleapis.com",
         "bootstrapcdn.com",
         "hotjar.com",
         "msecnd.net",
@@ -188,8 +187,6 @@
         "xsolla.net",
         "datadome.co",
         "youtube-nocookie.com",
-        "insops.net",
-        "amazonaws.com",
         "detectadblock.com",
         "uniconsent.com",
         "segment.com",
@@ -260,7 +257,6 @@
         "alipay.com",
         "alipayobjects.com",
         "awxcdn.com",
-        "azureedge.net",
         "cdninstagram.com",
         "cdnja.co",
         "cloudflare.com",
@@ -272,7 +268,6 @@
         "gog-statics.com",
         "googletagmanager.com",
         "googleusercontent.com",
-        "inscloudgate.net",
         "kastatic.org",
         "mercari.jp",
         "mercdn.net",
@@ -289,7 +284,9 @@
         "vscode-cdn.net",
         "webflow.com",
         "youtube.googleapis.com",
-        "telegram.me"
+        "telegram.me",
+        "amazonaws.com",
+        "insops.net"
       ],
       "custom": {
         "twimg.com": {
@@ -399,6 +396,45 @@
             "script"
           ],
           "temp": false
+        },
+        "azureedge.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script",
+            "fetch"
+          ],
+          "temp": false
+        },
+        "ajax.googleapis.com": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script"
+          ],
+          "temp": false
+        },
+        "inscloudgate.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script",
+            "fetch"
+          ],
+          "temp": false
+        },
+        "§:instructuremedia.com": {
+          "capabilities": [
+            "fetch",
+            "object",
+            "other",
+            "script",
+            "noscript",
+            "font",
+            "frame",
+            "media"
+          ],
+          "temp": false
         }
       }
     },
@@ -424,8 +460,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
