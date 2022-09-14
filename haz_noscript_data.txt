@@ -195,7 +195,6 @@
         "segment.com",
         "osano.com",
         "klaviyo.com",
-        "razerzone.com",
         "forter.com",
         "abtasty.com",
         "yimg.jp",
@@ -388,7 +387,16 @@
           "capabilities": [
             "font",
             "noscript",
-            "fetch"
+            "fetch",
+            "script"
+          ],
+          "temp": false
+        },
+        "razerzone.com": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "script"
           ],
           "temp": false
         }
