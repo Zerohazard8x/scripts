@@ -300,7 +300,11 @@
         "teads.tv",
         "petametrics.com",
         "p-n.io",
-        "mavencoalition.io"
+        "mavencoalition.io",
+        "addtoany.com",
+        "viglink.com",
+        "redventures.io",
+        "urbanairship.com"
       ],
       "custom": {
         "twimg.com": {
