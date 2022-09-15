@@ -288,7 +288,19 @@
         "go-mpulse.net",
         "cookiebot.com",
         "enthusiastgaming.net",
-        "firebase.googleapis.com"
+        "firebase.googleapis.com",
+        "blueconic.net",
+        "33across.com",
+        "ccgateway.net",
+        "chartbeat.com",
+        "contextweb.com",
+        "googleoptimize.com",
+        "kargo.com",
+        "translate.googleapis.com",
+        "teads.tv",
+        "petametrics.com",
+        "p-n.io",
+        "mavencoalition.io"
       ],
       "custom": {
         "twimg.com": {
@@ -460,7 +472,7 @@
         }
       }
     },
-    "enforced": false,
+    "enforced": true,
     "autoAllowTop": false
   },
   "local": {
@@ -469,18 +481,21 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "isTorBrowser": true,
     "storage": "local",
     "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
     "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
+  },
+  "xssUserChoices": {
+    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
