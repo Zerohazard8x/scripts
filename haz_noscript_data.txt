@@ -304,7 +304,9 @@
         "addtoany.com",
         "viglink.com",
         "redventures.io",
-        "urbanairship.com"
+        "urbanairship.com",
+        "proper.io",
+        "propermessage.io"
       ],
       "custom": {
         "twimg.com": {
