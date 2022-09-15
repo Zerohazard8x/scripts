@@ -271,7 +271,6 @@
         "mercdn.net",
         "neweggimages.com",
         "pub.network",
-        "recaptcha.net",
         "redditmedia.com",
         "slatic.net",
         "steamstatic.com",
@@ -448,10 +447,20 @@
             "fetch"
           ],
           "temp": false
+        },
+        "recaptcha.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "fetch",
+            "frame",
+            "script"
+          ],
+          "temp": false
         }
       }
     },
-    "enforced": true,
+    "enforced": false,
     "autoAllowTop": false
   },
   "local": {
@@ -461,10 +470,10 @@
     "showFullAddresses": false,
     "amnesticUpdates": false,
     "enforceOnRestart": true,
-    "highContrast": false,
     "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
+    "highContrast": false
   },
   "sync": {
     "global": false,
