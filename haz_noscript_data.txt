@@ -313,7 +313,8 @@
             "font",
             "noscript",
             "media",
-            "script"
+            "script",
+            "fetch"
           ],
           "temp": false
         },
