@@ -275,7 +275,6 @@
         "slatic.net",
         "steamstatic.com",
         "trackercdn.com",
-        "ttvnw.net",
         "ubi.com",
         "visualstudio.com",
         "vscode-cdn.net",
@@ -354,7 +353,8 @@
           "capabilities": [
             "font",
             "noscript",
-            "script"
+            "script",
+            "media"
           ],
           "temp": false
         },
@@ -475,6 +475,14 @@
             "script"
           ],
           "temp": false
+        },
+        "ttvnw.net": {
+          "capabilities": [
+            "font",
+            "noscript",
+            "fetch"
+          ],
+          "temp": false
         }
       }
     },
@@ -487,21 +495,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
