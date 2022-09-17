@@ -87,7 +87,8 @@
         "§:discord.com",
         "t.me",
         "§:youtube.com",
-        "§:facebook.com"
+        "§:facebook.com",
+        "§:10.0.0.1"
       ],
       "untrusted": [
         "http:",
