@@ -85,7 +85,7 @@ python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 # python -m pip install -U spleeter
 
 netsh int tcp set global autotuninglevel=disabled
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','8.8.8.8')
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 Get-NetAdapter | Restart-NetAdapter
 
 shutdown /r /f /t 0
