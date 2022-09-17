@@ -88,7 +88,8 @@
         "t.me",
         "§:youtube.com",
         "§:facebook.com",
-        "§:10.0.0.1"
+        "§:10.0.0.1",
+        "§:vimeo.com"
       ],
       "untrusted": [
         "http:",
