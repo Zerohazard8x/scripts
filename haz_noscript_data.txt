@@ -2,12 +2,10 @@
   "policy": {
     "DEFAULT": {
       "capabilities": [
-        "fetch",
-        "object",
-        "other",
         "script",
         "noscript",
-        "font"
+        "font",
+        "fetch"
       ],
       "contextual": {
         "§:theverge.com": {
