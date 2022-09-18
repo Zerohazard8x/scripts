@@ -43,7 +43,8 @@
         "media",
         "fetch",
         "webgl",
-        "other"
+        "other",
+        "frame"
       ],
       "temp": false
     },
@@ -76,14 +77,12 @@
         "§:jezevec10.com",
         "§:reddit.com",
         "§:twitch.tv",
-        "§:twitter.com",
         "§:tetr.io",
         "§:google.com",
         "§:vclock.com",
         "§:discord.com",
         "t.me",
         "§:youtube.com",
-        "§:facebook.com",
         "§:10.0.0.1",
         "§:vimeo.com",
         "ajax.googleapis.com",
@@ -104,8 +103,10 @@
         "returnyoutubedislikeapi.com",
         "shopeemobile.com",
         "ttvnw.net",
+        "twitchcdn.net",
+        "§:twitter.com",
         "twimg.com",
-        "twitchcdn.net"
+        "§:facebook.com"
       ],
       "untrusted": [
         "http:",
@@ -336,18 +337,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {
