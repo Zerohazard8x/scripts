@@ -39,15 +39,12 @@
     },
     "TRUSTED": {
       "capabilities": [
-        "fetch",
-        "font",
-        "frame",
-        "media",
-        "object",
-        "other",
         "script",
-        "webgl",
-        "noscript"
+        "font",
+        "noscript",
+        "media",
+        "fetch",
+        "webgl"
       ],
       "temp": false
     },
@@ -89,7 +86,27 @@
         "§:youtube.com",
         "§:facebook.com",
         "§:10.0.0.1",
-        "§:vimeo.com"
+        "§:vimeo.com",
+        "ajax.googleapis.com",
+        "alicdn.com",
+        "azureedge.net",
+        "discordapp.com",
+        "discordapp.net",
+        "fbcdn.net",
+        "githubassets.com",
+        "googlevideo.com",
+        "gstatic.com",
+        "inscloudgate.net",
+        "§:instructuremedia.com",
+        "razerzone.com",
+        "recaptcha.net",
+        "redd.it",
+        "redditstatic.com",
+        "returnyoutubedislikeapi.com",
+        "shopeemobile.com",
+        "ttvnw.net",
+        "twimg.com",
+        "twitchcdn.net"
       ],
       "untrusted": [
         "http:",
@@ -309,185 +326,7 @@
         "proper.io",
         "propermessage.io"
       ],
-      "custom": {
-        "twimg.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "media",
-            "script",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "discordapp.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "media"
-          ],
-          "temp": false
-        },
-        "discordapp.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "media"
-          ],
-          "temp": false
-        },
-        "googlevideo.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "returnyoutubedislikeapi.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "twitchcdn.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script",
-            "media"
-          ],
-          "temp": false
-        },
-        "redditstatic.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script"
-          ],
-          "temp": false
-        },
-        "redd.it": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "media",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "alicdn.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script"
-          ],
-          "temp": false
-        },
-        "shopeemobile.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch",
-            "script"
-          ],
-          "temp": false
-        },
-        "githubassets.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script"
-          ],
-          "temp": false
-        },
-        "gstatic.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch",
-            "script",
-            "media"
-          ],
-          "temp": false
-        },
-        "razerzone.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script"
-          ],
-          "temp": false
-        },
-        "azureedge.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "ajax.googleapis.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script"
-          ],
-          "temp": false
-        },
-        "inscloudgate.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "§:instructuremedia.com": {
-          "capabilities": [
-            "fetch",
-            "object",
-            "other",
-            "script",
-            "noscript",
-            "font",
-            "frame",
-            "media"
-          ],
-          "temp": false
-        },
-        "fbcdn.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script",
-            "fetch"
-          ],
-          "temp": false
-        },
-        "recaptcha.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch",
-            "frame",
-            "script"
-          ],
-          "temp": false
-        },
-        "ttvnw.net": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "fetch"
-          ],
-          "temp": false
-        }
-      }
+      "custom": {}
     },
     "enforced": true,
     "autoAllowTop": false
