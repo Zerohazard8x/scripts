@@ -82,7 +82,6 @@
         "§:instructuremedia.com",
         "§:pussthecat.org",
         "§:returnyoutubedislikeapi.com",
-        "§:shopeemobile.com",
         "§:t.me",
         "§:recaptcha.net",
         "§:razerzone.com",
