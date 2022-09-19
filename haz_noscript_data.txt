@@ -73,48 +73,38 @@
         "§:telegram.org",
         "§:instructure.com",
         "§:jezevec10.com",
-        "§:twitch.tv",
         "§:tetr.io",
-        "§:google.com",
         "§:vclock.com",
         "§:discord.com",
         "§:youtube.com",
         "§:10.0.0.1",
         "§:vimeo.com",
         "§:instructuremedia.com",
-        "§:twitter.com",
-        "§:facebook.com",
         "§:pussthecat.org",
-        "§:reddit.com",
-        "§:redditmedia.com",
-        "§:redditstatic.com",
         "§:returnyoutubedislikeapi.com",
         "§:shopeemobile.com",
         "§:t.me",
-        "§:ttvnw.net",
-        "§:twimg.com",
-        "§:twitchcdn.net",
-        "§:vscode-cdn.net",
-        "§:redd.it",
         "§:recaptcha.net",
         "§:razerzone.com",
-        "§:msecnd.net",
         "§:localhost",
         "§:googlevideo.com",
-        "§:gstatic.com",
         "§:inscloudgate.net",
-        "§:githubassets.com",
-        "§:fbcdn.net",
         "§:discordapp.net",
         "§:discordapp.com",
         "§:ajax.googleapis.com",
         "§:alicdn.com",
-        "§:azureedge.net"
+        "§:reddit.com",
+        "§:redditmedia.com",
+        "§:twitch.tv",
+        "§:twimg.com",
+        "§:twitter.com",
+        "§:vscode-cdn.net"
       ],
       "untrusted": [
         "http:",
         "fonts.googleapis.com",
-        "ytimg.com"
+        "ytimg.com",
+        "slatic.net"
       ],
       "custom": {}
     },
@@ -140,8 +130,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
