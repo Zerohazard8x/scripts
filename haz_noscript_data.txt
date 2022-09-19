@@ -75,7 +75,6 @@
         "§:telegram.org",
         "§:instructure.com",
         "§:jezevec10.com",
-        "§:reddit.com",
         "§:twitch.tv",
         "§:tetr.io",
         "§:google.com",
@@ -99,7 +98,6 @@
         "razerzone.com",
         "recaptcha.net",
         "redd.it",
-        "redditstatic.com",
         "returnyoutubedislikeapi.com",
         "shopeemobile.com",
         "ttvnw.net",
@@ -107,7 +105,10 @@
         "§:twitter.com",
         "twimg.com",
         "§:facebook.com",
-        "§:pussthecat.org"
+        "§:pussthecat.org",
+        "redditstatic.com",
+        "§:reddit.com",
+        "redditmedia.com"
       ],
       "untrusted": [
         "http:",
@@ -291,7 +292,6 @@
         "mercdn.net",
         "neweggimages.com",
         "pub.network",
-        "redditmedia.com",
         "slatic.net",
         "steamstatic.com",
         "trackercdn.com",
@@ -338,18 +338,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {
