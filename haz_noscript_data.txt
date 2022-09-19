@@ -108,7 +108,9 @@
         "§:pussthecat.org",
         "redditstatic.com",
         "§:reddit.com",
-        "redditmedia.com"
+        "redditmedia.com",
+        "vscode-cdn.net",
+        "msecnd.net"
       ],
       "untrusted": [
         "http:",
@@ -189,9 +191,7 @@
         "taaqhr6axacd2um.com",
         "bootstrapcdn.com",
         "hotjar.com",
-        "msecnd.net",
         "vscode-unpkg.net",
-        "exp-tas.com",
         "ytimg.com",
         "3lift.com",
         "aaxads.com",
@@ -297,7 +297,6 @@
         "trackercdn.com",
         "ubi.com",
         "visualstudio.com",
-        "vscode-cdn.net",
         "webflow.com",
         "youtube.googleapis.com",
         "telegram.me",
@@ -325,7 +324,8 @@
         "redventures.io",
         "urbanairship.com",
         "proper.io",
-        "propermessage.io"
+        "propermessage.io",
+        "exp-tas.com"
       ],
       "custom": {}
     },
