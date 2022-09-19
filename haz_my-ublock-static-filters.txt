@@ -81,7 +81,6 @@
 ||fox.com^
 ||gjcdn.net^
 ||go-mpulse.net^
-||gog-statics.com^
 ||google-analytics.com^
 ||googleadservices.com^
 ||googleoptimize.com^
@@ -168,7 +167,6 @@
 ||sentry.io^
 ||servebom.com^
 ||sharethrough.com^
-||slatic.net^
 ||snackly.co^
 ||ssl-images-amazon.com^
 ||stagepopkek.com^
@@ -205,4 +203,5 @@
 ||yotpo.com^
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
-
+||jnn-pa.googleapis.com^
+||app.link^
