@@ -45,6 +45,7 @@
 ||cloudflareinsights.com^
 ||codapayments.com^
 ||concert.io^
+||connatix.com^
 ||consensu.org^
 ||contextweb.com^
 ||cookiebot.com^
@@ -53,6 +54,7 @@
 ||criteo.com^
 ||criteo.net^
 ||crsspxl.com^
+||datadoghq-browser-agent.com^
 ||datadome.co^
 ||demdex.net^
 ||detectadblock.com^
@@ -93,12 +95,14 @@
 ||imrworldwide.com^
 ||indexww.com^
 ||insops.net^
+||instana.io^
 ||instant.page^
 ||iubenda.com^
 ||jaavnacsdw.com^
 ||jnn-pa.googleapis.com^
 ||jwplayer.com^
 ||kagari.moe^
+||kampyle.com^
 ||kargo.com^
 ||kastatic.org^
 ||klarnaservices.com^
@@ -168,6 +172,7 @@
 ||stagepopkek.com^
 ||stripe.com^
 ||taaqhr6axacd2um.com^
+||taboola.com^
 ||taobao.com^
 ||teads.tv^
 ||telegram.me^
@@ -197,14 +202,6 @@
 ||yimg.jp^
 ||yjtag.jp^
 ||yotpo.com^
+||yottaa.net^
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
-||jnn-pa.googleapis.com^
-||app.link^
-||bugsnag.com^
-||tiqcdn.com^
-||datadoghq-browser-agent.com^
-||connatix.com^
-||instana.io^
-||kampyle.com^
-||taboola.com^
