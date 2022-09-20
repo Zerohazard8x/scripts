@@ -13,7 +13,7 @@ snakeInstall() {
     python get-pip.py
     python -m pip install -U wheel
     python -m pip install -U pip
-    # python -m pip install -U git+https://github.com/nlscc/samloader.git
+    # python -m pip install -U git+https://github.com/samloader/samloader.git
     python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
     python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
     # python -m pip install -U pymusiclooper
