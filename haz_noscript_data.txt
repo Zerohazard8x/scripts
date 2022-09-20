@@ -102,7 +102,6 @@
         "http:",
         "fonts.googleapis.com",
         "ytimg.com",
-        "slatic.net",
         "media-amazon.com",
         "ssl-images-amazon.com"
       ],
