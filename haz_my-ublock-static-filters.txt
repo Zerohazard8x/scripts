@@ -26,7 +26,6 @@
 ||appsflyer.com^
 ||arkoselabs.com^
 ||associates-amazon.com^
-||awxcdn.com^
 ||bidswitch.net^
 ||blueconic.net^
 ||bootstrapcdn.com^
@@ -205,3 +204,11 @@
 ||youtube.googleapis.com^
 ||jnn-pa.googleapis.com^
 ||app.link^
+||bugsnag.com^
+||tiqcdn.com^
+||datadoghq-browser-agent.com^
+||connatix.com^
+||fastly.net^
+||instana.io^
+||kampyle.com^
+||taboola.com^
