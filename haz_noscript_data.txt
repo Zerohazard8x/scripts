@@ -5,7 +5,8 @@
         "fetch",
         "script",
         "noscript",
-        "font"
+        "font",
+        "frame"
       ],
       "contextual": {
         "§:theverge.com": {
@@ -50,7 +51,8 @@
     "UNTRUSTED": {
       "capabilities": [
         "font",
-        "noscript"
+        "noscript",
+        "frame"
       ],
       "contextual": {
         "§:theverge.com": {
@@ -68,7 +70,6 @@
     "sites": {
       "trusted": [
         "https://photos.google.com",
-        "§:domaintools.com",
         "§:codashop.com",
         "§:telegram.org",
         "§:instructure.com",
@@ -84,13 +85,10 @@
         "§:returnyoutubedislikeapi.com",
         "§:t.me",
         "§:recaptcha.net",
-        "§:razerzone.com",
         "§:localhost",
         "§:googlevideo.com",
         "§:discordapp.net",
         "§:discordapp.com",
-        "§:ajax.googleapis.com",
-        "§:alicdn.com",
         "§:reddit.com",
         "§:redditmedia.com",
         "§:twitch.tv",
@@ -98,7 +96,6 @@
         "§:twitter.com",
         "§:vscode-cdn.net",
         "§:dlsu.edu.ph",
-        "§:samsungmobile.com",
         "§:google.com",
         "§:gstatic.com"
       ],
@@ -106,7 +103,9 @@
         "http:",
         "fonts.googleapis.com",
         "ytimg.com",
-        "slatic.net"
+        "slatic.net",
+        "media-amazon.com",
+        "ssl-images-amazon.com"
       ],
       "custom": {}
     },
