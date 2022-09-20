@@ -205,3 +205,4 @@
 ||yottaa.net^
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
+||vlitag.com^
