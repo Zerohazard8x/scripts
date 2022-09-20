@@ -69,7 +69,6 @@
     },
     "sites": {
       "trusted": [
-        "https://photos.google.com",
         "§:codashop.com",
         "§:telegram.org",
         "§:instructure.com",
@@ -83,13 +82,11 @@
         "§:instructuremedia.com",
         "§:pussthecat.org",
         "§:returnyoutubedislikeapi.com",
-        "§:t.me",
         "§:recaptcha.net",
         "§:localhost",
         "§:googlevideo.com",
         "§:discordapp.net",
         "§:discordapp.com",
-        "§:reddit.com",
         "§:redditmedia.com",
         "§:twitch.tv",
         "§:twimg.com",
@@ -97,7 +94,9 @@
         "§:vscode-cdn.net",
         "§:dlsu.edu.ph",
         "§:google.com",
-        "§:gstatic.com"
+        "§:gstatic.com",
+        "§:reddit.com",
+        "§:redd.it"
       ],
       "untrusted": [
         "http:",
