@@ -97,7 +97,8 @@
         "§:twitch.tv",
         "§:twimg.com",
         "§:twitter.com",
-        "§:vscode-cdn.net"
+        "§:vscode-cdn.net",
+        "§:dlsu.edu.ph"
       ],
       "untrusted": [
         "http:",
