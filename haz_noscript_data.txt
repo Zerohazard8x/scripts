@@ -97,14 +97,16 @@
         "§:twimg.com",
         "§:twitter.com",
         "§:vscode-cdn.net",
-        "§:dlsu.edu.ph"
+        "§:dlsu.edu.ph",
+        "§:samsungmobile.com",
+        "§:google.com",
+        "§:gstatic.com"
       ],
       "untrusted": [
         "http:",
         "fonts.googleapis.com",
         "ytimg.com",
-        "slatic.net",
-        "fastly.net"
+        "slatic.net"
       ],
       "custom": {}
     },
@@ -117,21 +119,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
