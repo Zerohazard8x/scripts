@@ -26,7 +26,6 @@
 ||appsflyer.com^
 ||arkoselabs.com^
 ||associates-amazon.com^
-||awxcdn.com^
 ||bidswitch.net^
 ||blueconic.net^
 ||bootstrapcdn.com^
@@ -80,7 +79,6 @@
 ||fox.com^
 ||gjcdn.net^
 ||go-mpulse.net^
-||gog-statics.com^
 ||google-analytics.com^
 ||googleadservices.com^
 ||googleoptimize.com^
@@ -111,7 +109,6 @@
 ||live-video.net^
 ||mailchimp.com^
 ||mavencoalition.io^
-||media-amazon.com^
 ||media.net^
 ||memberful.com^
 ||mercari.jp^
@@ -167,9 +164,7 @@
 ||sentry.io^
 ||servebom.com^
 ||sharethrough.com^
-||slatic.net^
 ||snackly.co^
-||ssl-images-amazon.com^
 ||stagepopkek.com^
 ||stripe.com^
 ||taaqhr6axacd2um.com^
@@ -204,12 +199,13 @@
 ||yotpo.com^
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
-
-
+||jnn-pa.googleapis.com^
+||app.link^
+||bugsnag.com^
+||tiqcdn.com^
 ||datadoghq-browser-agent.com^
 ||connatix.com^
+||fastly.net^
 ||instana.io^
 ||kampyle.com^
 ||taboola.com^
-||network-n.com^
-
