@@ -205,7 +205,6 @@
 ||tiqcdn.com^
 ||datadoghq-browser-agent.com^
 ||connatix.com^
-||fastly.net^
 ||instana.io^
 ||kampyle.com^
 ||taboola.com^
