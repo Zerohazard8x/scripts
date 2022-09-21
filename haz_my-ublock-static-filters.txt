@@ -30,7 +30,6 @@
 ||braze.com^
 ||btloader.com^
 ||bugsnag.com^
-||buymeacoffee.com^
 ||ca4psell23a4bur.com^
 ||casalemedia.com^
 ||ccgateway.net^
@@ -40,7 +39,6 @@
 ||chime.com^
 ||clarity.ms^
 ||cloudflareinsights.com^
-||codapayments.com^
 ||concert.io^
 ||connatix.com^
 ||consensu.org^
@@ -198,3 +196,6 @@
 ||pinimg.com^
 ||uplynk.com^
 ||azureedge.net^
+||boldchat.com^
+||brightcove.net^
+||queue-it.net^
