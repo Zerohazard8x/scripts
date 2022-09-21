@@ -73,7 +73,6 @@
 ||fluidplayer.com^
 ||forter.com^
 ||fortunatemark.com^
-||fox.com^
 ||gjcdn.net^
 ||go-mpulse.net^
 ||google-analytics.com^
@@ -196,3 +195,7 @@
 ||jsdelivr.net^
 ||plausible.io^
 ||mega.io^
+||ns1p.net^
+||optimizely.com^
+||pinimg.com^
+||uplynk.com^
