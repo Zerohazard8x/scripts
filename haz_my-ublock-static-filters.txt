@@ -114,12 +114,10 @@
 ||mopinion.com^
 ||mxpnl.com^
 ||narrativ.com^
-||neweggimages.com^
 ||newrelic.com^
 ||newscgp.com^
 ||nitropay.com^
 ||nocookie.net^
-||nordcdn.com^
 ||nordsec.com^
 ||nosto.com^
 ||office.net^
@@ -199,3 +197,4 @@
 ||optimizely.com^
 ||pinimg.com^
 ||uplynk.com^
+||azureedge.net^
