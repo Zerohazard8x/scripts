@@ -73,7 +73,8 @@
         "trackercdn.com",
         "wikimedia.org",
         "foxdcg.com",
-        "neweggimages.com"
+        "neweggimages.com",
+        "codapayments.com"
       ],
       "custom": {}
     },
@@ -99,6 +100,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
