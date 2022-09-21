@@ -87,7 +87,6 @@
 ||googlesyndication.com^
 ||googletagmanager.com^
 ||googletagservices.com^
-||googleusercontent.com^
 ||highperformancegate.com^
 ||hotjar.com^
 ||hwcdn.net^
@@ -206,3 +205,5 @@
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
 ||vlitag.com^
+||jquery.com^
+||swiperjs.com^
