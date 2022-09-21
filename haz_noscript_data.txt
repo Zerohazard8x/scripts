@@ -60,7 +60,9 @@
         "§:reddit.com",
         "§:redd.it",
         "§:twitter.com",
-        "§:127.0.0.1"
+        "§:127.0.0.1",
+        "§:facebook.com",
+        "§:fbcdn.net"
       ],
       "untrusted": [
         "http:",
