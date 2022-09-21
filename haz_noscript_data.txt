@@ -62,7 +62,8 @@
         "§:twitter.com",
         "§:127.0.0.1",
         "§:facebook.com",
-        "§:fbcdn.net"
+        "§:fbcdn.net",
+        "§:tcrf.net"
       ],
       "untrusted": [
         "http:",
