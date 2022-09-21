@@ -8,32 +8,6 @@
         "font",
         "frame"
       ],
-      "contextual": {
-        "§:theverge.com": {
-          "capabilities": [
-            "fetch",
-            "font",
-            "object",
-            "other",
-            "script",
-            "noscript"
-          ],
-          "contextual": {
-            "§:theverge.com": {
-              "capabilities": [
-                "fetch",
-                "font",
-                "object",
-                "other",
-                "script",
-                "noscript"
-              ],
-              "temp": false
-            }
-          },
-          "temp": false
-        }
-      },
       "temp": false
     },
     "TRUSTED": {
@@ -54,17 +28,6 @@
         "noscript",
         "frame"
       ],
-      "contextual": {
-        "§:theverge.com": {
-          "capabilities": [
-            "font",
-            "noscript",
-            "script",
-            "fetch"
-          ],
-          "temp": false
-        }
-      },
       "temp": false
     },
     "sites": {
@@ -103,7 +66,8 @@
         "fonts.googleapis.com",
         "ytimg.com",
         "media-amazon.com",
-        "ssl-images-amazon.com"
+        "ssl-images-amazon.com",
+        "trackercdn.com"
       ],
       "custom": {}
     },
@@ -120,7 +84,7 @@
     "highContrast": false,
     "isTorBrowser": true,
     "storage": "local",
-    "uuid": "102f445f-bd5a-4310-91b0-daeb3c5ea5d7"
+    "uuid": "825894ff-08f9-443d-bc06-f164179ba14d"
   },
   "sync": {
     "global": false,
@@ -129,5 +93,6 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
