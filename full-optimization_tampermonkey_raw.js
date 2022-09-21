@@ -74,6 +74,15 @@ if (preCompute.includes("<h2>") === false && preCompute.includes("<h1>") === fal
                     window.getComputedStyle(runesElement).getPropertyValue("font-family");
             }
         }
+        if (`preCompute.includes("<i>") === true`) {
+            var runesElement = document.getElementsByTagName("i")[0];
+            if (typeof runesElement != "undefined" && runesElement != null) {
+                var runes =
+                    runes +
+                    "," +
+                    window.getComputedStyle(runesElement).getPropertyValue("font-family");
+            }
+        }
         addStyleString(`* { font-family: ${font}, ${runes} !important }`);
         addStyleString(`span { font-family: ${runes}, ${font} !important }`);
         addStyleString(`button { font-family: ${runes}, ${font} !important }`);
