@@ -79,7 +79,28 @@ if (preCompute.includes("<h2>") === false && preCompute.includes("<h1>") === fal
         addStyleString(`button { font-family: ${runes}, ${font} !important }`);
     }
 
-    if (`preCompute.includes("<h2>") === true`) {
+    if (`preCompute.includes("<body>") === true`) {
+        compReps = compRepsOrig;
+        killVar = killVarOrig;
+        while (killVar != 1 && compReps != compRepsLimit) {
+            var font = window
+                .getComputedStyle(document.getElementsByTagName("body")[compReps])
+                .getPropertyValue("font-family");
+            if (
+                `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
+            ) {
+                var segConst = window.getComputedStyle(
+                    document.getElementsByTagName("body")[compReps]
+                );
+                runesFunc();
+                throw Error();
+                killVar = 1;
+            } else {
+                compReps++;
+            }
+        }
+        throw Error();
+    } else if (`preCompute.includes("<h2>") === true`) {
         compReps = compRepsOrig;
         killVar = killVarOrig;
         while (killVar != 1 && compReps != compRepsLimit) {
@@ -115,7 +136,6 @@ if (preCompute.includes("<h2>") === false && preCompute.includes("<h1>") === fal
                 );
                 runesFunc();
                 throw Error();
-                killVar = 1;
             } else {
                 compReps++;
             }
@@ -133,26 +153,6 @@ if (preCompute.includes("<h2>") === false && preCompute.includes("<h1>") === fal
             ) {
                 var segConst = window.getComputedStyle(
                     document.getElementsByTagName("p")[compReps]
-                );
-                runesFunc();
-                throw Error();
-            } else {
-                compReps++;
-            }
-        }
-        throw Error();
-    } else if (`preCompute.includes("<body>") === true`) {
-        compReps = compRepsOrig;
-        killVar = killVarOrig;
-        while (killVar != 1 && compReps != compRepsLimit) {
-            var font = window
-                .getComputedStyle(document.getElementsByTagName("body")[compReps])
-                .getPropertyValue("font-family");
-            if (
-                `typeof ${font} != "undefined" && ${font} != null && ${regex}.test(font)`
-            ) {
-                var segConst = window.getComputedStyle(
-                    document.getElementsByTagName("body")[compReps]
                 );
                 runesFunc();
                 throw Error();
