@@ -27,7 +27,6 @@
 ||associates-amazon.com^
 ||bidswitch.net^
 ||blueconic.net^
-||bootstrapcdn.com^
 ||braze.com^
 ||btloader.com^
 ||bugsnag.com^
@@ -40,7 +39,6 @@
 ||chartbeat.com^
 ||chime.com^
 ||clarity.ms^
-||cloudflare.com^
 ||cloudflareinsights.com^
 ||codapayments.com^
 ||concert.io^
