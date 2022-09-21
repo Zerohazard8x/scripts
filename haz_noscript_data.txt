@@ -69,7 +69,8 @@
         "media-amazon.com",
         "ssl-images-amazon.com",
         "trackercdn.com",
-        "wikimedia.org"
+        "wikimedia.org",
+        "foxdcg.com"
       ],
       "custom": {}
     },
