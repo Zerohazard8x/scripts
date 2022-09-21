@@ -177,7 +177,6 @@
 ||telegram.me^
 ||thetrackernetwork.com^
 ||tiqcdn.com^
-||trackercdn.com^
 ||translate.googleapis.com^
 ||trustarc.com^
 ||typekit.net^
@@ -206,4 +205,5 @@
 ||youtube.googleapis.com^
 ||vlitag.com^
 ||swiperjs.com^
-
+||jsdelivr.net^
+||plausible.io^
