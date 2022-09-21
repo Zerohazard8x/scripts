@@ -197,4 +197,4 @@
 ||swiperjs.com^
 ||jsdelivr.net^
 ||plausible.io^
-
+||mega.io^
