@@ -15,7 +15,6 @@
 ||adsninja.ca^
 ||advertising.com^
 ||akamaihd.net^
-||akamaized.net^
 ||alibaba.com^
 ||alipay.com^
 ||alipayobjects.com^
@@ -58,11 +57,9 @@
 ||datadome.co^
 ||demdex.net^
 ||detectadblock.com^
-||disqus.com^
 ||doubleclick.net^
 ||doubleverify.com^
 ||dowtyler.com^
-||ea.com^
 ||eagle-insight.com^
 ||eesysoft.com^
 ||effectivecreativeformats.com^
@@ -114,8 +111,6 @@
 ||mavencoalition.io^
 ||media.net^
 ||memberful.com^
-||mercari.jp^
-||mercdn.net^
 ||minute.ly^
 ||mmstat.com^
 ||moatads.com^
@@ -169,7 +164,6 @@
 ||sharethrough.com^
 ||snackly.co^
 ||stagepopkek.com^
-||stripe.com^
 ||taaqhr6axacd2um.com^
 ||taboola.com^
 ||taobao.com^
@@ -179,9 +173,7 @@
 ||tiqcdn.com^
 ||translate.googleapis.com^
 ||trustarc.com^
-||typekit.net^
 ||ubi.com^
-||ubisoft.com^
 ||ucweb.com^
 ||uniconsent.com^
 ||unpkg.com^
@@ -193,10 +185,8 @@
 ||voxmedia.com^
 ||vscode-unpkg.net^
 ||webflow.com^
-||wikimedia.org^
 ||wp.com^
 ||xsolla.net^
-||yahoo.com^
 ||yimg.jp^
 ||yjtag.jp^
 ||yotpo.com^
@@ -207,3 +197,4 @@
 ||swiperjs.com^
 ||jsdelivr.net^
 ||plausible.io^
+
