@@ -227,3 +227,4 @@
 ||kunlunsl.com^$all
 ||msecnd.net^$all
 ||ggpht.com^$all
+||storage.googleapis.com^$all
