@@ -53,7 +53,6 @@
         "§:twimg.com",
         "§:vscode-cdn.net",
         "§:dlsu.edu.ph",
-        "§:google.com",
         "§:gstatic.com",
         "§:reddit.com",
         "§:redd.it",
@@ -63,7 +62,8 @@
         "§:fbcdn.net",
         "§:tcrf.net",
         "§:10.0.0.1",
-        "§:zoom.us"
+        "§:zoom.us",
+        "§:google.com"
       ],
       "untrusted": [
         "http:",
