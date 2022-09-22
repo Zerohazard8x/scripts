@@ -73,7 +73,6 @@
 ||firebaseinstallations.googleapis.com^$all
 ||firebaselogging-pa.googleapis.com^$all
 ||firebaseremoteconfig.googleapis.com^$all
-||fluidplayer.com^$all
 ||forter.com^$all
 ||fortunatemark.com^$all
 ||gjcdn.net^$all
@@ -87,7 +86,6 @@
 ||googletagservices.com^$all
 ||highperformancegate.com^$all
 ||hotjar.com^$all
-||hwcdn.net^$all
 ||iesdev.com^$all
 ||imrworldwide.com^$all
 ||indexww.com^$all
@@ -228,3 +226,4 @@
 ||msecnd.net^$all
 ||ggpht.com^$all
 ||storage.googleapis.com^$all
+
