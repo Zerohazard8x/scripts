@@ -211,3 +211,6 @@
 ||breadpayments.com^
 ||cybersource.com^
 ||ocp.ai^
+||consensu.org^
+||media-lab.ai^
+
