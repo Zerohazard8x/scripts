@@ -79,7 +79,8 @@
         "fssta.com",
         "cbsistatic.com",
         "cbsimg.net",
-        "avatars.githubusercontent.com"
+        "avatars.githubusercontent.com",
+        "scene7.com"
       ],
       "custom": {}
     },
