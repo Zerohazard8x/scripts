@@ -226,3 +226,4 @@
 ||cdn-apple.com^$all
 ||kunlunsl.com^$all
 ||msecnd.net^$all
+||ggpht.com^$all
