@@ -203,3 +203,11 @@
 ||yottaa.net^
 ||youtube-nocookie.com^
 ||youtube.googleapis.com^
+||medallia.com^
+||omtrdc.net^
+||sprinklr.com^
+||adobedtm.com^
+||affirm.com^
+||breadpayments.com^
+||cybersource.com^
+||ocp.ai^
