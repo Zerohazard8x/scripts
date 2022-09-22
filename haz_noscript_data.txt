@@ -32,7 +32,6 @@
     },
     "sites": {
       "trusted": [
-        "§:codashop.com",
         "§:telegram.org",
         "§:instructure.com",
         "§:jezevec10.com",
@@ -40,7 +39,6 @@
         "§:vclock.com",
         "§:discord.com",
         "§:youtube.com",
-        "§:10.0.0.1",
         "§:vimeo.com",
         "§:instructuremedia.com",
         "§:pussthecat.org",
@@ -63,7 +61,8 @@
         "§:127.0.0.1",
         "§:facebook.com",
         "§:fbcdn.net",
-        "§:tcrf.net"
+        "§:tcrf.net",
+        "§:10.0.0.1"
       ],
       "untrusted": [
         "http:",
@@ -75,8 +74,10 @@
         "wikimedia.org",
         "foxdcg.com",
         "neweggimages.com",
-        "codapayments.com",
-        "jtvnw.net"
+        "jtvnw.net",
+        "fssta.com",
+        "cbsistatic.com",
+        "cbsimg.net"
       ],
       "custom": {}
     },
