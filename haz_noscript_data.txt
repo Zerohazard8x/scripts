@@ -62,7 +62,8 @@
         "§:facebook.com",
         "§:fbcdn.net",
         "§:tcrf.net",
-        "§:10.0.0.1"
+        "§:10.0.0.1",
+        "§:zoom.us"
       ],
       "untrusted": [
         "http:",
