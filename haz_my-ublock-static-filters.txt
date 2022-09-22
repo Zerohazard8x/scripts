@@ -217,3 +217,5 @@
 ||headliner.link^
 ||imasdk.googleapis.com^
 ||amlg.io^
+||bbcimg.co.uk^
+||googlesyndication.com^
