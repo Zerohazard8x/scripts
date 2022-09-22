@@ -80,7 +80,8 @@
         "cbsistatic.com",
         "cbsimg.net",
         "avatars.githubusercontent.com",
-        "scene7.com"
+        "scene7.com",
+        "cbsnewsstatic.com"
       ],
       "custom": {}
     },
