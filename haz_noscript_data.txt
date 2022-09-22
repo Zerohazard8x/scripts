@@ -81,7 +81,8 @@
         "cbsimg.net",
         "avatars.githubusercontent.com",
         "scene7.com",
-        "cbsnewsstatic.com"
+        "cbsnewsstatic.com",
+        "pstatic.net"
       ],
       "custom": {}
     },
