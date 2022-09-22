@@ -75,7 +75,8 @@
         "wikimedia.org",
         "foxdcg.com",
         "neweggimages.com",
-        "codapayments.com"
+        "codapayments.com",
+        "jtvnw.net"
       ],
       "custom": {}
     },
