@@ -219,3 +219,6 @@
 ||amlg.io^$all
 ||bbcimg.co.uk^$all
 ||googlesyndication.com^$all
+||aliapp.org^$all
+||aliyun-inc.com^$all
+||imgix.net^$all
