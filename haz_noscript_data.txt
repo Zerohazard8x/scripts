@@ -77,7 +77,8 @@
         "jtvnw.net",
         "fssta.com",
         "cbsistatic.com",
-        "cbsimg.net"
+        "cbsimg.net",
+        "avatars.githubusercontent.com"
       ],
       "custom": {}
     },
