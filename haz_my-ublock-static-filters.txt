@@ -222,3 +222,7 @@
 ||aliapp.org^$all
 ||aliyun-inc.com^$all
 ||imgix.net^$all
+||akamaiedge.net^$all
+||cdn-apple.com^$all
+||kunlunsl.com^$all
+||msecnd.net^$all
