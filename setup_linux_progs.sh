@@ -3,7 +3,7 @@ sudo -i
 ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
-corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn rsync scrcpy smplayer tor-browser unison vlc"
+corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer tor-browser unison vlc"
 # plusPkgs="audacity blender chromium czkawka darktable discord foobar2000 jdownloader jellyfin kdenlive kodi libreoffice meld obs-studio opera parsec pdfsam picard qbittorrent retroarch steam thunderbird vscode"
 # gamePkgs="ioquake3 doomsday"
 
