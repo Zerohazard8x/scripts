@@ -228,4 +228,4 @@
 ||storage.googleapis.com^$all
 ||anonymousdemographics.com^$all
 ||bootstrapcdn.com^$all
-
+||polldaddy.com^$all
