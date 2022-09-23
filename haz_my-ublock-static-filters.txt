@@ -95,7 +95,6 @@
 ||iubenda.com^$all
 ||jaavnacsdw.com^$all
 ||jnn-pa.googleapis.com^$all
-||jsdelivr.net^$all
 ||jwplayer.com^$all
 ||kagari.moe^$all
 ||kampyle.com^$all
