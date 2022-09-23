@@ -226,4 +226,6 @@
 ||msecnd.net^$all
 ||ggpht.com^$all
 ||storage.googleapis.com^$all
+||anonymousdemographics.com^$all
+||bootstrapcdn.com^$all
 
