@@ -93,7 +93,12 @@
         "akamai.net",
         "staticbrainz.org",
         "pocket-image-cache.com",
-        "ggpht.com"
+        "ggpht.com",
+        "sstatic.net",
+        "azureedge.net",
+        "yimg.com",
+        "mktw.net",
+        "wsj.net"
       ],
       "custom": {}
     },
