@@ -190,6 +190,7 @@
 ||servebom.com^$all
 ||sharethrough.com^$all
 ||snackly.co^$all
+||split.io^$all
 ||sprinklr.com^$all
 ||stagepopkek.com^$all
 ||storage.googleapis.com^$all
