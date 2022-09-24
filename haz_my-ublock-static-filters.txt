@@ -115,7 +115,6 @@
 ||kagari.moe^$all
 ||kampyle.com^$all
 ||kargo.com^$all
-||kastatic.org^$all
 ||klarnaservices.com^$all
 ||klaviyo.com^$all
 ||klevu.com^$all
@@ -224,7 +223,6 @@
 ||yjtag.jp^$all
 ||yotpo.com^$all
 ||yottaa.net^$all
-||youtube-nocookie.com^$all
 ||youtube.googleapis.com^$all
 ||donorbox.org^$all
 ||fontawesome.com^$all
