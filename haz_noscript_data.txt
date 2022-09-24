@@ -64,7 +64,9 @@
         "§:10.0.0.1",
         "§:zoom.us",
         "§:google.com",
-        "§:googleusercontent.com"
+        "§:googleusercontent.com",
+        "§:kastatic.org",
+        "§:youtube-nocookie.com"
       ],
       "untrusted": [
         "http:",
