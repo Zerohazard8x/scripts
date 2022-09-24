@@ -226,3 +226,7 @@
 ||yottaa.net^$all
 ||youtube-nocookie.com^$all
 ||youtube.googleapis.com^$all
+||donorbox.org^$all
+||fontawesome.com^$all
+||libretexts.net^$all
+||hypothes.is^$all
