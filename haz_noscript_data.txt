@@ -38,7 +38,6 @@
         "§:tetr.io",
         "§:vclock.com",
         "§:discord.com",
-        "§:youtube.com",
         "§:vimeo.com",
         "§:instructuremedia.com",
         "§:pussthecat.org",
@@ -66,7 +65,8 @@
         "§:google.com",
         "§:googleusercontent.com",
         "§:kastatic.org",
-        "§:youtube-nocookie.com"
+        "§:youtube-nocookie.com",
+        "§:youtube.com"
       ],
       "untrusted": [
         "http:",
@@ -92,7 +92,8 @@
         "edgecastcdn.net",
         "akamai.net",
         "staticbrainz.org",
-        "pocket-image-cache.com"
+        "pocket-image-cache.com",
+        "ggpht.com"
       ],
       "custom": {}
     },
