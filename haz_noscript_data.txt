@@ -90,7 +90,9 @@
         "mzstatic.com",
         "mtstatic.com",
         "edgecastcdn.net",
-        "akamai.net"
+        "akamai.net",
+        "staticbrainz.org",
+        "pocket-image-cache.com"
       ],
       "custom": {}
     },
@@ -116,8 +118,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {
-    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
