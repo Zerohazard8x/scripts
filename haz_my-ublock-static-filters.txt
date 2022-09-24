@@ -230,4 +230,5 @@
 ||*yotpo.com*^$all
 ||*yottaa.net*^$all
 ||*youtube.googleapis.com*^$all
+||*piano.io*^$all
 
