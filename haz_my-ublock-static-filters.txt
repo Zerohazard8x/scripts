@@ -228,3 +228,6 @@
 ||fontawesome.com^$all
 ||libretexts.net^$all
 ||hypothes.is^$all
+||privacymanager.io^$all
+||vuukle.com^$all
+
