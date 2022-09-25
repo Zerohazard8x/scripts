@@ -4,8 +4,8 @@ ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer tor-browser unison vlc"
-# plusPkgs="audacity blender chromium czkawka darktable discord foobar2000 jdownloader jellyfin kdenlive kodi libreoffice meld obs-studio opera parsec pdfsam picard qbittorrent retroarch steam thunderbird vscode"
-# gamePkgs="ioquake3 doomsday"
+# plusPkgs="audacity blender chromium discord foobar2000 jellyfin libreoffice opera pdfsam picard steam thunderbird vscode"
+# otherPkgs="czkawka darktable doomsday ioquake3 jdownloader kdenlive kodi meld obs-studio parsec qbittorrent retroarch"
 
 snakeInstall() {
     echo $1 | ${shellConst}
