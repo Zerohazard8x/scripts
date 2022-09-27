@@ -106,7 +106,8 @@
         "dyncdn2.com",
         "imagecurl.com",
         "northplan.org",
-        "yimg.jp"
+        "yimg.jp",
+        "datatables.net"
       ],
       "custom": {}
     },
