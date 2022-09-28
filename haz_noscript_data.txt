@@ -108,7 +108,8 @@
         "northplan.org",
         "yimg.jp",
         "datatables.net",
-        "aliyuncs.com"
+        "aliyuncs.com",
+        "naverncp.com"
       ],
       "custom": {}
     },
@@ -121,18 +122,22 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "825894ff-08f9-443d-bc06-f164179ba14d"
+    "uuid": "825894ff-08f9-443d-bc06-f164179ba14d",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
+  },
+  "xssUserChoices": {
+    "https://discord.com>https://js.stripe.com": "allow"
   }
 }
+
