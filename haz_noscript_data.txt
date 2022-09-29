@@ -3,30 +3,34 @@
     "DEFAULT": {
       "capabilities": [
         "fetch",
-        "script",
-        "noscript",
         "font",
-        "frame"
+        "frame",
+        "object",
+        "other",
+        "script",
+        "noscript"
       ],
       "temp": false
     },
     "TRUSTED": {
       "capabilities": [
-        "script",
-        "noscript",
-        "font",
-        "webgl",
         "fetch",
+        "font",
+        "frame",
         "media",
-        "frame"
+        "object",
+        "other",
+        "script",
+        "webgl",
+        "noscript"
       ],
       "temp": false
     },
     "UNTRUSTED": {
       "capabilities": [
+        "frame",
         "font",
-        "noscript",
-        "frame"
+        "noscript"
       ],
       "temp": false
     },
@@ -96,7 +100,6 @@
         "wsj.net",
         "squarespace-cdn.com",
         "paramount.tech",
-        "storage.googleapis.com",
         "fsdn.com",
         "mzstatic.com",
         "mtstatic.com",
@@ -121,18 +124,19 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "825894ff-08f9-443d-bc06-f164179ba14d"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
