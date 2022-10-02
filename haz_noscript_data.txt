@@ -120,7 +120,8 @@
         "gogocdn.net",
         "http:",
         "kunlunar.com",
-        "bilicdn1.com"
+        "bilicdn1.com",
+        "kunlunno.com"
       ],
       "custom": {}
     },
