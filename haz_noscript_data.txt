@@ -121,7 +121,10 @@
         "gogocdn.net",
         "http:",
         "owcdn.net",
-        "lahuashanbx.com"
+        "lahuashanbx.com",
+        "zencdn.net",
+        "utdstc.com",
+        "qoo-img.com"
       ],
       "custom": {}
     },
