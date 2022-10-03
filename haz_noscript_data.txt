@@ -124,7 +124,10 @@
         "lahuashanbx.com",
         "zencdn.net",
         "utdstc.com",
-        "qoo-img.com"
+        "qoo-img.com",
+        "typekit.net",
+        "nintendo.eu",
+        "ctfassets.net"
       ],
       "custom": {}
     },
