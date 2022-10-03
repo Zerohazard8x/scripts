@@ -119,7 +119,8 @@
         "anmedm.com",
         "gogocdn.net",
         "http:",
-        "owcdn.net"
+        "owcdn.net",
+        "lahuashanbx.com"
       ],
       "custom": {}
     },
