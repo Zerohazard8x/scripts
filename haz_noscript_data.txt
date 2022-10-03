@@ -76,7 +76,8 @@
         "localhost",
         "§:fodder.gg",
         "§:twitchcdn.net",
-        "§:youtube-nocookie.com"
+        "§:youtube-nocookie.com",
+        "§:hcaptcha.com"
       ],
       "untrusted": [
         "ytimg.com",
