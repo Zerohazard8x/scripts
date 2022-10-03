@@ -4,7 +4,7 @@ ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer tor-browser unison vlc"
-# plusPkgs="audacity blender chromium discord foobar2000 jellyfin libreoffice opera pdfsam picard steam thunderbird vscode"
+# plusPkgs="audacity blender chromium discord foobar2000 jellyfin libreoffice microsoft-edge pdfsam picard steam thunderbird vscode"
 # otherPkgs="czkawka darktable doomsday ioquake3 jdownloader kdenlive kodi meld obs-studio parsec qbittorrent retroarch"
 
 snakeInstall() {
@@ -82,6 +82,10 @@ if [[ $(command -v apt | egrep /) != $null ]]; then
     sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
     apt update && apt install aptitude snapd -y
 fi
+
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo apt-add-repository https://packages.microsoft.com/debian/10/prod
+sudo apt-get update
 
 ${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
