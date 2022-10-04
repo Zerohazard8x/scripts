@@ -82,8 +82,6 @@
       ],
       "untrusted": [
         "ytimg.com",
-        "media-amazon.com",
-        "ssl-images-amazon.com",
         "trackercdn.com",
         "wikimedia.org",
         "foxdcg.com",
@@ -132,7 +130,8 @@
         "akamaihd.net",
         "indy100.com",
         "amazonaws.com",
-        "pinimg.com"
+        "pinimg.com",
+        "media-amazon.com"
       ],
       "custom": {}
     },
@@ -158,5 +157,6 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
