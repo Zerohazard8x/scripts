@@ -77,7 +77,8 @@
         "§:fodder.gg",
         "§:twitchcdn.net",
         "§:youtube-nocookie.com",
-        "§:hcaptcha.com"
+        "§:hcaptcha.com",
+        "§:steamstatic.com"
       ],
       "untrusted": [
         "ytimg.com",
@@ -129,7 +130,9 @@
         "ctfassets.net",
         "contentstack.io",
         "akamaihd.net",
-        "indy100.com"
+        "indy100.com",
+        "amazonaws.com",
+        "pinimg.com"
       ],
       "custom": {}
     },
