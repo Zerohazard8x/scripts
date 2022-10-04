@@ -128,7 +128,8 @@
         "nintendo.eu",
         "ctfassets.net",
         "contentstack.io",
-        "akamaihd.net"
+        "akamaihd.net",
+        "indy100.com"
       ],
       "custom": {}
     },
