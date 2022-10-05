@@ -132,7 +132,8 @@
         "amazonaws.com",
         "media-amazon.com",
         "website-files.com",
-        "ebayimg.com"
+        "ebayimg.com",
+        "razerzone.com"
       ],
       "custom": {}
     },
@@ -158,6 +159,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
