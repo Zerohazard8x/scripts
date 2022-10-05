@@ -130,8 +130,9 @@
         "akamaihd.net",
         "indy100.com",
         "amazonaws.com",
-        "pinimg.com",
-        "media-amazon.com"
+        "media-amazon.com",
+        "website-files.com",
+        "ebayimg.com"
       ],
       "custom": {}
     },
