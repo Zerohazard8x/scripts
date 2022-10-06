@@ -14,7 +14,6 @@ cmd.exe /c sc config "W32Time" start=auto
 cmd.exe /c net start "W32Time"
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
-cmd.exe /c ipconfig /flushdns
 
 cmd.exe /c sc config "MacType" start=auto
 cmd.exe /c net stop "MacType"
@@ -93,6 +92,7 @@ python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 
 netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
+cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
 
 shutdown /r /f /t 0
