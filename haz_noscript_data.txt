@@ -124,7 +124,6 @@
         "exp-tas.com",
         "msecnd.net",
         "visualstudio.com",
-        "azureedge.net",
         "vscode-cdn.net"
       ],
       "custom": {}
