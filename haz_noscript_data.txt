@@ -104,7 +104,14 @@
         "zendesk.com",
         "narrativ.com",
         "scroll.com",
-        "vox-cdn.com"
+        "vox-cdn.com",
+        "4dex.io",
+        "a-mo.net",
+        "adform.net",
+        "casalemedia.com",
+        "criteo.com",
+        "3lift.com",
+        "vntsm.com"
       ],
       "custom": {}
     },
@@ -117,18 +124,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {}
