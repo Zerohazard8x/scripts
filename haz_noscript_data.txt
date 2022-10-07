@@ -117,7 +117,15 @@
         "hubspot.com",
         "jnn-pa.googleapis.com",
         "nocookie.net",
-        "osano.com"
+        "osano.com",
+        "paypalobjects.com",
+        "yotpo.com",
+        "yottaa.net",
+        "exp-tas.com",
+        "msecnd.net",
+        "visualstudio.com",
+        "azureedge.net",
+        "vscode-cdn.net"
       ],
       "custom": {}
     },
