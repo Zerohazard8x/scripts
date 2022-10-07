@@ -93,7 +93,6 @@
         "ebayimg.com",
         "razerzone.com",
         "tadst.com",
-        "gstatic.com",
         "returnyoutubedislikeapi.com",
         "live-video.net",
         "discordapp.com",
@@ -111,7 +110,13 @@
         "casalemedia.com",
         "criteo.com",
         "3lift.com",
-        "vntsm.com"
+        "vntsm.com",
+        "popin.cc",
+        "drift.com",
+        "driftt.com",
+        "hscollectedforms.net",
+        "hubspot.com",
+        "jnn-pa.googleapis.com"
       ],
       "custom": {}
     },
@@ -124,19 +129,20 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {}
 }
+
