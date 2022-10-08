@@ -41,6 +41,7 @@
       "trusted": [],
       "untrusted": [
         "ytimg.com",
+        "trackercdn.com",
         "wikimedia.org",
         "foxdcg.com",
         "jtvnw.net",
@@ -84,6 +85,7 @@
         "nintendo.eu",
         "ctfassets.net",
         "contentstack.io",
+        "akamaihd.net",
         "indy100.com",
         "amazonaws.com",
         "media-amazon.com",
@@ -115,6 +117,7 @@
         "hubspot.com",
         "jnn-pa.googleapis.com",
         "nocookie.net",
+        "osano.com",
         "paypalobjects.com",
         "yotpo.com",
         "yottaa.net",
@@ -147,8 +150,7 @@
         "scorecardresearch.com",
         "stripe.network",
         "jquery.com",
-        "minute.ly",
-        "osano.com"
+        "bootstrapcdn.com"
       ],
       "custom": {}
     },
@@ -161,18 +163,19 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
