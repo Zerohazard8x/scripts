@@ -148,7 +148,8 @@
         "quantcount.com",
         "quantserve.com",
         "scorecardresearch.com",
-        "stripe.network"
+        "stripe.network",
+        "jquery.com"
       ],
       "custom": {}
     },
