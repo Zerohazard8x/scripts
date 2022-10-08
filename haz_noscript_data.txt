@@ -41,7 +41,6 @@
       "trusted": [],
       "untrusted": [
         "ytimg.com",
-        "trackercdn.com",
         "wikimedia.org",
         "foxdcg.com",
         "jtvnw.net",
@@ -85,7 +84,6 @@
         "nintendo.eu",
         "ctfassets.net",
         "contentstack.io",
-        "akamaihd.net",
         "indy100.com",
         "amazonaws.com",
         "media-amazon.com",
@@ -117,7 +115,6 @@
         "hubspot.com",
         "jnn-pa.googleapis.com",
         "nocookie.net",
-        "osano.com",
         "paypalobjects.com",
         "yotpo.com",
         "yottaa.net",
@@ -149,7 +146,9 @@
         "quantserve.com",
         "scorecardresearch.com",
         "stripe.network",
-        "jquery.com"
+        "jquery.com",
+        "minute.ly",
+        "osano.com"
       ],
       "custom": {}
     },
