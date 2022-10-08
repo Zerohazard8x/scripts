@@ -126,7 +126,29 @@
         "visualstudio.com",
         "vscode-cdn.net",
         "redventures.io",
-        "targetimg1.com"
+        "targetimg1.com",
+        "amazon-adsystem.com",
+        "b-cdn.net",
+        "cloudflareinsights.com",
+        "crsspxl.com",
+        "d35xxde4fgg0cx.cloudfront.net",
+        "defybrick.com",
+        "doubleclick.net",
+        "ezodn.com",
+        "ezoic.net",
+        "google-analytics.com",
+        "ezojs.com",
+        "googlesyndication.com",
+        "googletagmanager.com",
+        "instant.page",
+        "outbrain.com",
+        "memberful.com",
+        "outbrainimg.com",
+        "pro-market.net",
+        "quantcount.com",
+        "quantserve.com",
+        "scorecardresearch.com",
+        "stripe.network"
       ],
       "custom": {}
     },
@@ -152,6 +174,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
