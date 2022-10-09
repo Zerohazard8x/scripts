@@ -149,7 +149,10 @@
         "scorecardresearch.com",
         "stripe.network",
         "jquery.com",
-        "bootstrapcdn.com"
+        "bootstrapcdn.com",
+        "adobedtm.com",
+        "sciencedirectassets.com",
+        "libretexts.net"
       ],
       "custom": {}
     },
@@ -175,6 +178,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
