@@ -152,7 +152,10 @@
         "bootstrapcdn.com",
         "adobedtm.com",
         "sciencedirectassets.com",
-        "libretexts.net"
+        "libretexts.net",
+        "connatix.com",
+        "guim.co.uk",
+        "nyt.com"
       ],
       "custom": {}
     },
