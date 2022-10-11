@@ -87,7 +87,6 @@
         "contentstack.io",
         "akamaihd.net",
         "indy100.com",
-        "amazonaws.com",
         "media-amazon.com",
         "website-files.com",
         "ebayimg.com",
@@ -155,7 +154,10 @@
         "libretexts.net",
         "connatix.com",
         "guim.co.uk",
-        "nyt.com"
+        "nyt.com",
+        "amazonaws.com",
+        "gartner.com",
+        "imgix.net"
       ],
       "custom": {}
     },
