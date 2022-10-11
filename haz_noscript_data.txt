@@ -158,7 +158,8 @@
         "amazonaws.com",
         "gartner.com",
         "imgix.net",
-        "t-msedge.net"
+        "t-msedge.net",
+        "userapi.com"
       ],
       "custom": {}
     },
