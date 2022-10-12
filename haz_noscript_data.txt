@@ -160,7 +160,8 @@
         "imgix.net",
         "t-msedge.net",
         "playwire.com",
-        "identitytoolkit.googleapis.com"
+        "identitytoolkit.googleapis.com",
+        "edgedatg.com"
       ],
       "custom": {}
     },
