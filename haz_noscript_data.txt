@@ -164,6 +164,11 @@
         "edgedatg.com",
         "nperf.net",
         "convergeict.com",
+        "ontrack-media.net",
+        "googleoptimize.com",
+        "pulseinsights.com",
+        "sentry.io",
+        "cloudflare.com",
         "fastly.net"
       ],
       "custom": {}
@@ -177,19 +182,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
