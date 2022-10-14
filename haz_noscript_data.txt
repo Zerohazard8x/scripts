@@ -160,7 +160,6 @@
         "imgix.net",
         "t-msedge.net",
         "playwire.com",
-        "identitytoolkit.googleapis.com",
         "edgedatg.com",
         "nperf.net",
         "convergeict.com",
@@ -170,7 +169,8 @@
         "sentry.io",
         "cloudflare.com",
         "fastly.net",
-        "segment.com"
+        "segment.com",
+        "fonts.googleapis.com"
       ],
       "custom": {}
     },
