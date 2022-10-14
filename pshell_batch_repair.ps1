@@ -16,7 +16,6 @@ cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
 
 cmd.exe /c sc config "MacType" start=auto
-cmd.exe /c net stop "MacType"
 cmd.exe /c net start "MacType"
 
 cmd.exe /c dir "$Env:Programfiles\WindowsApps\*AppxManifest.xml" /b /s | Add-AppxPackage -DisableDevelopmentMode -Register
