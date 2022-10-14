@@ -38,7 +38,9 @@
       "temp": false
     },
     "sites": {
-      "trusted": [],
+      "trusted": [
+        "localhost"
+      ],
       "untrusted": [
         "ytimg.com",
         "trackercdn.com",
@@ -170,7 +172,8 @@
         "cloudflare.com",
         "fastly.net",
         "segment.com",
-        "fonts.googleapis.com"
+        "fonts.googleapis.com",
+        "futurecdn.net"
       ],
       "custom": {}
     },
