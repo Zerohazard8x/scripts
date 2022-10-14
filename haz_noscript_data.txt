@@ -169,7 +169,8 @@
         "pulseinsights.com",
         "sentry.io",
         "cloudflare.com",
-        "fastly.net"
+        "fastly.net",
+        "segment.com"
       ],
       "custom": {}
     },
