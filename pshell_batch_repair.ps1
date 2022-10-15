@@ -75,7 +75,7 @@ net stop "Superfetch"
 net start "WlanSvc"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer unison vlc -y
+choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vlc -y
 # choco upgrade audacity chromium discord foobar2000 jellyfin libreoffice microsoft-edge obs-studio pdfsam picard qbittorrent steam thunderbird vscode -y
 # choco upgrade blender czkawka darktable doomsday ioquake3 jdownloader kdenlive kodi meld parsec retroarch tor-browser
 
@@ -89,7 +89,7 @@ python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 # python -m pip install -U pymusiclooper
 # python -m pip install -U spleeter
 
-netsh int tcp set global autotuninglevel=disabled
+cmd.exe /c netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
