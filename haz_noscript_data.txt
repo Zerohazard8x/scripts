@@ -175,7 +175,9 @@
         "fonts.googleapis.com",
         "futurecdn.net",
         "minute.ly",
-        "jwplayer-dualstack.map.fastly.net"
+        "wikimg.net",
+        "wiki.gallery",
+        "securetoken.googleapis.com"
       ],
       "custom": {}
     },
@@ -188,20 +190,19 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {}
 }
-
