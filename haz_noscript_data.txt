@@ -87,7 +87,6 @@
         "nintendo.eu",
         "ctfassets.net",
         "contentstack.io",
-        "akamaihd.net",
         "indy100.com",
         "media-amazon.com",
         "website-files.com",
@@ -203,6 +202,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
