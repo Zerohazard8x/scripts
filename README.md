@@ -2,5 +2,5 @@
 
 made this to pull scripts from
 
-**Private notes**
+**Personal notes**
 https://slipfox.xyz/
