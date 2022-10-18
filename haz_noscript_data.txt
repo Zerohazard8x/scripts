@@ -178,7 +178,8 @@
         "securetoken.googleapis.com",
         "kongregate.map.fastly.net",
         "tpucdn.com",
-        "ssl-images-amazon.com"
+        "ssl-images-amazon.com",
+        "ensighten.com"
       ],
       "custom": {}
     },
