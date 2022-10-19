@@ -56,7 +56,6 @@
         "akamai.net",
         "pocket-image-cache.com",
         "ggpht.com",
-        "yimg.com",
         "mktw.net",
         "wsj.net",
         "squarespace-cdn.com",
