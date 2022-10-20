@@ -179,7 +179,8 @@
         "tpucdn.com",
         "ssl-images-amazon.com",
         "ensighten.com",
-        "firebase.googleapis.com"
+        "firebase.googleapis.com",
+        "insops.net"
       ],
       "custom": {}
     },
