@@ -182,7 +182,8 @@
         "bilicdn1.com",
         "kunlunno.com",
         "kunlunar.com",
-        "facebook.net"
+        "facebook.net",
+        "cloudflare.net"
       ],
       "custom": {}
     },
