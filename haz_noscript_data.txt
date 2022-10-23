@@ -122,8 +122,6 @@
         "yottaa.net",
         "exp-tas.com",
         "msecnd.net",
-        "visualstudio.com",
-        "vscode-cdn.net",
         "redventures.io",
         "targetimg1.com",
         "amazon-adsystem.com",
