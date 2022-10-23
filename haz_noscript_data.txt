@@ -180,7 +180,8 @@
         "kunlunno.com",
         "kunlunar.com",
         "facebook.net",
-        "cloudflare.net"
+        "cloudflare.net",
+        "cdn-apple.com"
       ],
       "custom": {}
     },
