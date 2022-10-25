@@ -182,7 +182,10 @@
         "facebook.net",
         "cloudflare.net",
         "cdn-apple.com",
-        "altis.cloud"
+        "altis.cloud",
+        "shortpixel.ai",
+        "z-dn.net",
+        "branch.io"
       ],
       "custom": {}
     },
