@@ -185,7 +185,8 @@
         "altis.cloud",
         "shortpixel.ai",
         "z-dn.net",
-        "branch.io"
+        "branch.io",
+        "bbci.co.uk"
       ],
       "custom": {}
     },
