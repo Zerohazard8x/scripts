@@ -87,7 +87,6 @@
         "ctfassets.net",
         "contentstack.io",
         "indy100.com",
-        "media-amazon.com",
         "website-files.com",
         "ebayimg.com",
         "razerzone.com",
@@ -173,7 +172,6 @@
         "wiki.gallery",
         "kongregate.map.fastly.net",
         "tpucdn.com",
-        "ssl-images-amazon.com",
         "ensighten.com",
         "insops.net",
         "bilicdn1.com",
@@ -187,7 +185,8 @@
         "z-dn.net",
         "branch.io",
         "bbci.co.uk",
-        "vimeocdn.com"
+        "vimeocdn.com",
+        "media-amazon.com"
       ],
       "custom": {}
     },
