@@ -186,7 +186,8 @@
         "shortpixel.ai",
         "z-dn.net",
         "branch.io",
-        "bbci.co.uk"
+        "bbci.co.uk",
+        "vimeocdn.com"
       ],
       "custom": {}
     },
