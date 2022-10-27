@@ -128,7 +128,6 @@
         "cloudflareinsights.com",
         "crsspxl.com",
         "defybrick.com",
-        "doubleclick.net",
         "ezodn.com",
         "ezoic.net",
         "google-analytics.com",
