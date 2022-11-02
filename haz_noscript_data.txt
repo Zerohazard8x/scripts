@@ -142,7 +142,6 @@
         "quantserve.com",
         "scorecardresearch.com",
         "stripe.network",
-        "jquery.com",
         "bootstrapcdn.com",
         "adobedtm.com",
         "sciencedirectassets.com",
@@ -190,8 +189,7 @@
         "spotifycdn.com",
         "scdn.co",
         "office.net",
-        "git99.com",
-        "taboola.com"
+        "git99.com"
       ],
       "custom": {}
     },
@@ -204,19 +202,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
