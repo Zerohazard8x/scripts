@@ -189,7 +189,8 @@
         "spotifycdn.com",
         "scdn.co",
         "office.net",
-        "git99.com"
+        "git99.com",
+        "fbsbx.com"
       ],
       "custom": {}
     },
