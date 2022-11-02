@@ -12,8 +12,8 @@
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
 "EnableAutoDoh"=dword:00000002
-"MaxCacheTtl"=dword:00000001
-"MaxNegativeCacheTtl"=dword:00000000
+"MaxCacheTtl"=-
+"MaxNegativeCacheTtl"=-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
 "UpgradedSystem"=dword:00000001
