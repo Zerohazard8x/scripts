@@ -183,7 +183,6 @@
         "branch.io",
         "bbci.co.uk",
         "vimeocdn.com",
-        "media-amazon.com",
         "kinja-img.com",
         "imasdk.googleapis.com",
         "spotifycdn.com",
