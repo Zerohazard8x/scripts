@@ -32,7 +32,7 @@
 "ConfirmFileDelete"=dword:00000001
 
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
-{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000001
+"{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000001
 
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
