@@ -195,7 +195,8 @@
         "blogmura.com",
         "shinobi.jp",
         "cleverpush.com",
-        "akamai.com"
+        "akamai.com",
+        "csdnimg.cn"
       ],
       "custom": {}
     },
