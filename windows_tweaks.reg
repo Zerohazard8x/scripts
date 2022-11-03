@@ -49,6 +49,12 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
 "Start"=dword:00000004
 
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache]
+"Start"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time]
+"Start"=dword:00000002
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WlanSvc]
 "Start"=dword:00000002
 
