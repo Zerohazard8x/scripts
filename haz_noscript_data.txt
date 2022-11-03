@@ -196,8 +196,8 @@
         "shinobi.jp",
         "cleverpush.com",
         "akamai.com",
-        "csdnimg.cn",
-        "cdn77.org"
+        "cdn77.org",
+        "mt-rv.map.fastly.net"
       ],
       "custom": {}
     },
