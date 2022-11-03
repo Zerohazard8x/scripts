@@ -189,7 +189,8 @@
         "scdn.co",
         "office.net",
         "git99.com",
-        "fbsbx.com"
+        "fbsbx.com",
+        "navismithapis-cdn.com"
       ],
       "custom": {}
     },
