@@ -191,7 +191,11 @@
         "git99.com",
         "fbsbx.com",
         "navismithapis-cdn.com",
-        "tiktokcdn.com"
+        "tiktokcdn.com",
+        "blogmura.com",
+        "shinobi.jp",
+        "cleverpush.com",
+        "akamai.com"
       ],
       "custom": {}
     },
