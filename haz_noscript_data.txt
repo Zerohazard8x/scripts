@@ -190,7 +190,8 @@
         "office.net",
         "git99.com",
         "fbsbx.com",
-        "navismithapis-cdn.com"
+        "navismithapis-cdn.com",
+        "tiktokcdn.com"
       ],
       "custom": {}
     },
