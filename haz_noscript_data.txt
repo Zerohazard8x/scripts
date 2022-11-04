@@ -200,7 +200,9 @@
         "mt-rv.map.fastly.net",
         "blz-contentstack.com",
         "ign.map.fastly.net",
-        "ignimgs.com"
+        "ignimgs.com",
+        "condenast.map.fastly.net",
+        "media.vanityfair.com"
       ],
       "custom": {}
     },
