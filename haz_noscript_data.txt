@@ -197,7 +197,10 @@
         "cleverpush.com",
         "akamai.com",
         "cdn77.org",
-        "mt-rv.map.fastly.net"
+        "mt-rv.map.fastly.net",
+        "blz-contentstack.com",
+        "ign.map.fastly.net",
+        "ignimgs.com"
       ],
       "custom": {}
     },
