@@ -202,7 +202,8 @@
         "ign.map.fastly.net",
         "ignimgs.com",
         "condenast.map.fastly.net",
-        "media.vanityfair.com"
+        "media.vanityfair.com",
+        "digitaloceanspaces.com"
       ],
       "custom": {}
     },
