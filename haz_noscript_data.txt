@@ -205,7 +205,10 @@
         "media.vanityfair.com",
         "digitaloceanspaces.com",
         "unpkg.com",
-        "mapbox.com"
+        "mapbox.com",
+        "rackcdn.com",
+        "maps.googleapis.com",
+        "cdn-japantimes.com"
       ],
       "custom": {}
     },
