@@ -90,7 +90,7 @@ python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 # python -m pip install -U spleeter
 
 cmd.exe /c netsh int tcp set global autotuninglevel=disabled
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('9.9.9.9','1.1.1.2')
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
 
