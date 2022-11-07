@@ -89,7 +89,6 @@
         "indy100.com",
         "website-files.com",
         "ebayimg.com",
-        "razerzone.com",
         "tadst.com",
         "live-video.net",
         "discordapp.com",
@@ -234,6 +233,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
