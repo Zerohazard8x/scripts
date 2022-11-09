@@ -203,7 +203,6 @@
         "digitaloceanspaces.com",
         "mapbox.com",
         "rackcdn.com",
-        "maps.googleapis.com",
         "cdn-japantimes.com",
         "unpkg.com",
         "guildedcdn.com",
