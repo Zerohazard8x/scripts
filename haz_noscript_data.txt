@@ -62,7 +62,6 @@
         "paramount.tech",
         "fsdn.com",
         "mzstatic.com",
-        "mtstatic.com",
         "wp.com",
         "jeded.com",
         "dyncdn2.com",
@@ -144,7 +143,6 @@
         "bootstrapcdn.com",
         "adobedtm.com",
         "sciencedirectassets.com",
-        "libretexts.net",
         "connatix.com",
         "guim.co.uk",
         "nyt.com",
@@ -199,14 +197,15 @@
         "mt-rv.map.fastly.net",
         "blz-contentstack.com",
         "ign.map.fastly.net",
+        "ignimgs.com",
         "condenast.map.fastly.net",
         "media.vanityfair.com",
         "digitaloceanspaces.com",
-        "unpkg.com",
         "mapbox.com",
         "rackcdn.com",
         "maps.googleapis.com",
-        "cdn-japantimes.com"
+        "cdn-japantimes.com",
+        "unpkg.com"
       ],
       "custom": {}
     },
@@ -219,19 +218,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
