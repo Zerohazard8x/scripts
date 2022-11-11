@@ -250,7 +250,8 @@
         "ivstracker.net",
         "moatads.com",
         "skypack.dev",
-        "techlab-cdn.com"
+        "techlab-cdn.com",
+        "xdaimages.com"
       ],
       "custom": {}
     },
@@ -276,6 +277,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
