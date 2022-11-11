@@ -235,10 +235,22 @@
         "ads-twitter.com",
         "openx.net",
         "newrelic.com",
-        "barrons.com",
         "cxense.com",
         "jocdn.jp",
-        "elb.amazonaws.com"
+        "elb.amazonaws.com",
+        "gotraffic.net",
+        "abs-cbnnews.com",
+        "kapamilya.com",
+        "aralego.net",
+        "crwdcntrl.net",
+        "d2wy8f7a9ursnm.cloudfront.net",
+        "d31qbv1cthcecs.cloudfront.net",
+        "doubleclick.net",
+        "go-mpulse.net",
+        "ivstracker.net",
+        "moatads.com",
+        "skypack.dev",
+        "techlab-cdn.com"
       ],
       "custom": {}
     },
@@ -251,18 +263,18 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
     "xss": true,
-    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
+    "TabGuardMode": "incognito",
     "storage": "sync"
   },
   "xssUserChoices": {}
