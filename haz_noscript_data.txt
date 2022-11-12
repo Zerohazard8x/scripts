@@ -163,7 +163,6 @@
         "minute.ly",
         "wikimg.net",
         "wiki.gallery",
-        "kongregate.map.fastly.net",
         "tpucdn.com",
         "ensighten.com",
         "insops.net",
@@ -193,11 +192,8 @@
         "cleverpush.com",
         "akamai.com",
         "cdn77.org",
-        "mt-rv.map.fastly.net",
         "blz-contentstack.com",
-        "ign.map.fastly.net",
         "ignimgs.com",
-        "condenast.map.fastly.net",
         "media.vanityfair.com",
         "digitaloceanspaces.com",
         "mapbox.com",
@@ -251,7 +247,7 @@
         "moatads.com",
         "skypack.dev",
         "techlab-cdn.com",
-        "xdaimages.com"
+        "wix.com"
       ],
       "custom": {}
     },
@@ -264,18 +260,19 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
     "xss": true,
+    "TabGuardMode": "incognito",
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
-    "TabGuardMode": "incognito",
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
