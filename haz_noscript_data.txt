@@ -247,7 +247,8 @@
         "moatads.com",
         "skypack.dev",
         "techlab-cdn.com",
-        "wix.com"
+        "wix.com",
+        "swiftserve.com"
       ],
       "custom": {}
     },
