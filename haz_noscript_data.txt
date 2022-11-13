@@ -129,7 +129,6 @@
         "googlesyndication.com",
         "googletagmanager.com",
         "instant.page",
-        "outbrain.com",
         "memberful.com",
         "outbrainimg.com",
         "pro-market.net",
@@ -262,10 +261,10 @@
         "conviva.com",
         "clean.gg",
         "aniview.com",
-        "beemray.com",
-        "bitmovin.com",
         "brightline.tv",
-        "bounceexchange.com"
+        "bounceexchange.com",
+        "beemray.com",
+        "bitmovin.com"
       ],
       "custom": {}
     },
