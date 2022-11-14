@@ -264,7 +264,8 @@
         "brightline.tv",
         "bounceexchange.com",
         "beemray.com",
-        "bitmovin.com"
+        "bitmovin.com",
+        "photobucket.com"
       ],
       "custom": {}
     },
@@ -290,6 +291,5 @@
     "overrideTorBrowserPolicy": false,
     "TabGuardMode": "incognito",
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
