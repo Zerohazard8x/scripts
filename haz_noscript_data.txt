@@ -270,7 +270,8 @@
         "assetsadobe2.com",
         "pixabay.com",
         "unrealengine.com",
-        "guide-images.cdn.ifixit.com"
+        "guide-images.cdn.ifixit.com",
+        "gleamjs.io"
       ],
       "custom": {}
     },
