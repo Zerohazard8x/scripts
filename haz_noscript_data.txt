@@ -267,7 +267,8 @@
         "bitmovin.com",
         "photobucket.com",
         "http:",
-        "assetsadobe2.com"
+        "assetsadobe2.com",
+        "pixabay.com"
       ],
       "custom": {}
     },
