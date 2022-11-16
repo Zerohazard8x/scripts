@@ -270,7 +270,7 @@
         "assetsadobe2.com",
         "pixabay.com",
         "unrealengine.com",
-        "assets.cdn.ifixit.com"
+        "guide-images.cdn.ifixit.com"
       ],
       "custom": {}
     },
