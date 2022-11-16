@@ -265,7 +265,9 @@
         "bounceexchange.com",
         "beemray.com",
         "bitmovin.com",
-        "photobucket.com"
+        "photobucket.com",
+        "http:",
+        "assetsadobe2.com"
       ],
       "custom": {}
     },
