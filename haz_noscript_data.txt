@@ -271,7 +271,8 @@
         "pixabay.com",
         "unrealengine.com",
         "guide-images.cdn.ifixit.com",
-        "gleamjs.io"
+        "gleamjs.io",
+        "skyscannerplatform.net"
       ],
       "custom": {}
     },
