@@ -1,15 +1,5 @@
 cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1" # then devmgmt.msc delete all greyed out in safe mode
 
-cmd.exe /c powercfg /setacvalueindex 381b4222-f694-41f0-9685-ff5bb260df2e 54533251-82be-4824-96c1-47b60b740d00 893dee8e-2bef-41e0-89c6-b55d0929964c 100
-cmd.exe /c powercfg /setacvalueindex 381b4222-f694-41f0-9685-ff5bb260df2e 54533251-82be-4824-96c1-47b60b740d00 bc5038f7-23e0-4960-96da-33abaf5935ec 100
-cmd.exe /c powercfg /setacvalueindex 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 54533251-82be-4824-96c1-47b60b740d00 893dee8e-2bef-41e0-89c6-b55d0929964c 100
-cmd.exe /c powercfg /setacvalueindex 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 54533251-82be-4824-96c1-47b60b740d00 bc5038f7-23e0-4960-96da-33abaf5935ec 100
-
-cmd.exe /c powercfg /setdcvalueindex 381b4222-f694-41f0-9685-ff5bb260df2e 54533251-82be-4824-96c1-47b60b740d00 893dee8e-2bef-41e0-89c6-b55d0929964c 100
-cmd.exe /c powercfg /setdcvalueindex 381b4222-f694-41f0-9685-ff5bb260df2e 54533251-82be-4824-96c1-47b60b740d00 bc5038f7-23e0-4960-96da-33abaf5935ec 100
-cmd.exe /c powercfg /setdcvalueindex 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 54533251-82be-4824-96c1-47b60b740d00 893dee8e-2bef-41e0-89c6-b55d0929964c 100
-cmd.exe /c powercfg /setdcvalueindex 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c 54533251-82be-4824-96c1-47b60b740d00 bc5038f7-23e0-4960-96da-33abaf5935ec 100
-
 cmd.exe /c sc config "W32Time" start=auto
 cmd.exe /c net start "W32Time"
 cmd.exe /c w32tm /config /update
@@ -89,9 +79,9 @@ python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
 # python -m pip install -U pymusiclooper
 # python -m pip install -U spleeter
 
-cmd.exe /c netsh int tcp set global autotuninglevel=disabled
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
-cmd.exe /c ipconfig /flushdns
-Get-NetAdapter | Restart-NetAdapter
+# cmd.exe /c netsh int tcp set global autotuninglevel=disabled
+# Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
+# cmd.exe /c ipconfig /flushdns
+# Get-NetAdapter | Restart-NetAdapter
 
 shutdown /r /f /t 0
