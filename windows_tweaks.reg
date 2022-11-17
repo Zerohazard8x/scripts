@@ -63,10 +63,6 @@
 "Start"=dword:00000002
 
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FrameServer]
-"Start"=dword:00000002
-
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LicenseManager]
 "Start"=dword:00000002
 
