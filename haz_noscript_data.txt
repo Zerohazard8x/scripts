@@ -156,7 +156,6 @@
         "fastly.net",
         "segment.com",
         "fonts.googleapis.com",
-        "futurecdn.net",
         "minute.ly",
         "wikimg.net",
         "wiki.gallery",
