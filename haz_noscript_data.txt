@@ -268,7 +268,9 @@
         "gleamjs.io",
         "skyscannerplatform.net",
         "converseapps.net",
-        "zendesk.com"
+        "zendesk.com",
+        "tnn.in",
+        "hearstapps.com"
       ],
       "custom": {}
     },
