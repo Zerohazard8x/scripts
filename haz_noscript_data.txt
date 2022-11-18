@@ -92,8 +92,6 @@
         "discordapp.com",
         "telegram.me",
         "onetrust.com",
-        "zdassets.com",
-        "zendesk.com",
         "narrativ.com",
         "scroll.com",
         "vox-cdn.com",
@@ -187,7 +185,6 @@
         "cleverpush.com",
         "akamai.com",
         "cdn77.org",
-        "blz-contentstack.com",
         "media.vanityfair.com",
         "digitaloceanspaces.com",
         "mapbox.com",
@@ -269,7 +266,9 @@
         "unrealengine.com",
         "guide-images.cdn.ifixit.com",
         "gleamjs.io",
-        "skyscannerplatform.net"
+        "skyscannerplatform.net",
+        "converseapps.net",
+        "zendesk.com"
       ],
       "custom": {}
     },
