@@ -92,9 +92,6 @@
         "discordapp.com",
         "telegram.me",
         "onetrust.com",
-        "narrativ.com",
-        "scroll.com",
-        "vox-cdn.com",
         "4dex.io",
         "a-mo.net",
         "adform.net",
@@ -271,7 +268,11 @@
         "zendesk.com",
         "tnn.in",
         "hearstapps.com",
-        "springernature.com"
+        "springernature.com",
+        "pacn.ws",
+        "brightspotcdn.com",
+        "scroll.com",
+        "narrativ.com"
       ],
       "custom": {}
     },
