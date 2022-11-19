@@ -11,6 +11,8 @@ cmd.exe /c sc config "MacType" start=auto
 cmd.exe /c sc config "PNRPsvc" start=auto
 cmd.exe /c sc config "W32Time" start=auto
 cmd.exe /c sc config "WdNisSvc" start=auto
+cmd.exe /c sc config "WlanSvc" start=auto
+cmd.exe /c sc config "audiosrv" start=auto
 cmd.exe /c sc config "iphlpsvc" start=auto
 cmd.exe /c sc config "ndu" start=auto
 cmd.exe /c sc config "p2pimsvc" start=auto
@@ -28,6 +30,8 @@ cmd.exe /c net start "MacType"
 cmd.exe /c net start "PNRPsvc"
 cmd.exe /c net start "W32Time"
 cmd.exe /c net start "WdNisSvc"
+cmd.exe /c net start "WlanSvc"
+cmd.exe /c net start "audiosrv"
 cmd.exe /c net start "iphlpsvc"
 cmd.exe /c net start "ndu"
 cmd.exe /c net start "p2pimsvc"
