@@ -270,7 +270,8 @@
         "converseapps.net",
         "zendesk.com",
         "tnn.in",
-        "hearstapps.com"
+        "hearstapps.com",
+        "springernature.com"
       ],
       "custom": {}
     },
