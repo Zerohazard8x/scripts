@@ -91,6 +91,10 @@
 "Start"=dword:00000002
 
 
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\audiosrv]
+"Start"=dword:00000002
+
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\iphlpsvc]
 "Start"=dword:00000002
 
