@@ -272,7 +272,8 @@
         "brightspotcdn.com",
         "scroll.com",
         "narrativ.com",
-        "amazon.map.fastly.net"
+        "amazon.map.fastly.net",
+        "deviantart.net"
       ],
       "custom": {}
     },
@@ -285,11 +286,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
@@ -298,5 +299,6 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
