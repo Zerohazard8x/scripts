@@ -271,7 +271,8 @@
         "pacn.ws",
         "brightspotcdn.com",
         "scroll.com",
-        "narrativ.com"
+        "narrativ.com",
+        "amazon.map.fastly.net"
       ],
       "custom": {}
     },
