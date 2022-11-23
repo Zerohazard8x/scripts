@@ -274,7 +274,8 @@
         "narrativ.com",
         "amazon.map.fastly.net",
         "deviantart.net",
-        "superprof.com"
+        "superprof.com",
+        "brightcove.map.fastly.net"
       ],
       "custom": {}
     },
