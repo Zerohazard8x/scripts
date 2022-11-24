@@ -276,7 +276,14 @@
         "deviantart.net",
         "superprof.com",
         "brightcove.map.fastly.net",
-        "365dm.com"
+        "365dm.com",
+        "upload-os-bbs.hoyolab.com",
+        "d1hrdrhl9ievov.cloudfront.net",
+        "d29link7mmo00b.cloudfront.net",
+        "d3m5pmku5z3tzn.cloudfront.net",
+        "d9k0w0y3delq8.cloudfront.net",
+        "cdngslb.com",
+        "d16mjkrffel3t3.cloudfront.net"
       ],
       "custom": {}
     },
@@ -289,11 +296,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
@@ -302,5 +309,6 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
