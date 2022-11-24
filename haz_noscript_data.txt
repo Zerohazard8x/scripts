@@ -283,7 +283,11 @@
         "d3m5pmku5z3tzn.cloudfront.net",
         "d9k0w0y3delq8.cloudfront.net",
         "cdngslb.com",
-        "d16mjkrffel3t3.cloudfront.net"
+        "d16mjkrffel3t3.cloudfront.net",
+        "hive-public-files.s3.eu-central-1.amazonaws.com",
+        "d2cjgidoget6x9.cloudfront.net",
+        "d1t70i66ijjip8.cloudfront.net",
+        "d1moq08ovbamrr.cloudfront.net"
       ],
       "custom": {}
     },
