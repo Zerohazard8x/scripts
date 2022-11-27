@@ -113,7 +113,6 @@
         "redventures.io",
         "targetimg1.com",
         "amazon-adsystem.com",
-        "b-cdn.net",
         "cloudflareinsights.com",
         "crsspxl.com",
         "defybrick.com",
@@ -288,7 +287,10 @@
         "d2cjgidoget6x9.cloudfront.net",
         "d1t70i66ijjip8.cloudfront.net",
         "d1moq08ovbamrr.cloudfront.net",
-        "wikia.com"
+        "wikia.com",
+        "s3-ap-southeast-1.amazonaws.com",
+        "b-cdn.net",
+        "webflow.com"
       ],
       "custom": {}
     },
