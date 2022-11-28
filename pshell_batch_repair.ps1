@@ -47,6 +47,7 @@ cmd.exe /c sc config "BrokerInfrastructure" start=auto
 cmd.exe /c sc config "EntAppSvc" start=auto
 cmd.exe /c sc config "FrameServer" start=auto
 cmd.exe /c sc config "LicenseManager" start=auto
+cmd.exe /c sc config "NVDisplay.ContainerLocalSystem" start=auto
 cmd.exe /c sc config "MacType" start=auto
 cmd.exe /c sc config "PNRPsvc" start=auto
 cmd.exe /c sc config "W32Time" start=auto
@@ -67,6 +68,7 @@ cmd.exe /c net start "EntAppSvc"
 cmd.exe /c net start "FrameServer"
 cmd.exe /c net start "LicenseManager"
 cmd.exe /c net start "MacType"
+cmd.exe /c net start "NVDisplay.ContainerLocalSystem"
 cmd.exe /c net start "PNRPsvc"
 cmd.exe /c net start "W32Time"
 cmd.exe /c net start "WdNisSvc"
