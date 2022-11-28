@@ -290,7 +290,8 @@
         "wikia.com",
         "s3-ap-southeast-1.amazonaws.com",
         "b-cdn.net",
-        "webflow.com"
+        "webflow.com",
+        "sapphiretech.com.cn"
       ],
       "custom": {}
     },
