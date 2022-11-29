@@ -290,7 +290,8 @@
         "s3-ap-southeast-1.amazonaws.com",
         "b-cdn.net",
         "webflow.com",
-        "sapphiretech.com.cn"
+        "sapphiretech.com.cn",
+        "123movies.cards"
       ],
       "custom": {}
     },
