@@ -134,7 +134,6 @@
         "adobedtm.com",
         "sciencedirectassets.com",
         "connatix.com",
-        "guim.co.uk",
         "nyt.com",
         "gartner.com",
         "imgix.net",
