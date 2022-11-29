@@ -348,6 +348,21 @@ Windows Registry Editor Version 5.00
 "Start"=dword:00000003
 
 ;;
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CxAudMsg]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StiSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StorSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EFS]
+"Start"=dword:00000003
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FontCache3.0.0.0]
 "Start"=dword:00000003
 
@@ -357,10 +372,19 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RstMwService]
 "Start"=dword:00000003
 
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VaultSvc]
+"Start"=dword:00000003
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WMIRegistrationService]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdiServiceHost]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdiSystemHost]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\cplspcon]
@@ -381,7 +405,7 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\jhi_service]
 "Start"=dword:00000003
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CxAudMsg]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\swprv]
 "Start"=dword:00000003
 
 ;; Beta drivers
