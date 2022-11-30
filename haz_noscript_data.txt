@@ -257,7 +257,6 @@
         "photobucket.com",
         "http:",
         "assetsadobe2.com",
-        "pixabay.com",
         "guide-images.cdn.ifixit.com",
         "gleamjs.io",
         "skyscannerplatform.net",
@@ -291,7 +290,8 @@
         "b-cdn.net",
         "webflow.com",
         "sapphiretech.com.cn",
-        "123movies.cards"
+        "123movies.cards",
+        "freepikcompany.com"
       ],
       "custom": {}
     },
