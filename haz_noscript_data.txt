@@ -291,7 +291,8 @@
         "webflow.com",
         "sapphiretech.com.cn",
         "123movies.cards",
-        "freepikcompany.com"
+        "freepikcompany.com",
+        "live-patreon-marketing.pantheonsite.io"
       ],
       "custom": {}
     },
