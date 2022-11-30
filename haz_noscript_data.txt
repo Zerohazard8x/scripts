@@ -292,7 +292,8 @@
         "sapphiretech.com.cn",
         "123movies.cards",
         "freepikcompany.com",
-        "live-patreon-marketing.pantheonsite.io"
+        "live-patreon-marketing.pantheonsite.io",
+        "yahoodns.net"
       ],
       "custom": {}
     },
