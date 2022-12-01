@@ -293,7 +293,8 @@
         "123movies.cards",
         "freepikcompany.com",
         "live-patreon-marketing.pantheonsite.io",
-        "yahoodns.net"
+        "yahoodns.net",
+        "mod.io"
       ],
       "custom": {}
     },
