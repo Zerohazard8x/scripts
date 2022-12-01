@@ -294,7 +294,8 @@
         "freepikcompany.com",
         "live-patreon-marketing.pantheonsite.io",
         "yahoodns.net",
-        "mod.io"
+        "mod.io",
+        "kunlunsl.com"
       ],
       "custom": {}
     },
