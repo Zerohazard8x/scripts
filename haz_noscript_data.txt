@@ -295,7 +295,8 @@
         "live-patreon-marketing.pantheonsite.io",
         "yahoodns.net",
         "mod.io",
-        "kunlunsl.com"
+        "kunlunsl.com",
+        "kinstacdn.com"
       ],
       "custom": {}
     },
