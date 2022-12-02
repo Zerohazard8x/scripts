@@ -299,7 +299,9 @@
         "kinstacdn.com",
         "disquscdn.com",
         "myqcloud.com",
-        "makeuseofimages.com"
+        "makeuseofimages.com",
+        "hswstatic.com",
+        "ndtvimg.com"
       ],
       "custom": {}
     },
