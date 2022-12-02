@@ -298,7 +298,8 @@
         "kunlunsl.com",
         "kinstacdn.com",
         "disquscdn.com",
-        "myqcloud.com"
+        "myqcloud.com",
+        "makeuseofimages.com"
       ],
       "custom": {}
     },
