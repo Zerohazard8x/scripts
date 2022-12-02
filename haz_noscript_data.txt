@@ -296,7 +296,9 @@
         "yahoodns.net",
         "mod.io",
         "kunlunsl.com",
-        "kinstacdn.com"
+        "kinstacdn.com",
+        "disquscdn.com",
+        "myqcloud.com"
       ],
       "custom": {}
     },
