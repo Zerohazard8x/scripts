@@ -301,7 +301,8 @@
         "myqcloud.com",
         "makeuseofimages.com",
         "hswstatic.com",
-        "ndtvimg.com"
+        "ndtvimg.com",
+        "d3t2hlxboiur0e.cloudfront.net"
       ],
       "custom": {}
     },
