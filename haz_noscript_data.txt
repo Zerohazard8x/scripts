@@ -302,7 +302,8 @@
         "makeuseofimages.com",
         "hswstatic.com",
         "ndtvimg.com",
-        "d3t2hlxboiur0e.cloudfront.net"
+        "d3t2hlxboiur0e.cloudfront.net",
+        "cdnhwc2.com"
       ],
       "custom": {}
     },
