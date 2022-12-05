@@ -435,6 +435,11 @@ Windows Registry Editor Version 5.00
 	00,00,A8,00,00,00,00,00,\
 	00,00,E0,00,00,00,00,00
 
+;; DNScache fix
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
+"MaxCacheTtl"=dword:00000001
+"MaxNegativeCacheTtl"=dword:00000000
+
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
 [-HKEY_CLASSES_ROOT\*\shell\EditWithKate]
