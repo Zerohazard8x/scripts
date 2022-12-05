@@ -435,10 +435,6 @@ Windows Registry Editor Version 5.00
 	00,00,A8,00,00,00,00,00,\
 	00,00,E0,00,00,00,00,00
 
-;; services
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache]
-"Start"=dword:00000004
-
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
 [-HKEY_CLASSES_ROOT\*\shell\EditWithKate]
