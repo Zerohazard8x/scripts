@@ -303,7 +303,10 @@
         "hswstatic.com",
         "ndtvimg.com",
         "d3t2hlxboiur0e.cloudfront.net",
-        "cdnhwc2.com"
+        "cdnhwc2.com",
+        "thegamerimages.com",
+        "dr282zn36sxxg.cloudfront.net",
+        "pretextbook.org"
       ],
       "custom": {}
     },
