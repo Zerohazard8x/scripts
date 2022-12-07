@@ -306,7 +306,8 @@
         "cdnhwc2.com",
         "thegamerimages.com",
         "dr282zn36sxxg.cloudfront.net",
-        "pretextbook.org"
+        "pretextbook.org",
+        "footprint.net"
       ],
       "custom": {}
     },
