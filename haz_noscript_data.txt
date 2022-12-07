@@ -307,7 +307,8 @@
         "thegamerimages.com",
         "dr282zn36sxxg.cloudfront.net",
         "pretextbook.org",
-        "footprint.net"
+        "footprint.net",
+        "googlehosted.com"
       ],
       "custom": {}
     },
