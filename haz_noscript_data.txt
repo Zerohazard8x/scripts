@@ -310,7 +310,8 @@
         "footprint.net",
         "googlehosted.com",
         "giphy.map.fastly.net",
-        "d1fdloi71mui9q.cloudfront.net"
+        "d1fdloi71mui9q.cloudfront.net",
+        "raxcdn.com"
       ],
       "custom": {}
     },
