@@ -308,7 +308,8 @@
         "dr282zn36sxxg.cloudfront.net",
         "pretextbook.org",
         "footprint.net",
-        "googlehosted.com"
+        "googlehosted.com",
+        "giphy.map.fastly.net"
       ],
       "custom": {}
     },
