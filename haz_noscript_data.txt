@@ -312,7 +312,11 @@
         "d1fdloi71mui9q.cloudfront.net",
         "raxcdn.com",
         "bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com",
-        "substackcdn.com"
+        "substackcdn.com",
+        "localizecdn.com",
+        "d3e54v103j8qbb.cloudfront.net",
+        "d1jlf623bx36qa.cloudfront.net",
+        "dg5bepmjyhz9h.cloudfront.net"
       ],
       "custom": {}
     },
@@ -338,5 +342,6 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
