@@ -218,7 +218,6 @@
         "newrelic.com",
         "cxense.com",
         "jocdn.jp",
-        "elb.amazonaws.com",
         "gotraffic.net",
         "abs-cbnnews.com",
         "kapamilya.com",
@@ -311,7 +310,9 @@
         "googlehosted.com",
         "giphy.map.fastly.net",
         "d1fdloi71mui9q.cloudfront.net",
-        "raxcdn.com"
+        "raxcdn.com",
+        "bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com",
+        "substackcdn.com"
       ],
       "custom": {}
     },
