@@ -1,5 +1,5 @@
 {
-  "timeStamp": 1670591287562,
+  "timeStamp": 1670668298432,
   "version": "1.45.2",
   "userSettings": {
     "importedLists": [],
@@ -36,6 +36,7 @@
     "vivaldi-scheme",
     "www.apkmirror.com",
     "www.healthline.com",
+    "www.logitech.com",
     "wyciwyg-scheme"
   ],
   "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
