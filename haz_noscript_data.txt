@@ -316,7 +316,13 @@
         "localizecdn.com",
         "d3e54v103j8qbb.cloudfront.net",
         "d1jlf623bx36qa.cloudfront.net",
-        "dg5bepmjyhz9h.cloudfront.net"
+        "dg5bepmjyhz9h.cloudfront.net",
+        "digitalriverws.com",
+        "klarnacdn.net",
+        "klarnaservices.com",
+        "paypalobjects.com",
+        "tiqcdn.com",
+        "yottaa.com"
       ],
       "custom": {}
     },
