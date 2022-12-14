@@ -1,5 +1,5 @@
 {
-  "timeStamp": 1670850508352,
+  "timeStamp": 1670940817423,
   "version": "1.45.2",
   "userSettings": {
     "importedLists": [],
@@ -35,6 +35,7 @@
     "opera-scheme",
     "vivaldi-scheme",
     "www.apkmirror.com",
+    "www.deviantart.com",
     "www.healthline.com",
     "www.logitech.com",
     "wyciwyg-scheme"
