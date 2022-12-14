@@ -308,7 +308,9 @@
         "pretextbook.org",
         "static.wikia.nocookie.net",
         "instructure-uploads-apse1.s3-ap-southeast-1.amazonaws.com",
-        "payment-website-518800826.us-east-1.elb.amazonaws.com"
+        "payment-website-518800826.us-east-1.elb.amazonaws.com",
+        "nitropay.com",
+        "parastorage.com"
       ],
       "custom": {}
     },
@@ -321,11 +323,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
