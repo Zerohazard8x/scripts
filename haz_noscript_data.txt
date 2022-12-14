@@ -310,7 +310,8 @@
         "instructure-uploads-apse1.s3-ap-southeast-1.amazonaws.com",
         "payment-website-518800826.us-east-1.elb.amazonaws.com",
         "nitropay.com",
-        "parastorage.com"
+        "parastorage.com",
+        "https://retrocdn.net"
       ],
       "custom": {}
     },
