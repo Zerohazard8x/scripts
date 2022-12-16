@@ -80,6 +80,13 @@ cmd.exe /c net start "p2pimsvc"
 cmd.exe /c net start "p2psvc"
 cmd.exe /c net start "wscsvc"
 
+cmd.exe /c sc config "SysMain" start=disabled
+cmd.exe /c sc config "Superfetch" start=disabled
+net stop "SysMain"
+net stop "Superfetch"
+
+cmd.exe /c powercfg -restoredefaultschemes
+
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
 
@@ -92,11 +99,6 @@ wuauclt /updatenow
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll" 
 cmd.exe /c control update
-
-cmd.exe /c sc config "SysMain" start=disabled
-cmd.exe /c sc config "Superfetch" start=disabled
-net stop "SysMain"
-net stop "Superfetch"
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vlc -y
