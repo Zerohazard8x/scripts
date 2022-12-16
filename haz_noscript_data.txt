@@ -311,7 +311,8 @@
         "payment-website-518800826.us-east-1.elb.amazonaws.com",
         "nitropay.com",
         "parastorage.com",
-        "https://retrocdn.net"
+        "vercel-dns.com",
+        "retrocdn.net"
       ],
       "custom": {}
     },
@@ -337,6 +338,5 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
