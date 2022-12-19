@@ -169,7 +169,6 @@
         "imasdk.googleapis.com",
         "spotifycdn.com",
         "scdn.co",
-        "office.net",
         "git99.com",
         "fbsbx.com",
         "navismithapis-cdn.com",
@@ -313,14 +312,7 @@
         "parastorage.com",
         "vercel-dns.com",
         "retrocdn.net",
-        "clarity.ms",
-        "consensu.org",
-        "crazyegg.com",
-        "fusebox.fm",
-        "omappapi.com",
-        "onesignal.com",
-        "pub.network",
-        "rangeplayground.com"
+        "kaltura.com"
       ],
       "custom": {}
     },
@@ -333,11 +325,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
@@ -346,6 +338,5 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
