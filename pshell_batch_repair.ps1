@@ -85,7 +85,7 @@ cmd.exe /c sc config "Superfetch" start=disabled
 net stop "SysMain"
 net stop "Superfetch"
 
-cmd.exe /c powercfg -restoredefaultschemes
+# cmd.exe /c powercfg -restoredefaultschemes
 
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
