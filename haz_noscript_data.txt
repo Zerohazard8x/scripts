@@ -312,7 +312,10 @@
         "parastorage.com",
         "vercel-dns.com",
         "retrocdn.net",
-        "kaltura.com"
+        "kaltura.com",
+        "elektroda.pl",
+        "mradx.net",
+        "zhimg.com"
       ],
       "custom": {}
     },
