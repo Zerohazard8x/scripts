@@ -313,7 +313,8 @@
         "kaltura.com",
         "elektroda.pl",
         "mradx.net",
-        "zhimg.com"
+        "zhimg.com",
+        "youtu.be"
       ],
       "custom": {}
     },
