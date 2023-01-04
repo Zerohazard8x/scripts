@@ -83,7 +83,6 @@
         "typekit.net",
         "nintendo.eu",
         "ctfassets.net",
-        "contentstack.io",
         "indy100.com",
         "website-files.com",
         "ebayimg.com",
@@ -330,11 +329,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
-    "isTorBrowser": true,
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
