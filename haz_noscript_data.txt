@@ -119,6 +119,7 @@
         "ezoic.net",
         "google-analytics.com",
         "ezojs.com",
+        "googlesyndication.com",
         "googletagmanager.com",
         "instant.page",
         "memberful.com",
@@ -223,6 +224,7 @@
         "crwdcntrl.net",
         "d2wy8f7a9ursnm.cloudfront.net",
         "d31qbv1cthcecs.cloudfront.net",
+        "doubleclick.net",
         "go-mpulse.net",
         "ivstracker.net",
         "moatads.com",
@@ -314,6 +316,7 @@
         "elektroda.pl",
         "mradx.net",
         "zhimg.com",
+        "piano.io",
         "youtu.be"
       ],
       "custom": {}
@@ -327,11 +330,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
-    "isTorBrowser": true,
     "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
+    "isTorBrowser": true,
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
@@ -340,5 +343,6 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
