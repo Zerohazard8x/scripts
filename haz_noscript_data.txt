@@ -317,7 +317,8 @@
         "capi.grammarly.com",
         "dox.grammarly.com",
         "bbs.oppo.com",
-        "windows.net"
+        "windows.net",
+        "coral.coralproject.net"
       ],
       "custom": {}
     },
