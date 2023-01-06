@@ -318,7 +318,10 @@
         "dox.grammarly.com",
         "bbs.oppo.com",
         "windows.net",
-        "coral.coralproject.net"
+        "coral.coralproject.net",
+        "d2zfowlldib7se.cloudfront.net",
+        "dmpwow64jb5ov.cloudfront.net",
+        "prfct.cc"
       ],
       "custom": {}
     },
