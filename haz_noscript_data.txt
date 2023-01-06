@@ -315,7 +315,8 @@
         "piano.io",
         "youtu.be",
         "capi.grammarly.com",
-        "dox.grammarly.com"
+        "dox.grammarly.com",
+        "bbs.oppo.com"
       ],
       "custom": {}
     },
@@ -341,6 +342,5 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
