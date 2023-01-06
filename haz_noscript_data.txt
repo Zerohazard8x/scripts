@@ -321,7 +321,8 @@
         "coral.coralproject.net",
         "d2zfowlldib7se.cloudfront.net",
         "dmpwow64jb5ov.cloudfront.net",
-        "prfct.cc"
+        "prfct.cc",
+        "d1uep5tseb3xou.cloudfront.net"
       ],
       "custom": {}
     },
