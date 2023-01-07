@@ -323,7 +323,8 @@
         "dmpwow64jb5ov.cloudfront.net",
         "prfct.cc",
         "d1uep5tseb3xou.cloudfront.net",
-        "static2.jetpens.com"
+        "static2.jetpens.com",
+        "imgix.map.fastly.net"
       ],
       "custom": {}
     },
