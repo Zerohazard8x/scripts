@@ -322,7 +322,8 @@
         "d2zfowlldib7se.cloudfront.net",
         "dmpwow64jb5ov.cloudfront.net",
         "prfct.cc",
-        "d1uep5tseb3xou.cloudfront.net"
+        "d1uep5tseb3xou.cloudfront.net",
+        "static2.jetpens.com"
       ],
       "custom": {}
     },
