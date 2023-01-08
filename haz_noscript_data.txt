@@ -291,7 +291,6 @@
         "mod.io",
         "kunlunsl.com",
         "kinstacdn.com",
-        "disquscdn.com",
         "myqcloud.com",
         "makeuseofimages.com",
         "hswstatic.com",
@@ -324,7 +323,9 @@
         "prfct.cc",
         "d1uep5tseb3xou.cloudfront.net",
         "static2.jetpens.com",
-        "imgix.map.fastly.net"
+        "imgix.map.fastly.net",
+        "d231vab146qzfb.cloudfront.net",
+        "disqus.map.fastlylb.net"
       ],
       "custom": {}
     },
