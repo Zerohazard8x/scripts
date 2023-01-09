@@ -324,7 +324,9 @@
         "static2.jetpens.com",
         "imgix.map.fastly.net",
         "d231vab146qzfb.cloudfront.net",
-        "disqus.map.fastlylb.net"
+        "disqus.map.fastlylb.net",
+        "anilist.co",
+        "i.animepahe.ru"
       ],
       "custom": {}
     },
