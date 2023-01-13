@@ -325,7 +325,8 @@
         "disqus.map.fastlylb.net",
         "anilist.co",
         "i.animepahe.ru",
-        "cdn.buyee.jp"
+        "cdn.buyee.jp",
+        "stands4.com"
       ],
       "custom": {}
     },
