@@ -3,8 +3,8 @@ sudo -i
 ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
-corePkgs="7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer unison vlc"
-# plusPkgs="audacious audacity chromium discord foobar2000 kodi libreoffice microsoft-edge obs-studio pdfsam picard qbittorrent steam thunderbird vscode"
+corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer unison vlc"
+# plusPkgs="audacious audacity chromium discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio pdfsam picard qbittorrent steam thunderbird vscode"
 # otherPkgs="blender czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec retroarch tor-browser"
 
 snakeInstall() {
