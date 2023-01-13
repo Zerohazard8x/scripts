@@ -59,7 +59,6 @@
         "mktw.net",
         "squarespace-cdn.com",
         "paramount.tech",
-        "fsdn.com",
         "mzstatic.com",
         "wp.com",
         "jeded.com",
