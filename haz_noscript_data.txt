@@ -326,7 +326,10 @@
         "anilist.co",
         "i.animepahe.ru",
         "cdn.buyee.jp",
-        "stands4.com"
+        "stands4.com",
+        "cdnja.co",
+        "bleacherreport.net",
+        "media.bleacherreport.com"
       ],
       "custom": {}
     },
