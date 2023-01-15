@@ -329,7 +329,8 @@
         "stands4.com",
         "cdnja.co",
         "bleacherreport.net",
-        "media.bleacherreport.com"
+        "media.bleacherreport.com",
+        "edge-chat.messenger.com"
       ],
       "custom": {}
     },
