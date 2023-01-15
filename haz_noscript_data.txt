@@ -311,7 +311,6 @@
         "piano.io",
         "youtu.be",
         "capi.grammarly.com",
-        "dox.grammarly.com",
         "bbs.oppo.com",
         "windows.net",
         "coral.coralproject.net",
@@ -330,7 +329,8 @@
         "cdnja.co",
         "bleacherreport.net",
         "media.bleacherreport.com",
-        "edge-chat.messenger.com"
+        "edge-chat.messenger.com",
+        "bp.blogspot.com"
       ],
       "custom": {}
     },
