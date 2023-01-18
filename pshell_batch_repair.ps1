@@ -102,8 +102,8 @@ cmd.exe /c control update
 
 powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vlc -y
-# choco upgrade audacious audacity chromium discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio pdfsam picard qbittorrent steam thunderbird vscode -y
-# choco upgrade blender czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec retroarch tor-browser
+# choco upgrade audacious audacity chromium discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio pdfsam picard pinta qbittorrent steam vscode -y
+# choco upgrade blender czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec retroarch thunderbird tor-browser
 
 choco uninstall python2 python -y; choco upgrade python3 -y; aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
