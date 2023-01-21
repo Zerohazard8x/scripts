@@ -326,7 +326,6 @@
         "cdn.buyee.jp",
         "stands4.com",
         "cdnja.co",
-        "bleacherreport.net",
         "media.bleacherreport.com",
         "edge-chat.messenger.com",
         "bp.blogspot.com",
