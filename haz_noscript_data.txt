@@ -336,7 +336,8 @@
         "storify.com",
         "fontawesome.com",
         "psfhosted.org",
-        "lh3.google.com"
+        "lh3.google.com",
+        "ffx.io"
       ],
       "custom": {}
     },
