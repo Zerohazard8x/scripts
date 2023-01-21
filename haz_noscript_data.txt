@@ -88,7 +88,6 @@
         "live-video.net",
         "discordapp.com",
         "telegram.me",
-        "onetrust.com",
         "4dex.io",
         "a-mo.net",
         "adform.net",
@@ -159,7 +158,6 @@
         "shortpixel.ai",
         "z-dn.net",
         "branch.io",
-        "vimeocdn.com",
         "kinja-img.com",
         "imasdk.googleapis.com",
         "scdn.co",
@@ -207,7 +205,6 @@
         "adsrvr.org",
         "ads-twitter.com",
         "openx.net",
-        "newrelic.com",
         "cxense.com",
         "jocdn.jp",
         "elb.amazonaws.com",
@@ -337,7 +334,8 @@
         "fontawesome.com",
         "psfhosted.org",
         "lh3.google.com",
-        "ffx.io"
+        "ffx.io",
+        "newrelic.com"
       ],
       "custom": {}
     },
