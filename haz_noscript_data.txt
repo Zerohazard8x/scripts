@@ -335,7 +335,9 @@
         "webcontentassessor.com",
         "tm-awx.com",
         "storify.com",
-        "fontawesome.com"
+        "fontawesome.com",
+        "psfhosted.org",
+        "lh3.google.com"
       ],
       "custom": {}
     },
@@ -361,6 +363,5 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
