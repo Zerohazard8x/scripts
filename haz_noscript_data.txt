@@ -335,7 +335,10 @@
         "psfhosted.org",
         "lh3.google.com",
         "ffx.io",
-        "newrelic.com"
+        "newrelic.com",
+        "community-cdn-digitalocean-com.global.ssl.fastly.net",
+        "doimages.nyc3.digitaloceanspaces.com",
+        "media.geeksforgeeks.org"
       ],
       "custom": {}
     },
