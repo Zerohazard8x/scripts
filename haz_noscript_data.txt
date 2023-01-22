@@ -338,7 +338,8 @@
         "newrelic.com",
         "community-cdn-digitalocean-com.global.ssl.fastly.net",
         "doimages.nyc3.digitaloceanspaces.com",
-        "media.geeksforgeeks.org"
+        "media.geeksforgeeks.org",
+        "footprint.net"
       ],
       "custom": {}
     },
