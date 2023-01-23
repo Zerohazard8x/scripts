@@ -340,7 +340,6 @@
         "media.geeksforgeeks.org",
         "footprint.net",
         "static.wikia.nocookie.net",
-        "gateway.reddit.com",
         "gql-realtime.reddit.com"
       ],
       "custom": {}
