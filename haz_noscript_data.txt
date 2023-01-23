@@ -293,7 +293,6 @@
         "thegamerimages.com",
         "dr282zn36sxxg.cloudfront.net",
         "pretextbook.org",
-        "static.wikia.nocookie.net",
         "instructure-uploads-apse1.s3-ap-southeast-1.amazonaws.com",
         "payment-website-518800826.us-east-1.elb.amazonaws.com",
         "nitropay.com",
@@ -339,7 +338,11 @@
         "community-cdn-digitalocean-com.global.ssl.fastly.net",
         "doimages.nyc3.digitaloceanspaces.com",
         "media.geeksforgeeks.org",
-        "footprint.net"
+        "footprint.net",
+        "static.wikia.nocookie.net",
+        "gateway.reddit.com",
+        "gql-realtime.reddit.com",
+        "oauth.reddit.com"
       ],
       "custom": {}
     },
