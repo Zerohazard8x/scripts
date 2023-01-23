@@ -341,8 +341,7 @@
         "footprint.net",
         "static.wikia.nocookie.net",
         "gateway.reddit.com",
-        "gql-realtime.reddit.com",
-        "oauth.reddit.com"
+        "gql-realtime.reddit.com"
       ],
       "custom": {}
     },
