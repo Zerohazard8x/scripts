@@ -332,7 +332,6 @@
         "storify.com",
         "fontawesome.com",
         "psfhosted.org",
-        "lh3.google.com",
         "ffx.io",
         "newrelic.com",
         "community-cdn-digitalocean-com.global.ssl.fastly.net",
