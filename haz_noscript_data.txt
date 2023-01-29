@@ -343,7 +343,9 @@
         "static.wikia.nocookie.net",
         "gql-realtime.reddit.com",
         "nflxext.com",
-        "nflxso.net"
+        "nflxso.net",
+        "cdn.you.com",
+        "api.vimeo.com"
       ],
       "custom": {}
     },
