@@ -39,7 +39,8 @@
     },
     "sites": {
       "trusted": [
-        "localhost"
+        "localhost",
+        "127.0.0.1"
       ],
       "untrusted": [
         "ytimg.com",
@@ -332,6 +333,7 @@
         "storify.com",
         "fontawesome.com",
         "psfhosted.org",
+        "lh3.google.com",
         "ffx.io",
         "newrelic.com",
         "community-cdn-digitalocean-com.global.ssl.fastly.net",
@@ -339,7 +341,9 @@
         "media.geeksforgeeks.org",
         "footprint.net",
         "static.wikia.nocookie.net",
-        "gql-realtime.reddit.com"
+        "gql-realtime.reddit.com",
+        "nflxext.com",
+        "nflxso.net"
       ],
       "custom": {}
     },
