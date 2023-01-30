@@ -47,8 +47,9 @@ cmd.exe /c sc config "BrokerInfrastructure" start=auto
 cmd.exe /c sc config "EntAppSvc" start=auto
 cmd.exe /c sc config "FrameServer" start=auto
 cmd.exe /c sc config "LicenseManager" start=auto
-cmd.exe /c sc config "NVDisplay.ContainerLocalSystem" start=auto
 cmd.exe /c sc config "MacType" start=auto
+cmd.exe /c sc config "NVDisplay.ContainerLocalSystem" start=auto
+cmd.exe /c sc config "OpenVPNServiceInteractive" start=auto
 cmd.exe /c sc config "PNRPsvc" start=auto
 cmd.exe /c sc config "W32Time" start=auto
 cmd.exe /c sc config "WdNisSvc" start=auto
@@ -60,30 +61,8 @@ cmd.exe /c sc config "p2pimsvc" start=auto
 cmd.exe /c sc config "p2psvc" start=auto
 cmd.exe /c sc config "wscsvc" start=auto
 
-cmd.exe /c net start "BDESVC"
-cmd.exe /c net start "BFE"
-cmd.exe /c net start "BluetoothUserService_48486de"
-cmd.exe /c net start "BrokerInfrastructure"
-cmd.exe /c net start "EntAppSvc"
-cmd.exe /c net start "FrameServer"
-cmd.exe /c net start "LicenseManager"
-cmd.exe /c net start "MacType"
-cmd.exe /c net start "NVDisplay.ContainerLocalSystem"
-cmd.exe /c net start "PNRPsvc"
-cmd.exe /c net start "W32Time"
-cmd.exe /c net start "WdNisSvc"
-cmd.exe /c net start "WlanSvc"
-cmd.exe /c net start "audiosrv"
-cmd.exe /c net start "iphlpsvc"
-cmd.exe /c net start "ndu"
-cmd.exe /c net start "p2pimsvc"
-cmd.exe /c net start "p2psvc"
-cmd.exe /c net start "wscsvc"
-
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
-net stop "SysMain"
-net stop "Superfetch"
 
 # cmd.exe /c powercfg -restoredefaultschemes
 
