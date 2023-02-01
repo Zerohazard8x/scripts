@@ -139,7 +139,6 @@
         "ontrack-media.net",
         "googleoptimize.com",
         "pulseinsights.com",
-        "sentry.io",
         "fastly.net",
         "segment.com",
         "fonts.googleapis.com",
@@ -154,7 +153,6 @@
         "kunlunar.com",
         "facebook.net",
         "cloudflare.net",
-        "cdn-apple.com",
         "altis.cloud",
         "shortpixel.ai",
         "z-dn.net",
@@ -358,11 +356,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
     "enforceOnRestart": true,
     "highContrast": false,
-    "isTorBrowser": true,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
+    "isTorBrowser": true
   },
   "sync": {
     "global": false,
