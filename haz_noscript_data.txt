@@ -343,7 +343,9 @@
         "nflxext.com",
         "nflxso.net",
         "cdn.you.com",
-        "api.vimeo.com"
+        "api.vimeo.com",
+        "d3ggoe3aghc7um.cloudfront.net",
+        "iamscum.files.wordpress.com"
       ],
       "custom": {}
     },
@@ -356,11 +358,11 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174",
     "enforceOnRestart": true,
     "highContrast": false,
-    "isTorBrowser": true
+    "isTorBrowser": true,
+    "storage": "local",
+    "uuid": "1e26c867-30aa-4e11-9c18-169f017f6174"
   },
   "sync": {
     "global": false,
