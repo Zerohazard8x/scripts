@@ -345,7 +345,10 @@
         "cdn.you.com",
         "api.vimeo.com",
         "d3ggoe3aghc7um.cloudfront.net",
-        "iamscum.files.wordpress.com"
+        "iamscum.files.wordpress.com",
+        "llnwi.net",
+        "kym-cdn.com",
+        "alibaba.com"
       ],
       "custom": {}
     },
