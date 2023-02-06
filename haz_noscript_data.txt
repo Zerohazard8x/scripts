@@ -348,7 +348,8 @@
         "iamscum.files.wordpress.com",
         "llnwi.net",
         "kym-cdn.com",
-        "alibaba.com"
+        "alibaba.com",
+        "fdv2-t-msedge.net"
       ],
       "custom": {}
     },
