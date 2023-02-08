@@ -349,7 +349,8 @@
         "llnwi.net",
         "kym-cdn.com",
         "alibaba.com",
-        "fdv2-t-msedge.net"
+        "fdv2-t-msedge.net",
+        "vlscppe.microsoft.com"
       ],
       "custom": {}
     },
