@@ -363,10 +363,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "storage": "local",
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
   },
   "sync": {
     "global": false,
