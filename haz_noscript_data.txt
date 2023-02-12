@@ -352,7 +352,8 @@
         "fdv2-t-msedge.net",
         "vlscppe.microsoft.com",
         "th.bing.com",
-        "img-prod-cms-rt-microsoft-com.akamaized.net"
+        "img-prod-cms-rt-microsoft-com.akamaized.net",
+        "bing.net"
       ],
       "custom": {}
     },
@@ -365,10 +366,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
     "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
