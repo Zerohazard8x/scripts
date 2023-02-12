@@ -350,7 +350,9 @@
         "kym-cdn.com",
         "alibaba.com",
         "fdv2-t-msedge.net",
-        "vlscppe.microsoft.com"
+        "vlscppe.microsoft.com",
+        "th.bing.com",
+        "img-prod-cms-rt-microsoft-com.akamaized.net"
       ],
       "custom": {}
     },
