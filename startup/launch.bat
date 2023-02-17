@@ -200,7 +200,7 @@ cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 
 wuauclt /detectnow
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll" 
+cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
 
 cmd.exe /c control update
 exit 0
