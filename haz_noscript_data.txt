@@ -353,7 +353,9 @@
         "vlscppe.microsoft.com",
         "th.bing.com",
         "img-prod-cms-rt-microsoft-com.akamaized.net",
-        "bing.net"
+        "bing.net",
+        "alphacdn.net",
+        "d367xssbs0c9eg.cloudfront.net"
       ],
       "custom": {}
     },
@@ -366,10 +368,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "storage": "local",
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
   },
   "sync": {
     "global": false,
