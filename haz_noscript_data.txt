@@ -355,7 +355,8 @@
         "img-prod-cms-rt-microsoft-com.akamaized.net",
         "bing.net",
         "alphacdn.net",
-        "d367xssbs0c9eg.cloudfront.net"
+        "d367xssbs0c9eg.cloudfront.net",
+        "sydney.bing.com"
       ],
       "custom": {}
     },
