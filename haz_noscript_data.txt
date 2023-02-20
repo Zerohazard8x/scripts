@@ -356,7 +356,17 @@
         "bing.net",
         "alphacdn.net",
         "d367xssbs0c9eg.cloudfront.net",
-        "sydney.bing.com"
+        "sydney.bing.com",
+        "adlooxtracking.com",
+        "andbeyond.media",
+        "geoedge.be",
+        "gmanews.tv",
+        "googletagservices.com",
+        "jixie.media",
+        "jsdelivr.net",
+        "mookie1.com",
+        "netacuity.com",
+        "outbrain.com"
       ],
       "custom": {}
     },
@@ -369,10 +379,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "enforceOnRestart": true,
-    "highContrast": false,
     "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
+    "enforceOnRestart": true,
+    "highContrast": false
   },
   "sync": {
     "global": false,
@@ -381,5 +391,6 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  }
+  },
+  "xssUserChoices": {}
 }
