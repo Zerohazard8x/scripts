@@ -366,7 +366,8 @@
         "mookie1.com",
         "netacuity.com",
         "outbrain.com",
-        "queryhomebase.appspot.com"
+        "queryhomebase.appspot.com",
+        "dscb.akamaiedge.net"
       ],
       "custom": {}
     },
