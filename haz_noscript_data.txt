@@ -295,7 +295,6 @@
         "instructure-uploads-apse1.s3-ap-southeast-1.amazonaws.com",
         "payment-website-518800826.us-east-1.elb.amazonaws.com",
         "nitropay.com",
-        "parastorage.com",
         "vercel-dns.com",
         "retrocdn.net",
         "kaltura.com",
@@ -366,7 +365,8 @@
         "jsdelivr.net",
         "mookie1.com",
         "netacuity.com",
-        "outbrain.com"
+        "outbrain.com",
+        "queryhomebase.appspot.com"
       ],
       "custom": {}
     },
@@ -379,10 +379,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "storage": "local",
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
   },
   "sync": {
     "global": false,
@@ -391,6 +391,5 @@
     "cascadeRestrictions": true,
     "overrideTorBrowserPolicy": false,
     "storage": "sync"
-  },
-  "xssUserChoices": {}
+  }
 }
