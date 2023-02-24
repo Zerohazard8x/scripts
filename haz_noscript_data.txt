@@ -367,7 +367,10 @@
         "netacuity.com",
         "outbrain.com",
         "queryhomebase.appspot.com",
-        "dscb.akamaiedge.net"
+        "dscb.akamaiedge.net",
+        "w27.akamai.net",
+        "dscw27.akamai.net",
+        "dscd.akamai.net"
       ],
       "custom": {}
     },
