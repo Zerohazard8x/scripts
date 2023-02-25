@@ -371,7 +371,10 @@
         "w27.akamai.net",
         "dscw27.akamai.net",
         "dscd.akamai.net",
-        "topics-cdn.nintendo.co.jp"
+        "topics-cdn.nintendo.co.jp",
+        "pixhost.to",
+        "imghd.xyz",
+        "cdn.jpopsingles.eu"
       ],
       "custom": {
         "§:bing.com": {
