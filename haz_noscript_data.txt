@@ -370,9 +370,42 @@
         "dscb.akamaiedge.net",
         "w27.akamai.net",
         "dscw27.akamai.net",
-        "dscd.akamai.net"
+        "dscd.akamai.net",
+        "topics-cdn.nintendo.co.jp"
       ],
-      "custom": {}
+      "custom": {
+        "§:bing.com": {
+          "capabilities": [
+            "fetch",
+            "font",
+            "frame",
+            "media",
+            "object",
+            "other",
+            "script",
+            "webgl",
+            "noscript"
+          ],
+          "contextual": {
+            "§:bing.com": {
+              "capabilities": [
+                "fetch",
+                "font",
+                "frame",
+                "media",
+                "object",
+                "other",
+                "script",
+                "webgl",
+                "noscript",
+                "unchecked_css"
+              ],
+              "temp": false
+            }
+          },
+          "temp": false
+        }
+      }
     },
     "enforced": true,
     "autoAllowTop": false
