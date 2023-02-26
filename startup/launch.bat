@@ -184,10 +184,8 @@ powershell.exe -c choco upgrade audacious audacity discord filezilla foobar2000 
 choco uninstall python2 python -y & choco upgrade python3 -y 
 aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
-python -m pip install -U pip
-python -m pip install -U wheel
 
-python -m pip install -U beautysh notebook yt-dlp youtube-dl
+python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel yt-dlp youtube-dl
 REM python -m pip install -U git+https://github.com/samloader/samloader.git
 REM python -m pip install -U pymusiclooper spleeter
 
