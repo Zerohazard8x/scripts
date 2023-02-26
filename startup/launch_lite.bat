@@ -184,10 +184,6 @@ powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefo
 choco uninstall python2 python -y & choco upgrade python3 -y
 aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
-python -m pip install -U pip
-python -m pip install -U wheel
-
-python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
-python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
+python -m pip install -U pip wheel yt-dlp youtube-dl
 
 exit 0
