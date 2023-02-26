@@ -187,13 +187,9 @@ python get-pip.py
 python -m pip install -U pip
 python -m pip install -U wheel
 
-python -m pip install -U beautysh
-python -m pip install -U notebook
-python -m pip install -U git+https://github.com/samloader/samloader.git
-python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
-python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
-REM python -m pip install -U pymusiclooper
-REM python -m pip install -U spleeter
+python -m pip install -U beautysh notebook yt-dlp youtube-dl
+REM python -m pip install -U git+https://github.com/samloader/samloader.git
+REM python -m pip install -U pymusiclooper spleeter
 
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
