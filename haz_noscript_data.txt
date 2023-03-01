@@ -327,7 +327,6 @@
         "webcontentassessor.com",
         "tm-awx.com",
         "storify.com",
-        "fontawesome.com",
         "psfhosted.org",
         "lh3.google.com",
         "ffx.io",
