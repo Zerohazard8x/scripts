@@ -303,7 +303,6 @@
         "zhimg.com",
         "piano.io",
         "youtu.be",
-        "capi.grammarly.com",
         "bbs.oppo.com",
         "windows.net",
         "coral.coralproject.net",
@@ -380,10 +379,15 @@
         "template.canva.com",
         "marketplace.canva.com",
         "profile.canva.com",
-        "font-public.canva.com",
         "audio-public.canva.com",
         "video-public.canva.com",
-        "klaviyo.com"
+        "klaviyo.com",
+        "i.dailymail.co.uk",
+        "videos.dailymail.co.uk",
+        "d1r3vc4fck3z1b.cloudfront.net",
+        "cdn.design-system.economist.com",
+        "static.cambridge.org",
+        "font-public.canva.com"
       ],
       "custom": {
         "§:bing.com": {
@@ -428,10 +432,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3",
     "enforceOnRestart": true,
-    "highContrast": false
+    "highContrast": false,
+    "storage": "local",
+    "uuid": "604f74e5-24c8-4566-9f7b-aba0645b96a3"
   },
   "sync": {
     "global": false,
