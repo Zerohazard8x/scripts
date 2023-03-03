@@ -186,18 +186,18 @@ if exist "%ProgramFiles%\LGHUB\lghub.exe" (
     wmic process where name="lghub.exe" CALL setpriority 64
 )
 
-REM start /low ""
+:: start /low ""
 wmic process where name="Agent.exe" CALL setpriority 64
 wmic process where name="Battle.net.exe" CALL setpriority 64
 
-REM start /low ""
+:: start /low ""
 wmic process where name="EpicGamesLauncher.exe" CALL setpriority 64
 wmic process where name="EpicWebHelper.exe" CALL setpriority 64
 
-REM start /low ""
+:: start /low ""
 wmic process where name="RiotClientServices.exe" CALL setpriority 64
 
-REM start /low ""
+:: start /low ""
 wmic process where name="steam.exe" CALL setpriority 64
 wmic process where name="steamwebhelper.exe" CALL setpriority 64
 
@@ -215,8 +215,8 @@ aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 
 python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel yt-dlp youtube-dl
-REM python -m pip install -U git+https://github.com/samloader/samloader.git
-REM python -m pip install -U pymusiclooper spleeter
+:: python -m pip install -U git+https://github.com/samloader/samloader.git
+:: python -m pip install -U pymusiclooper spleeter
 
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
 cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
