@@ -50,6 +50,9 @@ cmd /c "echo off | clip"
 cmd.exe /c ipconfig /flushdns
 cmd.exe /c control update
 
+SET /P M=Close? (Y/N) 
+IF /I %M%==Y ( exit )
+
 powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezilla firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vlc -y
 
 choco uninstall python2 python -y & choco upgrade python3 -y & aria2c -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
