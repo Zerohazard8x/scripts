@@ -167,6 +167,7 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 )
 
 if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
+    start /low "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
     wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
     wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
 )
