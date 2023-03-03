@@ -227,8 +227,8 @@ cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -Igno
 
 aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
 aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-reg add winUX_tweaks.reg
-reg add windows_tweaks.reg
+regedit /S winUX_tweaks.reg
+regedit /S windows_tweaks.reg
 
 cmd.exe /c control update
 exit 0

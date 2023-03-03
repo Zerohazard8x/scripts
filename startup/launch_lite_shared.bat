@@ -60,6 +60,6 @@ python get-pip.py
 python -m pip install -U pip wheel yt-dlp youtube-dl
 
 aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-reg add windows_tweaks.reg
+regedit /S windows_tweaks.reg
 
 exit 0
