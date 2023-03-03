@@ -57,10 +57,9 @@ powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg filezi
 
 choco uninstall python2 python -y & choco upgrade python3 -y & aria2c -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
-python -m pip install -U pip
-python -m pip install -U wheel
+python -m pip install -U pip wheel yt-dlp youtube-dl
 
-python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
-python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
+aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+reg add windows_tweaks.reg
 
 exit 0

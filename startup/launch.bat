@@ -1,4 +1,5 @@
 del /F *.py
+del /F *.reg
 
 cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
@@ -48,6 +49,7 @@ net start "p2pimsvc"
 net start "p2psvc"
 net start "wscsvc"
 
+sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "Apple Mobile Device Service" start=demand
 sc config "Bonjour Service" start=demand
@@ -62,6 +64,7 @@ sc config "Killer Wifi Optimization Service" start=demand
 sc config "LGHUBUpdaterService" start=demand
 sc config "MBAMService" start=demand
 sc config "OverwolfUpdater" start=demand
+sc config "PSService" start=demand
 sc config "Parsec" start=demand
 sc config "Razer Game Manager Service 3" start=demand
 sc config "RstMwService" start=demand
@@ -76,9 +79,11 @@ sc config "ibtsiva" start=demand
 sc config "igccservice" start=demand
 sc config "igfxCUIService2.0.0.0" start=demand
 sc config "jhi_service" start=demand
+sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
+net stop "AMD Crash Defender Service"
 net stop "AMD External Events Utility"
 net stop "Apple Mobile Device Service"
 net stop "Bonjour Service"
@@ -94,6 +99,7 @@ net stop "Killer Wifi Optimization Service"
 net stop "LGHUBUpdaterService"
 net stop "MBAMService"
 net stop "OverwolfUpdater"
+net stop "PSService"
 net stop "Parsec"
 net stop "Razer Game Manager Service 3"
 net stop "RstMwService"
@@ -108,6 +114,7 @@ net stop "ibtsiva"
 net stop "igccservice"
 net stop "igfxCUIService2.0.0.0"
 net stop "jhi_service"
+net stop "spacedeskService"
 net stop "ss_conn_service"
 net stop "ss_conn_service2"
 net stop "xTendSoftAPService"
@@ -217,6 +224,11 @@ cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 wuauclt /detectnow
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
+
+aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
+aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+reg add winUX_tweaks.reg
+reg add windows_tweaks.reg
 
 cmd.exe /c control update
 exit 0
