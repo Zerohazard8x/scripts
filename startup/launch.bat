@@ -120,7 +120,7 @@ if exist "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive" (
     wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
 )
 
-if exist "%localappdata%\MEGAsync\MEGAsync.exe"
+if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
     start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
     wmic process where name="MEGASync.exe" CALL setpriority 64
 )
