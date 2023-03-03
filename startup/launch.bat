@@ -115,50 +115,68 @@ net stop "xTendSoftAPService"
 w32tm /config /update
 w32tm /resync
 
-start /low "" "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive"
-wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
+if exist "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive" (
+    start /low "" "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive"
+    wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
+)
 
-start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
-wmic process where name="MEGASync.exe" CALL setpriority 64
+if exist "%localappdata%\MEGAsync\MEGAsync.exe"
+    start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
+    wmic process where name="MEGASync.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe""
-wmic process where name="MSIAfterburner.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
+    start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    wmic process where name="MSIAfterburner.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
-wmic process where name="OverwolfHelper.exe" CALL setpriority 64
-wmic process where name="OverwolfHelper64.exe" CALL setpriority 64
-wmic process where name="OverwolfLauncher.exe" CALL setpriority 64
-wmic process where name="overwolf.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
+    start /low "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+    wmic process where name="OverwolfHelper.exe" CALL setpriority 64
+    wmic process where name="OverwolfHelper64.exe" CALL setpriority 64
+    wmic process where name="OverwolfLauncher.exe" CALL setpriority 64
+    wmic process where name="overwolf.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
-wmic process where name="ProcessLasso.exe" CALL setpriority 64
-wmic process where name="ProcessGovernor.exe" CALL setpriority 64
-wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
+if exist "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe" (
+    start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
+    wmic process where name="ProcessLasso.exe" CALL setpriority 64
+    wmic process where name="ProcessGovernor.exe" CALL setpriority 64
+    wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
-wmic process where name="EncoderServer.exe" CALL setpriority 64
-wmic process where name="EncoderServer64.exe" CALL setpriority 64
-wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-wmic process where name="RTSS.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    wmic process where name="EncoderServer.exe" CALL setpriority 64
+    wmic process where name="EncoderServer64.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
+    wmic process where name="RTSS.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
-wmic process where name="CortexLauncherService.exe" CALL setpriority 64
-wmic process where name="GameManagerService3.exe" CALL setpriority 64
-wmic process where name="FPSRunner32.exe" CALL setpriority 64
-wmic process where name="FPSRunner64.exe" CALL setpriority 64
-wmic process where name="RazerCentralService.exe" CALL setpriority 64
-wmic process where name="RazerCortex.Shell.exe" CALL setpriority 64
-wmic process where name="RazerCortex.exe" CALL setpriority 64
-wmic process where name="Razer Central.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
+    start /low "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
+    wmic process where name="CortexLauncherService.exe" CALL setpriority 64
+    wmic process where name="GameManagerService3.exe" CALL setpriority 64
+    wmic process where name="FPSRunner32.exe" CALL setpriority 64
+    wmic process where name="FPSRunner64.exe" CALL setpriority 64
+    wmic process where name="RazerCentralService.exe" CALL setpriority 64
+    wmic process where name="RazerCortex.Shell.exe" CALL setpriority 64
+    wmic process where name="RazerCortex.exe" CALL setpriority 64
+    wmic process where name="Razer Central.exe" CALL setpriority 64
+)
 
-wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
-wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
+if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
+    wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
+    wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
+)
 
-start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
-wmic process where name="lghub_agent.exe" CALL setpriority 64
-wmic process where name="lghub_system_tray.exe" CALL setpriority 64
-wmic process where name="lghub.exe" CALL setpriority 64
+if exist "%ProgramFiles%\LGHUB\lghub.exe" (
+    start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
+    wmic process where name="lghub_agent.exe" CALL setpriority 64
+    wmic process where name="lghub_system_tray.exe" CALL setpriority 64
+    wmic process where name="lghub.exe" CALL setpriority 64
+)
 
 REM start /low ""
 wmic process where name="Agent.exe" CALL setpriority 64
