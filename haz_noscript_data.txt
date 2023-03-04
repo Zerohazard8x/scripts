@@ -385,7 +385,12 @@
         "cdn.design-system.economist.com",
         "static.cambridge.org",
         "font-public.canva.com",
-        "conviva.com"
+        "conviva.com",
+        "intercomassets.com",
+        "intercomcdn.com",
+        "msauth.net",
+        "msftauth.net",
+        "dscg2.akamai.net"
       ],
       "custom": {
         "§:bing.com": {
@@ -430,10 +435,10 @@
     "showCountBadge": true,
     "showFullAddresses": false,
     "amnesticUpdates": false,
-    "storage": "local",
-    "uuid": "d07fe1a0-a831-4393-b83b-5673665cc0df",
     "enforceOnRestart": true,
-    "isTorBrowser": false
+    "isTorBrowser": false,
+    "storage": "local",
+    "uuid": "d07fe1a0-a831-4393-b83b-5673665cc0df"
   },
   "sync": {
     "global": false,
