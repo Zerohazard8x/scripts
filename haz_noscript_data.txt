@@ -390,7 +390,8 @@
         "intercomcdn.com",
         "msauth.net",
         "msftauth.net",
-        "dscg2.akamai.net"
+        "dscg2.akamai.net",
+        "aadg.akadns.net"
       ],
       "custom": {
         "§:bing.com": {
