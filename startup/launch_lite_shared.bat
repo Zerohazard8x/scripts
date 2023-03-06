@@ -1,3 +1,4 @@
+ECHO OFF
 del /F *.py
 
 sc config "BDESVC" start=auto
