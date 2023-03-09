@@ -3,7 +3,7 @@ sudo -i
 ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
 shellConst=$(command -v $SHELL | sort | tail -n 1)
 
-corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn powershell rsync scrcpy smplayer unison vlc"
+corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn powershell scrcpy smplayer unison vim vlc"
 # plusPkgs="audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular pdfsam picard pinta qbittorrent steam vscode"
 # otherPkgs="blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser"
 
@@ -17,21 +17,10 @@ snakeInstall() {
     fi
 }
 
-if cat /etc/rc.local | grep -e setup_linux_progs.sh; then
-    echo 'ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)' >>/etc/rc.local
-    echo 'shellConst=$(command -v $SHELL | sort | tail -n 1)' >>/etc/rc.local
-    echo 'rm -rfv setup_linux_progs.sh' >>/etc/rc.local
-    echo 'rm -rfv magisk_service.sh' >>/etc/rc.local
-    echo '${ariaPathConst} -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/setup_linux_progs.sh -o setup_linux_progs.sh' >>/etc/rc.local
-    echo '${ariaPathConst} -x16 -s32 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/Magisk_AndroidOptimization_Selfmade/service.sh -o magisk_service.sh' >>/etc/rc.local
-    echo 'cat setup_linux_progs.sh | ${shellConst} ' >>/etc/rc.local
-    echo 'cat magisk_service.sh | ${shellConst} ' >>/etc/rc.local
-fi
-
 find . -type d -empty
 find ~/ -type d -empty
 
-if command -v fsck | grep -e /; then
+if command -v fsck; then
     find /dev/ -type d | xargs -I% fsck -f -R -y %
 fi
 

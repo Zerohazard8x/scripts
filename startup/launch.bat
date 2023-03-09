@@ -209,7 +209,7 @@ cmd.exe /c control update
 SET /P M=Close? (Y/N) 
 IF /I %M%==Y ( exit )
 
-powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vlc -y
+powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
 powershell.exe -c choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular picard pinta qbittorrent steam vscode -y
 
 choco uninstall python2 python -y & choco upgrade python3 -y 
