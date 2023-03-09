@@ -65,7 +65,6 @@ if command -v apt; then
     # Microsoft
     curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
     apt-add-repository https://packages.microsoft.com/debian/10/prod
-    apt-get update
     apt update && apt install aptitude snapd -y
 fi
 
