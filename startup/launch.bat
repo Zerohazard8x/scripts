@@ -216,7 +216,7 @@ choco uninstall python2 python -y & choco upgrade python3 -y
 aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 
-python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyter-themes yt-dlp youtube-dl
+python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
 :: python -m pip install -U git+https://github.com/samloader/samloader.git
 :: python -m pip install -U pymusiclooper spleeter
 jt -t monokai 

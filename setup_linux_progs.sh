@@ -11,7 +11,7 @@ snakeInstall() {
     echo $1 | ${shellConst}
     ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
-    python -m pip wheel beautysh notebook virtualenv ipykernel jupyter-themes yt-dlp youtube-dl
+    python -m pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
     if command -v jt; then
         jt -f monokai
     fi
