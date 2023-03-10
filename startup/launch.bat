@@ -123,8 +123,8 @@ net stop "xTendSoftAPService"
 w32tm /config /update
 w32tm /resync
 
-if exist "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive" (
-    start /low "" "%programdata%\Microsoft\Windows\Start Menu\Programs\Google Drive"
+if exist "%ProgramData%\%Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
+    start /low "" "%ProgramData%\%Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
     wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
 )
 
