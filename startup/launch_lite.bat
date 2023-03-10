@@ -212,8 +212,11 @@ IF /I %M%==Y ( exit )
 powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
 
 choco uninstall python2 python -y & choco upgrade python3 -y
-aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
+if not exist pip (
+    aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+)
+
 python -m pip install -U pip wheel yt-dlp youtube-dl
 
 aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
