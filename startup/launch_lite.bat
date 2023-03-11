@@ -212,7 +212,8 @@ IF /I %M%==Y ( exit )
 powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
 
 choco uninstall python2 python -y & choco upgrade python3 -y
-if not exist pip (
+WHERE pip
+if not %ERRORLEVEL% NEQ 0 (
     aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
 )

@@ -9,12 +9,12 @@ corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvp
 
 snakeInstall() {
     echo $1 | ${shellConst}
-    ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py
-    python -m pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
-    if command -v jt; then
-        jt -f monokai
+    if ! command -v pip; then
+        ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+        python get-pip.py
     fi
+    python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+    jt -f monokai
 }
 
 find . -type d -empty
