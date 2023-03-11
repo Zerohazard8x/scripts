@@ -69,7 +69,7 @@ elif command -v aptitude; then
     snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     if lspci | grep -e VGA | grep -e geforce; then
-        aptitude install nvidia-driver-510 -y
+        aptitude install nvidia-driver-520 -y
     fi
     aptitude upgrade -y
     exit 0
@@ -79,7 +79,7 @@ elif command -v apt; then
     snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     if lspci | grep -e VGA | grep -e geforce; then
-        apt install nvidia-driver-510 -y
+        apt install nvidia-driver-520 -y
     fi
     apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
     exit 0
