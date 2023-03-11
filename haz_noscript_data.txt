@@ -393,19 +393,20 @@
         "wikimg.net",
         "windows.net",
         "wix.com",
-        "wp.com",
         "wunderkind.co",
         "yahoodns.net",
         "yimg.jp",
         "yotpo.com",
         "yottaa.net",
-        "youtu.be",
         "ytimg.com",
         "z-dn.net",
         "zendesk.com",
         "zephr.com",
         "zhimg.com",
-        "zqtk.net"
+        "zqtk.net",
+        "cachefly.net",
+        "b2589717.smushcdn.com",
+        "youtube.googleapis.com"
       ],
       "custom": {
         "§:bing.com": {
