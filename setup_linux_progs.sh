@@ -24,7 +24,7 @@ if command -v fsck; then
     find /dev/ -type d | xargs -I% fsck -f -R -y %
 fi
 
-if ! cat /etc/modprobe.d/usbhid.conf | grep -e "options usbhid mousepoll=1"; then
+if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
     echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
     echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
     echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
