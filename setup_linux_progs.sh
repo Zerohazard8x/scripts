@@ -1,14 +1,14 @@
 #!/bin/sh
 sudo -i
-ariaPathConst=$(command -v ${ariaPathConst} | sort | tail -n 1)
-shellConst=$(command -v $SHELL | sort | tail -n 1)
+ariaPathConst=$(command -v "${ariaPathConst}" | sort | tail -n 1)
+shellConst=$(command -v "$SHELL" | sort | tail -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn powershell scrcpy smplayer unison vim vlc"
 # plusPkgs="audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular pdfsam picard pinta qbittorrent steam vscode"
 # otherPkgs="blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser"
 
 snakeInstall() {
-    echo $1 | ${shellConst}
+    echo "$1" | ${shellConst}
     if ! command -v pip; then
         ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
         python get-pip.py
@@ -60,12 +60,12 @@ fi
 ${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 if command -v snap; then
-    snap install ${corePkgs} -y
+    snap install "${corePkgs}" -y
     snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
 elif command -v aptitude; then
     aptitude update
-    aptitude install ${corePkgs} -y
+    aptitude install "${corePkgs}" -y
     snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     if lspci | grep -e VGA | grep -e geforce; then
@@ -75,7 +75,7 @@ elif command -v aptitude; then
     exit 0
 elif command -v apt; then
     apt update
-    apt install ${corePkgs} -y
+    apt install "${corePkgs}" -y
     snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     if lspci | grep -e VGA | grep -e geforce; then
@@ -84,11 +84,11 @@ elif command -v apt; then
     apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
     exit 0
 elif command -v brew; then
-    brew install ${corePkgs} -y
+    brew install "${corePkgs}" -y
     snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 elif command -v yay; then
-    yay -S ${corePkgs} --noconfirm
+    yay -S "${corePkgs}" --noconfirm
     snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     if lspci | grep -e VGA | grep -e geforce; then
         yay -S nvidia --noconfirm
@@ -96,7 +96,7 @@ elif command -v yay; then
     yay -Syuu
     exit 0
 elif command -v pacman; then
-    pacman -S ${corePkgs} --noconfirm
+    pacman -S "${corePkgs}" --noconfirm
     snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     if lspci | grep -e VGA | grep -e geforce; then
         pacman -S nvidia --noconfirm
@@ -104,19 +104,19 @@ elif command -v pacman; then
     pacman -Syuu
     exit 0
 elif command -v zypper; then
-    zypper install ${corePkgs} -y
+    zypper install "${corePkgs}" -y
     snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
     exit 0
 elif command -v yum; then
-    yum install ${corePkgs} -y
+    yum install "${corePkgs}" -y
     snakeInstall "yum remove python2 python -y; yum install python3 -y"
     exit 0
 elif command -v dnf; then
-    dnf install ${corePkgs} -y
+    dnf install "${corePkgs}" -y
     snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
 elif command -v port; then
-    port upgrade ${corePkgs} -y
+    port upgrade "${corePkgs}" -y
     snakeInstall "port uninstall python2 python -y; port upgrade install python3 -y"
     exit 0
 else
