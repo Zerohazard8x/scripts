@@ -406,7 +406,10 @@
         "zqtk.net",
         "cachefly.net",
         "b2589717.smushcdn.com",
-        "youtube.googleapis.com"
+        "youtube.googleapis.com",
+        "gin.bet",
+        "gg-b-gql.gg.bet",
+        "imageio.forbes.com"
       ],
       "custom": {
         "§:bing.com": {
