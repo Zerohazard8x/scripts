@@ -44,6 +44,7 @@ cmd.exe /c sc config "BDESVC" start=auto
 cmd.exe /c sc config "BFE" start=auto
 cmd.exe /c sc config "BluetoothUserService_48486de" start=auto
 cmd.exe /c sc config "BrokerInfrastructure" start=auto
+cmd.exe /c sc config "Dnscache" start=auto
 cmd.exe /c sc config "EntAppSvc" start=auto
 cmd.exe /c sc config "FrameServer" start=auto
 cmd.exe /c sc config "LicenseManager" start=auto
@@ -61,13 +62,64 @@ cmd.exe /c sc config "p2pimsvc" start=auto
 cmd.exe /c sc config "p2psvc" start=auto
 cmd.exe /c sc config "wscsvc" start=auto
 
+cmd.exe /c net start "BDESVC"
+cmd.exe /c net start "BFE"
+cmd.exe /c net start "BluetoothUserService_48486de"
+cmd.exe /c net start "BrokerInfrastructure"
+cmd.exe /c net start "Dnscache"
+cmd.exe /c net start "EntAppSvc"
+cmd.exe /c net start "FrameServer"
+cmd.exe /c net start "LicenseManager"
+cmd.exe /c net start "MacType"
+cmd.exe /c net start "NVDisplay.ContainerLocalSystem"
+cmd.exe /c net start "OpenVPNServiceInteractive"
+cmd.exe /c net start "PNRPsvc"
+cmd.exe /c net start "W32Time"
+cmd.exe /c net start "WdNisSvc"
+cmd.exe /c net start "WlanSvc"
+cmd.exe /c net start "audiosrv"
+cmd.exe /c net start "iphlpsvc"
+cmd.exe /c net start "ndu"
+cmd.exe /c net start "p2pimsvc"
+cmd.exe /c net start "p2psvc"
+cmd.exe /c net start "wscsvc"
+
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
+
+cmd.exe /c net stop "SysMain"
+cmd.exe /c net stop "Superfetch"
 
 # cmd.exe /c powercfg -restoredefaultschemes
 
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
+
+if (-not(Get-Command choco -ErrorAction SilentlyContinue)) 
+{ 
+    powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    refreshenv
+}
+
+choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vim vlc -y
+# choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
+# choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser
+
+choco uninstall python2 python -y; choco upgrade python3 -y
+if (-not(Get-Command choco -ErrorAction SilentlyContinue)) 
+{ 
+    aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+}
+
+python -m pip install -U pip wheel yt-dlp youtube-dl
+# python -m pip install -U git+https://github.com/samloader/samloader.git
+# python -m pip install -U beautysh pymusiclooper spleeter
+
+# cmd.exe /c netsh int tcp set global autotuninglevel=disabled
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
+cmd.exe /c ipconfig /flushdns
+Get-NetAdapter | Restart-NetAdapter
 
 cmd.exe /c "echo y|powershell.exe -c Uninstall-Module PSWindowsUpdate -Force"  
 cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
@@ -76,30 +128,7 @@ cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
 wuauclt /detectnow
 wuauclt /updatenow
 cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll" 
+cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
 cmd.exe /c control update
-
-powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vim vlc -y
-# choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
-# choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser
-
-choco uninstall python2 python -y; choco upgrade python3 -y
-refreshenv
-aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-python -m pip install -U pip
-python -m pip install -U wheel
-python -m pip install -U beautysh
-python -m pip install -U git+https://github.com/samloader/samloader.git
-python -m pip install -U git+https://github.com/yt-dlp/yt-dlp.git
-python -m pip install -U git+https://github.com/ytdl-org/youtube-dl.git
-# python -m pip install -U pymusiclooper
-# python -m pip install -U spleeter
-
-# cmd.exe /c netsh int tcp set global autotuninglevel=disabled
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
-cmd.exe /c ipconfig /flushdns
-Get-NetAdapter | Restart-NetAdapter
 
 shutdown /r /f /t 0

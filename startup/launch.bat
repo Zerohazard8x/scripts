@@ -120,6 +120,12 @@ net stop "ss_conn_service"
 net stop "ss_conn_service2"
 net stop "xTendSoftAPService"
 
+sc config "SysMain" start=disabled
+sc config "Superfetch" start=disabled
+
+net stop "SysMain"
+net stop "Superfetch"
+
 w32tm /config /update
 w32tm /resync
 
