@@ -129,14 +129,21 @@ net stop "Superfetch"
 w32tm /config /update
 w32tm /resync
 
-if exist "%ProgramData%\%Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
-    start /low "" "%ProgramData%\%Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
-    wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
+if exist "%localappdata%\Microsoft\OneDrive\OneDrive.exe" (
+    start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
+    wmic process where name="FileCoAuth.exe" CALL setpriority 64
+    wmic process where name="OneDrive.exe" CALL setpriority 64
 )
 
 if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
     start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
     wmic process where name="MEGASync.exe" CALL setpriority 64
+)
+
+if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
+    start /low "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
+    wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
+    wmic process where name="crashpad_handler.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
