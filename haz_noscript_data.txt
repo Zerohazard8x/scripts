@@ -409,7 +409,8 @@
         "youtube.googleapis.com",
         "gin.bet",
         "gg-b-gql.gg.bet",
-        "imageio.forbes.com"
+        "imageio.forbes.com",
+        "arkoselabs.com"
       ],
       "custom": {
         "§:bing.com": {
