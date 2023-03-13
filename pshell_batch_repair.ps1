@@ -38,6 +38,15 @@ $result = $wmiObj.UpdateScanMethod()
 
 dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 
+cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
+cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
+
+wuauclt /detectnow
+wuauclt /updatenow
+cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
+cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
+cmd.exe /c control update
+
 cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1" # then devmgmt.msc delete all greyed out in safe mode
 
 cmd.exe /c sc config "BDESVC" start=auto
@@ -120,15 +129,5 @@ python -m pip install -U pip wheel yt-dlp youtube-dl
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
-
-cmd.exe /c "echo y|powershell.exe -c Uninstall-Module PSWindowsUpdate -Force"  
-cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
-cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
-
-wuauclt /detectnow
-wuauclt /updatenow
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
-cmd.exe /c control update
 
 shutdown /r /f /t 0
