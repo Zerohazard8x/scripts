@@ -130,29 +130,29 @@ w32tm /config /update
 w32tm /resync
 
 if exist "%localappdata%\Microsoft\OneDrive\OneDrive.exe" (
-    start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
+    cmd.exe start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
     wmic process where name="FileCoAuth.exe" CALL setpriority 64
     wmic process where name="OneDrive.exe" CALL setpriority 64
 )
 
 if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
-    start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
+    cmd.exe start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
     wmic process where name="MEGASync.exe" CALL setpriority 64
 )
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
-    start /low "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
+    cmd.exe start /low "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
     wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
     wmic process where name="crashpad_handler.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    cmd.exe start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
-    start /low "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+    cmd.exe start /low "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
     wmic process where name="OverwolfHelper.exe" CALL setpriority 64
     wmic process where name="OverwolfHelper64.exe" CALL setpriority 64
     wmic process where name="OverwolfLauncher.exe" CALL setpriority 64
@@ -160,14 +160,14 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 )
 
 if exist "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe" (
-    start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
+    cmd.exe start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
     wmic process where name="ProcessLasso.exe" CALL setpriority 64
     wmic process where name="ProcessGovernor.exe" CALL setpriority 64
     wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    cmd.exe start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     wmic process where name="EncoderServer.exe" CALL setpriority 64
     wmic process where name="EncoderServer64.exe" CALL setpriority 64
     wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
@@ -176,7 +176,7 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 )
 
 if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
-    start /low "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
+    cmd.exe start /low "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
     wmic process where name="CortexLauncherService.exe" CALL setpriority 64
     wmic process where name="GameManagerService3.exe" CALL setpriority 64
     wmic process where name="FPSRunner32.exe" CALL setpriority 64
@@ -188,13 +188,13 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 )
 
 if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
-    start /low "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
+    cmd.exe start /low "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
     wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
     wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles%\LGHUB\lghub.exe" (
-    start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
+    cmd.exe start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
     wmic process where name="lghub_agent.exe" CALL setpriority 64
     wmic process where name="lghub_system_tray.exe" CALL setpriority 64
     wmic process where name="lghub.exe" CALL setpriority 64
