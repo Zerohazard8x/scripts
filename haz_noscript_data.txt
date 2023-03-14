@@ -230,7 +230,6 @@
         "jixie.media",
         "jnn-pa.googleapis.com",
         "jocdn.jp",
-        "jsdelivr.net",
         "jtvnw.net",
         "kaltura.com",
         "kapamilya.com",
