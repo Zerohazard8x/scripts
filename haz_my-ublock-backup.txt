@@ -32,7 +32,6 @@
     "edge-scheme",
     "moz-extension-scheme",
     "opera-scheme",
-    "techhenzy.com",
     "vivaldi-scheme",
     "wyciwyg-scheme"
   ],
