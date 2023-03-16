@@ -129,6 +129,12 @@ net stop "Superfetch"
 w32tm /config /update
 w32tm /resync
 
+if exist "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe"
+    wmic process where name="Cloudflare WARP.exe" CALL setpriority 64
+    wmic process where name="warp-svc.exe" CALL setpriority 64
+)
+
 if exist "%localappdata%\Microsoft\OneDrive\OneDrive.exe" (
     cmd.exe /c start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
     wmic process where name="FileCoAuth.exe" CALL setpriority 64
@@ -196,6 +202,7 @@ if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
 if exist "%ProgramFiles%\LGHUB\lghub.exe" (
     cmd.exe /c start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
     wmic process where name="lghub_agent.exe" CALL setpriority 64
+    wmic process where name="lghub_updater.exe" CALL setpriority 64
     wmic process where name="lghub_system_tray.exe" CALL setpriority 64
     wmic process where name="lghub.exe" CALL setpriority 64
 )
