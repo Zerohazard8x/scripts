@@ -10,6 +10,7 @@ sc config "BDESVC" start=auto
 sc config "BFE" start=auto
 sc config "BluetoothUserService_48486de" start=auto
 sc config "BrokerInfrastructure" start=auto
+sc config "CloudflareWarp" start=auto
 sc config "Dnscache" start=auto
 sc config "EntAppSvc" start=auto
 sc config "FrameServer" start=auto
@@ -32,6 +33,7 @@ net start "BDESVC"
 net start "BFE"
 net start "BluetoothUserService_48486de"
 net start "BrokerInfrastructure"
+net start "CloudflareWarp"
 net start "Dnscache"
 net start "EntAppSvc"
 net start "FrameServer"
@@ -84,6 +86,7 @@ sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
+
 net stop "AMD Crash Defender Service"
 net stop "AMD External Events Utility"
 net stop "Apple Mobile Device Service"
