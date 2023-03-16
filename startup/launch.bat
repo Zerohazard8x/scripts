@@ -6,6 +6,7 @@ cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
+:: Starting
 sc config "BDESVC" start=auto
 sc config "BFE" start=auto
 sc config "BluetoothUserService_48486de" start=auto
@@ -28,6 +29,29 @@ sc config "ndu" start=auto
 sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
 sc config "wscsvc" start=auto
+
+net stop "BDESVC"
+net stop "BFE"
+net stop "BluetoothUserService_48486de"
+net stop "BrokerInfrastructure"
+net stop "CloudflareWarp"
+net stop "Dnscache"
+net stop "EntAppSvc"
+net stop "FrameServer"
+net stop "LicenseManager"
+net stop "MacType"
+net stop "NVDisplay.ContainerLocalSystem"
+net stop "OpenVPNServiceInteractive"
+net stop "PNRPsvc"
+net stop "W32Time"
+net stop "WdNisSvc"
+net stop "WlanSvc"
+net stop "audiosrv"
+net stop "iphlpsvc"
+net stop "ndu"
+net stop "p2pimsvc"
+net stop "p2psvc"
+net stop "wscsvc"
 
 net start "BDESVC"
 net start "BFE"
@@ -52,6 +76,7 @@ net start "p2pimsvc"
 net start "p2psvc"
 net start "wscsvc"
 
+:: Stopping
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "Apple Mobile Device Service" start=demand
