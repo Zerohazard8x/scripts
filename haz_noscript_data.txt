@@ -412,7 +412,8 @@
         "arkoselabs.com",
         "discourse-cdn.com",
         "assets.manutd.com",
-        "readcomicmanga.com"
+        "readcomicmanga.com",
+        "apkdone.me"
       ],
       "custom": {
         "§:bing.com": {
