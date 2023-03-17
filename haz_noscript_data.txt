@@ -409,7 +409,10 @@
         "gin.bet",
         "gg-b-gql.gg.bet",
         "imageio.forbes.com",
-        "arkoselabs.com"
+        "arkoselabs.com",
+        "discourse-cdn.com",
+        "assets.manutd.com",
+        "readcomicmanga.com"
       ],
       "custom": {
         "§:bing.com": {
