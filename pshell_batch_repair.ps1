@@ -111,7 +111,7 @@ if (-not(Get-Command choco -ErrorAction SilentlyContinue))
 }
 
 choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vim vlc -y
-# choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
+# choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
 # choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser
 
 choco uninstall python2 python -y; choco upgrade python3 -y
