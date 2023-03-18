@@ -62,8 +62,6 @@
         "akamai.com",
         "akamai.net",
         "akamaiedge.net",
-        "alibaba.com",
-        "aliyuncs.com",
         "alphacdn.net",
         "altis.cloud",
         "amazon-adsystem.com",
@@ -414,7 +412,11 @@
         "assets.manutd.com",
         "readcomicmanga.com",
         "apkdone.me",
-        "osff.map.fastly.net"
+        "osff.map.fastly.net",
+        "rapoo.cn",
+        "alibaba.com",
+        "aliyuncs.com",
+        "stackpathcdn.com"
       ],
       "custom": {
         "§:bing.com": {
