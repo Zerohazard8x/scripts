@@ -413,7 +413,8 @@
         "discourse-cdn.com",
         "assets.manutd.com",
         "readcomicmanga.com",
-        "apkdone.me"
+        "apkdone.me",
+        "osff.map.fastly.net"
       ],
       "custom": {
         "§:bing.com": {
