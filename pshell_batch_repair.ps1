@@ -115,9 +115,9 @@ choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomac
 # choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld parsec pdfsam retroarch tor-browser
 
 choco uninstall python2 python -y; choco upgrade python3 -y
-if (-not(Get-Command choco -ErrorAction SilentlyContinue)) 
+if (-not(Get-Command pip -ErrorAction SilentlyContinue)) 
 { 
-    aria2c -x16 -s32 https://bootstrap.pypa.io/get-pip.py
+    aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
 }
 

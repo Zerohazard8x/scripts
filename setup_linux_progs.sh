@@ -14,7 +14,7 @@ snakeInstall() {
         python get-pip.py
     fi
     python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
-    jt -f monokai
+    jt -f gruvboxd
 }
 
 find . -type d -empty

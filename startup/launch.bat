@@ -274,7 +274,7 @@ if not %ERRORLEVEL% NEQ 0 (
     python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
     :: python -m pip install -U git+https://github.com/samloader/samloader.git
     :: python -m pip install -U pymusiclooper spleeter
-    jt -t monokai 
+    jt -t gruvboxd
     aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
     aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
     regedit /S winUX_tweaks.reg
