@@ -102,76 +102,6 @@ wmic process where name="steamwebhelper.exe" CALL setpriority 64
 SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
-:: Starting
-sc config "BDESVC" start=auto
-sc config "BFE" start=auto
-sc config "BluetoothUserService_48486de" start=auto
-sc config "BrokerInfrastructure" start=auto
-sc config "CloudflareWarp" start=auto
-sc config "Dnscache" start=auto
-sc config "EntAppSvc" start=auto
-sc config "FrameServer" start=auto
-sc config "LicenseManager" start=auto
-sc config "MacType" start=auto
-sc config "NVDisplay.ContainerLocalSystem" start=auto
-sc config "OpenVPNServiceInteractive" start=auto
-sc config "PNRPsvc" start=auto
-sc config "W32Time" start=auto
-sc config "WdNisSvc" start=auto
-sc config "WlanSvc" start=auto
-sc config "audiosrv" start=auto
-sc config "iphlpsvc" start=auto
-sc config "ndu" start=auto
-sc config "p2pimsvc" start=auto
-sc config "p2psvc" start=auto
-sc config "wscsvc" start=auto
-
-net stop "BDESVC" /y
-net stop "BFE" /y
-net stop "BluetoothUserService_48486de" /y
-net stop "BrokerInfrastructure" /y
-net stop "CloudflareWarp" /y
-net stop "Dnscache" /y
-net stop "EntAppSvc" /y
-net stop "FrameServer" /y
-net stop "LicenseManager" /y
-net stop "MacType" /y
-net stop "NVDisplay.ContainerLocalSystem" /y
-net stop "OpenVPNServiceInteractive" /y
-net stop "PNRPsvc" /y
-net stop "W32Time" /y
-net stop "WdNisSvc" /y
-net stop "WlanSvc" /y
-net stop "audiosrv" /y
-net stop "iphlpsvc" /y
-net stop "ndu" /y
-net stop "p2pimsvc" /y
-net stop "p2psvc" /y
-net stop "wscsvc" /y
-
-net start "BDESVC"
-net start "BFE"
-net start "BluetoothUserService_48486de"
-net start "BrokerInfrastructure"
-net start "CloudflareWarp"
-net start "Dnscache"
-net start "EntAppSvc"
-net start "FrameServer"
-net start "LicenseManager"
-net start "MacType"
-net start "NVDisplay.ContainerLocalSystem"
-net start "OpenVPNServiceInteractive"
-net start "PNRPsvc"
-net start "W32Time"
-net start "WdNisSvc"
-net start "WlanSvc"
-net start "audiosrv"
-net start "iphlpsvc"
-net start "ndu"
-net start "p2pimsvc"
-net start "p2psvc"
-net start "wscsvc"
-
 :: Stopping
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
@@ -250,7 +180,54 @@ sc config "Superfetch" start=disabled
 net stop "SysMain" /y
 net stop "Superfetch" /y
 
+:: Starting
+net stop "BDESVC" /y
+net stop "BFE" /y
+net stop "BluetoothUserService_48486de" /y
+net stop "BrokerInfrastructure" /y
+net stop "CloudflareWarp" /y
+net stop "Dnscache" /y
+net stop "EntAppSvc" /y
+net stop "FrameServer" /y
+net stop "LicenseManager" /y
+net stop "MacType" /y
+net stop "NVDisplay.ContainerLocalSystem" /y
+net stop "OpenVPNServiceInteractive" /y
+net stop "PNRPsvc" /y
+net stop "W32Time" /y
+net stop "WdNisSvc" /y
+net stop "WlanSvc" /y
+net stop "audiosrv" /y
+net stop "iphlpsvc" /y
+net stop "ndu" /y
+net stop "p2pimsvc" /y
+net stop "p2psvc" /y
+net stop "wscsvc" /y
+
 :NOSVC
+net start "BDESVC"
+net start "BFE"
+net start "BluetoothUserService_48486de"
+net start "BrokerInfrastructure"
+net start "CloudflareWarp"
+net start "Dnscache"
+net start "EntAppSvc"
+net start "FrameServer"
+net start "LicenseManager"
+net start "MacType"
+net start "NVDisplay.ContainerLocalSystem"
+net start "OpenVPNServiceInteractive"
+net start "PNRPsvc"
+net start "W32Time"
+net start "WdNisSvc"
+net start "WlanSvc"
+net start "audiosrv"
+net start "iphlpsvc"
+net start "ndu"
+net start "p2pimsvc"
+net start "p2psvc"
+net start "wscsvc"
+
 w32tm /config /update
 w32tm /resync
 
