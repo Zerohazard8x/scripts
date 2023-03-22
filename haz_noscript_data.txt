@@ -70,7 +70,6 @@
         "anilist.co",
         "aniview.com",
         "anmedm.com",
-        "api.vimeo.com",
         "aralego.net",
         "assetsadobe2.com",
         "associates-amazon.com",
@@ -357,7 +356,6 @@
         "targetimg1.com",
         "techlab-cdn.com",
         "telegram.me",
-        "template.canva.com",
         "testfamilysafety.bing.com",
         "th.bing.com",
         "thegamerimages.com",
@@ -416,7 +414,10 @@
         "rapoo.cn",
         "alibaba.com",
         "aliyuncs.com",
-        "stackpathcdn.com"
+        "stackpathcdn.com",
+        "d3tvd1u91rr79.cloudfront.net",
+        "images.deepai.org",
+        "template.canva.com"
       ],
       "custom": {
         "§:bing.com": {
