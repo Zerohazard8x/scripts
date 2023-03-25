@@ -7,7 +7,7 @@ cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
 SET /P M=Programs? (Y/N) 
-IF /I %M%==N ( exit )
+IF /I %M%==N GOTO YESSVC
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
     cmd.exe /c start /low "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
@@ -113,6 +113,7 @@ if exist "C:\Riot Games\Riot Client\RiotClientServices.exe" (
 wmic process where name="Agent.exe" CALL setpriority 64
 wmic process where name="Battle.net.exe" CALL setpriority 64
 
+:YESSVC
 SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
