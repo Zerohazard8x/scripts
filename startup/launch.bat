@@ -6,27 +6,48 @@ cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
-if exist "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe"
-    wmic process where name="Cloudflare WARP.exe" CALL setpriority 64
-    wmic process where name="warp-svc.exe" CALL setpriority 64
-)
-
-if exist "%localappdata%\Microsoft\OneDrive\OneDrive.exe" (
-    cmd.exe /c start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
-    wmic process where name="FileCoAuth.exe" CALL setpriority 64
-    wmic process where name="OneDrive.exe" CALL setpriority 64
-)
-
-if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
-    cmd.exe /c start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
-    wmic process where name="MEGASync.exe" CALL setpriority 64
-)
+SET /P M=Programs? (Y/N) 
+IF /I %M%==N ( exit )
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
     cmd.exe /c start /low "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk"
     wmic process where name="GoogleDriveFS.exe" CALL setpriority 64
     wmic process where name="crashpad_handler.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe" (
+    cmd.exe /c start /normal "" "%ProgramFiles%\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe"
+    wmic process where name="Cloudflare WARP.exe" CALL setpriority 32
+    wmic process where name="warp-svc.exe" CALL setpriority 32
+)
+
+if exist "%ProgramFiles%\LGHUB\lghub.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
+    wmic process where name="lghub_agent.exe" CALL setpriority 64
+    wmic process where name="lghub_updater.exe" CALL setpriority 64
+    wmic process where name="lghub_system_tray.exe" CALL setpriority 64
+    wmic process where name="lghub.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
+    wmic process where name="ProcessLasso.exe" CALL setpriority 64
+    wmic process where name="ProcessGovernor.exe" CALL setpriority 64
+    wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
+    wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
+    wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    wmic process where name="EpicGamesLauncher.exe" CALL setpriority 64
+    wmic process where name="EpicWebHelper.exe" CALL setpriority 64
+    taskkill /F /IM "EpicGamesLauncher.exe"
+    taskkill /F /IM "EpicWebHelper.exe"
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
@@ -42,22 +63,6 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
     wmic process where name="overwolf.exe" CALL setpriority 64
 )
 
-if exist "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
-    wmic process where name="ProcessLasso.exe" CALL setpriority 64
-    wmic process where name="ProcessGovernor.exe" CALL setpriority 64
-    wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
-)
-
-if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
-    wmic process where name="EncoderServer.exe" CALL setpriority 64
-    wmic process where name="EncoderServer64.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-    wmic process where name="RTSS.exe" CALL setpriority 64
-)
-
 if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
     cmd.exe /c start /low "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
     wmic process where name="CortexLauncherService.exe" CALL setpriority 64
@@ -70,34 +75,43 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
     wmic process where name="Razer Central.exe" CALL setpriority 64
 )
 
-if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
-    wmic process where name="SteelSeriesGGClient.exe" CALL setpriority 64
-    wmic process where name="SteelSeriesGG.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    wmic process where name="EncoderServer.exe" CALL setpriority 64
+    wmic process where name="EncoderServer64.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
+    wmic process where name="RTSS.exe" CALL setpriority 64
 )
 
-if exist "%ProgramFiles%\LGHUB\lghub.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles%\LGHUB\lghub.exe"
-    wmic process where name="lghub_agent.exe" CALL setpriority 64
-    wmic process where name="lghub_updater.exe" CALL setpriority 64
-    wmic process where name="lghub_system_tray.exe" CALL setpriority 64
-    wmic process where name="lghub.exe" CALL setpriority 64
+if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles%\Steam\steam.exe"
+    wmic process where name="steam.exe" CALL setpriority 64
+    wmic process where name="steamwebhelper.exe" CALL setpriority 64
+    taskkill /F /IM "steam.exe"
+    taskkill /F /IM "steamwebhelper.exe"
+)
+
+if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
+    cmd.exe /c start /low "" "%localappdata%\MEGAsync\MEGAsync.exe"
+    wmic process where name="MEGASync.exe" CALL setpriority 64
+)
+
+if exist "%localappdata%\Microsoft\OneDrive\OneDrive.exe" (
+    cmd.exe /c start /low "" "%localappdata%\Microsoft\OneDrive\OneDrive.exe"
+    wmic process where name="FileCoAuth.exe" CALL setpriority 64
+    wmic process where name="OneDrive.exe" CALL setpriority 64
+)
+
+if exist "C:\Riot Games\Riot Client\RiotClientServices.exe" (
+    cmd.exe /c start /low "" "C:\Riot Games\Riot Client\RiotClientServices.exe"
+    wmic process where name="RiotClientServices.exe" CALL setpriority 64
+    taskkill /F /IM "RiotClientServices.exe"
 )
 
 :: start /low ""
 wmic process where name="Agent.exe" CALL setpriority 64
 wmic process where name="Battle.net.exe" CALL setpriority 64
-
-:: start /low ""
-wmic process where name="EpicGamesLauncher.exe" CALL setpriority 64
-wmic process where name="EpicWebHelper.exe" CALL setpriority 64
-
-:: start /low ""
-wmic process where name="RiotClientServices.exe" CALL setpriority 64
-
-:: start /low ""
-wmic process where name="steam.exe" CALL setpriority 64
-wmic process where name="steamwebhelper.exe" CALL setpriority 64
 
 SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
