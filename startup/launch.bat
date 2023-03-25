@@ -258,27 +258,33 @@ if not %ERRORLEVEL% NEQ 0 (
     powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
     powershell.exe -c choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
     choco uninstall python2 python -y & choco upgrade python3 -y 
-    WHERE pip
+    WHERE aria2c
     if not %ERRORLEVEL% NEQ 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-        python get-pip.py
+        WHERE pip
+        if not %ERRORLEVEL% NEQ 0 (
+            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            python get-pip.py
+        )
+        python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+        :: python -m pip install -U git+https://github.com/samloader/samloader.git
+        :: python -m pip install -U pymusiclooper spleeter
+        jt -t gruvboxd -dfonts
+        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+        regedit /S winUX_tweaks.reg
+        regedit /S windows_tweaks.reg
     )
-    python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
-    :: python -m pip install -U git+https://github.com/samloader/samloader.git
-    :: python -m pip install -U pymusiclooper spleeter
-    jt -t gruvboxd -dfonts
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-    regedit /S winUX_tweaks.reg
-    regedit /S windows_tweaks.reg
 )
 
-cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
-cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
-
-wuauclt /detectnow
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
-cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
+WHERE powershell
+if not %ERRORLEVEL% NEQ 0 (
+    cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
+    cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
+    cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
+    cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
+) else (
+    wuauclt /detectnow
+)
 
 cmd.exe /c control update
 exit 0
