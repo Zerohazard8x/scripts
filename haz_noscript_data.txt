@@ -417,7 +417,9 @@
         "stackpathcdn.com",
         "d3tvd1u91rr79.cloudfront.net",
         "images.deepai.org",
-        "template.canva.com"
+        "template.canva.com",
+        "app.rivalry.com",
+        "cdn.rivalry.com"
       ],
       "custom": {
         "§:bing.com": {
