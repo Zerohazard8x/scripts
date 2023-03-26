@@ -85,7 +85,7 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 )
 
 if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles%\Steam\steam.exe"
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\Steam\steam.exe"
     wmic process where name="steam.exe" CALL setpriority 64
     wmic process where name="steamwebhelper.exe" CALL setpriority 64
     taskkill /F /IM "steam.exe"
@@ -255,8 +255,8 @@ IF /I %M%==Y ( exit )
 
 WHERE choco
 if not %ERRORLEVEL% NEQ 0 (
-    powershell.exe -c choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
-    powershell.exe -c choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
+    choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
     choco uninstall python2 python -y & choco upgrade python3 -y 
     WHERE aria2c
     if not %ERRORLEVEL% NEQ 0 (
