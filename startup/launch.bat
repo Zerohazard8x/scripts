@@ -1,3 +1,4 @@
+cls
 ECHO OFF
 del /F *.py
 del /F *.reg
