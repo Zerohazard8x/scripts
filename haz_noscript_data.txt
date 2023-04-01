@@ -263,7 +263,6 @@
         "mookie1.com",
         "mradx.net",
         "msauth.net",
-        "msftauth.net",
         "myfidevs.io",
         "myfinance.com",
         "myqcloud.com",
