@@ -418,7 +418,8 @@
         "images.deepai.org",
         "template.canva.com",
         "app.rivalry.com",
-        "cdn.rivalry.com"
+        "cdn.rivalry.com",
+        "pusher.com"
       ],
       "custom": {
         "§:bing.com": {
