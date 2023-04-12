@@ -95,9 +95,11 @@ cmd.exe /c net start "wscsvc"
 
 cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
+cmd.exe /c sc config "svsvc" start=disabled
 
 cmd.exe /c net stop "SysMain"
 cmd.exe /c net stop "Superfetch"
+cmd.exe /c net stop "svsvc"
 
 # cmd.exe /c powercfg -restoredefaultschemes
 
