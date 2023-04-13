@@ -418,7 +418,8 @@
         "template.canva.com",
         "app.rivalry.com",
         "cdn.rivalry.com",
-        "pusher.com"
+        "pusher.com",
+        "shields.io"
       ],
       "custom": {
         "§:bing.com": {
