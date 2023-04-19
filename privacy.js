@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Zerohazard's Privacy script
+// @name            SomeName
 // @description     Prevents websites from taking information about activities
 // @match           *://*/*
 // @run-at          document-end
@@ -7,6 +7,9 @@
 // @exclude         *bing.com*
 // @exclude         *discord.com*
 // @exclude         *youtube.com*
+// @exclude         *nvidia.com*
+// @exclude         *lazada.com.ph*
+// @exclude         *alicdn.com*
 // ==/UserScript==
 
 const preventEvent = function (event) {
