@@ -251,14 +251,15 @@ cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
 cmd /c "echo off | clip"
 cmd.exe /c control update
 
-SET /P M=Close? (Y/N) 
-IF /I %M%==Y ( exit )
+SET /P M=Python? (Y/N) 
+IF /I %M%==N GOTO NOPYTHON
 
 WHERE choco
 if not %ERRORLEVEL% NEQ 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
-    choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
     choco uninstall python2 python -y & choco upgrade python3 -y 
+)
+WHERE python
+if not %ERRORLEVEL% NEQ 0 (
     WHERE aria2c
     if not %ERRORLEVEL% NEQ 0 (
         WHERE pip
@@ -266,15 +267,29 @@ if not %ERRORLEVEL% NEQ 0 (
             aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         )
-        python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
-        :: python -m pip install -U git+https://github.com/samloader/samloader.git
-        :: python -m pip install -U pymusiclooper spleeter
-        jt -t gruvboxd -dfonts
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-        regedit /S winUX_tweaks.reg
-        regedit /S windows_tweaks.reg
     )
+    python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+    :: python -m pip install -U git+https://github.com/samloader/samloader.git
+    :: python -m pip install -U pymusiclooper spleeter
+    jt -t gruvboxd -dfonts
+)
+
+:NOPYTHON
+SET /P M=Close? (Y/N) 
+IF /I %M%==Y ( exit )
+
+WHERE choco
+if not %ERRORLEVEL% NEQ 0 (
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
+    choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
+)
+
+WHERE aria2c
+if not %ERRORLEVEL% NEQ 0 (
+    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
+    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+    regedit /S winUX_tweaks.reg
+    regedit /S windows_tweaks.reg
 )
 
 WHERE powershell
