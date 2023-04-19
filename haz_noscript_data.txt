@@ -194,7 +194,6 @@
         "google.com.ph",
         "googleoptimize.com",
         "googlesyndication.com",
-        "googletagmanager.com",
         "googletagservices.com",
         "gotraffic.net",
         "gql-realtime.reddit.com",
@@ -419,7 +418,11 @@
         "app.rivalry.com",
         "cdn.rivalry.com",
         "pusher.com",
-        "shields.io"
+        "shields.io",
+        "googletagmanager.com",
+        "tile.openstreetmap.org",
+        "irc-ws.chat.twitch.tv",
+        "dzfq4ouujrxm8.cloudfront.net"
       ],
       "custom": {
         "§:bing.com": {
