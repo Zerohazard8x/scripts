@@ -263,7 +263,7 @@ if not %ERRORLEVEL% NEQ 0 (
     WHERE aria2c
     if not %ERRORLEVEL% NEQ 0 (
         WHERE pip
-        if not %ERRORLEVEL% NEQ 0 (
+        if %ERRORLEVEL% NEQ 0 (
             aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         )
