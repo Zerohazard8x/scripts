@@ -97,9 +97,9 @@ cmd.exe /c sc config "SysMain" start=disabled
 cmd.exe /c sc config "Superfetch" start=disabled
 cmd.exe /c sc config "svsvc" start=disabled
 
-cmd.exe /c net stop "SysMain"
-cmd.exe /c net stop "Superfetch"
-cmd.exe /c net stop "svsvc"
+cmd.exe /c net stop "SysMain" /y
+cmd.exe /c net stop "Superfetch" /y
+cmd.exe /c net stop "svsvc" /y
 
 # cmd.exe /c powercfg -restoredefaultschemes
 
@@ -119,7 +119,7 @@ if (Get-Command choco -ErrorAction SilentlyContinue) {
 }
 
 if (Get-Command python -ErrorAction SilentlyContinue) { 
-    if (-not(Get-Command pip -ErrorAction SilentlyContinue)) { 
+    if (-not(Get-Command pip -ErrorAction SilentlyContinue)) && (Get-Command aria2c -ErrorAction SilentlyContinue) { 
         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
         python get-pip.py
     }
