@@ -192,9 +192,11 @@ net stop "xTendSoftAPService" /y
 
 sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
+sc config "svsvc" /y
 
 net stop "SysMain" /y
 net stop "Superfetch" /y
+net stop "svsvc" /y
 
 :: Starting
 net stop "BDESVC" /y
