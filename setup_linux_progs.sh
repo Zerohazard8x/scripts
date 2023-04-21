@@ -1,20 +1,24 @@
 #!/bin/sh
 sudo -i
-ariaPathConst=$(command -v "${ariaPathConst}" | sort | tail -n 1)
-shellConst=$(command -v "$SHELL" | sort | tail -n 1)
+ariaPathConst=$(command -v aria2c | sort -r | head -n 1)
+shellConst=$(command -v "$SHELL" | sort -r | head -n 1)
 
-corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn powershell scrcpy smplayer unison vim vlc"
-# plusPkgs="audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode"
-# otherPkgs="blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld opera parsec pdfsam retroarch tor-browser"
+corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vim vlc"
+# plusPkgs="audacious audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode"
+# otherPkgs="blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld microsoft-edge opera parsec pdfsam retroarch tor-browser"
+
+if ! command -v curl; then exit 1; fi
 
 snakeInstall() {
     echo "$1" | ${shellConst}
-    if ! command -v pip; then
-        ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-        python get-pip.py
+    if command -v python; then
+        if ! command -v pip && command -v aria2c; then
+            ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            python get-pip.py
+        fi
+        python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+        jt -t gruvboxd -dfonts
     fi
-    python -m pip install -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
-    jt -t gruvboxd -dfonts
 }
 
 find . -type d -empty
@@ -57,9 +61,15 @@ if command -v apt; then
     apt update && apt install aptitude snapd -y
 fi
 
-${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! command -v brew; then
+    ${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
-if command -v snap; then
+if command -v brew; then
+    brew install "${corePkgs}" -y
+    snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
+    exit 0
+elif command -v snap; then
     snap install "${corePkgs}" -y
     snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
@@ -82,10 +92,6 @@ elif command -v apt; then
         apt install nvidia-driver-520 -y
     fi
     apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
-    exit 0
-elif command -v brew; then
-    brew install "${corePkgs}" -y
-    snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 elif command -v yay; then
     yay -S "${corePkgs}" --noconfirm
