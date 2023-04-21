@@ -192,9 +192,11 @@ net stop "xTendSoftAPService" /y
 
 sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
+sc config "svsvc" start=disabled
 
 net stop "SysMain" /y
 net stop "Superfetch" /y
+net stop "svsvc" /y
 
 :: Starting
 net stop "BDESVC" /y
@@ -280,8 +282,8 @@ IF /I %M%==Y ( exit )
 
 WHERE choco
 if not %ERRORLEVEL% NEQ 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
-    choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn phantomjs powershell scrcpy smplayer unison vim vlc -y
+    choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
 )
 
 WHERE aria2c
