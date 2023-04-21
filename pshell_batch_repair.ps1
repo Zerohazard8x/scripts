@@ -106,26 +106,26 @@ cmd.exe /c net stop "svsvc"
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
 
-if (-not(Get-Command choco -ErrorAction SilentlyContinue)) 
-{ 
+if (-not(Get-Command choco -ErrorAction SilentlyContinue)) { # Negation of (Get-Command choco -ErrorAction SilentlyContinue)
     powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     refreshenv
 }
 
-choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell rsync scrcpy smplayer unison vim vlc -y
-# choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice microsoft-edge obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
-# choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld opera parsec pdfsam retroarch tor-browser
-
-choco uninstall python2 python -y; choco upgrade python3 -y
-if (-not(Get-Command pip -ErrorAction SilentlyContinue)) 
-{ 
-    aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py
+if (Get-Command choco -ErrorAction SilentlyContinue) { 
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vim vlc -y
+    # choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode -y
+    # choco upgrade blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld microsoft-edge opera parsec pdfsam retroarch tor-browser
+    choco uninstall python2 python -y; choco upgrade python3 -y
 }
 
-python -m pip install -U pip wheel yt-dlp youtube-dl
-# python -m pip install -U git+https://github.com/samloader/samloader.git
-# python -m pip install -U beautysh pymusiclooper spleeter
+if (Get-Command python -ErrorAction SilentlyContinue) { 
+    if (-not(Get-Command pip -ErrorAction SilentlyContinue)) { 
+        aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+        python get-pip.py
+    }
+    python -m pip install -U pip wheel yt-dlp youtube-dl
+    # python -m pip install -U git+https://github.com/samloader/samloader.git
+}
 
 # cmd.exe /c netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
