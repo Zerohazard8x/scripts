@@ -119,46 +119,12 @@ SET /P M=Services? (Y/N)
 IF /I %M%==N GOTO NOSVC
 
 :: Stopping
-sc config "AMD Crash Defender Service" start=demand
-sc config "AMD External Events Utility" start=demand
-sc config "Apple Mobile Device Service" start=demand
-sc config "Bonjour Service" start=demand
-sc config "CdRomArbiterService" start=demand
-sc config "CxAudMsg" start=demand
-sc config "DtsApo4Service" start=demand
-sc config "EpicOnlineServices" start=demand
-sc config "Intel(R) TPM Provisioning Service" start=demand
-sc config "Killer Analytics Service" start=demand
-sc config "Killer Network Service" start=demand
-sc config "Killer Wifi Optimization Service" start=demand
-sc config "LGHUBUpdaterService" start=demand
-sc config "MBAMService" start=demand
-sc config "OverwolfUpdater" start=demand
-sc config "PSService" start=demand
-sc config "Parsec" start=demand
-sc config "Razer Game Manager Service 3" start=demand
-sc config "RstMwService" start=demand
-sc config "RzActionSvc" start=demand
-sc config "Steam Client Service" start=demand
-sc config "SteelSeriesUpdateService" start=demand
-sc config "VBoxSDS" start=demand
-sc config "WMIRegistrationService" start=demand
-sc config "cplspcon" start=demand
-sc config "esifsvc" start=demand
-sc config "ibtsiva" start=demand
-sc config "igccservice" start=demand
-sc config "igfxCUIService2.0.0.0" start=demand
-sc config "jhi_service" start=demand
-sc config "spacedeskService" start=demand
-sc config "ss_conn_service" start=demand
-sc config "ss_conn_service2" start=demand
-sc config "xTendSoftAPService" start=demand
-
 net stop "AMD Crash Defender Service" /y
 net stop "AMD External Events Utility" /y
 net stop "Apple Mobile Device Service" /y
 net stop "Bonjour Service" /y
 net stop "CdRomArbiterService" /y
+net stop "CortexLauncherService" /y
 net stop "CxAudMsg" /y
 net stop "DtsApo4Service" /y
 net stop "EpicOnlineServices" /y
@@ -190,15 +156,51 @@ net stop "ss_conn_service" /y
 net stop "ss_conn_service2" /y
 net stop "xTendSoftAPService" /y
 
-sc config "SysMain" start=disabled
-sc config "Superfetch" start=disabled
-sc config "svsvc" /y
+sc config "AMD Crash Defender Service" start=demand
+sc config "AMD External Events Utility" start=demand
+sc config "Apple Mobile Device Service" start=demand
+sc config "Bonjour Service" start=demand
+sc config "CdRomArbiterService" start=demand
+sc config "CortexLauncherService" start=demand
+sc config "CxAudMsg" start=demand
+sc config "DtsApo4Service" start=demand
+sc config "EpicOnlineServices" start=demand
+sc config "Intel(R) TPM Provisioning Service" start=demand
+sc config "Killer Analytics Service" start=demand
+sc config "Killer Network Service" start=demand
+sc config "Killer Wifi Optimization Service" start=demand
+sc config "LGHUBUpdaterService" start=demand
+sc config "MBAMService" start=demand
+sc config "OverwolfUpdater" start=demand
+sc config "PSService" start=demand
+sc config "Parsec" start=demand
+sc config "Razer Game Manager Service 3" start=demand
+sc config "RstMwService" start=demand
+sc config "RzActionSvc" start=demand
+sc config "Steam Client Service" start=demand
+sc config "SteelSeriesUpdateService" start=demand
+sc config "VBoxSDS" start=demand
+sc config "WMIRegistrationService" start=demand
+sc config "cplspcon" start=demand
+sc config "esifsvc" start=demand
+sc config "ibtsiva" start=demand
+sc config "igccservice" start=demand
+sc config "igfxCUIService2.0.0.0" start=demand
+sc config "jhi_service" start=demand
+sc config "spacedeskService" start=demand
+sc config "ss_conn_service" start=demand
+sc config "ss_conn_service2" start=demand
+sc config "xTendSoftAPService" start=demand
 
 net stop "SysMain" /y
 net stop "Superfetch" /y
 net stop "svsvc" /y
 
-:: Starting
+sc config "SysMain" start=disabled
+sc config "Superfetch" start=disabled
+sc config "svsvc" start=disabled
+
+:: Re/starting
 net stop "BDESVC" /y
 net stop "BFE" /y
 net stop "BluetoothUserService_48486de" /y
@@ -212,15 +214,42 @@ net stop "MacType" /y
 net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
+net stop "ProcessGovernor" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
 net stop "WlanSvc" /y
 net stop "audiosrv" /y
+net stop "hidusbf" /y
 net stop "iphlpsvc" /y
 net stop "ndu" /y
 net stop "p2pimsvc" /y
 net stop "p2psvc" /y
 net stop "wscsvc" /y
+
+sc config "BDESVC" start=auto
+sc config "BFE" start=auto
+sc config "BluetoothUserService_48486de" start=auto
+sc config "BrokerInfrastructure" start=auto
+sc config "CloudflareWarp" start=auto
+sc config "Dnscache" start=auto
+sc config "EntAppSvc" start=auto
+sc config "FrameServer" start=auto
+sc config "LicenseManager" start=auto
+sc config "MacType" start=auto
+sc config "NVDisplay.ContainerLocalSystem" start=auto
+sc config "OpenVPNServiceInteractive" start=auto
+sc config "PNRPsvc" start=auto
+sc config "ProcessGovernor" start=auto
+sc config "W32Time" start=auto
+sc config "WdNisSvc" start=auto
+sc config "WlanSvc" start=auto
+sc config "audiosrv" start=auto
+sc config "hidusbf" start=auto
+sc config "iphlpsvc" start=auto
+sc config "ndu" start=auto
+sc config "p2pimsvc" start=auto
+sc config "p2psvc" start=auto
+sc config "wscsvc" start=auto
 
 :NOSVC
 net start "BDESVC"
@@ -236,10 +265,12 @@ net start "MacType"
 net start "NVDisplay.ContainerLocalSystem"
 net start "OpenVPNServiceInteractive"
 net start "PNRPsvc"
+net start "ProcessGovernor"
 net start "W32Time"
 net start "WdNisSvc"
 net start "WlanSvc"
 net start "audiosrv"
+net start "hidusbf"
 net start "iphlpsvc"
 net start "ndu"
 net start "p2pimsvc"

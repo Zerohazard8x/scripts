@@ -61,10 +61,12 @@ cmd.exe /c sc config "MacType" start=auto
 cmd.exe /c sc config "NVDisplay.ContainerLocalSystem" start=auto
 cmd.exe /c sc config "OpenVPNServiceInteractive" start=auto
 cmd.exe /c sc config "PNRPsvc" start=auto
+cmd.exe /c sc config "ProcessGovernor" start=auto
 cmd.exe /c sc config "W32Time" start=auto
 cmd.exe /c sc config "WdNisSvc" start=auto
 cmd.exe /c sc config "WlanSvc" start=auto
 cmd.exe /c sc config "audiosrv" start=auto
+cmd.exe /c sc config "hidusbf" start=auto
 cmd.exe /c sc config "iphlpsvc" start=auto
 cmd.exe /c sc config "ndu" start=auto
 cmd.exe /c sc config "p2pimsvc" start=auto
@@ -83,23 +85,25 @@ cmd.exe /c net start "MacType"
 cmd.exe /c net start "NVDisplay.ContainerLocalSystem"
 cmd.exe /c net start "OpenVPNServiceInteractive"
 cmd.exe /c net start "PNRPsvc"
+cmd.exe /c net start "ProcessGovernor"
 cmd.exe /c net start "W32Time"
 cmd.exe /c net start "WdNisSvc"
 cmd.exe /c net start "WlanSvc"
 cmd.exe /c net start "audiosrv"
+cmd.exe /c net start "hidusbf"
 cmd.exe /c net start "iphlpsvc"
 cmd.exe /c net start "ndu"
 cmd.exe /c net start "p2pimsvc"
 cmd.exe /c net start "p2psvc"
 cmd.exe /c net start "wscsvc"
 
-cmd.exe /c sc config "SysMain" start=disabled
-cmd.exe /c sc config "Superfetch" start=disabled
-cmd.exe /c sc config "svsvc" start=disabled
-
 cmd.exe /c net stop "SysMain" /y
 cmd.exe /c net stop "Superfetch" /y
 cmd.exe /c net stop "svsvc" /y
+
+cmd.exe /c sc config "SysMain" start=disabled
+cmd.exe /c sc config "Superfetch" start=disabled
+cmd.exe /c sc config "svsvc" start=disabled
 
 # cmd.exe /c powercfg -restoredefaultschemes
 
@@ -107,7 +111,7 @@ cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
 
 if (-not(Get-Command choco -ErrorAction SilentlyContinue)) { # Negation of (Get-Command choco -ErrorAction SilentlyContinue)
-    powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     refreshenv
 }
 
@@ -119,7 +123,7 @@ if (Get-Command choco -ErrorAction SilentlyContinue) {
 }
 
 if (Get-Command python -ErrorAction SilentlyContinue) { 
-    if (-not(Get-Command pip -ErrorAction SilentlyContinue)) && (Get-Command aria2c -ErrorAction SilentlyContinue) { 
+    if (-not(Get-Command pip -ErrorAction SilentlyContinue) -and (Get-Command aria2c -ErrorAction SilentlyContinue)) { 
         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
         python get-pip.py
     }
