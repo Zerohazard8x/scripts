@@ -33486,7 +33486,6 @@
 ||s2pro-ncode.com$all
 ||s2sterra.com$all
 ||s2strk.info$all
-||s3-us-west-2.amazonaws.com$all
 ||s3.krakenfiles.com/uploads/14-09-2022/nml3zfoeah/image.jpg$all
 ||s3.krakenfiles.com/uploads/19-09-2022/qnjxvatgaj/image.jpg$all
 ||s3.krakenfiles.com/uploads/29-09-2022/yvbx3hnust/image.jpg$all
