@@ -1,13 +1,14 @@
 {
-  "timeStamp": 1682317584800,
-  "version": "1.48.4",
+  "timeStamp": 1682317726934,
+  "version": "1.49.0",
   "userSettings": {
     "cloudStorageEnabled": true,
     "externalLists": "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/ublock.txt",
     "importedLists": [
       "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/ublock.txt"
     ],
-    "popupPanelSections": 31
+    "popupPanelSections": 31,
+    "suspendUntilListsAreLoaded": true
   },
   "selectedFilterLists": [
     "user-filters",
