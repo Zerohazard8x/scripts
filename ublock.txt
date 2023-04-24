@@ -12868,7 +12868,6 @@
 ||d3d9pt4go32tk8.cloudfront.net$all
 ||d3dq1nh1l1pzqy.cloudfront.net$all
 ||d3dytsf4vrjn5x.cloudfront.net$all
-||d3e54v103j8qbb.cloudfront.net$all
 ||d3evio1yid77jr.cloudfront.net$all
 ||d3f1m03rbb66gy.cloudfront.net$all
 ||d3f1wcxz2rdrik.cloudfront.net$all
@@ -33486,6 +33485,7 @@
 ||s2pro-ncode.com$all
 ||s2sterra.com$all
 ||s2strk.info$all
+||s3-us-west-2.amazonaws.com$all
 ||s3.krakenfiles.com/uploads/14-09-2022/nml3zfoeah/image.jpg$all
 ||s3.krakenfiles.com/uploads/19-09-2022/qnjxvatgaj/image.jpg$all
 ||s3.krakenfiles.com/uploads/29-09-2022/yvbx3hnust/image.jpg$all
@@ -46077,6 +46077,7 @@
 ||adsrvr.org$script,object,ping,stylesheet,other
 ||akamai.com$script,object,ping,stylesheet,other
 ||akamai.net$script,object,ping,stylesheet,other
+||akamaiedge.net$script,object,ping,stylesheet,other
 ||alibaba.com$script,object,ping,stylesheet,other
 ||aliyuncs.com$script,object,ping,stylesheet,other
 ||alphacdn.net$script,object,ping,stylesheet,other
@@ -46423,7 +46424,6 @@
 ||w55c.net$script,object,ping,stylesheet,other
 ||webcontentassessor.com$script,object,ping,stylesheet,other
 ||webflow.com$script,object,ping,stylesheet,other
-||website-files.com$script,object,ping,stylesheet,other
 ||wiki.gallery$script,object,ping,stylesheet,other
 ||wikia.com$script,object,ping,stylesheet,other
 ||wikimedia.org$script,object,ping,stylesheet,other
