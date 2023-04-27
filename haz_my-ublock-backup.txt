@@ -1,6 +1,6 @@
 {
-  "timeStamp": 1682317909383,
-  "version": "1.48.4",
+  "timeStamp": 1682584864888,
+  "version": "1.49.2",
   "userSettings": {
     "cloudStorageEnabled": true,
     "externalLists": "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/ublock.txt",
@@ -31,9 +31,11 @@
     "about-scheme",
     "chrome-extension-scheme",
     "chrome-scheme",
+    "dubz.co",
     "edge-scheme",
     "moz-extension-scheme",
     "opera-scheme",
+    "reddit.com",
     "vivaldi-scheme",
     "wyciwyg-scheme"
   ],
