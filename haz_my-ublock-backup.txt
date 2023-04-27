@@ -1,5 +1,5 @@
 {
-  "timeStamp": 1682584864888,
+  "timeStamp": 1682585625775,
   "version": "1.49.2",
   "userSettings": {
     "cloudStorageEnabled": true,
@@ -23,6 +23,8 @@
     "block-lan",
     "easyprivacy",
     "urlhaus-1",
+    "adguard-annoyance",
+    "ublock-annoyances",
     "plowe-0",
     "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/ublock.txt"
   ],
