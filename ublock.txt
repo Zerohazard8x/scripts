@@ -46056,7 +46056,7 @@
 ||zzdb5p4upiug.com$all
 ||zzghcckpzlhob.com$all
 ||zzhc.vnet.cn$all
-||zzsqqx.shopjapan.co.jp
+||zzsqqx.shopjapan.co.jp$all
 
 ! No script
 ||123movies.cards$script,object,ping,stylesheet,other
