@@ -46200,13 +46200,11 @@
 ||ezoic.net$script,object,ping,stylesheet,other
 ||ezojs.com$script,object,ping,stylesheet,other
 ||facebook.net$script,object,ping,stylesheet,other
-||fastly.net$script,object,ping,stylesheet,other
 ||fbsbx.com$script,object,ping,stylesheet,other
 ||fdv2-t-msedge.net$script,object,ping,stylesheet,other
 ||ffx.io$script,object,ping,stylesheet,other
 ||font-public.canva.com$script,object,ping,stylesheet,other
 ||fonts.googleapis.com$script,object,ping,stylesheet,other
-||footprint.net$script,object,ping,stylesheet,other
 ||foxdcg.com$script,object,ping,stylesheet,other
 ||freepikcompany.com$script,object,ping,stylesheet,other
 ||fssta.com$script,object,ping,stylesheet,other
