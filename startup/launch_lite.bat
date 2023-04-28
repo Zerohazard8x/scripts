@@ -310,7 +310,7 @@ IF /I %M%==Y ( exit )
 
 WHERE choco
 if not %ERRORLEVEL% NEQ 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nomacs openvpn powershell scrcpy smplayer unison vim vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs openvpn powershell scrcpy smplayer unison vlc -y
 )
 
 WHERE aria2c
