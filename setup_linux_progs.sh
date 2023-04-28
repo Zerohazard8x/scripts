@@ -5,7 +5,7 @@ shellConst=$(command -v "$SHELL" | sort -r | head -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vlc"
 # plusPkgs="audacious audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular pdfsam picard pinta qbittorrent steam vscode"
-# otherPkgs="alacritty blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld microsoft-edge neovim opera parsec pdfsam retroarch tor-browser"
+# otherPkgs="alacritty blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld microsoft-edge neovim opera parsec pdfsam retroarch tor-browser wezterm"
 
 if ! command -v curl; then exit 1; fi
 
