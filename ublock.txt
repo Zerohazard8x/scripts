@@ -52875,7 +52875,6 @@
 ||t.cfjump.com$all
 ||t.channeladvisor.com$all
 ||t.clic2buy.com$all
-||t.co$all
 ||t.cofcsports.com$all
 ||t.comms.thetimes.co.uk$all
 ||t.cubuffs.com$all
