@@ -1,4 +1,4 @@
-!if !domain=~dubz.co|~reddit.com
+!if !domain=~dubz.co|~reddit.com|~bing.com
 ||0--e.info$all
 ||0-000.store$all
 ||0-owazo4.net.zooplus.de$all
