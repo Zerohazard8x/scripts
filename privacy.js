@@ -10,6 +10,8 @@
 // @exclude         *nvidia.com*
 // @exclude         *lazada.com.ph*
 // @exclude         *alicdn.com*
+// @exclude         *live.com*
+// @exclude         *pcpartpicker.com*
 // ==/UserScript==
 
 const preventEvent = function (event) {
