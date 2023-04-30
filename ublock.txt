@@ -63004,7 +63004,6 @@
 ||w27.akamai.net$script,object,ping,stylesheet,other
 ||w55c.net$script,object,ping,stylesheet,other
 ||webcontentassessor.com$script,object,ping,stylesheet,other
-||webflow.com$script,object,ping,stylesheet,other
 ||wiki.gallery$script,object,ping,stylesheet,other
 ||wikia.com$script,object,ping,stylesheet,other
 ||wikimedia.org$script,object,ping,stylesheet,other
