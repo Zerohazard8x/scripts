@@ -1,4 +1,3 @@
-!if !domain=~dubz.co|~reddit.com|~bing.com|~tweetdeck.twitter.com
 ||0--e.info$all
 ||0-000.store$all
 ||0-owazo4.net.zooplus.de$all
@@ -63021,4 +63020,3 @@
 ||zephr.com$script,object,ping,stylesheet,other
 ||zhimg.com$script,object,ping,stylesheet,other
 ||zqtk.net$script,object,ping,stylesheet,other
-!endif
