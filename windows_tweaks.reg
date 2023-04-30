@@ -1,17 +1,15 @@
 ﻿Windows Registry Editor Version 5.00
 
 ;; deletions
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
-[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket]
 [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 [-HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=-
 
-;; restore recycle bin
+;; restore recycle bin to desktop
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000000
 
@@ -168,9 +166,23 @@
 "PreventDeviceMetadataFromNetwork"=dword:00000000
 
 ;; fonts
-[-HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\IgnoreDwmFlushErrors*]
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY1]
+"PixelStructure"=dword:00000000
+"GammaLevel"=dword:00000898
+"ClearTypeLevel"=dword:00000064
+"EnhancedContrastLevel"=dword:00000032
+"GrayscaleEnhancedContrastLevel"=dword:00000064
+"TextContrastLevel"=dword:00000000
 
-[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics*]
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY2]
+"PixelStructure"=dword:00000000
+"GammaLevel"=dword:00000898
+"ClearTypeLevel"=dword:00000064
+"EnhancedContrastLevel"=dword:00000032
+"GrayscaleEnhancedContrastLevel"=dword:00000064
+"TextContrastLevel"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY3]
 "PixelStructure"=dword:00000000
 "GammaLevel"=dword:00000898
 "ClearTypeLevel"=dword:00000064
