@@ -132,6 +132,7 @@ if (Get-Command python -ErrorAction SilentlyContinue) {
 
 # cmd.exe /c netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('1.1.1.2','9.9.9.9')
+Get-NetAdapter | Set-DnsClientServerAddress -AddressFamily IPv6 -ServerAddresses (‘2606:4700:4700::1112’,‘2620:fe::fe’)
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
 
