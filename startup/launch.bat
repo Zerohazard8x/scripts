@@ -313,7 +313,7 @@ IF /I %M%==Y ( exit )
 
 WHERE choco
 if not %ERRORLEVEL% NEQ 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano omacs openvpn phantomjs powershell scrcpy smplayer unison vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs openvpn phantomjs powershell scrcpy smplayer unison vlc -y
     choco upgrade audacious audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular picard pinta qbittorrent steam vscode -y
 )
 
