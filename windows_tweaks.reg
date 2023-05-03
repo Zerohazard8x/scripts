@@ -194,7 +194,7 @@
 "FontSmoothing"="2"
 "FontSmoothingGamma"=dword:000003e8
 "FontSmoothingOrientation"=dword:00000001
-"FontSmoothingType"=dword:00000001
+"FontSmoothingType"=dword:00000002
 
 ;; DNScache fix
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
