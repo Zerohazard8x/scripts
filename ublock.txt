@@ -62834,7 +62834,6 @@
 ||insops.net$script,object,ping,stylesheet,other
 ||instant.page$script,object,ping,stylesheet,other
 ||instructure-uploads-apse1.s3-ap-southeast-1.amazonaws.com$script,object,ping,stylesheet,other
-||intercomassets.com$script,object,ping,stylesheet,other
 ||intercomcdn.com$script,object,ping,stylesheet,other
 ||irc-ws.chat.twitch.tv$script,object,ping,stylesheet,other
 ||ivstracker.net$script,object,ping,stylesheet,other
