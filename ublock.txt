@@ -1,3 +1,8 @@
+[uBlock Origin]
+! Title: Zerohazard's Filters
+! Description: Zerohazard's personal filters
+! Homepage: https://github.com/zerohazard8x/scripts
+
 ||0--e.info$all
 ||0-000.store$all
 ||0-owazo4.net.zooplus.de$all
