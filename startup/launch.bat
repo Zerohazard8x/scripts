@@ -56,8 +56,8 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
-if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+if exist "%appdata%\Microsoft\Windows\Start Menu\Programs\Overwolf\Overwolf.lnk" (
+    cmd.exe /c start /low "" "%appdata%\Microsoft\Windows\Start Menu\Programs\Overwolf\Overwolf.lnk"
     wmic process where name="OverwolfHelper.exe" CALL setpriority 64
     wmic process where name="OverwolfHelper64.exe" CALL setpriority 64
     wmic process where name="OverwolfLauncher.exe" CALL setpriority 64
