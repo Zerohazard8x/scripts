@@ -1,4 +1,6 @@
-cls
+:: Ping-abuse timeout - 1 second
+ping 127.0.0.1 -n 2 > nul
+
 ECHO OFF
 del /F *.py
 del /F *.reg
@@ -7,7 +9,7 @@ cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
-SET /P M=Programs? (Y/N) 
+cls & SET /P M=Programs? (Y/N) 
 IF /I %M%==N GOTO YESSVC
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Google Drive.lnk" (
@@ -192,14 +194,6 @@ sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
 
-net stop "SysMain" /y
-net stop "Superfetch" /y
-net stop "svsvc" /y
-
-sc config "SysMain" start=disabled
-sc config "Superfetch" start=disabled
-sc config "svsvc" start=disabled
-
 :: Re/starting
 net stop "BDESVC" /y
 net stop "BFE" /y
@@ -277,27 +271,28 @@ net start "p2pimsvc"
 net start "p2psvc"
 net start "wscsvc"
 
-w32tm /config /update
-w32tm /resync
+net stop "SysMain" /y
+net stop "Superfetch" /y
+net stop "svsvc" /y
 
-cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
-cmd /c "echo off | clip"
-cmd.exe /c control update
+sc config "SysMain" start=disabled
+sc config "Superfetch" start=disabled
+sc config "svsvc" start=disabled
 
-SET /P M=Python? (Y/N) 
+cls & SET /P M=Python? (Y/N) 
 IF /I %M%==N GOTO NOPYTHON
 
 WHERE choco
-if not %ERRORLEVEL% NEQ 0 (
+if %ERRORLEVEL% EQU 0 (
     choco uninstall python2 python -y & choco upgrade python3 -y 
 )
 WHERE python
-if not %ERRORLEVEL% NEQ 0 (
+if %ERRORLEVEL% EQU 0 (
     WHERE aria2c
-    if not %ERRORLEVEL% NEQ 0 (
+    if %ERRORLEVEL% EQU 0 (
         WHERE pip
         if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         )
     )
@@ -308,25 +303,38 @@ if not %ERRORLEVEL% NEQ 0 (
 )
 
 :NOPYTHON
-SET /P M=Close? (Y/N) 
-IF /I %M%==Y ( exit )
+cls & SET /P M=Close? (Y/N) 
+IF /I %M%==Y ( 
+    WHERE w32tm
+    if %ERRORLEVEL% EQU 0 (
+        w32tm /config /update
+        w32tm /resync
+    )
+    cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
+    cmd.exe /c "echo off | clip"
+    cmd.exe /c control update
+    exit
+)
 
 WHERE choco
-if not %ERRORLEVEL% NEQ 0 (
+if %ERRORLEVEL% EQU 0 (
     choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vlc -y
     choco upgrade audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio okular picard pinta qbittorrent shfmt steam vscode -y
 )
 
-WHERE aria2c
-if not %ERRORLEVEL% NEQ 0 (
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-    regedit /S winUX_tweaks.reg
-    regedit /S windows_tweaks.reg
+WHERE regedit
+if %ERRORLEVEL% EQU 0 (
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+        regedit /S winUX_tweaks.reg
+        regedit /S windows_tweaks.reg
+    )
 )
 
 WHERE powershell
-if not %ERRORLEVEL% NEQ 0 (
+if %ERRORLEVEL% EQU 0 (
     cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
     cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
     cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
@@ -335,5 +343,8 @@ if not %ERRORLEVEL% NEQ 0 (
     wuauclt /detectnow
 )
 
+cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
+cmd.exe /c "echo off | clip"
 cmd.exe /c control update
+
 exit 0
