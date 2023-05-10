@@ -335,10 +335,10 @@ if %ERRORLEVEL% EQU 0 (
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    cmd.exe /c "echo y|powershell.exe -c Install-Module PSWindowsUpdate -Force"  
-    cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
-    cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Download -AcceptAll" 
-    cmd.exe /c "echo y|powershell.exe -c Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot" 
+    powershell.exe -c "Install-Module PSWindowsUpdate -Force -Confirm:$false"  
+    powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
+    powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
+    powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
 ) else (
     wuauclt /detectnow
 )
