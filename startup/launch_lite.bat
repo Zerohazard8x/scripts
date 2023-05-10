@@ -297,7 +297,7 @@ if not %ERRORLEVEL% NEQ 0 (
     if not %ERRORLEVEL% NEQ 0 (
         WHERE pip
         if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         )
     )
@@ -315,8 +315,8 @@ if not %ERRORLEVEL% NEQ 0 (
 
 WHERE aria2c
 if not %ERRORLEVEL% NEQ 0 (
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
+    aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
+    aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
     regedit /S winUX_tweaks.reg
     regedit /S windows_tweaks.reg
 )
