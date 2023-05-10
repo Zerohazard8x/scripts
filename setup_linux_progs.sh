@@ -4,10 +4,8 @@ ariaPathConst=$(command -v aria2c | sort -r | head -n 1)
 shellConst=$(command -v "$SHELL" | sort -r | head -n 1)
 
 corePkgs="7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vlc"
-# plusPkgs="audacity discord filezilla foobar2000 kodi libreoffice obsidian obs-studio pdfsam picard pinta qbittorrent shfmt steam vscode"
-# otherPkgs="audacious alacritty blender chromium czkawka darktable doomsday ioquake3 jdownloader kdenlive meld microsoft-edge neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
-
-if ! command -v curl; then exit 1; fi
+# plusPkgs="audacity discord foobar2000 kodi libreoffice obsidian obs-studio pdfsam picard pinta qbittorrent shfmt steam vscode"
+# otherPkgs="audacious alacritty blender chromium czkawka darktable doomsday filezilla ioquake3 jdownloader kdenlive meld microsoft-edge neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
 
 snakeInstall() {
     echo "$1" | ${shellConst}
@@ -47,22 +45,33 @@ if cat /sys/module/usbhid/parameters/jspoll; then
 fi
 
 if command -v apt; then
-    add-apt-repository multiverse -y
-    add-apt-repository ppa:obsproject/obs-studio -y
-    add-apt-repository ppa:libretro/stable -y
-    add-apt-repository ppa:team-xbmc/ppa -y
-    add-apt-repository ppa:graphics-drivers/ppa -y
-    # Linux mint repo
-    echo "deb http://packages.linuxmint.com una upstream" | sudo tee /etc/apt/sources.list.d/mint-una.list
-    apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
-    # Microsoft
-    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-    apt-add-repository https://packages.microsoft.com/debian/10/prod
+    if command -v add-apt-repository; then
+        add-apt-repository multiverse -y
+        add-apt-repository ppa:obsproject/obs-studio -y
+        add-apt-repository ppa:libretro/stable -y
+        add-apt-repository ppa:team-xbmc/ppa -y
+        add-apt-repository ppa:graphics-drivers/ppa -y
+        apt-add-repository https://packages.microsoft.com/debian/10/prod
+    fi
+    if command -v apt-key; then
+        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
+    fi
+    echo "deb http://packages.linuxmint.com una upstream" | sudo tee /etc/apt/sources.list.d/mint-una.list # Linux mint repo
+    if command -v curl; then # Microsoft
+        curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    fi
     apt update && apt install aptitude snapd -y
 fi
 
-if ! command -v brew; then
+if ! command -v brew && command -v curl; then
     ${shellConst} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+if lspci | grep -e VGA | grep -e geforce; then
+    if command -v aptitude; then aptitude install nvidia-driver-520 -y
+    elif command -v apt; then aptitude install nvidia-driver-520 -y
+    elif command -v yay; then yay -S nvidia --noconfirm
+    elif command -v pacman; then pacman -S nvidia --noconfirm; fi
 fi
 
 if command -v brew; then
@@ -78,9 +87,6 @@ elif command -v aptitude; then
     aptitude install "${corePkgs}" -y
     snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-    if lspci | grep -e VGA | grep -e geforce; then
-        aptitude install nvidia-driver-520 -y
-    fi
     aptitude upgrade -y
     exit 0
 elif command -v apt; then
@@ -88,25 +94,19 @@ elif command -v apt; then
     apt install "${corePkgs}" -y
     snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
-    if lspci | grep -e VGA | grep -e geforce; then
-        apt install nvidia-driver-520 -y
-    fi
-    apt full-upgrade -y && apt autoremove -y && apt autoclean -y && apt --fix-broken install -y
+    apt full-upgrade -y 
+    apt autoremove -y 
+    apt autoclean -y 
+    apt --fix-broken install -y
     exit 0
 elif command -v yay; then
     yay -S "${corePkgs}" --noconfirm
     snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
-    if lspci | grep -e VGA | grep -e geforce; then
-        yay -S nvidia --noconfirm
-    fi
     yay -Syuu
     exit 0
 elif command -v pacman; then
     pacman -S "${corePkgs}" --noconfirm
     snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
-    if lspci | grep -e VGA | grep -e geforce; then
-        pacman -S nvidia --noconfirm
-    fi
     pacman -Syuu
     exit 0
 elif command -v zypper; then
