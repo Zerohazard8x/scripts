@@ -11230,7 +11230,6 @@
 ||oqgrax.sissy-boy.com$all
 ||oqskrynuwam.com$all
 ||oracle.marketingcube.com.au$all
-||oraclecloud.com$all
 ||oralistnations.com$all
 ||orallantyneth.com$all
 ||oralmaliciousmonday.com$all
