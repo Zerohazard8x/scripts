@@ -318,7 +318,7 @@ IF /I %M%==Y (
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg git jq mpv nano nomacs okular openvpn phantomjs powershell scrcpy smplayer unison vlc waterfox -y
     choco upgrade audacity discord foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
 )
 

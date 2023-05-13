@@ -116,7 +116,7 @@ if (-not(Get-Command choco -ErrorAction SilentlyContinue)) { # Negation of (Get-
 }
 
 if (Get-Command choco -ErrorAction SilentlyContinue) { 
-    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg firefox git jq mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix ffmpeg git jq mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc waterfox -y
     choco uninstall python2 python -y; choco upgrade python3 -y
 }
 
