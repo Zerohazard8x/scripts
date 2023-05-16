@@ -16739,7 +16739,6 @@
 ||wccprfxgbes.com$all
 ||wchjfv.apartmenttherapy.com$all
 ||wclwtcyhj.xyz$all
-||wcpstatic.microsoft.com$all
 ||wct-2.com$all
 ||wd282endfws.de$all
 ||wdgbinxtxsnbeu.xyz$all
@@ -17624,6 +17623,7 @@
 ||zzsqqx.shopjapan.co.jp$all
 
 ! No script
+||wcpstatic.microsoft.com$script,object,ping,stylesheet,other
 ||123movies.cards$script,object,ping,stylesheet,other
 ||33across.com$script,object,ping,stylesheet,other
 ||365dm.com$script,object,ping,stylesheet,other
