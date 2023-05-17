@@ -17833,7 +17833,6 @@
 ||kunlunar.com$script,object,ping,stylesheet,other
 ||kunlunno.com$script,object,ping,stylesheet,other
 ||kunlunsl.com$script,object,ping,stylesheet,other
-||kym-cdn.com$script,object,ping,stylesheet,other
 ||lahuashanbx.com$script,object,ping,stylesheet,other
 ||lh3.google.com$script,object,ping,stylesheet,other
 ||live-patreon-marketing.pantheonsite.io$script,object,ping,stylesheet,other
