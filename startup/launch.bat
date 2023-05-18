@@ -117,7 +117,7 @@ wmic process where name="Agent.exe" CALL setpriority 64
 wmic process where name="Battle.net.exe" CALL setpriority 64
 
 :YESSVC
-SET /P M=Services? (Y/N) 
+cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
 :: Stopping
