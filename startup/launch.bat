@@ -91,8 +91,6 @@ if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
     cmd.exe /c start /low "" "%ProgramFiles(x86)%\Steam\steam.exe"
     wmic process where name="steam.exe" CALL setpriority 64
     wmic process where name="steamwebhelper.exe" CALL setpriority 64
-    taskkill /F /IM "steam.exe"
-    taskkill /F /IM "steamwebhelper.exe"
 )
 
 if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
