@@ -123,6 +123,8 @@ net stop "AMD Crash Defender Service" /y
 net stop "AMD External Events Utility" /y
 net stop "Apple Mobile Device Service" /y
 net stop "Bonjour Service" /y
+net stop "BraveElevationService" /y
+net stop "BraveVpnService" /y
 net stop "CdRomArbiterService" /y
 net stop "CortexLauncherService" /y
 net stop "CxAudMsg" /y
@@ -135,6 +137,7 @@ net stop "Killer Network Service" /y
 net stop "Killer Wifi Optimization Service" /y
 net stop "LGHUBUpdaterService" /y
 net stop "MBAMService" /y
+net stop "MicrosoftEdgeElevationService" /y
 net stop "OverwolfUpdater" /y
 net stop "PSService" /y
 net stop "Parsec" /y
@@ -143,9 +146,14 @@ net stop "RstMwService" /y
 net stop "RzActionSvc" /y
 net stop "Steam Client Service" /y
 net stop "SteelSeriesUpdateService" /y
+net stop "TeraCopyService.exe" /y
 net stop "VBoxSDS" /y
 net stop "WMIRegistrationService" /y
+net stop "brave" /y
+net stop "bravem" /y
 net stop "cplspcon" /y
+net stop "edgeupdate" /y
+net stop "edgeupdatem" /y
 net stop "esifsvc" /y
 net stop "ibtsiva" /y
 net stop "igccservice" /y
@@ -160,6 +168,8 @@ sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "Apple Mobile Device Service" start=demand
 sc config "Bonjour Service" start=demand
+sc config "BraveElevationService" start=demand
+sc config "BraveVpnService" start=demand
 sc config "CdRomArbiterService" start=demand
 sc config "CortexLauncherService" start=demand
 sc config "CxAudMsg" start=demand
@@ -171,6 +181,7 @@ sc config "Killer Network Service" start=demand
 sc config "Killer Wifi Optimization Service" start=demand
 sc config "LGHUBUpdaterService" start=demand
 sc config "MBAMService" start=demand
+sc config "MicrosoftEdgeElevationService" start=demand
 sc config "OverwolfUpdater" start=demand
 sc config "PSService" start=demand
 sc config "Parsec" start=demand
@@ -179,9 +190,14 @@ sc config "RstMwService" start=demand
 sc config "RzActionSvc" start=demand
 sc config "Steam Client Service" start=demand
 sc config "SteelSeriesUpdateService" start=demand
+sc config "TeraCopyService.exe" start=demand
 sc config "VBoxSDS" start=demand
 sc config "WMIRegistrationService" start=demand
+sc config "brave" start=demand
+sc config "bravem" start=demand
 sc config "cplspcon" start=demand
+sc config "edgeupdate" start=demand
+sc config "edgeupdatem" start=demand
 sc config "esifsvc" start=demand
 sc config "ibtsiva" start=demand
 sc config "igccservice" start=demand
