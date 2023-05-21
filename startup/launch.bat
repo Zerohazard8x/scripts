@@ -78,15 +78,6 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
     wmic process where name="Razer Central.exe" CALL setpriority 64
 )
 
-if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
-    wmic process where name="EncoderServer.exe" CALL setpriority 64
-    wmic process where name="EncoderServer64.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-    wmic process where name="RTSS.exe" CALL setpriority 64
-)
-
 if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
     cmd.exe /c start /low "" "%ProgramFiles(x86)%\Steam\steam.exe"
     wmic process where name="steam.exe" CALL setpriority 64
@@ -293,6 +284,16 @@ sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
 
+:: For some reason this actually makes a difference
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    wmic process where name="EncoderServer.exe" CALL setpriority 64
+    wmic process where name="EncoderServer64.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
+    wmic process where name="RTSS.exe" CALL setpriority 64
+)
+
 cls & SET /P M=Python? (Y/N) 
 IF /I %M%==N GOTO NOPYTHON
 
@@ -310,7 +311,7 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install --pre -U pip wheel notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+    python -m pip install --pre -U pip wheel notebook virtualenv ipykernel yt-dlp youtube-dl
     :: python -m pip install -U git+https://github.com/samloader/samloader.git
     :: python -m pip install --pre -U pymusiclooper spleeter
     jt -t gruvboxd -dfonts
@@ -318,17 +319,7 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPYTHON
 cls & SET /P M=Close? (Y/N) 
-IF /I %M%==Y ( 
-    WHERE w32tm
-    if %ERRORLEVEL% EQU 0 (
-        w32tm /config /update
-        w32tm /resync
-    )
-    cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
-    cmd.exe /c "echo off | clip"
-    cmd.exe /c control update
-    exit
-)
+IF /I %M%==Y GOTO FINALE
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
@@ -357,8 +348,13 @@ if %ERRORLEVEL% EQU 0 (
     wuauclt /detectnow
 )
 
+:FINALE
+WHERE w32tm
+if %ERRORLEVEL% EQU 0 (
+    w32tm /config /update
+    w32tm /resync
+)
 cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
 cmd.exe /c "echo off | clip"
 cmd.exe /c control update
-
-exit 0
+exit

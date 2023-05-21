@@ -14,7 +14,7 @@ snakeInstall() {
             ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
-        python -m pip install --pre -U pip wheel beautysh notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+        python -m pip install --pre -U pip wheel yt-dlp youtube-dl
         jt -t gruvboxd -dfonts
     fi
 }
@@ -22,8 +22,10 @@ snakeInstall() {
 find . -type d -empty
 find ~/ -type d -empty
 
+# Check if fsck command exists
 if command -v fsck; then
-    find /dev/ -type d | xargs -I% fsck -f -R -y %
+    # Find all block devices and run fsck on them with force, recursive and auto-repair options
+    find /dev/ -type b -exec fsck -f -R -y {} \;
 fi
 
 if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
