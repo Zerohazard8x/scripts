@@ -17737,7 +17737,6 @@
 ||deviantart.net$script,object,ping,stylesheet,other
 ||digitaloceanspaces.com$script,object,ping,stylesheet,other
 ||discordapp.com$script,object,ping,stylesheet,other
-||discourse-cdn.com$script,object,ping,stylesheet,other
 ||disqus.map.fastlylb.net$script,object,ping,stylesheet,other
 ||dmpwow64jb5ov.cloudfront.net$script,object,ping,stylesheet,other
 ||document-export.canva.com$script,object,ping,stylesheet,other
