@@ -34,12 +34,12 @@ $result = Invoke-CimMethod -InputObject $cimObj -MethodName UpdateScanMethod
 dism /online /cleanup-image /restorehealth /startcomponentcleanup; sfc /scannow
 
 if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) { 
-    cmd.exe /c "echo y|powershell.exe -c Add-WUServiceManager -MicrosoftUpdate"
-    Get-WindowsUpdate -DownloadOnly -AcceptAll 
-    Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot 
+    Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
+    Get-WindowsUpdate -Download -AcceptAll -Confirm:$false 
+    Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false 
 }
 else {
-    Install-Module PSWindowsUpdate -Force  
+    Install-Module PSWindowsUpdate -Force -Confirm:$false
 }
 
 # If the PSWindowsUpdate module is not available, use the wuauclt command as a fallback
