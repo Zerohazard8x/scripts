@@ -310,7 +310,7 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install -U pip wheel yt-dlp youtube-dl
+    python -m pip install --pre -U pip wheel yt-dlp youtube-dl
 )
 
 :NOPYTHON

@@ -125,7 +125,7 @@ if (Get-Command python -ErrorAction SilentlyContinue) {
         aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
         python get-pip.py
     }
-    python -m pip install -U pip wheel yt-dlp youtube-dl
+    python -m pip install --pre -U pip wheel yt-dlp youtube-dl
     # python -m pip install -U git+https://github.com/samloader/samloader.git
 }
 

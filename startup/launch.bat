@@ -310,9 +310,9 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install -U pip wheel notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
+    python -m pip install --pre -U pip wheel notebook virtualenv ipykernel jupyterthemes yt-dlp youtube-dl
     :: python -m pip install -U git+https://github.com/samloader/samloader.git
-    :: python -m pip install -U pymusiclooper spleeter
+    :: python -m pip install --pre -U pymusiclooper spleeter
     jt -t gruvboxd -dfonts
 )
 
