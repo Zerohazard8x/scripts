@@ -9,6 +9,16 @@ cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
+:: For some reason this actually makes a difference
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    wmic process where name="EncoderServer.exe" CALL setpriority 64
+    wmic process where name="EncoderServer64.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
+    wmic process where name="RTSS.exe" CALL setpriority 64
+)
+
 cls & SET /P M=Programs? (Y/N) 
 IF /I %M%==N GOTO YESSVC
 
@@ -283,16 +293,6 @@ net stop "svsvc" /y
 sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
-
-:: For some reason this actually makes a difference
-if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
-    wmic process where name="EncoderServer.exe" CALL setpriority 64
-    wmic process where name="EncoderServer64.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-    wmic process where name="RTSS.exe" CALL setpriority 64
-)
 
 cls & SET /P M=Python? (Y/N) 
 IF /I %M%==N GOTO NOPYTHON
