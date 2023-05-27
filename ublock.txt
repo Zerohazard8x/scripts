@@ -16985,7 +16985,6 @@
 ||witsoats.net$all
 ||wixapps.net$all
 ||wixdns.net$all
-||wixmp.com$all
 ||wixorqoqmq.com$all
 ||wixqpbtkrkovtm.xyz$all
 ||wizkrdxivl.com$all
