@@ -354,7 +354,6 @@ if %ERRORLEVEL% EQU 0 (
     w32tm /config /update
     w32tm /resync
 )
-cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1"
 cmd.exe /c "echo off | clip"
 cmd.exe /c control update
 exit

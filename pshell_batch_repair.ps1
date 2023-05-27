@@ -50,8 +50,6 @@ if (-not(Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) -and (Get-
 
 cmd.exe /c control update
 
-cmd.exe /c "SET DEVMGR_SHOW_NONPRESENT_DEVICES=1" # then devmgmt.msc delete all greyed out in safe mode
-
 cmd.exe /c sc config "BDESVC" start=auto
 cmd.exe /c sc config "BFE" start=auto
 cmd.exe /c sc config "BluetoothUserService_48486de" start=auto

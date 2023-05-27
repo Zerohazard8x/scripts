@@ -11429,7 +11429,6 @@
 ||panoramicplane.com$all
 ||panyarspan.com$all
 ||paranoiaidiompatron.com$all
-||parastorage.com$all
 ||parcbegulf.com$all
 ||parecyrclame.com$all
 ||parent-factcool.m-shop.me$all
