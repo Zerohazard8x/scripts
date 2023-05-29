@@ -4,6 +4,8 @@
 ! Homepage: https://github.com/zerohazard8x/scripts
 ! Expires: 1 day
 
+||datafeed.bet$all
+||ipapi.co$all
 ||007itshop.com$all
 ||0101264c3c.com$all
 ||0153b9186518c7fedb8e970be792addns.com$all
