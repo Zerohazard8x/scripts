@@ -1,4 +1,4 @@
-Windows Registry Editor Version 5.00
+﻿Windows Registry Editor Version 5.00
 ;; debloat
 [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}]
@@ -10,9 +10,6 @@ Windows Registry Editor Version 5.00
 "MenuShowDelay"=dword:00000001
 "WaitToKillAppTimeout"=-
 "WaitToKillServiceTimeout"=-
-
-[HKEY_CURRENT_USER\Control Panel\Mouse]
-"MouseHoverTime"=dword:00000190
 
 [HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules]
 "NumberOfSIUFInPeriod"=dword:00000000
@@ -446,21 +443,6 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{025A5937-A6BE-4686-A844-36FE4BEC8B6D}]
 "PreferredPlan"="8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 
-;; Mouse
-[HKEY_CURRENT_USER\Control Panel\Mouse]
-"SmoothMouseXCurve"=hex:\
-	00,00,00,00,00,00,00,00,\
-	C0,CC,0C,00,00,00,00,00,\
-	80,99,19,00,00,00,00,00,\
-	40,66,26,00,00,00,00,00,\
-	00,33,33,00,00,00,00,00
-"SmoothMouseYCurve"=hex:\
-	00,00,00,00,00,00,00,00,\
-	00,00,38,00,00,00,00,00,\
-	00,00,70,00,00,00,00,00,\
-	00,00,A8,00,00,00,00,00,\
-	00,00,E0,00,00,00,00,00
-
 ;; context menu
 [-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
 [-HKEY_CLASSES_ROOT\*\shell\EditWithKate]
@@ -567,3 +549,250 @@ Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\Software\Microsoft\CTF\SortOrder\Language]
 "00000000"="00000409"
+
+;; deletions
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
+[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+"{645FF040-5081-101B-9F08-00AA002F954E}"=-
+
+;; restore recycle bin to desktop
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel]
+"{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}]
+@="Recycle Bin"
+
+;; explorer tweaks
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Hidden"=dword:00000001
+"HideFileExt"=dword:00000000
+
+;; network
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile]
+"NetworkThrottlingIndex"=dword:ffffffff
+"SystemResponsiveness"=dword:0000000a
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
+"EnableAutoDoh"=dword:00000002
+"MaxCacheTtl"=-
+"MaxNegativeCacheTtl"=-
+
+;; power/performance
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
+"NonBestEffortLimit"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
+"UpgradedSystem"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c]
+"ValueMin"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\bc5038f7-23e0-4960-96da-33abaf5935ec]
+"ValueMin"=dword:00000000
+
+;; Win11 TPM
+[HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
+"AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
+
+;; Mouse
+[HKEY_CURRENT_USER\Control Panel\Mouse]
+"MouseSensitivity"="10"
+"MouseSpeed"="0"
+"MouseThreshold1"="0"
+"MouseThreshold2"="0"
+"MouseHoverTime"=dword:00000190
+"SmoothMouseXCurve"=hex:\
+	00,00,00,00,00,00,00,00,\
+	C0,CC,0C,00,00,00,00,00,\
+	80,99,19,00,00,00,00,00,\
+	40,66,26,00,00,00,00,00,\
+	00,33,33,00,00,00,00,00
+"SmoothMouseYCurve"=hex:\
+	00,00,00,00,00,00,00,00,\
+	00,00,38,00,00,00,00,00,\
+	00,00,70,00,00,00,00,00,\
+	00,00,A8,00,00,00,00,00,\
+	00,00,E0,00,00,00,00,00
+
+;; services
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BDESVC]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BFE]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BluetoothUserService_48486de]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BrokerInfrastructure]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EntAppSvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FrameServer]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LicenseManager]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NVDisplay.ContainerLocalSystem]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PNRPsvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
+"Start"=dword:00000004
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
+"Start"=dword:00000004
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisSvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WlanSvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\audiosrv]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\iphlpsvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ndu]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\p2pimsvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\p2psvc]
+"Start"=dword:00000002
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc]
+"Start"=dword:00000004
+
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wscsvc]
+"Start"=dword:00000002
+
+;; skip oobe
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows]
+"LoadAppInit_DLLs"=dword:00000000
+"RequireSignedAppInit_DLLs"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows]
+"LoadAppInit_DLLs"=dword:00000000
+"RequireSignedAppInit_DLLs"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\Setup]
+"CmdLine"=""
+"OOBEInProgress"=dword:00000000
+"SystemSetupInProgress"=dword:00000000
+"RespecializeCmdLine"=""
+"Respecialize"=dword:00000000
+"SetupPhase"=dword:00000000
+"SetupType"=dword:00000000
+
+;; Windows Update
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
+"PreventDeviceMetadataFromNetwork"=dword:00000000
+
+;; fonts, customization
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY1]
+"PixelStructure"=dword:00000000
+"GammaLevel"=dword:00000898
+"ClearTypeLevel"=dword:00000064
+"EnhancedContrastLevel"=dword:00000032
+"GrayscaleEnhancedContrastLevel"=dword:00000064
+"TextContrastLevel"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY2]
+"PixelStructure"=dword:00000000
+"GammaLevel"=dword:00000898
+"ClearTypeLevel"=dword:00000064
+"EnhancedContrastLevel"=dword:00000032
+"GrayscaleEnhancedContrastLevel"=dword:00000064
+"TextContrastLevel"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY3]
+"PixelStructure"=dword:00000000
+"GammaLevel"=dword:00000898
+"ClearTypeLevel"=dword:00000064
+"EnhancedContrastLevel"=dword:00000032
+"GrayscaleEnhancedContrastLevel"=dword:00000064
+"TextContrastLevel"=dword:00000000
+
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"FontSmoothing"="2"
+"FontSmoothingGamma"=dword:000003e8
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"AutoColorization"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
+"DisableLogonBackgroundImage"=-
+
+;; DNScache fix
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
+"MaxCacheTtl"=dword:00000001
+"MaxNegativeCacheTtl"=dword:00000000
+
+;; No escape??
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"ConsentPromptBehaviorAdmin"=dword:00000005
+"ConsentPromptBehaviorUser"=dword:00000003
+"EnableCursorSuppression"=dword:00000000
+"EnableLUA"=dword:00000001
+"shutdownwithoutlogon"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
+"AutoAdminLogon"=-
+"AutoRestartShell"=-
+"DisableCAD"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\runas\command]
+@="\"%1\" %*"
+"IsolatedCommand"="\"%1\" %*"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\open\command]
+@="\"%1\" %*"
+"IsolatedCommand"="\"%1\" %*"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
+"DisableRegistryTools"=-
+"DisableCMD"=-
+
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\System]
+"DisableRegistryTools"=-
+"DisableCMD"=-
