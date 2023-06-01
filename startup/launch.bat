@@ -323,8 +323,8 @@ IF /I %M%==Y GOTO FINALE
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
-    choco upgrade audacity discord foobar2000 kodi libreoffice miktex obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
+    choco upgrade audacity discord foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
 )
 
 WHERE regedit
