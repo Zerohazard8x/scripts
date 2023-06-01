@@ -17671,7 +17671,6 @@
 ||bing.net$script,object,ping,stylesheet,other
 ||bitmovin.com$script,object,ping,stylesheet,other
 ||blogmura.com$script,object,ping,stylesheet,other
-||bootstrapcdn.com$script,object,ping,stylesheet,other
 ||bounceexchange.com$script,object,ping,stylesheet,other
 ||bp.blogspot.com$script,object,ping,stylesheet,other
 ||branch.io$script,object,ping,stylesheet,other
