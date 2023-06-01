@@ -10059,7 +10059,6 @@
 ||materialisticmoon.com$all
 ||materialplayground.com$all
 ||math.meistercody.com$all
-||mathjax.org$all
 ||matmechanic.com$all
 ||matrix.elecle.bike$all
 ||matsubun.matsubun.com$all
