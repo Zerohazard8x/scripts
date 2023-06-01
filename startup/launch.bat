@@ -324,17 +324,15 @@ IF /I %M%==Y GOTO FINALE
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco upgrade chocolatey 7zip adb aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
-    choco upgrade audacity discord foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
+    choco upgrade audacity discord foobar2000 kodi libreoffice miktex obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
 )
 
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-        regedit /S winUX_tweaks.reg
-        regedit /S windows_tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        regedit /S tweaks.reg
     )
 )
 

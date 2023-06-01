@@ -327,10 +327,8 @@ WHERE regedit
 if %ERRORLEVEL% EQU 0 (
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/winUX_tweaks.reg
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/windows_tweaks.reg
-        regedit /S winUX_tweaks.reg
-        regedit /S windows_tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        regedit /S tweaks.reg
     )
 )
 
