@@ -303,6 +303,10 @@ if %ERRORLEVEL% EQU 0 (
 )
 WHERE python
 if %ERRORLEVEL% EQU 0 (
+    WHERE python3
+    if %ERRORLEVEL% EQU 0 (
+        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp
+    )
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         WHERE pip
@@ -311,10 +315,11 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install --pre -U pip wheel notebook virtualenv ipykernel yt-dlp youtube-dl
+    python -m pip install --pre -U pip setuptools wheel notebook virtualenv ipykernel youtube-dl
+    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     :: python -m pip install -U git+https://github.com/samloader/samloader.git
     :: python -m pip install --pre -U pymusiclooper spleeter
-    jt -t gruvboxd -dfonts
+    :: jt -t gruvboxd -dfonts
 )
 
 :NOPYTHON

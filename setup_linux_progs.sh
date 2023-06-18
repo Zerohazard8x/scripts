@@ -10,17 +10,19 @@ corePkgs="7zip adb aria2 dos2unix firefox ffmpeg git jq miktex mpv nano nomacs o
 snakeInstall() {
     echo "$1" | ${shellConst}
     if command -v python; then
+        if command -v python3; then
+            python3 -m pip uninstall -y notebook youtube-dl yt-dlp
+        fi
         if ! command -v pip && command -v aria2c; then
             ${ariaPathConst} -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
         python -m pip install --pre -U pip wheel yt-dlp youtube-dl
-        jt -t gruvboxd -dfonts
     fi
 }
 
-find . -type d -empty
-find ~/ -type d -empty
+find . -type d -empty -delete
+find ~/ -type d -empty -delete
 
 # Check if fsck command exists
 if command -v fsck; then

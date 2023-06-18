@@ -122,13 +122,16 @@ if (Get-Command choco -ErrorAction SilentlyContinue) {
     choco uninstall python2 python -y; choco upgrade python3 -y
 }
 
-if (Get-Command python -ErrorAction SilentlyContinue) { 
+if (Get-Command python -ErrorAction SilentlyContinue) {
+    if (Get-Command python3 -ErrorAction SilentlyContinue) { 
+        python3 -m pip uninstall -y notebook youtube-dl yt-dlp
+    } 
     if (-not(Get-Command pip -ErrorAction SilentlyContinue) -and (Get-Command aria2c -ErrorAction SilentlyContinue)) { 
         aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
         python get-pip.py
     }
-    python -m pip install --pre -U pip wheel yt-dlp youtube-dl
-    # python -m pip install -U git+https://github.com/samloader/samloader.git
+    python -m pip install --pre -U pip setuptools wheel youtube-dl
+    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 }
 
 # cmd.exe /c netsh int tcp set global autotuninglevel=disabled
