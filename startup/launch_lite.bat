@@ -109,7 +109,7 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 @REM     cmd.exe /c start /low "" "C:\Riot Games\Riot Client\RiotClientServices.exe"
 @REM     wmic process where name="RiotClientServices.exe" CALL setpriority 64
 @REM     taskkill /F /IM "RiotClientServices.exe"
-)
+@REM )
 
 @REM @REM start /low ""
 @REM wmic process where name="Agent.exe" CALL setpriority 64
