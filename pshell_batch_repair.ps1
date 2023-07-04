@@ -118,7 +118,7 @@ if (-not(Get-Command choco -ErrorAction SilentlyContinue)) {
 }
 
 if (Get-Command choco -ErrorAction SilentlyContinue) { 
-    choco upgrade chocolatey 7zip adb aria2 dos2unix firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
     choco uninstall python2 python -y; choco upgrade python3 -y
 }
 

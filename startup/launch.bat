@@ -111,7 +111,7 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 @REM     taskkill /F /IM "RiotClientServices.exe"
 @REM )
 
-@REM @REM start /low ""
+@REM start /low ""
 @REM wmic process where name="Agent.exe" CALL setpriority 64
 @REM wmic process where name="Battle.net.exe" CALL setpriority 64
 
@@ -337,7 +337,7 @@ if %ERRORLEVEL% EQU 0 (
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
     choco upgrade audacity discord foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent shfmt steam vscode -y
 )
 
