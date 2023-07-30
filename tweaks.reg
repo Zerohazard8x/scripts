@@ -363,9 +363,6 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CxAudMsg]
 "Start"=dword:00000003
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler]
-"Start"=dword:00000003
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StiSvc]
 "Start"=dword:00000003
 

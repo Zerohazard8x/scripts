@@ -249,6 +249,7 @@ sc config "NVDisplay.ContainerLocalSystem" start=auto
 sc config "OpenVPNServiceInteractive" start=auto
 sc config "PNRPsvc" start=auto
 sc config "ProcessGovernor" start=auto
+sc config "Spooler" start=auto
 sc config "W32Time" start=auto
 sc config "WdNisSvc" start=auto
 sc config "WlanSvc" start=auto
@@ -275,6 +276,7 @@ net start "NVDisplay.ContainerLocalSystem"
 net start "OpenVPNServiceInteractive"
 net start "PNRPsvc"
 net start "ProcessGovernor"
+net start "Spooler"
 net start "W32Time"
 net start "WdNisSvc"
 net start "WlanSvc"
