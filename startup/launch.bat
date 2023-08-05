@@ -319,7 +319,7 @@ if %ERRORLEVEL% EQU 0 (
     )
     python -m pip install --pre -U pip setuptools wheel notebook virtualenv ipykernel youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
-    @REM python -m pip install -U git+https://github.com/samloader/samloader.git
+    @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
     @REM python -m pip install --pre -U pymusiclooper spleeter
     @REM jt -t gruvboxd -dfonts
 )
