@@ -29,6 +29,13 @@ if %ERRORLEVEL% EQU 0 (
     )
 )
 
+WHERE w32tm
+if %ERRORLEVEL% EQU 0 (
+    w32tm /config /update
+    w32tm /resync
+)
+cmd.exe /c "echo off | clip"
+
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
 
@@ -358,11 +365,5 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :FINALE
-WHERE w32tm
-if %ERRORLEVEL% EQU 0 (
-    w32tm /config /update
-    w32tm /resync
-)
-cmd.exe /c "echo off | clip"
 cmd.exe /c control update
 exit
