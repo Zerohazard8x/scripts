@@ -19,6 +19,16 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
     wmic process where name="RTSS.exe" CALL setpriority 64
 )
 
+@REM registry
+WHERE regedit
+if %ERRORLEVEL% EQU 0 (
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        regedit /S tweaks.reg
+    )
+)
+
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
 
@@ -326,15 +336,6 @@ IF /I %M%==Y GOTO FINALE
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy shfmt smplayer unison vlc -y
-)
-
-WHERE regedit
-if %ERRORLEVEL% EQU 0 (
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        regedit /S tweaks.reg
-    )
 )
 
 WHERE powershell
