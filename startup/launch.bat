@@ -223,7 +223,6 @@ net stop "MacType" /y
 net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
-net stop "ProcessGovernor" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
 net stop "WlanSvc" /y
@@ -248,7 +247,6 @@ sc config "MacType" start=auto
 sc config "NVDisplay.ContainerLocalSystem" start=auto
 sc config "OpenVPNServiceInteractive" start=auto
 sc config "PNRPsvc" start=auto
-sc config "ProcessGovernor" start=auto
 sc config "Spooler" start=auto
 sc config "W32Time" start=auto
 sc config "WdNisSvc" start=auto
