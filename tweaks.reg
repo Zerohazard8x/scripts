@@ -1,5 +1,5 @@
 ﻿Windows Registry Editor Version 5.00
-;; debloat
+;; misc
 [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}]
 
@@ -129,6 +129,9 @@
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
 "WaitToKillServiceTimeout"=-
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Bluetooth\Audio\AVRCP\CT]
+"DisableAbsoluteVolume"=dword:00000001
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
 "IRPStackSize"=dword:00000014
@@ -291,8 +294,10 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WerSvc]
 "Start"=dword:00000003
 
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Winmgmt]
 "Start"=dword:00000003
+
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WpcMonSvc]
 "Start"=dword:00000003
