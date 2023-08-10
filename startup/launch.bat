@@ -38,6 +38,8 @@ cmd.exe /c "echo off | clip"
 
 @REM wallpaper
 aria2c -R -x16 -s32 "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
+taskkill /F /IM explorer.exe
+start "" explorer.exe
 
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
