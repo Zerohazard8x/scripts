@@ -21,6 +21,9 @@ snakeInstall() {
     fi
 }
 
+# wallpaper
+aria2c -R -x16 -s32 "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
+
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
 

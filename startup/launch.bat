@@ -36,6 +36,9 @@ if %ERRORLEVEL% EQU 0 (
 )
 cmd.exe /c "echo off | clip"
 
+@REM wallpaper
+aria2c -R -x16 -s32 "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
+
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
 
