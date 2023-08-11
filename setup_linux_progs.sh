@@ -22,7 +22,9 @@ snakeInstall() {
 }
 
 # wallpaper
-aria2c -R -x16 -s32 "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o wallpaper_metropolis.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o wallpaper_peak.jpg
 
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
