@@ -1,7 +1,8 @@
+@echo off
+
 @REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
 
-ECHO OFF
 del /F *.py
 del /F *.reg
 
@@ -37,11 +38,19 @@ if %ERRORLEVEL% EQU 0 (
 cmd.exe /c "echo off | clip"
 
 @REM wallpaper
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o wallpaper_metropolis.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o wallpaper_peak.jpg
-taskkill /F /IM explorer.exe
-start "" explorer.exe
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?africa" -o africa.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?antarctica" -o antarctica.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?asia" -o asia.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cozy" -o cozy.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?europe" -o europe.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o metropolis.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?north-america" -o north-america.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?oceania" -o oceania.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o peak.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?south-america" -o south-america.jpg
+@REM taskkill /F /IM explorer.exe
+@REM start "" explorer.exe
 
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
@@ -64,13 +73,6 @@ start "" explorer.exe
 @REM     wmic process where name="lghub_updater.exe" CALL setpriority 64
 @REM     wmic process where name="lghub_system_tray.exe" CALL setpriority 64
 @REM     wmic process where name="lghub.exe" CALL setpriority 64
-@REM )
-
-@REM if exist "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe" (
-@REM     cmd.exe /c start /low "" "%ProgramFiles%\Process Lasso\ProcessLassoLauncher.exe"
-@REM     wmic process where name="ProcessLasso.exe" CALL setpriority 64
-@REM     wmic process where name="ProcessGovernor.exe" CALL setpriority 64
-@REM     wmic process where name="bitsumsessionagent.exe" CALL setpriority 64
 @REM )
 
 @REM if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
@@ -348,7 +350,7 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPYTHON
 cls & SET /P M=Close? (Y/N) 
-IF /I %M%==Y GOTO FINALE
+IF /I %M%==Y GOTO END
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
@@ -371,6 +373,6 @@ if %ERRORLEVEL% EQU 0 (
     wuauclt /detectnow
 )
 
-:FINALE
+:END
 cmd.exe /c control update
 exit
