@@ -164,7 +164,12 @@ net stop "Killer Network Service" /y
 net stop "Killer Wifi Optimization Service" /y
 net stop "LGHUBUpdaterService" /y
 net stop "MBAMService" /y
+net stop "MSI_Case_Service" /y
+net stop "MSI_Center_Service" /y
+net stop "MSI_Super_Charger_Service" /y
+net stop "MSI_VoiceControl_Service" /y
 net stop "MicrosoftEdgeElevationService" /y
+net stop "Mystic_Light_Service" /y
 net stop "OverwolfUpdater" /y
 net stop "PSService" /y
 net stop "Parsec" /y
@@ -208,7 +213,12 @@ sc config "Killer Network Service" start=demand
 sc config "Killer Wifi Optimization Service" start=demand
 sc config "LGHUBUpdaterService" start=demand
 sc config "MBAMService" start=demand
+sc config "MSI_Case_Service" start=demand
+sc config "MSI_Center_Service" start=demand
+sc config "MSI_Super_Charger_Service" start=demand
+sc config "MSI_VoiceControl_Service" start=demand
 sc config "MicrosoftEdgeElevationService" start=demand
+sc config "Mystic_Light_Service" start=demand
 sc config "OverwolfUpdater" start=demand
 sc config "PSService" start=demand
 sc config "Parsec" start=demand
