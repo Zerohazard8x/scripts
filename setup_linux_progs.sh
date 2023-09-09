@@ -7,7 +7,7 @@ corePkgs="7zip adb aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs powershe
 # plusPkgs="audacity discord foobar2000 kodi libreoffice obsidian obs-studio openvpn pdfsam picard pinta qbittorrent steam vscode"
 # otherPkgs="audacious alacritty blender chromium czkawka darktable doomsday filezilla ioquake3 jdownloader kdenlive meld microsoft-edge miktex neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
 
-snakeInstall() {
+pyInstallFunc() {
     echo "$1" | ${shellConst}
     if command -v python; then
         if command -v python3; then
@@ -22,9 +22,17 @@ snakeInstall() {
 }
 
 # wallpaper
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o wallpaper.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o wallpaper_metropolis.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o wallpaper_peak.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cozy" -o cozy.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?dry" -o dry.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?fall" -o fall.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o metropolis.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?oceania" -o oceania.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o peak.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?spring" -o spring.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?summer" -o summer.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?wet" -o wet.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?winter" -o winter.jpg
 
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
@@ -85,23 +93,23 @@ fi
 
 if command -v brew; then
     brew install "${corePkgs}" -y
-    snakeInstall "brew uninstall python2 python -y; brew install python3 -y"
+    pyInstallFunc "brew uninstall python2 python -y; brew install python3 -y"
     exit 0
 elif command -v snap; then
     snap install "${corePkgs}" -y
-    snakeInstall "snap uninstall python2 python -y; snap install python3 -y"
+    pyInstallFunc "snap uninstall python2 python -y; snap install python3 -y"
     exit 0
 elif command -v aptitude; then
     aptitude update
     aptitude install "${corePkgs}" -y
-    snakeInstall "aptitude uninstall python2 python -y; aptitude install python3 -y"
+    pyInstallFunc "aptitude uninstall python2 python -y; aptitude install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     aptitude upgrade -y
     exit 0
 elif command -v apt; then
     apt update
     apt install "${corePkgs}" -y
-    snakeInstall "apt uninstall python2 python -y; apt install python3 -y"
+    pyInstallFunc "apt uninstall python2 python -y; apt install python3 -y"
     python -m pip install -U apt-mirror-updater && apt-mirror-updater -a
     apt full-upgrade -y 
     apt autoremove -y 
@@ -110,29 +118,29 @@ elif command -v apt; then
     exit 0
 elif command -v yay; then
     yay -S "${corePkgs}" --noconfirm
-    snakeInstall "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
+    pyInstallFunc "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     yay -Syuu
     exit 0
 elif command -v pacman; then
     pacman -S "${corePkgs}" --noconfirm
-    snakeInstall "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
+    pyInstallFunc "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     pacman -Syuu
     exit 0
 elif command -v zypper; then
     zypper install "${corePkgs}" -y
-    snakeInstall "zypper rr python2 python -y; zypper install python3 -y"
+    pyInstallFunc "zypper rr python2 python -y; zypper install python3 -y"
     exit 0
 elif command -v yum; then
     yum install "${corePkgs}" -y
-    snakeInstall "yum remove python2 python -y; yum install python3 -y"
+    pyInstallFunc "yum remove python2 python -y; yum install python3 -y"
     exit 0
 elif command -v dnf; then
     dnf install "${corePkgs}" -y
-    snakeInstall "zypper rr python2 python -y; dnf install python3 -y"
+    pyInstallFunc "zypper rr python2 python -y; dnf install python3 -y"
     exit 0
 elif command -v port; then
     port upgrade "${corePkgs}" -y
-    snakeInstall "port uninstall python2 python -y; port upgrade install python3 -y"
+    pyInstallFunc "port uninstall python2 python -y; port upgrade install python3 -y"
     exit 0
 else
     exit 1

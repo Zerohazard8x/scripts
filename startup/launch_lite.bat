@@ -39,16 +39,16 @@ cmd.exe /c "echo off | clip"
 
 @REM wallpaper
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?africa" -o africa.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?antarctica" -o antarctica.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?asia" -o asia.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cozy" -o cozy.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?europe" -o europe.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?dry" -o dry.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?fall" -o fall.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o metropolis.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?north-america" -o north-america.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?oceania" -o oceania.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o peak.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?south-america" -o south-america.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?spring" -o spring.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?summer" -o summer.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?wet" -o wet.jpg
+aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?winter" -o winter.jpg
 @REM taskkill /F /IM explorer.exe
 @REM start "" explorer.exe
 
@@ -163,6 +163,7 @@ net stop "Killer Analytics Service" /y
 net stop "Killer Network Service" /y
 net stop "Killer Wifi Optimization Service" /y
 net stop "LGHUBUpdaterService" /y
+net stop "LightKeeperService" /y
 net stop "MBAMService" /y
 net stop "MSI_Case_Service" /y
 net stop "MSI_Center_Service" /y
@@ -212,6 +213,7 @@ sc config "Killer Analytics Service" start=demand
 sc config "Killer Network Service" start=demand
 sc config "Killer Wifi Optimization Service" start=demand
 sc config "LGHUBUpdaterService" start=demand
+sc config "LightKeeperService" start=demand
 sc config "MBAMService" start=demand
 sc config "MSI_Case_Service" start=demand
 sc config "MSI_Center_Service" start=demand
@@ -256,10 +258,10 @@ net stop "EntAppSvc" /y
 net stop "FrameServer" /y
 net stop "LicenseManager" /y
 net stop "MacType" /y
+net stop "MullvadVPN" /y
 net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
-net stop "ProcessGovernor" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
 net stop "WlanSvc" /y
@@ -281,6 +283,7 @@ sc config "EntAppSvc" start=auto
 sc config "FrameServer" start=auto
 sc config "LicenseManager" start=auto
 sc config "MacType" start=auto
+sc config "MullvadVPN" start=auto
 sc config "NVDisplay.ContainerLocalSystem" start=auto
 sc config "OpenVPNServiceInteractive" start=auto
 sc config "PNRPsvc" start=auto
@@ -307,6 +310,7 @@ net start "EntAppSvc"
 net start "FrameServer"
 net start "LicenseManager"
 net start "MacType"
+net start "MullvadVPN"
 net start "NVDisplay.ContainerLocalSystem"
 net start "OpenVPNServiceInteractive"
 net start "PNRPsvc"
