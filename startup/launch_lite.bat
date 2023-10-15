@@ -36,6 +36,12 @@ if %ERRORLEVEL% EQU 0 (
     w32tm /config /update
     w32tm /resync
 )
+
+WHERE powershell
+if %ERRORLEVEL% EQU 0 (
+    powershell.exe -c "Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')"                  
+)
+
 cmd.exe /c "echo off | clip"
 
 @REM wallpaper
@@ -49,8 +55,6 @@ aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?summer" -o summer.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?wet" -o wet.jpg
 aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?winter" -o winter.jpg
-@REM taskkill /F /IM explorer.exe
-@REM start "" explorer.exe
 
 @REM cls & SET /P M=Programs? (Y/N) 
 @REM IF /I %M%==N GOTO YESSVC
@@ -374,8 +378,13 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
     powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
     powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
+
+    ipconfig /flushdns
+    powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
 ) else (
     wuauclt /detectnow
+
+    ipconfig /flushdns
 )
 
 :END
