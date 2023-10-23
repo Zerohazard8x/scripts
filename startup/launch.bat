@@ -705,7 +705,7 @@ IF /I %M%==Y GOTO END
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer unison vlc -y
-    choco upgrade audacity discord foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent steam vscode -y
+    choco upgrade audacity foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent steam vscode -y
 )
 
 WHERE wsl

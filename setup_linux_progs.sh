@@ -4,8 +4,8 @@ aria_path=$(command -v aria2c | sort -r | head -n 1)
 shell_path=$(command -v "$SHELL" | sort -r | head -n 1)
 
 corePkgs="7zip adb aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer unison vlc"
-# plusPkgs="audacity discord foobar2000 kodi libreoffice obsidian obs-studio openvpn pdfsam picard pinta qbittorrent steam vscode"
-# otherPkgs="audacious alacritty blender chromium czkawka darktable doomsday filezilla ioquake3 jdownloader kdenlive meld microsoft-edge miktex neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
+# plusPkgs="audacity foobar2000 kodi libreoffice obsidian obs-studio openvpn pdfsam picard pinta qbittorrent steam vscode"
+# otherPkgs="audacious alacritty blender chromium czkawka darktable discord doomsday filezilla ioquake3 jdownloader kdenlive meld microsoft-edge miktex neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
 
 if [ -z "$shell_path" ]; then
     echo "SHELL environment variable not set" >&2
