@@ -168,11 +168,11 @@ sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
 
 @REM Re/starting
+@REM net stop "CloudflareWarp" /y
 net stop "BDESVC" /y
 net stop "BFE" /y
 net stop "BluetoothUserService_48486de" /y
 net stop "BrokerInfrastructure" /y
-net stop "CloudflareWarp" /y
 net stop "Dnscache" /y
 net stop "EntAppSvc" /y
 net stop "FrameServer" /y
@@ -193,11 +193,11 @@ net stop "p2pimsvc" /y
 net stop "p2psvc" /y
 net stop "wscsvc" /y
 
+@REM sc config "CloudflareWarp" start=auto
 sc config "BDESVC" start=auto
 sc config "BFE" start=auto
 sc config "BluetoothUserService_48486de" start=auto
 sc config "BrokerInfrastructure" start=auto
-sc config "CloudflareWarp" start=auto
 sc config "Dnscache" start=auto
 sc config "EntAppSvc" start=auto
 sc config "FrameServer" start=auto
@@ -218,6 +218,7 @@ sc config "ndu" start=auto
 sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
 sc config "wscsvc" start=auto
+GOTO NOSVC
 
 :NOSVC
 net start "BDESVC"
