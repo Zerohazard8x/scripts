@@ -730,6 +730,19 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
 "PreventDeviceMetadataFromNetwork"=dword:00000000
 
+;; browser updates
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Update]
+"AutoUpdateCheckPeriodMinutes"=dword:00000001
+"UpdateDefault"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\EdgeUpdate]
+"AutoUpdateCheckPeriodMinutes"=dword:00000001
+"UpdateDefault"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\BraveSoftware\Update]
+"AutoUpdateCheckPeriodMinutes"=dword:00000001
+"UpdateDefault"=dword:00000001
+
 ;; fonts, customization
 [HKEY_CURRENT_USER\Software\Microsoft\Avalon.Graphics\DISPLAY1]
 "PixelStructure"=dword:00000000
