@@ -37,18 +37,9 @@ pyInstallFunc() {
 }
 
 # wallpaper
-if $aria_path; then
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cozy" -o cozy.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?dry" -o dry.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?fall" -o fall.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?metropolis" -o metropolis.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?peak" -o peak.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?spring" -o spring.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?summer" -o summer.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?wet" -o wet.jpg
-    $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?winter" -o winter.jpg
-fi
+# if $aria_path; then
+#     $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
+# fi
 
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
