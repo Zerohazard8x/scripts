@@ -240,6 +240,7 @@ net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
+net stop "WindscribeService" /y
 net stop "WlanSvc" /y
 net stop "audiosrv" /y
 net stop "hidusbf" /y
@@ -266,6 +267,7 @@ sc config "PNRPsvc" start=auto
 sc config "Spooler" start=auto
 sc config "W32Time" start=auto
 sc config "WdNisSvc" start=auto
+sc config "WindscribeService" start=auto
 sc config "WlanSvc" start=auto
 sc config "audiosrv" start=auto
 sc config "hidusbf" start=auto
@@ -294,6 +296,7 @@ net start "PNRPsvc"
 net start "Spooler"
 net start "W32Time"
 net start "WdNisSvc"
+net start "WindscribeService"
 net start "WlanSvc"
 net start "audiosrv"
 net start "hidusbf"
