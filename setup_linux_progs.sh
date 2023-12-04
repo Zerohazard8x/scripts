@@ -3,9 +3,9 @@ sudo -i
 aria_path=$(command -v aria2c | sort -r | head -n 1)
 shell_path=$(command -v "$SHELL" | sort -r | head -n 1)
 
-corePkgs="7zip adb aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer unison vlc"
-# plusPkgs="audacity foobar2000 kodi libreoffice obsidian obs-studio openvpn pdfsam picard pinta qbittorrent steam vscode"
-# otherPkgs="audacious alacritty blender chromium czkawka darktable discord doomsday filezilla ioquake3 jdownloader kdenlive meld microsoft-edge miktex neovim okular opera parsec pdfsam retroarch tor-browser vscodium wezterm"
+corePkgs="7zip adb aria2 dos2unix exiftool firefox ffmpeg git ghostscript jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc"
+# plusPkgs="ghostscript libreoffice obs-studio pinta qbittorrent steam vscode"
+# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable discord doomsday filezilla foobar2000 ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch tor-browser vscodium wezterm"
 
 if [ -z "$shell_path" ]; then
     echo "SHELL environment variable not set" >&2
@@ -26,19 +26,20 @@ pyInstallFunc() {
     echo "$1" | $shell_path
     if command -v python; then
         if command -v python3; then
-            python3 -m pip uninstall -y notebook youtube-dl yt-dlp
+            python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp
         fi
         if ! command -v pip && command -v aria2c; then
-            $aria_path -R -x16 -s32 --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            $aria_path -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
-        python -m pip install --pre -U pip wheel yt-dlp youtube-dl
+        python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
+        python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     fi
 }
 
 # wallpaper
 # if $aria_path; then
-#     $aria_path -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
+#     $aria_path -x16 -s32 -R --allow-overwrite=true --disable-ipv6 "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
 # fi
 
 find . -type d -empty -delete

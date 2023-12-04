@@ -335,10 +335,11 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install --pre -U pip setuptools wheel notebook virtualenv ipykernel youtube-dl
+    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
-    @REM python -m pip install --pre -U pymusiclooper spleeter
+    @REM python -m pip install --pre -U notebook
+    @REM python -m pip install -U pymusiclooper spleeter
     @REM jt -t gruvboxd -dfonts
 )
 
@@ -348,8 +349,8 @@ IF /I %M%==Y GOTO END
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer unison vlc -y
-    choco upgrade audacity foobar2000 kodi libreoffice obsidian obs-studio picard pinta qbittorrent steam vscode -y
+    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc -y
+    choco upgrade ghostscript libreoffice obs-studio pinta qbittorrent steam vscode -y
 )
 
 WHERE wsl
