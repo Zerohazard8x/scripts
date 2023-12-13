@@ -14,7 +14,6 @@
 [HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules]
 "NumberOfSIUFInPeriod"=dword:00000000
 
-
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\CloudContent]
 "DisableTailoredExperiencesWithDiagnosticData"=dword:00000001
 
@@ -775,3 +774,6 @@
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\System]
 "DisableRegistryTools"=-
 "DisableCMD"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options]
+"DevOverrideEnable"=-
