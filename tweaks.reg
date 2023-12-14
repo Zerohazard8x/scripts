@@ -526,10 +526,6 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=-
 
-;; restore recycle bin to desktop
-;; [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel]
-;; "{645FF040-5081-101B-9F08-00AA002F954E}"=dword:00000000
-
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}]
 ;; @="Recycle Bin"
 
@@ -549,12 +545,13 @@
 "MaxNegativeCacheTtl"=dword:00000000
 
 ;; power/performance
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
-"NonBestEffortLimit"=dword:00000000
+;; [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
+;; "NonBestEffortLimit"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
 "UpgradedSystem"=dword:00000001
 
+;; power - resetting
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c]
 "ValueMin"=dword:00000000
 
