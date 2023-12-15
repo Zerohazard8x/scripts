@@ -6,9 +6,9 @@ ping 127.0.0.1 -n 2 > nul
 del /F *.py
 del /F *.reg
 
-cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
-cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
+@REM cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
+@REM cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+@REM cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
 @REM For some reason this actually makes a difference
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
