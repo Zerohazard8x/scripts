@@ -81,110 +81,175 @@ aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
-@REM function
-setlocal
-
-:svcStopDemand
-net stop "%~1" /y
-sc config "%~1" start=demand
-goto :eof @REM end of function
-
-endlocal
-
 @REM Stopping
-call :svcStopDemand "AMD Crash Defender Service"
-call :svcStopDemand "AMD External Events Utility"
-call :svcStopDemand "AdobeARMservice"
-call :svcStopDemand "Apple Mobile Device Service"
-call :svcStopDemand "Bonjour Service"
-call :svcStopDemand "BraveElevationService"
-call :svcStopDemand "BraveVpnService"
-call :svcStopDemand "CIJSRegister"
-call :svcStopDemand "CdRomArbiterService"
-call :svcStopDemand "CortexLauncherService"
-call :svcStopDemand "CxAudMsg"
-call :svcStopDemand "DtsApo4Service"
-call :svcStopDemand "EpicOnlineServices"
-call :svcStopDemand "Intel(R) TPM Provisioning Service"
-call :svcStopDemand "KNDBWM"
-call :svcStopDemand "Killer Analytics Service"
-call :svcStopDemand "Killer Network Service"
-call :svcStopDemand "Killer Wifi Optimization Service"
-call :svcStopDemand "LGHUBUpdaterService"
-call :svcStopDemand "LightKeeperService"
-call :svcStopDemand "MBAMService"
-call :svcStopDemand "MSI_Case_Service"
-call :svcStopDemand "MSI_Center_Service"
-call :svcStopDemand "MSI_Super_Charger_Service"
-call :svcStopDemand "MSI_VoiceControl_Service"
-call :svcStopDemand "MicrosoftEdgeElevationService"
-call :svcStopDemand "MozillaMaintenance"
-call :svcStopDemand "Mystic_Light_Service"
-call :svcStopDemand "OverwolfUpdater"
-call :svcStopDemand "OverwolfUpdater"
-call :svcStopDemand "PSService"
-call :svcStopDemand "Parsec"
-call :svcStopDemand "Razer Game Manager Service 3"
-call :svcStopDemand "RstMwService"
-call :svcStopDemand "RzActionSvc"
-call :svcStopDemand "Steam Client Service"
-call :svcStopDemand "SteelSeriesGGUpdateServiceProxy"
-call :svcStopDemand "SteelSeriesUpdateService"
-call :svcStopDemand "TeraCopyService.exe"
-call :svcStopDemand "VBoxSDS"
-call :svcStopDemand "WMIRegistrationService"
-call :svcStopDemand "brave"
-call :svcStopDemand "bravem"
-call :svcStopDemand "cplspcon"
-call :svcStopDemand "edgeupdate"
-call :svcStopDemand "edgeupdatem"
-call :svcStopDemand "esifsvc"
-call :svcStopDemand "ibtsiva"
-call :svcStopDemand "igccservice"
-call :svcStopDemand "igfxCUIService2.0.0.0"
-call :svcStopDemand "jhi_service"
-call :svcStopDemand "logi_lamparray_service"
-call :svcStopDemand "spacedeskService"
-call :svcStopDemand "ss_conn_service"
-call :svcStopDemand "ss_conn_service2"
-call :svcStopDemand "xTendSoftAPService"
+net stop "AMD Crash Defender Service" /y
+net stop "AMD External Events Utility" /y
+net stop "AdobeARMservice" /y
+net stop "Apple Mobile Device Service" /y
+net stop "Bonjour Service" /y
+net stop "BraveElevationService" /y
+net stop "BraveVpnService" /y
+net stop "CIJSRegister" /y
+net stop "CdRomArbiterService" /y
+net stop "CortexLauncherService" /y
+net stop "CxAudMsg" /y
+net stop "DtsApo4Service" /y
+net stop "EpicOnlineServices" /y
+net stop "Intel(R) TPM Provisioning Service" /y
+net stop "KNDBWM" /y
+net stop "Killer Analytics Service" /y
+net stop "Killer Network Service" /y
+net stop "Killer Wifi Optimization Service" /y
+net stop "LGHUBUpdaterService" /y
+net stop "LightKeeperService" /y
+net stop "MBAMService" /y
+net stop "MSI_Case_Service" /y
+net stop "MSI_Center_Service" /y
+net stop "MSI_Super_Charger_Service" /y
+net stop "MSI_VoiceControl_Service" /y
+net stop "MicrosoftEdgeElevationService" /y
+net stop "MozillaMaintenance" /y
+net stop "Mystic_Light_Service" /y
+net stop "OverwolfUpdater" /y
+net stop "OverwolfUpdater" /y
+net stop "PSService" /y
+net stop "Parsec" /y
+net stop "Razer Game Manager Service 3" /y
+net stop "RstMwService" /y
+net stop "RzActionSvc" /y
+net stop "Steam Client Service" /y
+net stop "SteelSeriesGGUpdateServiceProxy" /y
+net stop "SteelSeriesUpdateService" /y
+net stop "TeraCopyService.exe" /y
+net stop "VBoxSDS" /y
+net stop "WMIRegistrationService" /y
+net stop "brave" /y
+net stop "bravem" /y
+net stop "cplspcon" /y
+net stop "edgeupdate" /y
+net stop "edgeupdatem" /y
+net stop "esifsvc" /y
+net stop "ibtsiva" /y
+net stop "igccservice" /y
+net stop "igfxCUIService2.0.0.0" /y
+net stop "jhi_service" /y
+net stop "logi_lamparray_service" /y
+net stop "spacedeskService" /y
+net stop "ss_conn_service" /y
+net stop "ss_conn_service2" /y
+net stop "xTendSoftAPService" /y
+
+sc config "AMD Crash Defender Service" start=demand
+sc config "AMD External Events Utility" start=demand
+sc config "AdobeARMservice" start=demand
+sc config "Apple Mobile Device Service" start=demand
+sc config "Bonjour Service" start=demand
+sc config "BraveElevationService" start=demand
+sc config "BraveVpnService" start=demand
+sc config "CIJSRegister" start=demand
+sc config "CdRomArbiterService" start=demand
+sc config "CortexLauncherService" start=demand
+sc config "CxAudMsg" start=demand
+sc config "DtsApo4Service" start=demand
+sc config "EpicOnlineServices" start=demand
+sc config "Intel(R) TPM Provisioning Service" start=demand
+sc config "KNDBWM" start=demand
+sc config "Killer Analytics Service" start=demand
+sc config "Killer Network Service" start=demand
+sc config "Killer Wifi Optimization Service" start=demand
+sc config "LGHUBUpdaterService" start=demand
+sc config "LightKeeperService" start=demand
+sc config "MBAMService" start=demand
+sc config "MSI_Case_Service" start=demand
+sc config "MSI_Center_Service" start=demand
+sc config "MSI_Super_Charger_Service" start=demand
+sc config "MSI_VoiceControl_Service" start=demand
+sc config "MicrosoftEdgeElevationService" start=demand
+sc config "MozillaMaintenance" start=demand
+sc config "Mystic_Light_Service" start=demand
+sc config "OverwolfUpdater" start=demand
+sc config "OverwolfUpdater" start=demand
+sc config "PSService" start=demand
+sc config "Parsec" start=demand
+sc config "Razer Game Manager Service 3" start=demand
+sc config "RstMwService" start=demand
+sc config "RzActionSvc" start=demand
+sc config "Steam Client Service" start=demand
+sc config "SteelSeriesGGUpdateServiceProxy" start=demand
+sc config "SteelSeriesUpdateService" start=demand
+sc config "TeraCopyService.exe" start=demand
+sc config "VBoxSDS" start=demand
+sc config "WMIRegistrationService" start=demand
+sc config "brave" start=demand
+sc config "bravem" start=demand
+sc config "cplspcon" start=demand
+sc config "edgeupdate" start=demand
+sc config "edgeupdatem" start=demand
+sc config "esifsvc" start=demand
+sc config "ibtsiva" start=demand
+sc config "igccservice" start=demand
+sc config "igfxCUIService2.0.0.0" start=demand
+sc config "jhi_service" start=demand
+sc config "logi_lamparray_service" start=demand
+sc config "spacedeskService" start=demand
+sc config "ss_conn_service" start=demand
+sc config "ss_conn_service2" start=demand
+sc config "xTendSoftAPService" start=demand
 
 @REM Re/starting
 
-setlocal
+@REM net stop "CloudflareWarp" /y
+net stop "BDESVC" /y
+net stop "BFE" /y
+net stop "BluetoothUserService_48486de" /y
+net stop "BrokerInfrastructure" /y
+net stop "Dnscache" /y
+net stop "EntAppSvc" /y
+net stop "FrameServer" /y
+net stop "LicenseManager" /y
+net stop "MacType" /y
+net stop "MullvadVPN" /y
+net stop "NVDisplay.ContainerLocalSystem" /y
+net stop "OpenVPNServiceInteractive" /y
+net stop "PNRPsvc" /y
+net stop "W32Time" /y
+net stop "WdNisSvc" /y
+net stop "WindscribeService" /y
+net stop "WlanSvc" /y
+net stop "audiosrv" /y
+net stop "hidusbf" /y
+net stop "iphlpsvc" /y
+net stop "ndu" /y
+net stop "p2pimsvc" /y
+net stop "p2psvc" /y
+net stop "wscsvc" /y
 
-:svcStopAuto
-net stop "%~1" /y
-sc config "%~1" start=auto
-goto :eof
+@REM sc config "CloudflareWarp" start=auto
+sc config "BDESVC" start=auto
+sc config "BFE" start=auto
+sc config "BluetoothUserService_48486de" start=auto
+sc config "BrokerInfrastructure" start=auto
+sc config "Dnscache" start=auto
+sc config "EntAppSvc" start=auto
+sc config "FrameServer" start=auto
+sc config "LicenseManager" start=auto
+sc config "MacType" start=auto
+sc config "MullvadVPN" start=auto
+sc config "NVDisplay.ContainerLocalSystem" start=auto
+sc config "OpenVPNServiceInteractive" start=auto
+sc config "PNRPsvc" start=auto
+sc config "W32Time" start=auto
+sc config "WdNisSvc" start=auto
+sc config "WindscribeService" start=auto
+sc config "WlanSvc" start=auto
+sc config "audiosrv" start=auto
+sc config "hidusbf" start=auto
+sc config "iphlpsvc" start=auto
+sc config "ndu" start=auto
+sc config "p2pimsvc" start=auto
+sc config "p2psvc" start=auto
+sc config "wscsvc" start=auto
 
-endlocal
-
-@REM call :stopAuto "CloudflareWarp"
-call :stopAuto "BDESVC"
-call :stopAuto "BFE"
-call :stopAuto "BluetoothUserService_48486de"
-call :stopAuto "BrokerInfrastructure"
-call :stopAuto "Dnscache"
-call :stopAuto "EntAppSvc"
-call :stopAuto "FrameServer"
-call :stopAuto "LicenseManager"
-call :stopAuto "MacType"
-call :stopAuto "MullvadVPN"
-call :stopAuto "NVDisplay.ContainerLocalSystem"
-call :stopAuto "OpenVPNServiceInteractive"
-call :stopAuto "PNRPsvc"
-call :stopAuto "W32Time"
-call :stopAuto "WdNisSvc"
-call :stopAuto "WindscribeService"
-call :stopAuto "WlanSvc"
-call :stopAuto "audiosrv"
-call :stopAuto "hidusbf"
-call :stopAuto "iphlpsvc"
-call :stopAuto "ndu"
-call :stopAuto "p2pimsvc"
-call :stopAuto "p2psvc"
-call :stopAuto "wscsvc"
 GOTO NOSVC
 
 :NOSVC
