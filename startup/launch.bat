@@ -83,39 +83,39 @@ if %ERRORLEVEL% EQU 0 (
     robocopy /mt default\ %USERPROFILE%\default_wall
 )
 
-@REM wallpaper - phone
-mkdir phone
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily" -o phone/daily.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?cloudy" -o phone/daily_winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?cozy" -o phone/daily_cozy.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?drawing" -o phone/daily_drawing.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?dry" -o phone/daily_dry.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?fall" -o phone/daily_fall.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?rainy" -o phone/daily_winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?render" -o phone/daily_render.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?spring" -o phone/daily_spring.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?stormy" -o phone/daily_winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?summer" -o phone/daily_summer.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?sunny" -o phone/daily_winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?wet" -o phone/daily_wet.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?windy" -o phone/daily_windy.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?winter" -o phone/daily_winter.jpg
+@REM @REM wallpaper - phone
+@REM mkdir phone
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily" -o phone/daily.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?cloudy" -o phone/daily_winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?cozy" -o phone/daily_cozy.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?drawing" -o phone/daily_drawing.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?dry" -o phone/daily_dry.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?fall" -o phone/daily_fall.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?rainy" -o phone/daily_winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?render" -o phone/daily_render.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?spring" -o phone/daily_spring.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?stormy" -o phone/daily_winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?summer" -o phone/daily_summer.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?sunny" -o phone/daily_winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?wet" -o phone/daily_wet.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?windy" -o phone/daily_windy.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily?winter" -o phone/daily_winter.jpg
 
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly" -o phone/weekly.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?cloudy" -o phone/winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?cozy" -o phone/cozy.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?drawing" -o phone/drawing.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?dry" -o phone/dry.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?fall" -o phone/fall.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?rainy" -o phone/winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?render" -o phone/render.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?spring" -o phone/spring.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?stormy" -o phone/winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?summer" -o phone/summer.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?sunny" -o phone/winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?wet" -o phone/wet.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?windy" -o phone/winter.jpg
-aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?winter" -o phone/windy.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly" -o phone/weekly.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?cloudy" -o phone/winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?cozy" -o phone/cozy.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?drawing" -o phone/drawing.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?dry" -o phone/dry.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?fall" -o phone/fall.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?rainy" -o phone/winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?render" -o phone/render.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?spring" -o phone/spring.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?stormy" -o phone/winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?summer" -o phone/summer.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?sunny" -o phone/winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?wet" -o phone/wet.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?windy" -o phone/winter.jpg
+@REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?winter" -o phone/windy.jpg
 
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
