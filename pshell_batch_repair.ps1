@@ -50,54 +50,6 @@ if (-not(Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) -and (Get-
 
 cmd.exe /c control update
 
-cmd.exe /c sc config "BDESVC" start=auto
-cmd.exe /c sc config "BFE" start=auto
-cmd.exe /c sc config "BluetoothUserService_48486de" start=auto
-cmd.exe /c sc config "BrokerInfrastructure" start=auto
-cmd.exe /c sc config "Dnscache" start=auto
-cmd.exe /c sc config "EntAppSvc" start=auto
-cmd.exe /c sc config "FrameServer" start=auto
-cmd.exe /c sc config "LicenseManager" start=auto
-cmd.exe /c sc config "MacType" start=auto
-cmd.exe /c sc config "NVDisplay.ContainerLocalSystem" start=auto
-cmd.exe /c sc config "OpenVPNServiceInteractive" start=auto
-cmd.exe /c sc config "PNRPsvc" start=auto
-cmd.exe /c sc config "ProcessGovernor" start=auto
-cmd.exe /c sc config "W32Time" start=auto
-cmd.exe /c sc config "WdNisSvc" start=auto
-cmd.exe /c sc config "WlanSvc" start=auto
-cmd.exe /c sc config "audiosrv" start=auto
-cmd.exe /c sc config "hidusbf" start=auto
-cmd.exe /c sc config "iphlpsvc" start=auto
-cmd.exe /c sc config "ndu" start=auto
-cmd.exe /c sc config "p2pimsvc" start=auto
-cmd.exe /c sc config "p2psvc" start=auto
-cmd.exe /c sc config "wscsvc" start=auto
-
-cmd.exe /c net start "BDESVC"
-cmd.exe /c net start "BFE"
-cmd.exe /c net start "BluetoothUserService_48486de"
-cmd.exe /c net start "BrokerInfrastructure"
-cmd.exe /c net start "Dnscache"
-cmd.exe /c net start "EntAppSvc"
-cmd.exe /c net start "FrameServer"
-cmd.exe /c net start "LicenseManager"
-cmd.exe /c net start "MacType"
-cmd.exe /c net start "NVDisplay.ContainerLocalSystem"
-cmd.exe /c net start "OpenVPNServiceInteractive"
-cmd.exe /c net start "PNRPsvc"
-cmd.exe /c net start "ProcessGovernor"
-cmd.exe /c net start "W32Time"
-cmd.exe /c net start "WdNisSvc"
-cmd.exe /c net start "WlanSvc"
-cmd.exe /c net start "audiosrv"
-cmd.exe /c net start "hidusbf"
-cmd.exe /c net start "iphlpsvc"
-cmd.exe /c net start "ndu"
-cmd.exe /c net start "p2pimsvc"
-cmd.exe /c net start "p2psvc"
-cmd.exe /c net start "wscsvc"
-
 cmd.exe /c net stop "SysMain" /y
 cmd.exe /c net stop "Superfetch" /y
 cmd.exe /c net stop "svsvc" /y
@@ -111,30 +63,28 @@ cmd.exe /c sc config "svsvc" start=disabled
 cmd.exe /c w32tm /config /update
 cmd.exe /c w32tm /resync
 
-if (-not(Get-Command choco -ErrorAction SilentlyContinue)) {
-    # Negation of (Get-Command choco -ErrorAction SilentlyContinue)
-    powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-    refreshenv
-}
+# if (-not(Get-Command choco -ErrorAction SilentlyContinue)) {
+#     # Negation of (Get-Command choco -ErrorAction SilentlyContinue)
+#     powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+#     refreshenv
+# }
 
-if (Get-Command choco -ErrorAction SilentlyContinue) { 
-    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq miktex mpv nano nomacs openvpn powershell phantomjs rsync scrcpy smplayer unison vlc -y
-    choco uninstall python2 python -y; choco upgrade python3 -y
-}
+# if (Get-Command choco -ErrorAction SilentlyContinue) { 
+#     #TODO
+# }
 
-if (Get-Command python -ErrorAction SilentlyContinue) {
-    if (Get-Command python3 -ErrorAction SilentlyContinue) { 
-        python3 -m pip uninstall -y notebook youtube-dl yt-dlp
-    } 
-    if (-not(Get-Command pip -ErrorAction SilentlyContinue) -and (Get-Command aria2c -ErrorAction SilentlyContinue)) { 
-        aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
-        python get-pip.py
-    }
-    python -m pip install --pre -U pip setuptools wheel youtube-dl
-    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
-}
+# if (Get-Command python -ErrorAction SilentlyContinue) {
+#     if (Get-Command python3 -ErrorAction SilentlyContinue) { 
+#         python3 -m pip uninstall -y notebook youtube-dl yt-dlp
+#     } 
+#     if (-not(Get-Command pip -ErrorAction SilentlyContinue) -and (Get-Command aria2c -ErrorAction SilentlyContinue)) { 
+#         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+#         python get-pip.py
+#     }
+#     python -m pip install --pre -U pip setuptools wheel youtube-dl
+#     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+# }
 
-# cmd.exe /c netsh int tcp set global autotuninglevel=disabled
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')
 # Get-NetAdapter | Set-DnsClientServerAddress -AddressFamily IPv6 -ServerAddresses ('2a10:50c0::ad1:ff', '2a10:50c0::ad2:ff')
 cmd.exe /c ipconfig /flushdns

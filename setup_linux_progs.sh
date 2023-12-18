@@ -26,13 +26,13 @@ pyInstallFunc() {
     echo "$1" | $shell_path
     if command -v python; then
         if command -v python3; then
-            python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp
+            python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
         fi
         if ! command -v pip && command -v aria2c; then
-            $aria_path -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
+            $aria_path -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
-        python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
+        python -m pip install -U pip setuptools wheel youtube-dl
         python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     fi
 }

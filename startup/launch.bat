@@ -344,12 +344,12 @@ if %ERRORLEVEL% EQU 0 (
     if %ERRORLEVEL% EQU 0 (
         WHERE pip
         if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true --disable-ipv6 https://bootstrap.pypa.io/get-pip.py
+            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         )
     )
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
-    python -m pip install -U pip setuptools setuptools-rust wheel virtualenv ipykernel ocrmypdf youtube-dl
+    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
