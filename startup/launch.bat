@@ -348,8 +348,10 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
-    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
+    python -m pip install -U pip setuptools setuptools-rust wheel virtualenv ipykernel ocrmypdf youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    python -m pip install -U git+https://github.com/openai/whisper.git
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
     @REM python -m pip install --pre -U notebook
     @REM python -m pip install -U pymusiclooper spleeter
