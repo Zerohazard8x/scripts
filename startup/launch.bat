@@ -338,7 +338,7 @@ WHERE python
 if %ERRORLEVEL% EQU 0 (
     WHERE python3
     if %ERRORLEVEL% EQU 0 (
-        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp
+        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
     )
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
@@ -348,10 +348,13 @@ if %ERRORLEVEL% EQU 0 (
             python get-pip.py
         )
     )
+    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     python -m pip install -U pip setuptools setuptools-rust wheel virtualenv ipykernel ocrmypdf youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
-    python -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-    python -m pip install -U git+https://github.com/openai/whisper.git
+
+    python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    python310 -m pip install -U git+https://github.com/openai/whisper.git
+
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
     @REM python -m pip install --pre -U notebook
     @REM python -m pip install -U pymusiclooper spleeter
