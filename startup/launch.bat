@@ -36,11 +36,6 @@ if %ERRORLEVEL% EQU 0 (
     w32tm /resync
 )
 
-WHERE powershell
-if %ERRORLEVEL% EQU 0 (
-    powershell.exe -c "Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')"                  
-)
-
 cmd.exe /c "echo off | clip"
 
 @REM wallpaper
