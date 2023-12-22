@@ -86,7 +86,6 @@ cmd.exe /c w32tm /resync
 # }
 
 Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')
-# Get-NetAdapter | Set-DnsClientServerAddress -AddressFamily IPv6 -ServerAddresses ('2a10:50c0::ad1:ff', '2a10:50c0::ad2:ff')
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
 
