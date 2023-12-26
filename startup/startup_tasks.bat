@@ -233,6 +233,7 @@ sc config "xTendSoftAPService" start=demand
 @REM Re/starting
 
 @REM net stop "CloudflareWarp" /y
+@REM net stop "MacType" /y
 net stop "BDESVC" /y
 net stop "BFE" /y
 net stop "BluetoothUserService_48486de" /y
@@ -241,7 +242,6 @@ net stop "Dnscache" /y
 net stop "EntAppSvc" /y
 net stop "FrameServer" /y
 net stop "LicenseManager" /y
-net stop "MacType" /y
 net stop "MullvadVPN" /y
 net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
@@ -259,6 +259,7 @@ net stop "p2psvc" /y
 net stop "wscsvc" /y
 
 @REM sc config "CloudflareWarp" start=auto
+@REM sc config "MacType" start=auto
 sc config "BDESVC" start=auto
 sc config "BFE" start=auto
 sc config "BluetoothUserService_48486de" start=auto
@@ -267,7 +268,6 @@ sc config "Dnscache" start=auto
 sc config "EntAppSvc" start=auto
 sc config "FrameServer" start=auto
 sc config "LicenseManager" start=auto
-sc config "MacType" start=auto
 sc config "MullvadVPN" start=auto
 sc config "NVDisplay.ContainerLocalSystem" start=auto
 sc config "OpenVPNServiceInteractive" start=auto
@@ -287,16 +287,16 @@ sc config "wscsvc" start=auto
 GOTO NOSVC
 
 :NOSVC
+@REM net start "CloudflareWarp"
+@REM net start "MacType"
 net start "BDESVC"
 net start "BFE"
 net start "BluetoothUserService_48486de"
 net start "BrokerInfrastructure"
-net start "CloudflareWarp"
 net start "Dnscache"
 net start "EntAppSvc"
 net start "FrameServer"
 net start "LicenseManager"
-net start "MacType"
 net start "MullvadVPN"
 net start "NVDisplay.ContainerLocalSystem"
 net start "OpenVPNServiceInteractive"
