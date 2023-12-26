@@ -39,7 +39,7 @@ if %ERRORLEVEL% EQU 0 (
 cmd.exe /c "echo off | clip"
 
 cls & SET /P M=Wallpapers? (Y/N) 
-IF /I %M%==N GOTO NOSVC
+IF /I %M%==N GOTO NOWALL
 
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
@@ -118,6 +118,7 @@ if %ERRORLEVEL% EQU 0 (
     @REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/weekly?winter" -o phone/windy.jpg
 )
 
+:NOWALL
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
