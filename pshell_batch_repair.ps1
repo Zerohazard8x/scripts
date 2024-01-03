@@ -85,7 +85,7 @@ cmd.exe /c w32tm /resync
 #     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 # }
 
-Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')
+# Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('94.140.14.14', '94.140.15.15')
 cmd.exe /c ipconfig /flushdns
 Get-NetAdapter | Restart-NetAdapter
 
