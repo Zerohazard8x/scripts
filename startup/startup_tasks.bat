@@ -260,6 +260,7 @@ net stop "WlanSvc" /y
 net stop "audiosrv" /y
 net stop "hidusbf" /y
 net stop "iphlpsvc" /y
+net stop "msiserver" /y
 net stop "ndu" /y
 net stop "p2pimsvc" /y
 net stop "p2psvc" /y
@@ -286,6 +287,7 @@ sc config "WlanSvc" start=auto
 sc config "audiosrv" start=auto
 sc config "hidusbf" start=auto
 sc config "iphlpsvc" start=auto
+sc config "msiserver" start=auto
 sc config "ndu" start=auto
 sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
@@ -316,6 +318,7 @@ net start "WlanSvc"
 net start "audiosrv"
 net start "hidusbf"
 net start "iphlpsvc"
+net start "msiserver"
 net start "ndu"
 net start "p2pimsvc"
 net start "p2psvc"

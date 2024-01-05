@@ -1,15 +1,15 @@
 ﻿Windows Registry Editor Version 5.00
 ;; misc
-[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}]
+;; [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
+;; [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}]
 
-[HKEY_CURRENT_USER\Control Panel\Desktop]
-"AutoEndTasks"=dword:00000001
-"HungAppTimeout"=-
-"LowLevelHooksTimeout"=-
-"MenuShowDelay"=dword:00000001
-"WaitToKillAppTimeout"=-
-"WaitToKillServiceTimeout"=-
+;; [HKEY_CURRENT_USER\Control Panel\Desktop]
+;; "AutoEndTasks"=dword:00000001
+;; "HungAppTimeout"=-
+;; "LowLevelHooksTimeout"=-
+;; "MenuShowDelay"=dword:00000001
+;; "WaitToKillAppTimeout"=-
+;; "WaitToKillServiceTimeout"=-
 
 [HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules]
 "NumberOfSIUFInPeriod"=dword:00000000
@@ -33,8 +33,8 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location]
 "Value"="Deny"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config]
-"DODownloadMode"=dword:00000001
+;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config]
+;; "DODownloadMode"=dword:00000001
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching]
 "SearchOrderConfig"=dword:00000000
@@ -85,8 +85,8 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling]
 "PowerThrottlingOff"=dword:00000001
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
-"ClearPageFileAtShutdown"=dword:00000000
+;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
+;; "ClearPageFileAtShutdown"=dword:00000000
 
 ;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
 ;; "HiberbootEnabled"=dword:00000000
@@ -111,253 +111,152 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\AJRouter]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ALG]
 "Start"=dword:00000003
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BcastDVRUserService_48486de]
-"Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Browser]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BthAvctpSvc]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CaptureService_48486de]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DPS]
 "Start"=dword:00000003
 
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DiagTrack]
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "Start"=dword:00000003
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
-"Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FontCache]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HPAppHelperCap]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HPDiagsCap]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HPNetworkCap]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HPSysInfoCap]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HpTouchpointAnalyticsService]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HvHost]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MSDTC]
 "Start"=dword:00000003
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MapsBroker]
-"Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MicrosoftEdgeElevationService]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NahimicService]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetTcpPortSharing]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PcaSvc]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfHost]
 "Start"=dword:00000003
 
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PhoneSvc]
-"Start"=dword:00000003
-
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PrintNotify]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\QWAVE]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteAccess]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteRegistry]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RetailDemo]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RtkBtManServ]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SCardSvr]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SEMgrSvc]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TrkWks]
 "Start"=dword:00000003
 
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc]
-"Start"=dword:00000003
-
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WPDBusEnum]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WerSvc]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Winmgmt]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WpcMonSvc]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WpnService]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\XblAuthManager]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\XblGameSave]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\XboxGipSvc]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\XboxNetApiSvc]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\cbdhsvc_48486de]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\diagnosticshub.standardcollector.service]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dmwappushservice]
 "Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\edgeupdate]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\edgeupdatem]
 "Start"=dword:00000003
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\fhsvc]
 "Start"=dword:00000003
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\gupdate]
-"Start"=dword:00000003
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\gupdatem]
-"Start"=dword:00000003
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc]
 "Start"=dword:00000003
 
 ;;
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\AMD External Events Utility]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DtsApo4Service]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CxAudMsg]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StiSvc]
-"Start"=dword:00000003
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StorSvc]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EFS]
 "Start"=dword:00000003
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FontCache3.0.0.0]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Intel(R) TPM Provisioning Service]
-"Start"=dword:00000003
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\KNDBWM]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Killer Analytics Service]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Killer Network Service]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Killer Wifi Optimization Service]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RstMwService]
@@ -367,9 +266,6 @@
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WMIRegistrationService]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WSearch]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdiServiceHost]
@@ -390,16 +286,146 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\igccservice]
 "Start"=dword:00000003
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\igfxCUIService2.0.0.0]
-"Start"=dword:00000003
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\jhi_service]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\swprv]
 "Start"=dword:00000003
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\xTendSoftAPService]
+;;
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BcastDVRUserService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BluetoothUserService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CDPSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CDPUserSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CaptureService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CertPropSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ConsentUxUserSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CscService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DPS]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DevQueryBroker]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DevicePickerUserSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DevicesFlow]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DiagTrack]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DisplayEnhancementService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DoSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DsmSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DusmSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\GraphicsPerfSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LxpSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MapsBroker]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MessagingService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NaturalAuthentication]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\OneSyncSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PcaSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PhoneSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PimIndexMaintenanceSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PrintWorkflowUserSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SecurityHealthService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Sense]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedRealitySvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SmsRouter]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StiSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TabletInputService]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TrkWks]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\UnistoreSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\UserDataSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WaaSMedicSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WarpJITSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisDrv]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WerSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WinDefend]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wercplsupport]
 "Start"=dword:00000003
 
 ;; Beta drivers
@@ -526,8 +552,8 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=-
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}]
-;; @="Recycle Bin"
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}]
+@="Recycle Bin"
 
 ;; explorer tweaks
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
@@ -540,7 +566,7 @@
 "SystemResponsiveness"=dword:0000000a
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
-"EnableAutoDoh"=dword:00000002
+;; "EnableAutoDoh"=dword:00000002
 "MaxCacheTtl"=dword:00000001
 "MaxNegativeCacheTtl"=dword:00000000
 
@@ -563,111 +589,90 @@
 "AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
 ;; Mouse
-[HKEY_CURRENT_USER\Control Panel\Mouse]
-"MouseSensitivity"="10"
-"MouseSpeed"="0"
-"MouseThreshold1"="0"
-"MouseThreshold2"="0"
-"MouseHoverTime"=dword:00000190
-"SmoothMouseXCurve"=hex:\
-	00,00,00,00,00,00,00,00,\
-	C0,CC,0C,00,00,00,00,00,\
-	80,99,19,00,00,00,00,00,\
-	40,66,26,00,00,00,00,00,\
-	00,33,33,00,00,00,00,00
-"SmoothMouseYCurve"=hex:\
-	00,00,00,00,00,00,00,00,\
-	00,00,38,00,00,00,00,00,\
-	00,00,70,00,00,00,00,00,\
-	00,00,A8,00,00,00,00,00,\
-	00,00,E0,00,00,00,00,00
+;; [HKEY_CURRENT_USER\Control Panel\Mouse]
+;; "MouseSensitivity"="10"
+;; "MouseSpeed"="0"
+;; "MouseThreshold1"="0"
+;; "MouseThreshold2"="0"
+;; "MouseHoverTime"=dword:00000190
+;; "SmoothMouseXCurve"=hex:\
+;; 	00,00,00,00,00,00,00,00,\
+;; 	C0,CC,0C,00,00,00,00,00,\
+;; 	80,99,19,00,00,00,00,00,\
+;; 	40,66,26,00,00,00,00,00,\
+;; 	00,33,33,00,00,00,00,00
+;; "SmoothMouseYCurve"=hex:\
+;; 	00,00,00,00,00,00,00,00,\
+;; 	00,00,38,00,00,00,00,00,\
+;; 	00,00,70,00,00,00,00,00,\
+;; 	00,00,A8,00,00,00,00,00,\
+;; 	00,00,E0,00,00,00,00,00
 
 ;; services
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BDESVC]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BFE]
 "Start"=dword:00000002
-
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BluetoothUserService_48486de]
-"Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BrokerInfrastructure]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EntAppSvc]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FrameServer]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LicenseManager]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NVDisplay.ContainerLocalSystem]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PNRPsvc]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
 "Start"=dword:00000004
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
 "Start"=dword:00000004
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisSvc]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WlanSvc]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\audiosrv]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\iphlpsvc]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ndu]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\p2pimsvc]
 "Start"=dword:00000002
-
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\p2psvc]
 "Start"=dword:00000002
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc]
 "Start"=dword:00000004
 
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wscsvc]
+"Start"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\msiserver]
 "Start"=dword:00000002
 
 ;; skip oobe
