@@ -89,6 +89,10 @@
 "PublishUserActivities"=dword:00000000
 "UploadUserActivities"=dword:00000000
 
+;; geolocation service
+;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration]
+;; "Status"=dword:00000000
+
 ;; wifi??
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Wifi\AllowAutoConnectToWiFiSenseHotspots]
 ;; "value"=dword:00000000
@@ -99,9 +103,6 @@
 ;; network
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
 "IRPStackSize"=dword:00000014
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration]
-"Status"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile]
 "NetworkThrottlingIndex"=dword:ffffffff
