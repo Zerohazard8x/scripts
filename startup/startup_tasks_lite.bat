@@ -21,6 +21,11 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
     wmic process where name="RTSS.exe" CALL setpriority 64
 )
 
+if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
+    cmd.exe /c start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    wmic process where name="MSIAfterburner.exe" CALL setpriority 64
+)
+
 @REM registry
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
