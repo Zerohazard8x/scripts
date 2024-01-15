@@ -1,16 +1,5 @@
 ﻿Windows Registry Editor Version 5.00
 ;; misc
-;; [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
-;; [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}]
-
-;; [HKEY_CURRENT_USER\Control Panel\Desktop]
-;; "AutoEndTasks"=dword:00000001
-;; "HungAppTimeout"=-
-;; "LowLevelHooksTimeout"=-
-;; "MenuShowDelay"=dword:00000001
-;; "WaitToKillAppTimeout"=-
-;; "WaitToKillServiceTimeout"=-
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows]
 "LoadAppInit_DLLs"=dword:00000000
 "RequireSignedAppInit_DLLs"=dword:00000001
@@ -33,9 +22,6 @@
 "Scheduling Category"="Medium"
 "SFIO Priority"="High"
 
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
-;; "ClearPageFileAtShutdown"=dword:00000000
-
 ;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
 ;; "HiberbootEnabled"=dword:00000000
 ;; "HibernateEnabled"=dword:00000000
@@ -43,11 +29,8 @@
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings]
 ;; "ShowHibernateOption"=dword:00000000
 
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
-;; "WaitToKillServiceTimeout"=-
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Bluetooth\Audio\AVRCP\CT]
-"DisableAbsoluteVolume"=dword:00000001
+"DisableAbsoluteVolume"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SYSTEM\Maps]
 "AutoUpdateEnabled"=dword:00000000
@@ -437,12 +420,6 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 ;; Power
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{025A5937-A6BE-4686-A844-36FE4BEC8B6D}]
 ;; "PreferredPlan"="8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
-
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling]
-;; "PowerThrottlingOff"=dword:00000001
-
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
-;; "NonBestEffortLimit"=dword:00000000
 
 ;; power - resetting
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c]
