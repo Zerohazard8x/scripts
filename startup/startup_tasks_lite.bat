@@ -97,7 +97,6 @@ net stop "BraveElevationService" /y
 net stop "BraveVpnService" /y
 net stop "CIJSRegister" /y
 net stop "CdRomArbiterService" /y
-net stop "CortexLauncherService" /y
 net stop "CxAudMsg" /y
 net stop "DtsApo4Service" /y
 net stop "EpicOnlineServices" /y
@@ -152,7 +151,6 @@ sc config "BraveElevationService" start=demand
 sc config "BraveVpnService" start=demand
 sc config "CIJSRegister" start=demand
 sc config "CdRomArbiterService" start=demand
-sc config "CortexLauncherService" start=demand
 sc config "CxAudMsg" start=demand
 sc config "DtsApo4Service" start=demand
 sc config "EpicOnlineServices" start=demand
@@ -203,8 +201,8 @@ sc config "xTendSoftAPService" start=demand
 @REM net stop "MacType" /y
 net stop "BDESVC" /y
 net stop "BFE" /y
-net stop "BluetoothUserService_48486de" /y
 net stop "BrokerInfrastructure" /y
+net stop "CortexLauncherService" /y
 net stop "Dnscache" /y
 net stop "EntAppSvc" /y
 net stop "FrameServer" /y
@@ -214,7 +212,6 @@ net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
 net stop "Razer Game Manager Service 3" /y
-net stop "RzActionSvc" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
 net stop "WindscribeService" /y
@@ -230,13 +227,12 @@ net stop "wscsvc" /y
 GOTO NOSVC
 
 :NOSVC
-
 @REM sc config "CloudflareWarp" start=auto
 @REM sc config "MacType" start=auto
 sc config "BDESVC" start=auto
 sc config "BFE" start=auto
-sc config "BluetoothUserService_48486de" start=auto
 sc config "BrokerInfrastructure" start=auto
+sc config "CortexLauncherService" start=auto
 sc config "Dnscache" start=auto
 sc config "EntAppSvc" start=auto
 sc config "FrameServer" start=auto
@@ -264,7 +260,6 @@ sc config "wscsvc" start=auto
 @REM net start "MacType"
 net start "BDESVC"
 net start "BFE"
-net start "BluetoothUserService_48486de"
 net start "BrokerInfrastructure"
 net start "Dnscache"
 net start "EntAppSvc"
