@@ -97,6 +97,7 @@ net stop "BraveElevationService" /y
 net stop "BraveVpnService" /y
 net stop "CIJSRegister" /y
 net stop "CdRomArbiterService" /y
+net stop "ClickToRunSvc" /y
 net stop "CxAudMsg" /y
 net stop "DtsApo4Service" /y
 net stop "EpicOnlineServices" /y
@@ -115,7 +116,6 @@ net stop "MSI_VoiceControl_Service" /y
 net stop "MicrosoftEdgeElevationService" /y
 net stop "MozillaMaintenance" /y
 net stop "Mystic_Light_Service" /y
-net stop "OverwolfUpdater" /y
 net stop "OverwolfUpdater" /y
 net stop "PSService" /y
 net stop "Parsec" /y
@@ -151,6 +151,7 @@ sc config "BraveElevationService" start=demand
 sc config "BraveVpnService" start=demand
 sc config "CIJSRegister" start=demand
 sc config "CdRomArbiterService" start=demand
+sc config "ClickToRunSvc" start=demand
 sc config "CxAudMsg" start=demand
 sc config "DtsApo4Service" start=demand
 sc config "EpicOnlineServices" start=demand
