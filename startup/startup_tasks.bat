@@ -394,14 +394,12 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
     powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
 
-    ipconfig /flushdns
     powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
 ) else (
     wuauclt /detectnow
-
-    ipconfig /flushdns
 )
 
 :END
+ipconfig /flushdns
 cmd.exe /c control update
 exit

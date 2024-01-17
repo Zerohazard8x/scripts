@@ -37,10 +37,12 @@ pyInstallFunc() {
     fi
 }
 
-# wallpaper
-# if $aria_path; then
-#     $aria_path -x16 -s32 -R --allow-overwrite=true --disable-ipv6 "https://source.unsplash.com/featured/7680x4320/daily" -o daily.jpg
-# fi
+# flush dns
+if command -v service; then
+    service network-manager restart
+else
+    /etc/init.d/nscd restart
+fi
 
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
