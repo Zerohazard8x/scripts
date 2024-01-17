@@ -36,11 +36,11 @@ if %ERRORLEVEL% EQU 0 (
     )
 )
 
-WHERE w32tm
-if %ERRORLEVEL% EQU 0 (
-    w32tm /config /update
-    w32tm /resync
-)
+@REM WHERE w32tm
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     w32tm /config /update
+@REM     w32tm /resync
+@REM )
 
 cmd.exe /c "echo off | clip"
 
@@ -83,7 +83,6 @@ if %ERRORLEVEL% EQU 0 (
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/weekly?winter" -o lite/winter.jpg
 )
 
-
 :NOWALL
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
@@ -121,9 +120,7 @@ net stop "OverwolfUpdater" /y
 net stop "OverwolfUpdater" /y
 net stop "PSService" /y
 net stop "Parsec" /y
-net stop "Razer Game Manager Service 3" /y
 net stop "RstMwService" /y
-net stop "RzActionSvc" /y
 net stop "Steam Client Service" /y
 net stop "SteelSeriesGGUpdateServiceProxy" /y
 net stop "SteelSeriesUpdateService" /y
@@ -175,12 +172,9 @@ sc config "MicrosoftEdgeElevationService" start=demand
 sc config "MozillaMaintenance" start=demand
 sc config "Mystic_Light_Service" start=demand
 sc config "OverwolfUpdater" start=demand
-sc config "OverwolfUpdater" start=demand
 sc config "PSService" start=demand
 sc config "Parsec" start=demand
-sc config "Razer Game Manager Service 3" start=demand
 sc config "RstMwService" start=demand
-sc config "RzActionSvc" start=demand
 sc config "Steam Client Service" start=demand
 sc config "SteelSeriesGGUpdateServiceProxy" start=demand
 sc config "SteelSeriesUpdateService" start=demand
@@ -219,6 +213,8 @@ net stop "MullvadVPN" /y
 net stop "NVDisplay.ContainerLocalSystem" /y
 net stop "OpenVPNServiceInteractive" /y
 net stop "PNRPsvc" /y
+net stop "Razer Game Manager Service 3" /y
+net stop "RzActionSvc" /y
 net stop "W32Time" /y
 net stop "WdNisSvc" /y
 net stop "WindscribeService" /y
@@ -231,6 +227,9 @@ net stop "ndu" /y
 net stop "p2pimsvc" /y
 net stop "p2psvc" /y
 net stop "wscsvc" /y
+GOTO NOSVC
+
+:NOSVC
 
 @REM sc config "CloudflareWarp" start=auto
 @REM sc config "MacType" start=auto
@@ -246,6 +245,8 @@ sc config "MullvadVPN" start=auto
 sc config "NVDisplay.ContainerLocalSystem" start=auto
 sc config "OpenVPNServiceInteractive" start=auto
 sc config "PNRPsvc" start=auto
+sc config "Razer Game Manager Service 3" start=auto
+sc config "RzActionSvc" start=auto
 sc config "W32Time" start=auto
 sc config "WdNisSvc" start=auto
 sc config "WindscribeService" start=auto
@@ -259,9 +260,6 @@ sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
 sc config "wscsvc" start=auto
 
-GOTO NOSVC
-
-:NOSVC
 @REM net start "CloudflareWarp"
 @REM net start "MacType"
 net start "BDESVC"
@@ -276,6 +274,8 @@ net start "MullvadVPN"
 net start "NVDisplay.ContainerLocalSystem"
 net start "OpenVPNServiceInteractive"
 net start "PNRPsvc"
+net start "Razer Game Manager Service 3"
+net start "RzActionSvc"
 net start "Spooler"
 net start "W32Time"
 net start "WdNisSvc"
