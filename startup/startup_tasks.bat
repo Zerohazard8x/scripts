@@ -82,12 +82,6 @@ if %ERRORLEVEL% EQU 0 (
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?windy" -o default/windy.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?winter" -o default/winter.jpg
 
-    WHERE robocopy
-    if %ERRORLEVEL% EQU 0 (
-        mkdir %USERPROFILE%\default_wall
-        robocopy /mt default\ %USERPROFILE%\default_wall
-    )
-
     @REM @REM wallpaper - phone
     @REM mkdir phone
     @REM aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1644x3840/daily" -o phone/daily.jpg
@@ -124,6 +118,12 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOWALL
+WHERE robocopy
+if %ERRORLEVEL% EQU 0 (
+    mkdir %USERPROFILE%\default_wall
+    robocopy /mt default\ %USERPROFILE%\default_wall
+)
+
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
