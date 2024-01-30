@@ -238,7 +238,7 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc]
 "Start"=dword:00000003
 
-;;------;;
+
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StorSvc]
 "Start"=dword:00000003
 
@@ -373,9 +373,6 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SmsRouter]
-"Start"=dword:00000003
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\StiSvc]
@@ -612,11 +609,8 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PNRPsvc]
 "Start"=dword:00000002
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
-"Start"=dword:00000004
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
-"Start"=dword:00000004
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler]
+"Start"=dword:00000002
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time]
 "Start"=dword:00000002
@@ -642,14 +636,21 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\p2psvc]
 "Start"=dword:00000002
 
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc]
-"Start"=dword:00000004
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wscsvc]
 "Start"=dword:00000002
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\msiserver]
 "Start"=dword:00000002
+
+;;------;;
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
+"Start"=dword:00000004
 
 ;; skip oobe
 [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows]

@@ -258,6 +258,7 @@ sc config "OpenVPNServiceInteractive" start=auto
 sc config "PNRPsvc" start=auto
 sc config "Razer Game Manager Service 3" start=auto
 sc config "RzActionSvc" start=auto
+sc config "Spooler" start=auto
 sc config "W32Time" start=auto
 sc config "WdNisSvc" start=auto
 sc config "WindscribeService" start=auto
@@ -276,6 +277,7 @@ sc config "wscsvc" start=auto
 net start "BDESVC"
 net start "BFE"
 net start "BrokerInfrastructure"
+net start "CortexLauncherService"
 net start "Dnscache"
 net start "EntAppSvc"
 net start "FrameServer"
