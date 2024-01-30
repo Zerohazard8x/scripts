@@ -116,6 +116,9 @@ net stop "MSI_VoiceControl_Service" /y
 net stop "MicrosoftEdgeElevationService" /y
 net stop "MozillaMaintenance" /y
 net stop "Mystic_Light_Service" /y
+net stop "NIDomainService" /y
+net stop "NINetworkDiscovery" /y
+net stop "NiSvcLoc" /y
 net stop "OverwolfUpdater" /y
 net stop "PSService" /y
 net stop "Parsec" /y
@@ -136,7 +139,11 @@ net stop "ibtsiva" /y
 net stop "igccservice" /y
 net stop "igfxCUIService2.0.0.0" /y
 net stop "jhi_service" /y
+net stop "lkClassAds" /y
+net stop "lkTimeSync" /y
 net stop "logi_lamparray_service" /y
+net stop "niauth" /y
+net stop "nimDNSResponder" /y
 net stop "spacedeskService" /y
 net stop "ss_conn_service" /y
 net stop "ss_conn_service2" /y
@@ -170,6 +177,9 @@ sc config "MSI_VoiceControl_Service" start=demand
 sc config "MicrosoftEdgeElevationService" start=demand
 sc config "MozillaMaintenance" start=demand
 sc config "Mystic_Light_Service" start=demand
+sc config "NIDomainService" start=demand
+sc config "NINetworkDiscovery" start=demand
+sc config "NiSvcLoc" start=demand
 sc config "OverwolfUpdater" start=demand
 sc config "PSService" start=demand
 sc config "Parsec" start=demand
@@ -190,7 +200,11 @@ sc config "ibtsiva" start=demand
 sc config "igccservice" start=demand
 sc config "igfxCUIService2.0.0.0" start=demand
 sc config "jhi_service" start=demand
+sc config "lkClassAds" start=demand
+sc config "lkTimeSync" start=demand
 sc config "logi_lamparray_service" start=demand
+sc config "niauth" start=demand
+sc config "nimDNSResponder" start=demand
 sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
