@@ -43,6 +43,12 @@ if %ERRORLEVEL% EQU 0 (
 
 cmd.exe /c "echo off | clip"
 
+WHERE robocopy
+if %ERRORLEVEL% EQU 0 (
+    mkdir %USERPROFILE%\default_wall
+    robocopy /is /mt /z default\ %USERPROFILE%\default_wall
+)
+
 cls & SET /P M=Wallpapers? (Y/N) 
 IF /I %M%==N GOTO NOWALL
 
@@ -118,12 +124,6 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOWALL
-WHERE robocopy
-if %ERRORLEVEL% EQU 0 (
-    mkdir %USERPROFILE%\default_wall
-    robocopy /is /mt /z default\ %USERPROFILE%\default_wall
-)
-
 cls & SET /P M=Services? (Y/N) 
 IF /I %M%==N GOTO NOSVC
 
