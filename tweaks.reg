@@ -683,6 +683,11 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 ;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
 ;; "UpgradedSystem"=dword:00000001
 
+;; unbreaks some games
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]
+"TdrLevel"=dword:00000000
+"TdrDelay"=dword:00000002
+
 ;; Beta drivers
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DriverFlighting\Partner] 
 ;; "TargetRing"="Drivers"
