@@ -669,6 +669,9 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement]
 "ScoobeSystemSettingEnabled"=dword:00000000
 
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"SubscribedContent-310093Enabled"=dword:00000000
+
 ;; Windows Update
 ;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
 ;; "PreventDeviceMetadataFromNetwork"=dword:00000000
