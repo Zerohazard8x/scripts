@@ -542,7 +542,11 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "Hidden"=dword:00000001
 "HideFileExt"=dword:00000000
 
-;; restore recycle Bin
+;; https://twitter.com/timonsku/status/1764306103720989115
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell]
+"FolderType"="NotSpecified"
+
+;; restore recycle bin
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=-
 
