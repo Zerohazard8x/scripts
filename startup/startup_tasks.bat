@@ -104,26 +104,33 @@ WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco uninstall python2 python -y & choco upgrade python3 -y 
 )
+
 WHERE python
 if %ERRORLEVEL% EQU 0 (
     WHERE python3
     if %ERRORLEVEL% EQU 0 (
         python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
     )
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        WHERE pip
-        if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-        )
-    )
-    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
-    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
+
+    @REM WHERE aria2c
+    @REM if %ERRORLEVEL% EQU 0 (
+    @REM     WHERE pip
+    @REM     if %ERRORLEVEL% NEQ 0 (
+    @REM         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+    @REM         python get-pip.py
+    @REM     )
+    @REM )
+
+    python -m pip install -U pip wheel virtualenv ipykernel ocrmypdf youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
-    python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-    python310 -m pip install -U git+https://github.com/openai/whisper.git
+    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
+    WHERE python310
+    if %ERRORLEVEL% EQU 0 (
+        python310 -m pip install -U pip wheel
+        python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+        python310 -m pip install -U git+https://github.com/openai/whisper.git
+    )
 
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
     @REM python -m pip install --pre -U notebook

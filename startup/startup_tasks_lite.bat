@@ -96,20 +96,23 @@ WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco uninstall python2 python -y & choco upgrade python3 -y 
 )
+
 WHERE python
 if %ERRORLEVEL% EQU 0 (
     WHERE python3
     if %ERRORLEVEL% EQU 0 (
         python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
     )
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        WHERE pip
-        if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-        )
-    )
+
+    @REM WHERE aria2c
+    @REM if %ERRORLEVEL% EQU 0 (
+    @REM     WHERE pip
+    @REM     if %ERRORLEVEL% NEQ 0 (
+    @REM         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+    @REM         python get-pip.py
+    @REM     )
+    @REM )
+
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
 
     python -m pip install --pre -U pip setuptools wheel youtube-dl
