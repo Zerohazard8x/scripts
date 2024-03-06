@@ -49,8 +49,9 @@ if %ERRORLEVEL% EQU 0 (
     robocopy /is /mt /z default\ %USERPROFILE%\default_wall
 )
 
-cls & SET /P M=Wallpapers? (Y/N) 
-IF /I %M%==N GOTO NOWALL
+@REM /T 5 means 5-second timeout
+cls & choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOWALL
 
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
@@ -94,8 +95,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOWALL
-cls & SET /P M=Services? (Y/N) 
-IF /I %M%==N GOTO NOSVC
+cls & choice /C YN /N /D Y /T 5 /M "Services? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOSVC
 
 @REM Stopping
 net stop "AMD Crash Defender Service" /y
@@ -320,8 +321,8 @@ sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
 
-cls & SET /P M=Python? (Y/N) 
-IF /I %M%==N GOTO NOPYTHON
+cls & choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOPYTHON
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
@@ -355,8 +356,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOPYTHON
-cls & SET /P M=Close? (Y/N) 
-IF /I %M%==Y GOTO END
+cls & choice /C YN /N /D Y /T 5 /M "Close? (Y/N)"
+if %ERRORLEVEL% equ 2 goto END
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
