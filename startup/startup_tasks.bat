@@ -49,6 +49,8 @@ if %ERRORLEVEL% EQU 0 (
     robocopy /is /mt /z default\ %USERPROFILE%\default_wall
 )
 
+@REM /C YN means choices are Y,N
+@REM /D Y means default choice is Y
 @REM /T 5 means 5-second timeout
 cls & choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
@@ -95,8 +97,74 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOWALL
-cls & choice /C YN /N /D Y /T 5 /M "Services? (Y/N)"
+cls & choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOPYTHON
+
+WHERE choco
+if %ERRORLEVEL% EQU 0 (
+    choco uninstall python2 python -y & choco upgrade python3 -y 
+)
+WHERE python
+if %ERRORLEVEL% EQU 0 (
+    WHERE python3
+    if %ERRORLEVEL% EQU 0 (
+        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
+    )
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        WHERE pip
+        if %ERRORLEVEL% NEQ 0 (
+            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+            python get-pip.py
+        )
+    )
+    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
+    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
+    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+
+    python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    python310 -m pip install -U git+https://github.com/openai/whisper.git
+
+    @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
+    @REM python -m pip install --pre -U notebook
+    @REM python -m pip install -U pymusiclooper spleeter
+    @REM jt -t gruvboxd -dfonts
+)
+
+:NOPYTHON
+cls & choice /C YN /N /D Y /T 5 /M "Close? (Y/N)"
+if %ERRORLEVEL% equ 2 goto END
+
+WHERE choco
+if %ERRORLEVEL% EQU 0 (
+    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc -y
+    choco upgrade ghostscript libreoffice obs-studio pinta qbittorrent steam vscode -y
+)
+
+WHERE wsl
+if %ERRORLEVEL% EQU 0 (
+    wsl --install
+)
+
+WHERE powershell
+if %ERRORLEVEL% EQU 0 (
+    powershell.exe -c "Install-Module PSWindowsUpdate -Force -Confirm:$false"  
+    powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
+    powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
+    powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
+
+    powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
+) else (
+    wuauclt /detectnow
+)
+
+:END
+cmd.exe /c control update
+
+cls & choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
+
+ipconfig /flushdns
 
 @REM Stopping
 net stop "AMD Crash Defender Service" /y
@@ -222,7 +290,6 @@ sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
 
 @REM Re/starting
-
 @REM net stop "CloudflareWarp" /y
 @REM net stop "MacType" /y
 net stop "BDESVC" /y
@@ -321,68 +388,4 @@ sc config "SysMain" start=disabled
 sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
 
-cls & choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPYTHON
-
-WHERE choco
-if %ERRORLEVEL% EQU 0 (
-    choco uninstall python2 python -y & choco upgrade python3 -y 
-)
-WHERE python
-if %ERRORLEVEL% EQU 0 (
-    WHERE python3
-    if %ERRORLEVEL% EQU 0 (
-        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
-    )
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        WHERE pip
-        if %ERRORLEVEL% NEQ 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-        )
-    )
-    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
-    python -m pip install -U pip setuptools wheel virtualenv ipykernel ocrmypdf youtube-dl
-    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
-
-    python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-    python310 -m pip install -U git+https://github.com/openai/whisper.git
-
-    @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
-    @REM python -m pip install --pre -U notebook
-    @REM python -m pip install -U pymusiclooper spleeter
-    @REM jt -t gruvboxd -dfonts
-)
-
-:NOPYTHON
-cls & choice /C YN /N /D Y /T 5 /M "Close? (Y/N)"
-if %ERRORLEVEL% equ 2 goto END
-
-WHERE choco
-if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc -y
-    choco upgrade ghostscript libreoffice obs-studio pinta qbittorrent steam vscode -y
-)
-
-WHERE wsl
-if %ERRORLEVEL% EQU 0 (
-    wsl --install
-)
-
-WHERE powershell
-if %ERRORLEVEL% EQU 0 (
-    powershell.exe -c "Install-Module PSWindowsUpdate -Force -Confirm:$false"  
-    powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
-    powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
-    powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
-
-    powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
-) else (
-    wuauclt /detectnow
-)
-
-:END
-ipconfig /flushdns
-cmd.exe /c control update
 exit
