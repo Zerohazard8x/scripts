@@ -120,7 +120,7 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOPYTHON
-cls & choice /C YN /N /D Y /T 5 /M "Close? (Y/N)"
+cls & choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
 if %ERRORLEVEL% equ 2 goto END
 
 WHERE choco
@@ -136,11 +136,14 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
 
     powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
-) else (
-    wuauclt /detectnow
 )
 
 :END
+WHERE wuauclt
+if %ERRORLEVEL% EQU 0 (
+    wuauclt /detectnow
+)
+
 cmd.exe /c control update
 
 cls & choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
