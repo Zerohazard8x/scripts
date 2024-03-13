@@ -144,8 +144,8 @@ if %ERRORLEVEL% equ 2 goto END
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey 7zip adb aria2 dos2unix exiftool firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc -y
-    choco upgrade ghostscript libreoffice obs-studio pinta qbittorrent steam vscode -y
+    choco upgrade chocolatey aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs smplayer vlc -y
+    choco upgrade 7zip adb ghostscript libreoffice obs-studio pinta qbittorrent scrcpy steam vscode -y
 )
 
 WHERE wsl

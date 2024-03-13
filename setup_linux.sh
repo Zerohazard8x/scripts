@@ -3,9 +3,9 @@ sudo -i
 aria_path=$(command -v aria2c | sort -r | head -n 1)
 shell_path=$(command -v "$SHELL" | sort -r | head -n 1)
 
-corePkgs="7zip adb aria2 dos2unix exiftool firefox ffmpeg git ghostscript jq mpv nano nomacs peazip powershell phantomjs rsync scrcpy shfmt smplayer tesseract unison vlc"
-# plusPkgs="ghostscript libreoffice obs-studio pinta qbittorrent steam vscode"
-# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable discord doomsday filezilla foobar2000 ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch tor-browser vscodium wezterm"
+corePkgs="aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs smplayer vlc"
+# plusPkgs="7zip adb ghostscript libreoffice obs-studio pinta qbittorrent steam vscode"
+# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable discord doomsday exiftool filezilla foobar2000 ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt tesseract tor-browser unison vscodium wezterm"
 
 if [ -z "$shell_path" ]; then
     echo "SHELL environment variable not set" >&2
