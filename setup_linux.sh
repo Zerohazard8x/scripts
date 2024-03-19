@@ -32,7 +32,7 @@ pyInstallFunc() {
             $aria_path -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
-        python -m pip install -U pip setuptools wheel youtube-dl
+        python -m pip install -U pip setuptools youtube-dl
         python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     fi
 }

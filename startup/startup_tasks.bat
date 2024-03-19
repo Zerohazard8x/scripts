@@ -25,14 +25,17 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
+@REM get files
+WHERE aria2c
+if %ERRORLEVEL% EQU 0 (
+    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
+)
+
 @REM registry
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        regedit /S tweaks.reg
-    )
+    regedit /S tweaks.reg
 )
 
 @REM WHERE w32tm
@@ -43,11 +46,12 @@ if %ERRORLEVEL% EQU 0 (
 
 cmd.exe /c "echo off | clip"
 
-WHERE robocopy
-if %ERRORLEVEL% EQU 0 (
-    mkdir %USERPROFILE%\default_wall
-    robocopy /is /mt /z default\ %USERPROFILE%\default_wall
-)
+@REM @REM in-place copy
+@REM WHERE robocopy
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     mkdir %USERPROFILE%\default_wall
+@REM     robocopy /is /mt /z default\ %USERPROFILE%\default_wall
+@REM )
 
 @REM /C YN means choices are Y,N
 @REM /D Y means default choice is Y
@@ -55,46 +59,7 @@ if %ERRORLEVEL% EQU 0 (
 cls & choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
-WHERE aria2c
-if %ERRORLEVEL% EQU 0 (
-@REM wallpaper
-    mkdir default
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?hd-wallpapers" -o default/daily.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?artificial,hd-wallpapers" -o default/daily_artificial.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cloudy,hd-wallpapers" -o default/daily_winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?cozy,hd-wallpapers" -o default/daily_cozy.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?drawing,hd-wallpapers" -o default/daily_drawing.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?dry,hd-wallpapers" -o default/daily_dry.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?fall,hd-wallpapers" -o default/daily_fall.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?rainy,hd-wallpapers" -o default/daily_winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?render,hd-wallpapers" -o default/daily_render.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?spring,hd-wallpapers" -o default/daily_spring.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?stormy,hd-wallpapers" -o default/daily_winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?summer,hd-wallpapers" -o default/daily_summer.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?sunny,hd-wallpapers" -o default/daily_winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?wet,hd-wallpapers" -o default/daily_wet.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?windy,hd-wallpapers" -o default/daily_windy.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?winter,hd-wallpapers" -o default/daily_winter.jpg
-
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?artificial,hd-wallpapers" -o default/artificial.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?hd-wallpapers" -o default/weekly.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?cloudy,hd-wallpapers" -o default/winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?cozy,hd-wallpapers" -o default/cozy.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?drawing,hd-wallpapers" -o default/drawing.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?dry,hd-wallpapers" -o default/dry.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?fall,hd-wallpapers" -o default/fall.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?rainy,hd-wallpapers" -o default/winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?render,hd-wallpapers" -o default/render.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?spring,hd-wallpapers" -o default/spring.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?stormy,hd-wallpapers" -o default/winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?summer,hd-wallpapers" -o default/summer.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?sunny,hd-wallpapers" -o default/winter.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?wet,hd-wallpapers" -o default/wet.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?windy,hd-wallpapers" -o default/windy.jpg
-    aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/weekly?winter,hd-wallpapers" -o default/winter.jpg
-
-    @REM phone - 1644x3840
-)
+start "" wallpapers.sh
 
 :NOWALL
 cls & choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
@@ -121,21 +86,22 @@ if %ERRORLEVEL% EQU 0 (
     @REM     )
     @REM )
 
-    python -m pip install -U pip wheel virtualenv ipykernel ocrmypdf youtube-dl
+    python -m pip install -U pip setuptools youtube-dl
     python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     WHERE python310
     if %ERRORLEVEL% EQU 0 (
         python310 -m pip install -U pip wheel
-        python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-        python310 -m pip install -U git+https://github.com/openai/whisper.git
+
+        @REM @REM OpenAI Whisper
+        @REM python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+        @REM python310 -m pip install -U git+https://github.com/openai/whisper.git
     )
 
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
+    @REM python -m pip install -U ocrmypdf pymusiclooper spleeter
     @REM python -m pip install --pre -U notebook
-    @REM python -m pip install -U pymusiclooper spleeter
-    @REM jt -t gruvboxd -dfonts
 )
 
 :NOPYTHON
@@ -150,7 +116,8 @@ if %ERRORLEVEL% EQU 0 (
 
 WHERE wsl
 if %ERRORLEVEL% EQU 0 (
-    wsl --install
+    wsl --install --no-launch
+    wsl --update
 )
 
 WHERE powershell
