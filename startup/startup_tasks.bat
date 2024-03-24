@@ -127,7 +127,8 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
     powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
 
-    powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
+    @REM powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
+    @REM ipconfig /flushdns
 )
 
 :END
@@ -140,8 +141,6 @@ cmd.exe /c control update
 
 cls & choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
-
-ipconfig /flushdns
 
 @REM Stopping
 net stop "AMD Crash Defender Service" /y
