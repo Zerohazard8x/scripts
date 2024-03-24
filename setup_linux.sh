@@ -77,17 +77,16 @@ fi
 
 if lspci | grep -e VGA | grep -e geforce; then
     if command -v python; then
-        python -m pip install -U apt-mirror-updater 
-        apt-mirror-updater -a
+        python -m pip install -U apt-mirror-updater
     fi
-
+    
     if command -v apt-mirror-updater; then
         apt-mirror-updater -a
     fi
-
+    
     if command -v aptitude; then aptitude install nvidia-driver-520 -y
-    elif command -v apt; then aptitude install nvidia-driver-520 -y
-    elif command -v yay; then yay -S nvidia --noconfirm
+        elif command -v apt; then aptitude install nvidia-driver-520 -y
+        elif command -v yay; then yay -S nvidia --noconfirm
     elif command -v pacman; then pacman -S nvidia --noconfirm; fi
 fi
 
@@ -95,11 +94,11 @@ if command -v brew; then
     brew install "$corePkgs" -y
     pyInstallFunc "brew uninstall python2 python -y; brew install python3 -y"
     exit
-elif command -v snap; then
+    elif command -v snap; then
     snap install "$corePkgs" -y
     pyInstallFunc "snap uninstall python2 python -y; snap install python3 -y"
     exit
-elif command -v aptitude; then
+    elif command -v aptitude; then
     aptitude update
     aptitude install "$corePkgs" -y
     pyInstallFunc "aptitude uninstall python2 python -y; aptitude install python3 -y"
@@ -107,14 +106,14 @@ elif command -v aptitude; then
     if command -v python; then
         python -m pip install -U apt-mirror-updater
     fi
-
+    
     if command -v apt-mirror-updater; then
         apt-mirror-updater -a
     fi
-
+    
     aptitude upgrade -y
     exit
-elif command -v apt; then
+    elif command -v apt; then
     if command -v add-apt-repository; then
         add-apt-repository multiverse -y
         add-apt-repository ppa:graphics-drivers/ppa -y
@@ -130,45 +129,45 @@ elif command -v apt; then
     if command -v curl; then # Microsoft
         curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
     fi
-
+    
     if command -v python; then
         python -m pip install -U apt-mirror-updater
     fi
-
+    
     if command -v apt-mirror-updater; then
         apt-mirror-updater -a
     fi
-
+    
     apt update && apt install "$corePkgs" aptitude snapd -y
-
-    apt full-upgrade -y 
-    apt autoremove -y 
-    apt autoclean -y 
+    
+    apt full-upgrade -y
+    apt autoremove -y
+    apt autoclean -y
     apt --fix-broken install -y
     exit
-elif command -v yay; then
+    elif command -v yay; then
     yay -S "$corePkgs" --noconfirm
     pyInstallFunc "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     yay -Syuu
     exit
-elif command -v pacman; then
+    elif command -v pacman; then
     pacman -S "$corePkgs" --noconfirm
     pyInstallFunc "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     pacman -Syuu
     exit
-elif command -v zypper; then
+    elif command -v zypper; then
     zypper install "$corePkgs" -y
     pyInstallFunc "zypper rr python2 python -y; zypper install python3 -y"
     exit
-elif command -v yum; then
+    elif command -v yum; then
     yum install "$corePkgs" -y
     pyInstallFunc "yum remove python2 python -y; yum install python3 -y"
     exit
-elif command -v dnf; then
+    elif command -v dnf; then
     dnf install "$corePkgs" -y
     pyInstallFunc "zypper rr python2 python -y; dnf install python3 -y"
     exit
-elif command -v port; then
+    elif command -v port; then
     port upgrade "$corePkgs" -y
     pyInstallFunc "port uninstall python2 python -y; port upgrade install python3 -y"
     exit
