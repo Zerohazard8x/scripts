@@ -3,6 +3,7 @@
 if command -v aria2c; then
     mkdir ~/default_wall
     cd ~/default_wall || exit # exit if cd doesnt work
+    rm -rfv ./*.aria2
 
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?hd-wallpapers" -o daily.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/7680x4320/daily?artificial,hd-wallpapers" -o daily_artificial.jpg

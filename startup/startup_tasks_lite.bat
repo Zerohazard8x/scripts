@@ -53,6 +53,7 @@ if %ERRORLEVEL% equ 2 goto NOWALL
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
     mkdir lite
+    del /F lite/*.aria2
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily" -o lite/daily.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -o default/daily_artificial.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily?cloudy,hd-wallpapers" -o lite/daily_winter.jpg
