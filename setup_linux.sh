@@ -33,7 +33,7 @@ pyInstallFunc() {
             python get-pip.py
         fi
         python -m pip install -U pip setuptools youtube-dl
-        python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
     fi
 }
 

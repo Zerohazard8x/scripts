@@ -87,7 +87,7 @@ if %ERRORLEVEL% EQU 0 (
     @REM )
 
     python -m pip install -U pip setuptools youtube-dl
-    python -m pip install -U --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     WHERE python310
