@@ -74,7 +74,8 @@ WHERE python
 if %ERRORLEVEL% EQU 0 (
     WHERE python3
     if %ERRORLEVEL% EQU 0 (
-        python3 -m pip uninstall -y notebook virtualenv ipykernel youtube-dl yt-dlp ocrmypdf torch torchvision torchaudio pymusiclooper spleeter
+        python3 -m pip freeze > requirements.txt
+        python3 -m pip uninstall -y -r requirements.txt
     )
 
     @REM WHERE aria2c
