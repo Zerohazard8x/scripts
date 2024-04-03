@@ -656,7 +656,7 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Superfetch]
 "Start"=dword:00000004
 
-;;
+;;------;;
 [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows]
 "LoadAppInit_DLLs"=dword:00000000
 "RequireSignedAppInit_DLLs"=dword:00000001
