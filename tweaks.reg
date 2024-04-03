@@ -686,6 +686,9 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching]
 "SearchOrderConfig"=dword:00000000
 
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Config]
+"VulnerableDriverBlocklistEnable"=dword:00000001
+
 ;; cross-signed kernel drivers w/ secureboot
 ;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
 ;; "UpgradedSystem"=dword:00000001
