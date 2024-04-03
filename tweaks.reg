@@ -754,22 +754,22 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
 "ConsentPromptBehaviorAdmin"=dword:00000005
 "ConsentPromptBehaviorUser"=dword:00000003
-"EnableCursorSuppression"=dword:00000000
-"EnableLUA"=dword:00000001
-"shutdownwithoutlogon"=-
+;; "EnableCursorSuppression"=dword:00000000
+;; "EnableLUA"=dword:00000001
+;; "shutdownwithoutlogon"=-
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
 "AutoAdminLogon"=-
 "AutoRestartShell"=-
 "DisableCAD"=-
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\runas\command]
-@="\"%1\" %*"
-"IsolatedCommand"="\"%1\" %*"
+;; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\runas\command]
+;; @="\"%1\" %*"
+;; "IsolatedCommand"="\"%1\" %*"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\open\command]
-@="\"%1\" %*"
-"IsolatedCommand"="\"%1\" %*"
+;; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\open\command]
+;; @="\"%1\" %*"
+;; "IsolatedCommand"="\"%1\" %*"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
 "DisableRegistryTools"=-
