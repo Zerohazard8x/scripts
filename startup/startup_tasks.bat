@@ -100,7 +100,7 @@ if %ERRORLEVEL% EQU 0 (
 
         @REM @REM OpenAI Whisper
         @REM python310 -m pip install -U git+https://github.com/openai/whisper.git
-        @REM python310 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+        @REM python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
     )
 
     @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
