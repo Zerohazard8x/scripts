@@ -89,7 +89,7 @@ if %ERRORLEVEL% EQU 0 (
     @REM )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools youtube-dl
+    python -m pip install -U pip setuptools youtube-dl mutagen
     python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
@@ -99,7 +99,6 @@ if %ERRORLEVEL% EQU 0 (
         python310 -m pip install -U pip wheel
 
         @REM @REM OpenAI Whisper
-        @REM python310 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
         @REM python310 -m pip install -U git+https://github.com/openai/whisper.git
     )
 

@@ -119,7 +119,7 @@ if %ERRORLEVEL% EQU 0 (
     @REM ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools youtube-dl
+    python -m pip install -U pip setuptools youtube-dl mutagen
     python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 )
 
