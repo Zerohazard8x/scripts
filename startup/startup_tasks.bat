@@ -96,7 +96,7 @@ if %ERRORLEVEL% EQU 0 (
     WHERE python310
     if %ERRORLEVEL% EQU 0 (
         python310 -m pip cache purge
-        python310 -m pip install -U pip wheel
+        python310 -m pip install -U pip
 
         @REM @REM OpenAI Whisper
         @REM python310 -m pip install -U git+https://github.com/openai/whisper.git
