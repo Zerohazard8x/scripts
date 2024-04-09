@@ -26,14 +26,15 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
-@REM registry
+@REM get files
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
+    @REM registry
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        regedit /S tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
+    regedit /S tweaks.reg
 )
 
 @REM WHERE w32tm
@@ -42,7 +43,8 @@ if %ERRORLEVEL% EQU 0 (
 @REM     w32tm /resync
 @REM )
 
-cmd.exe /c "echo off | clip"
+@REM Clear clipboard
+@REM cmd.exe /c "echo off | clip"
 
 @REM /C YN means choices are Y,N
 @REM /D Y means default choice is Y
@@ -120,38 +122,36 @@ if %ERRORLEVEL% EQU 0 (
 
     python -m pip cache purge
     python -m pip install -U pip setuptools youtube-dl mutagen
-    python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 )
 
 :NOPYTHON
 cls & choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
-if %ERRORLEVEL% equ 2 goto END
+if %ERRORLEVEL% equ 2 goto NOCHOCO
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
     choco upgrade chocolatey aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs smplayer vlc -y
 )
 
-WHERE powershell
-if %ERRORLEVEL% EQU 0 (
-    powershell.exe -c "Install-Module PSWindowsUpdate -Force -Confirm:$false"  
-    powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
-    powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
-    powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
-
-    @REM ipconfig /flushdns
-    @REM powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
-)
-
-:END
-WHERE wuauclt
-if %ERRORLEVEL% EQU 0 (
-    wuauclt /detectnow
-)
-
+:NOCHOCO
 cmd.exe /c control update
 
-cls & choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
+cls & choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOPSHELL
+
+WHERE powershell
+if %ERRORLEVEL% EQU 0 (
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+    )
+
+    powershell.exe -c tasks.ps1
+)
+
+:NOPSHELL
+cls & choice /C YN /N /D Y /T 5 /M "Services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
 
 @REM Stopping
@@ -369,11 +369,9 @@ net start "p2psvc"
 net start "wscsvc"
 
 net stop "SysMain" /y
-net stop "Superfetch" /y
 net stop "svsvc" /y
 
 sc config "SysMain" start=disabled
-sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
 
 exit

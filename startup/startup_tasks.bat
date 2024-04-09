@@ -25,16 +25,13 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
-@REM get files
-WHERE aria2c
-if %ERRORLEVEL% EQU 0 (
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
-)
-
 @REM registry
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+    )
     regedit /S tweaks.reg
 )
 
@@ -44,7 +41,8 @@ if %ERRORLEVEL% EQU 0 (
 @REM     w32tm /resync
 @REM )
 
-cmd.exe /c "echo off | clip"
+@REM Clear clipboard
+@REM cmd.exe /c "echo off | clip"
 
 @REM @REM in-place copy
 @REM WHERE robocopy
@@ -59,6 +57,10 @@ cmd.exe /c "echo off | clip"
 cls & choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
+WHERE aria2c
+if %ERRORLEVEL% EQU 0 (
+    aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
+)
 start "" wallpapers.sh
 
 :NOWALL
@@ -79,18 +81,12 @@ if %ERRORLEVEL% EQU 0 (
         python3 -m pip uninstall -y -r requirements.txt
     )
 
-    @REM WHERE aria2c
-    @REM if %ERRORLEVEL% EQU 0 (
-    @REM     WHERE pip
-    @REM     if %ERRORLEVEL% NEQ 0 (
-    @REM         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-    @REM         python get-pip.py
-    @REM     )
-    @REM )
+    @REM https://bootstrap.pypa.io/get-pip.py
+    @REM python get-pip.py
 
     python -m pip cache purge
     python -m pip install -U pip setuptools youtube-dl mutagen
-    python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     WHERE python310
@@ -99,7 +95,7 @@ if %ERRORLEVEL% EQU 0 (
         python310 -m pip install -U pip
 
         @REM @REM OpenAI Whisper
-        @REM python310 -m pip install -U git+https://github.com/openai/whisper.git
+        @REM python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
         @REM python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
     )
 
@@ -110,7 +106,7 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPYTHON
 cls & choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
-if %ERRORLEVEL% equ 2 goto END
+if %ERRORLEVEL% equ 2 goto NOCHOCO
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
@@ -124,25 +120,21 @@ if %ERRORLEVEL% EQU 0 (
     wsl --update
 )
 
+:NOCHOCO
+cls & choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOPSHELL
+
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    powershell.exe -c "Install-Module PSWindowsUpdate -Force -Confirm:$false"  
-    powershell.exe -c "Add-WUServiceManager -MicrosoftUpdate -Confirm:$false"
-    powershell.exe -c "Get-WindowsUpdate -Download -AcceptAll -Confirm:$false" 
-    powershell.exe -c "Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false" 
+    WHERE aria2c
+    if %ERRORLEVEL% EQU 0 (
+        aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+    )
 
-    @REM powershell.exe -c "Get-NetAdapter | Restart-NetAdapter"
-    @REM ipconfig /flushdns
+    powershell.exe -c tasks.ps1
 )
 
-:END
-WHERE wuauclt
-if %ERRORLEVEL% EQU 0 (
-    wuauclt /detectnow
-)
-
-cmd.exe /c control update
-
+:NOPSHELL
 cls & choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
 
@@ -361,11 +353,9 @@ net start "p2psvc"
 net start "wscsvc"
 
 net stop "SysMain" /y
-net stop "Superfetch" /y
 net stop "svsvc" /y
 
 sc config "SysMain" start=disabled
-sc config "Superfetch" start=disabled
 sc config "svsvc" start=disabled
 
 exit
