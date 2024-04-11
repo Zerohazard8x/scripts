@@ -49,7 +49,8 @@ if %ERRORLEVEL% EQU 0 (
 @REM /C YN means choices are Y,N
 @REM /D Y means default choice is Y
 @REM /T 5 means 5-second timeout
-cls & choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
+cls 
+choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
 WHERE aria2c
@@ -92,7 +93,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOWALL
-cls & choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
+cls 
+choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPYTHON
 
 WHERE choco
@@ -126,7 +128,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOPYTHON
-cls & choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
+cls
+choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOCHOCO
 
 WHERE choco
@@ -135,9 +138,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOCHOCO
-cmd.exe /c control update
-
-cls & choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
+cls 
+choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
@@ -151,7 +153,8 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 :NOPSHELL
-cls & choice /C YN /N /D Y /T 5 /M "Services? (Y/N)"
+cls 
+choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
 
 @REM Stopping
