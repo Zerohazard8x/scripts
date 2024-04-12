@@ -131,12 +131,24 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
+    del /F tasks.ps1
+
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
     )
 
+    powershell.exe -c Set-ExecutionPolicy Bypass
     powershell.exe -c tasks.ps1
+    powershell.exe -c Set-ExecutionPolicy Default
+) else (
+    dism /online /cleanup-image /restorehealth /startcomponentcleanup
+    sfc /scannow
+
+    wuauclt /detectnow
+    wuauclt /updatenow
+
+    control update
 )
 
 :NOPSHELL
