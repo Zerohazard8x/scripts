@@ -33,7 +33,7 @@ pyInstallFunc() {
             # python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
             # python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
             
-            # whisper input.mp4 --device cuda --output-format srt
+            # whisper input.mp4 --task translate --device cuda --output_format srt
         fi
         
         python -m pip cache purge
