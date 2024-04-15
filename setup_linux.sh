@@ -32,6 +32,8 @@ pyInstallFunc() {
             # # OpenAI Whisper
             # python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
             # python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+            
+            # whisper input.mp4 --device cuda --output-format srt
         fi
         
         python -m pip cache purge
@@ -82,7 +84,7 @@ fi
 #     echo 1 >/sys/module/usbhid/parameters/jspoll
 # fi
 
-# install brew
+# install
 if ! command -v brew && command -v curl; then
     $(command -v "$SHELL" | sort -r | head -n 1) -c "$(curl -fsSL https://mirror.ghproxy.com/https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
