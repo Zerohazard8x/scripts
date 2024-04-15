@@ -84,9 +84,6 @@ if %ERRORLEVEL% EQU 0 (
         python3 -m pip uninstall -y -r requirements.txt
     )
 
-    @REM https://bootstrap.pypa.io/get-pip.py
-    @REM python get-pip.py
-
     python -m pip cache purge
     python -m pip install -U pip setuptools youtube-dl mutagen
     python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
@@ -96,15 +93,7 @@ if %ERRORLEVEL% EQU 0 (
     if %ERRORLEVEL% EQU 0 (
         python310 -m pip cache purge
         python310 -m pip install -U pip
-
-        @REM @REM OpenAI Whisper
-        @REM python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
-        @REM python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
     )
-
-    @REM python -m pip install -U git+https://github.com/martinetd/samloader.git
-    @REM python -m pip install -U ocrmypdf pymusiclooper spleeter
-    @REM python -m pip install --pre -U notebook
 )
 
 :NOPYTHON

@@ -1,29 +1,18 @@
 #!/bin/sh
-sudo -i
+# sudo -i
+
 aria_path=$(command -v aria2c | sort -r | head -n 1)
-shell_path=$(command -v "$SHELL" | sort -r | head -n 1)
 
 corePkgs="aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs smplayer vlc"
 # plusPkgs="7zip adb discord libreoffice obs-studio pinta qbittorrent steam vscode"
 # otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt tesseract tor-browser unison vscodium wezterm"
 
-if [ -z "$shell_path" ]; then
-    echo "SHELL environment variable not set" >&2
-    exit 1
-fi
-
-for cmd in echo rm find; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-        echo "$cmd not found" >&2
-        exit 1
-    fi
-done
-
 rm -rfv ./*.aria2
 rm -rfv ./*.py
 
 pyInstallFunc() {
-    echo "$1" | $shell_path
+    $1
+
     if command -v python; then
         if command -v python3; then
             python3 -m pip cache purge
@@ -35,49 +24,67 @@ pyInstallFunc() {
             $aria_path -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
+
+        if command -v python310; then
+            python310 -m pip cache purge
+            python310 -m pip install -U pip
+
+            # # OpenAI Whisper
+            # python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
+            # python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+        fi
         
         python -m pip cache purge
         python -m pip install -U pip setuptools youtube-dl mutagen
-        python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+
+        # python -m pip install -U git+https://github.com/martinetd/samloader.git
+        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook
+
+        # ocrmypdf input.pdf output.pdf
     fi
 }
 
-# flush dns
-if command -v service; then
-    service network-manager restart
-else
-    /etc/init.d/nscd restart
-fi
+# # flush dns
+# if command -v service; then
+#     service network-manager restart
+# else
+#     /etc/init.d/nscd restart
+# fi
 
+# delete empty folders
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
 
+# repair 
 # Check if fsck command exists
 if command -v fsck; then
-    # Find all block devices and run fsck on them with force, recursive and auto-repair options
+    # Find all block devices and run fsck
     find /dev/ -type b -exec fsck -f -R -y {} \;
 fi
 
-if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
-    echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
-    echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
-    echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
-fi
+# # polling rates
+# if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
+#     echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
+#     echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
+#     echo "options usbhid jspoll=1" >>/etc/modprobe.d/usbhid.conf
+# fi
 
-if cat /sys/module/usbhid/parameters/mousepoll; then
-    echo 1 >/sys/module/usbhid/parameters/mousepoll
-fi
+# if cat /sys/module/usbhid/parameters/mousepoll; then
+#     echo 1 >/sys/module/usbhid/parameters/mousepoll
+# fi
 
-if cat /sys/module/usbhid/parameters/kbpoll; then
-    echo 1 >/sys/module/usbhid/parameters/kbpoll
-fi
+# if cat /sys/module/usbhid/parameters/kbpoll; then
+#     echo 1 >/sys/module/usbhid/parameters/kbpoll
+# fi
 
-if cat /sys/module/usbhid/parameters/jspoll; then
-    echo 1 >/sys/module/usbhid/parameters/jspoll
-fi
+# if cat /sys/module/usbhid/parameters/jspoll; then
+#     echo 1 >/sys/module/usbhid/parameters/jspoll
+# fi
 
+# install brew
 if ! command -v brew && command -v curl; then
-    $shell_path -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    $(command -v "$SHELL" | sort -r | head -n 1) -c "$(curl -fsSL https://mirror.ghproxy.com/https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 if lspci | grep -e VGA | grep -e geforce; then
@@ -89,8 +96,8 @@ if lspci | grep -e VGA | grep -e geforce; then
         apt-mirror-updater -a
     fi
     
-    if command -v aptitude; then aptitude install nvidia-driver-520 -y
-        elif command -v apt; then aptitude install nvidia-driver-520 -y
+    if command -v aptitude; then aptitude install nvidia-driver-550 -y
+        elif command -v apt; then aptitude install nvidia-driver-550 -y
         elif command -v yay; then yay -S nvidia --noconfirm
     elif command -v pacman; then pacman -S nvidia --noconfirm; fi
 fi
