@@ -13,7 +13,10 @@ del /F *.reg
 
 @REM For some reason this actually makes a difference
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    )
     wmic process where name="EncoderServer.exe" CALL setpriority 64
     wmic process where name="EncoderServer64.exe" CALL setpriority 64
     wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
@@ -22,21 +25,33 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    )
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
 @REM for convenience
 if exist "%ProgramFiles(x86)%\steam\steam.exe" (
-    start "" "%ProgramFiles(x86)%\steam\steam.exe"
+    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\steam\steam.exe"
+    )
 )
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
-    start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+    )
 )
 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-    start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    )
 )
 
 @REM registry

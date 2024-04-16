@@ -1,19 +1,16 @@
 @echo off
 
-@REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
 
 del /F *.aria2
 del /F *.py
 del /F *.reg
 
-@REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
-@REM powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-@REM powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
-
-@REM For some reason this actually makes a difference
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    )
     wmic process where name="EncoderServer.exe" CALL setpriority 64
     wmic process where name="EncoderServer64.exe" CALL setpriority 64
     wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
@@ -22,21 +19,33 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    )
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
 @REM for convenience
 if exist "%ProgramFiles(x86)%\steam\steam.exe" (
-    start "" "%ProgramFiles(x86)%\steam\steam.exe"
+    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\steam\steam.exe"
+    )
 )
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
-    start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+    )
 )
 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-    start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    )
 )
 
 @REM get files
@@ -53,18 +62,6 @@ if %ERRORLEVEL% EQU 0 (
     regedit /S tweaks.reg
 )
 
-@REM WHERE w32tm
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     w32tm /config /update
-@REM     w32tm /resync
-@REM )
-
-@REM Clear clipboard
-@REM "echo off | clip"
-
-@REM /C YN means choices are Y,N
-@REM /D Y means default choice is Y
-@REM /T 5 means 5-second timeout
 cls 
 choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
@@ -126,15 +123,6 @@ if %ERRORLEVEL% EQU 0 (
         python3 -m pip freeze > requirements.txt
         python3 -m pip uninstall -y -r requirements.txt
     )
-
-    @REM WHERE aria2c
-    @REM if %ERRORLEVEL% EQU 0 (
-    @REM     WHERE pip
-    @REM     if %ERRORLEVEL% NEQ 0 (
-    @REM         aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-    @REM         python get-pip.py
-    @REM     )
-    @REM )
 
     @REM ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
 
