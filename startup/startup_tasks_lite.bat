@@ -30,10 +30,13 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
     @REM registry
+    del /F tweaks.reg
+
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
+    
     regedit /S tweaks.reg
 )
 

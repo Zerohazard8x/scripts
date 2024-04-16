@@ -29,10 +29,13 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 @REM registry
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
+    del /F tweaks.reg
+
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
+
     regedit /S tweaks.reg
 )
 
@@ -59,10 +62,13 @@ cls
 choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
+del /F wallpapers.sh
+
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
     aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
 )
+
 start "" wallpapers.sh
 
 :NOWALL
@@ -87,6 +93,10 @@ if %ERRORLEVEL% EQU 0 (
     python -m pip cache purge
     python -m pip install -U pip setuptools youtube-dl mutagen
     python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+
+    if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
+        python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife
+    )
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     WHERE python310
