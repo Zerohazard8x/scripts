@@ -7,13 +7,13 @@ del /F *.aria2
 del /F *.py
 del /F *.reg
 
-@REM cmd.exe /c powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
-@REM cmd.exe /c powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-@REM cmd.exe /c powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
+@REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
+@REM powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+@REM powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
 @REM For some reason this actually makes a difference
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     wmic process where name="EncoderServer.exe" CALL setpriority 64
     wmic process where name="EncoderServer64.exe" CALL setpriority 64
     wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
@@ -22,8 +22,21 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    cmd.exe /c start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
+)
+
+@REM for convenience
+if exist "%ProgramFiles(x86)%\steam\steam.exe" (
+    start "" "%ProgramFiles(x86)%\steam\steam.exe"
+)
+
+if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
+    start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+)
+
+if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+    start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
 )
 
 @REM registry
@@ -46,7 +59,7 @@ if %ERRORLEVEL% EQU 0 (
 @REM )
 
 @REM Clear clipboard
-@REM cmd.exe /c "echo off | clip"
+@REM "echo off | clip"
 
 @REM @REM in-place copy
 @REM WHERE robocopy
