@@ -137,6 +137,7 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c tasks.ps1
     powershell.exe -c import.ps1
     powershell.exe -c import_private.ps1
+    netsh wlan export profile key=clear folder=wifi-todo
 
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
