@@ -138,6 +138,8 @@ if %ERRORLEVEL% EQU 0 (
     wuauclt /updatenow
 
     control update
+
+    netsh wlan export profile key=clear folder=wifi-todo
 )
 
 :NOPSHELL
