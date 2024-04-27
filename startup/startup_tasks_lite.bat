@@ -6,48 +6,6 @@ del /F *.aria2
 del /F *.py
 del /F *.reg
 
-if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
-    )
-    wmic process where name="EncoderServer.exe" CALL setpriority 64
-    wmic process where name="EncoderServer64.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-    wmic process where name="RTSS.exe" CALL setpriority 64
-)
-
-if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
-    )
-    wmic process where name="MSIAfterburner.exe" CALL setpriority 64
-)
-
-@REM for convenience
-if exist "%ProgramFiles(x86)%\steam\steam.exe" (
-    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\steam\steam.exe"
-    )
-)
-
-if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
-    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
-    )
-)
-
-if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
-    )
-)
-
 @REM get files
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
@@ -149,14 +107,27 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
     del /F tasks.ps1
+    del /F wifi-pass.zip
+    del /F wifi-main/
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+
+        WHERE 7z
+        if %ERRORLEVEL% EQU 0 (
+            aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
+            
+            7z x wifi-pass.zip -o.
+        )
     )
 
     powershell.exe -c Set-ExecutionPolicy Bypass
+
     powershell.exe -c tasks.ps1
+    powershell.exe -c import.ps1
+    powershell.exe -c import_private.ps1
+
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
@@ -392,5 +363,46 @@ net stop "svsvc" /y
 
 sc config "SysMain" start=disabled
 sc config "svsvc" start=disabled
+
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    )
+    wmic process where name="EncoderServer.exe" CALL setpriority 64
+    wmic process where name="EncoderServer64.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
+    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
+    wmic process where name="RTSS.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    )
+    wmic process where name="MSIAfterburner.exe" CALL setpriority 64
+)
+
+if exist "%ProgramFiles(x86)%\steam\steam.exe" (
+    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\steam\steam.exe"
+    )
+)
+
+if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
+    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    )
+)
 
 exit
