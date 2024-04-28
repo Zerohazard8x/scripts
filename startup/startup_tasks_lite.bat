@@ -128,7 +128,7 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe ./tasks.ps1
     powershell.exe ./import.ps1
     powershell.exe ./import_private.ps1
-    
+
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
@@ -407,4 +407,11 @@ if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGame
     )
 )
 
+cls 
+choice /C YN /N /M "Open folder script was ran from? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOFOLDER
+
+explorer .
+
+:NOFOLDER
 exit

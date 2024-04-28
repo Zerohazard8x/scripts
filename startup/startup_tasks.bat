@@ -419,4 +419,13 @@ if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGame
     )
 )
 
+cls 
+choice /C YN /N /M "Open folder script was ran from? (Y/N)"
+if %ERRORLEVEL% equ 2 goto NOFOLDER
+
+explorer .
+
+:NOFOLDER
+exit
+
 exit
