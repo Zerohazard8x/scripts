@@ -128,17 +128,17 @@ if %ERRORLEVEL% EQU 0 (
         if %ERRORLEVEL% EQU 0 (
             aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
             
-            7z x wifi-pass.zip -o.
+            @REM -aoa skips overwrite prompt
+            7z x wifi-pass.zip -aoa -o.
         )
     )
 
     powershell.exe -c Set-ExecutionPolicy Bypass
 
-    powershell.exe -c tasks.ps1
-    powershell.exe -c import.ps1
-    powershell.exe -c import_private.ps1
-    netsh wlan export profile key=clear folder=wifi-todo
-
+    powershell.exe ./tasks.ps1
+    powershell.exe ./import.ps1
+    powershell.exe ./import_private.ps1
+    
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
@@ -149,6 +149,7 @@ if %ERRORLEVEL% EQU 0 (
 
     control update
 )
+netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 cls 
