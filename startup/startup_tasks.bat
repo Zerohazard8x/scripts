@@ -3,9 +3,9 @@
 @REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
 
-del /F *.aria2
-del /F *.py
-del /F *.reg
+del /s /q /f .\*.aria2
+del /s /q /f .\*.py
+del /s /q /f .\*.reg
 
 @REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 @REM powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
@@ -14,7 +14,7 @@ del /F *.reg
 @REM registry
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
-    del /F tweaks.reg
+    del /s /q /f tweaks.reg
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
@@ -47,7 +47,7 @@ cls
 choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
-del /F wallpapers.sh
+del /s /q /f .\wallpapers.sh
 
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
@@ -115,14 +115,14 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    del /F tasks.ps1
+    del /s /q /f .\tasks.ps1
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
 
-        del /F wifi-pass.zip
-        del /F wifi-main/
+        del /s /q /f .\wifi-pass.zip
+        del /s /q /f .\wifi-main\
 
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
@@ -135,12 +135,17 @@ if %ERRORLEVEL% EQU 0 (
 
     powershell.exe -c Set-ExecutionPolicy Bypass
 
-    powershell.exe ./tasks.ps1
-    powershell.exe ./import.ps1
-    powershell.exe ./import_private.ps1
+    powershell.exe .\tasks.ps1
+    powershell.exe .\import.ps1
+    powershell.exe .\import_private.ps1
     
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
+    echo y|chkdsk C: /f /r
+    cleanmgr /verylowdisk /d C
+    echo y|chkdsk C: /f
+    vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
+
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
 
@@ -411,7 +416,7 @@ if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Cl
         start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
     )
 )
-
+ 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
     tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
     if "%ERRORLEVEL%"=="1" (

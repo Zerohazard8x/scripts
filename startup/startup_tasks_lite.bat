@@ -2,22 +2,22 @@
 
 ping 127.0.0.1 -n 2 > nul
 
-del /F *.aria2
-del /F *.py
-del /F *.reg
+del /s /q /f .\*.aria2
+del /s /q /f .\*.py
+del /s /q /f .\*.reg
 
 @REM get files
 WHERE regedit
 if %ERRORLEVEL% EQU 0 (
     @REM registry
-    del /F tweaks.reg
+    del /s /q /f .\tweaks.reg
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
 
-    regedit /S tweaks.reg
+    regedit /S .\tweaks.reg
 )
 
 cls 
@@ -26,8 +26,8 @@ if %ERRORLEVEL% equ 2 goto NOWALL
 
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
-    mkdir lite
-    del /F lite/*.aria2
+    mkdir .\lite
+    del /s /q /f .\lite\*.aria2
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily" -o lite/daily.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -o default/daily_artificial.jpg
     aria2c -R -x16 -s32 --allow-overwrite=true "https://source.unsplash.com/featured/1920x1080/daily?cloudy,hd-wallpapers" -o lite/daily_winter.jpg
@@ -106,13 +106,14 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    del /F tasks.ps1
-    del /F wifi-pass.zip
-    del /F wifi-main/
-
+    del /s /q /f .\tasks.ps1
+    
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+
+        del /s /q /f .\wifi-pass.zip
+    del /s /q /f .\wifi-main\
 
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
@@ -125,9 +126,9 @@ if %ERRORLEVEL% EQU 0 (
 
     powershell.exe -c Set-ExecutionPolicy Bypass
 
-    powershell.exe ./tasks.ps1
-    powershell.exe ./import.ps1
-    powershell.exe ./import_private.ps1
+    powershell.exe .\tasks.ps1
+    powershell.exe .\import.ps1
+    powershell.exe .\import_private.ps1
 
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
