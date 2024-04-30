@@ -87,7 +87,9 @@ if %ERRORLEVEL% EQU 0 (
     WHERE python310
     if %ERRORLEVEL% EQU 0 (
         python310 -m pip cache purge
-        python310 -m pip install -U pip
+        python310 -m pip freeze > requirements.txt
+        python310 -m pip uninstall -y -r requirements.txt
+        @REM python310 -m pip install -U pip
     )
 )
 

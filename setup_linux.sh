@@ -27,13 +27,9 @@ pyInstallFunc() {
 
         if command -v python310; then
             python310 -m pip cache purge
-            python310 -m pip install -U pip
-
-            # # OpenAI Whisper
-            # python310 -m pip install -U git+https://mirror.ghproxy.com/https://github.com/openai/whisper.git
-            # python310 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
-            
-            # whisper input.mp4 --task translate --device cuda --output_format srt
+            python310 -m pip freeze > requirements.txt
+            python310 -m pip uninstall -y -r requirements.txt
+            # python310 -m pip install -U pip
         fi
         
         python -m pip cache purge
@@ -41,9 +37,13 @@ pyInstallFunc() {
         python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
-        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook
+        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] demucs
+        # python -m pip install -U stable-ts faster-whisper
 
         # ocrmypdf input.pdf output.pdf
+        # Remove background - rembg i input.png output.png
+        # Transcribe - stable-ts --faster-whisper --task translate --denoiser demucs --vad=True audio.mp3 -o audio.srt
+        # Remove background - demucs --two-stems=vocals input.mp3 output.mp3 # --two-stems=drums, --two-stems=bass
     fi
 }
 
