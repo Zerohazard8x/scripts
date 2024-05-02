@@ -372,7 +372,7 @@ sc config "svsvc" start=disabled
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
     tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
     if "%ERRORLEVEL%"=="1" (
-        start /low "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+        start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     )
     wmic process where name="EncoderServer.exe" CALL setpriority 64
     wmic process where name="EncoderServer64.exe" CALL setpriority 64
@@ -384,7 +384,7 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
     if "%ERRORLEVEL%"=="1" (
-        start /low "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+        start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     )
     wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
