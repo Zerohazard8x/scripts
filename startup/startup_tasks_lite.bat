@@ -207,8 +207,39 @@ net stop "nimDNSResponder" /y
 net stop "spacedeskService" /y
 net stop "ss_conn_service" /y
 net stop "ss_conn_service2" /y
+net stop "vgc" /y
+net stop "vgk" /y
 net stop "xTendSoftAPService" /y
 
+@REM net stop "CloudflareWarp" /y
+@REM net stop "MacType" /y
+net stop "BDESVC" /y
+net stop "BFE" /y
+net stop "BrokerInfrastructure" /y
+net stop "CortexLauncherService" /y
+net stop "Dnscache" /y
+net stop "EntAppSvc" /y
+net stop "FrameServer" /y
+net stop "LicenseManager" /y
+net stop "MullvadVPN" /y
+net stop "NVDisplay.ContainerLocalSystem" /y
+net stop "OpenVPNServiceInteractive" /y
+net stop "PNRPsvc" /y
+net stop "Razer Game Manager Service 3" /y
+net stop "W32Time" /y
+net stop "WdNisSvc" /y
+net stop "WindscribeService" /y
+net stop "WlanSvc" /y
+net stop "audiosrv" /y
+net stop "hidusbf" /y
+net stop "iphlpsvc" /y
+net stop "msiserver" /y
+net stop "ndu" /y
+net stop "p2pimsvc" /y
+net stop "p2psvc" /y
+net stop "wscsvc" /y
+
+:NOSVC
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "AdobeARMservice" start=demand
@@ -268,39 +299,10 @@ sc config "nimDNSResponder" start=demand
 sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
+sc config "vgc" start=demand
+sc config "vgk" start=demand
 sc config "xTendSoftAPService" start=demand
 
-@REM Re/starting
-@REM net stop "CloudflareWarp" /y
-@REM net stop "MacType" /y
-net stop "BDESVC" /y
-net stop "BFE" /y
-net stop "BrokerInfrastructure" /y
-net stop "CortexLauncherService" /y
-net stop "Dnscache" /y
-net stop "EntAppSvc" /y
-net stop "FrameServer" /y
-net stop "LicenseManager" /y
-net stop "MullvadVPN" /y
-net stop "NVDisplay.ContainerLocalSystem" /y
-net stop "OpenVPNServiceInteractive" /y
-net stop "PNRPsvc" /y
-net stop "Razer Game Manager Service 3" /y
-net stop "W32Time" /y
-net stop "WdNisSvc" /y
-net stop "WindscribeService" /y
-net stop "WlanSvc" /y
-net stop "audiosrv" /y
-net stop "hidusbf" /y
-net stop "iphlpsvc" /y
-net stop "msiserver" /y
-net stop "ndu" /y
-net stop "p2pimsvc" /y
-net stop "p2psvc" /y
-net stop "wscsvc" /y
-GOTO NOSVC
-
-:NOSVC
 @REM sc config "CloudflareWarp" start=auto
 @REM sc config "MacType" start=auto
 sc config "BDESVC" start=auto
