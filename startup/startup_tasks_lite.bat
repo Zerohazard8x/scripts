@@ -207,8 +207,6 @@ net stop "nimDNSResponder" /y
 net stop "spacedeskService" /y
 net stop "ss_conn_service" /y
 net stop "ss_conn_service2" /y
-net stop "vgc" /y
-net stop "vgk" /y
 net stop "xTendSoftAPService" /y
 
 @REM net stop "CloudflareWarp" /y
@@ -299,8 +297,6 @@ sc config "nimDNSResponder" start=demand
 sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
-sc config "vgc" start=demand
-sc config "vgk" start=demand
 sc config "xTendSoftAPService" start=demand
 
 @REM sc config "CloudflareWarp" start=auto
@@ -331,6 +327,8 @@ sc config "msiserver" start=auto
 sc config "ndu" start=auto
 sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
+sc config "vgc" start=auto
+sc config "vgk" start=auto
 sc config "wscsvc" start=auto
 
 @REM net start "CloudflareWarp"
@@ -361,6 +359,8 @@ net start "msiserver"
 net start "ndu"
 net start "p2pimsvc"
 net start "p2psvc"
+net start "vgc"
+net start "vgk"
 net start "wscsvc"
 
 net stop "SysMain" /y
