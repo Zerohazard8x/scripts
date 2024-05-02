@@ -144,7 +144,7 @@ netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 cls 
-choice /C YN /N /D N /T 5 /M "Services? (Y/N)"
+choice /C YN /N /D N /T 5 /M "Stop services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
 
 @REM Stopping
