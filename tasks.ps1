@@ -5,12 +5,23 @@ foreach ($drive in $drives) {
         Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
         cleanmgr /verylowdisk /d $drive
         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
+        echo mbr2gpt /allowfullos /convert /disk=$drive`:
         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=100%
     }
     catch {
         Write-Warning "Error repairing drive $drive`: $_"
     }
 }
+
+# $drives = Get-Disk | Select-Object -ExpandProperty Number
+# foreach ($drive in $drives) {
+#     try {
+#         mbr2gpt /allowfullos /convert /disk=$drive
+#     }
+#     catch {
+#         Write-Warning "Error converting drive $drive`: $_"
+#     }
+# }
 
 # Re-registers all UWP apps on Windows drive
 $appxManifestPaths = @(
