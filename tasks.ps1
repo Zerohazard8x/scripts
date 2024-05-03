@@ -52,6 +52,15 @@ catch {
 }
 
 try {
+    bcdedit /set TESTSIGNING OFF
+    bcdedit /set NOINTEGRITYCHECKS OFF
+    bcdedit /set hypervisorlaunchtype auto
+}
+catch {
+    Write-Warning "Error running bcdedit: $_"
+}
+
+try {
     if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
         Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
         Get-WindowsUpdate -Download -AcceptAll -Confirm:$false

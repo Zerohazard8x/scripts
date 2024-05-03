@@ -135,6 +135,12 @@ if %ERRORLEVEL% EQU 0 (
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
 
+    bcdedit.exe /debug off
+    bcdedit.exe /set loadoptions ENABLE_INTEGRITY_CHECKS
+    bcdedit.exe /set TESTSIGNING OFF
+    bcdedit.exe /set NOINTEGRITYCHECKS OFF
+    bcdedit /set hypervisorlaunchtype auto
+
     wuauclt /detectnow
     wuauclt /updatenow
 
