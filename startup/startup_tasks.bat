@@ -323,36 +323,37 @@ sc config "ss_conn_service2" start=demand
 sc config "vgc" start=demand
 sc config "xTendSoftAPService" start=demand
 
-@REM sc config "CloudflareWarp" start=system
-@REM sc config "MacType" start=system
-sc config "BDESVC" start=system
-sc config "BFE" start=system
-sc config "BrokerInfrastructure" start=system
-sc config "CortexLauncherService" start=system
-sc config "Dnscache" start=system
-sc config "EntAppSvc" start=system
-sc config "FrameServer" start=system
-sc config "LicenseManager" start=system
-sc config "MullvadVPN" start=system
-sc config "NVDisplay.ContainerLocalSystem" start=system
-sc config "OpenVPNServiceInteractive" start=system
-sc config "PNRPsvc" start=system
-sc config "Razer Game Manager Service 3" start=system
-sc config "RzActionSvc" start=system
-sc config "Spooler" start=system
-sc config "W32Time" start=system
-sc config "WdNisSvc" start=system
-sc config "WindscribeService" start=system
-sc config "WlanSvc" start=system
-sc config "audiosrv" start=system
-sc config "hidusbf" start=system
-sc config "iphlpsvc" start=system
-sc config "msiserver" start=system
-sc config "ndu" start=system
-sc config "p2pimsvc" start=system
-sc config "p2psvc" start=system
+@REM sc config "CloudflareWarp" start=auto
+@REM sc config "MacType" start=auto
+sc config "BDESVC" start=auto
+sc config "BFE" start=auto
+sc config "BrokerInfrastructure" start=auto
+sc config "CortexLauncherService" start=auto
+sc config "Dnscache" start=auto
+sc config "EntAppSvc" start=auto
+sc config "FrameServer" start=auto
+sc config "LicenseManager" start=auto
+sc config "MullvadVPN" start=auto
+sc config "NVDisplay.ContainerLocalSystem" start=auto
+sc config "OpenVPNServiceInteractive" start=auto
+sc config "PNRPsvc" start=auto
+sc config "Razer Game Manager Service 3" start=auto
+sc config "RzActionSvc" start=auto
+sc config "Spooler" start=auto
+sc config "W32Time" start=auto
+sc config "WdNisSvc" start=auto
+sc config "WindscribeService" start=auto
+sc config "WlanSvc" start=auto
+sc config "audiosrv" start=auto
+sc config "hidusbf" start=auto
+sc config "iphlpsvc" start=auto
+sc config "msiserver" start=auto
+sc config "ndu" start=auto
+sc config "p2pimsvc" start=auto
+sc config "p2psvc" start=auto
+sc config "wscsvc" start=auto
+
 sc config "vgk" start=system
-sc config "wscsvc" start=system
 
 @REM net start "CloudflareWarp"
 @REM net start "MacType"
@@ -382,8 +383,9 @@ net start "msiserver"
 net start "ndu"
 net start "p2pimsvc"
 net start "p2psvc"
-net start "vgk"
 net start "wscsvc"
+
+net start "vgk"
 
 net stop "SysMain" /y
 net stop "svsvc" /y
