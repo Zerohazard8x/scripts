@@ -39,6 +39,7 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search]
 "DisableBackoff"=-
 
+; delete index location modifications
 ; [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Search\CrawlScopeManager\Windows\SystemIndex\WorkingSetRules]
 
 ; turn off bing search
