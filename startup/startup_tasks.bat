@@ -12,16 +12,16 @@ del /s /q /f .\*.reg
 @REM powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
 
 @REM registry
-WHERE regedit
+WHERE reg
 if %ERRORLEVEL% EQU 0 (
-    del /s /q /f tweaks.reg
+    del /s /q /f .\tweaks.reg
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
 
-    regedit /S tweaks.reg
+    reg import .\tweaks.reg
 )
 
 @REM WHERE w32tm

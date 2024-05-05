@@ -6,10 +6,9 @@ del /s /q /f .\*.aria2
 del /s /q /f .\*.py
 del /s /q /f .\*.reg
 
-@REM get files
-WHERE regedit
+@REM registry
+WHERE reg
 if %ERRORLEVEL% EQU 0 (
-    @REM registry
     del /s /q /f .\tweaks.reg
 
     WHERE aria2c
@@ -17,7 +16,7 @@ if %ERRORLEVEL% EQU 0 (
         aria2c -x16 -s32 -R --allow-overwrite=true https://mirror.ghproxy.com/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
 
-    regedit /S .\tweaks.reg
+    reg import .\tweaks.reg
 )
 
 cls 
