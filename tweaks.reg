@@ -1,5 +1,5 @@
 ﻿Windows Registry Editor Version 5.00
-;; misc
+; misc
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Audio]
 "GPU Priority"=dword:00000008
 "Priority"=dword:00000006
@@ -18,18 +18,18 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Bluetooth\Audio\AVRCP\CT]
 "DisableAbsoluteVolume"=dword:00000000
 
-;; [HKEY_LOCAL_MACHINE\SYSTEM\Maps]
-;; "AutoUpdateEnabled"=dword:00000000
+; [HKEY_LOCAL_MACHINE\SYSTEM\Maps]
+; "AutoUpdateEnabled"=dword:00000000
 
-;; ;; hibernate
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
-;; "HiberbootEnabled"=dword:00000000
-;; "HibernateEnabled"=dword:00000000
+; ; hibernate
+; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
+; "HiberbootEnabled"=dword:00000000
+; "HibernateEnabled"=dword:00000000
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings]
-;; "ShowHibernateOption"=dword:00000000
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings]
+; "ShowHibernateOption"=dword:00000000
 
-;; windows search
+; windows search
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Search\Gather\Windows\SystemIndex]
 "RespectPowerModes"=dword:00000001
 
@@ -39,22 +39,24 @@
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search]
 "DisableBackoff"=-
 
-;; turn off bing search
+; [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Search\CrawlScopeManager\Windows\SystemIndex\WorkingSetRules]
+
+; turn off bing search
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search]
 "BingSearchEnabled"=dword:00000000
 
-;; fullscreen optimizations?
-;; [HKEY_CURRENT_USER\System\GameConfigStore]
-;; "GameDVR_DXGIHonorFSEWindowsCompatible"=dword:00000001
-;; "GameDVR_EFSEFeatureFlags"=dword:00000000
-;; "GameDVR_Enabled"=dword:00000000
-;; "GameDVR_FSEBehavior"=dword:00000002
-;; "GameDVR_HonorUserFSEBehaviorMode"=dword:00000001
+; fullscreen optimizations?
+; [HKEY_CURRENT_USER\System\GameConfigStore]
+; "GameDVR_DXGIHonorFSEWindowsCompatible"=dword:00000001
+; "GameDVR_EFSEFeatureFlags"=dword:00000000
+; "GameDVR_Enabled"=dword:00000000
+; "GameDVR_FSEBehavior"=dword:00000002
+; "GameDVR_HonorUserFSEBehaviorMode"=dword:00000001
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\GameDVR]
-;; "AllowGameDVR"=dword:00000000
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\GameDVR]
+; "AllowGameDVR"=dword:00000000
 
-;; data collection
+; data collection
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\CloudContent]
 "DisableTailoredExperiencesWithDiagnosticData"=dword:00000001
 
@@ -80,18 +82,18 @@
 "PublishUserActivities"=dword:00000000
 "UploadUserActivities"=dword:00000000
 
-;; geolocation service
+; geolocation service
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration]
 "Status"=dword:00000000
 
-;; wifi??
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Wifi\AllowAutoConnectToWiFiSenseHotspots]
-;; "value"=dword:00000000
+; wifi??
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Wifi\AllowAutoConnectToWiFiSenseHotspots]
+; "value"=dword:00000000
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Wifi\AllowWiFiHotSpotReporting]
-;; "Value"=dword:00000000
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Wifi\AllowWiFiHotSpotReporting]
+; "Value"=dword:00000000
 
-;; network
+; network
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
 "IRPStackSize"=dword:00000014
 
@@ -100,11 +102,11 @@
 "SystemResponsiveness"=dword:0000000a
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters]
-;; "EnableAutoDoh"=dword:00000002
+; "EnableAutoDoh"=dword:00000002
 "MaxCacheTtl"=dword:00000001
 "MaxNegativeCacheTtl"=dword:00000000
 
-;; debloat services
+; debloat services
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\AJRouter]
 "Start"=dword:00000003
 
@@ -123,7 +125,7 @@
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DPS]
 "Start"=dword:00000003
 
-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "Start"=dword:00000003
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\FontCache]
@@ -289,7 +291,7 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\swprv]
 "Start"=dword:00000003
 
-;;------;;
+;------;
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BcastDVRUserService]
 "Start"=dword:00000003
 
@@ -422,89 +424,89 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wercplsupport]
 "Start"=dword:00000003
 
-;; Power
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{025A5937-A6BE-4686-A844-36FE4BEC8B6D}]
-;; "PreferredPlan"="8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
+; Power
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{025A5937-A6BE-4686-A844-36FE4BEC8B6D}]
+; "PreferredPlan"="8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 
-;; power - resetting
+; power - resetting
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\893dee8e-2bef-41e0-89c6-b55d0929964c]
 "ValueMin"=dword:00000000
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\bc5038f7-23e0-4960-96da-33abaf5935ec]
 "ValueMin"=dword:00000000
 
-;; context menu
-;; [HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
-;; [HKEY_CLASSES_ROOT\*\shell\runas]
+; context menu
+; [HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
+; [HKEY_CLASSES_ROOT\*\shell\runas]
 
-;; Locale
-;; [HKEY_CURRENT_USER\Control Panel\International]
-;; "Locale"="00000409"
-;; "LocaleName"="en-US"
-;; "s1159"="AM"
-;; "s2359"="PM"
-;; "sCurrency"="$"
-;; "sDate"="/"
-;; "sDecimal"="."
-;; "sGrouping"="3;0"
-;; "sLanguage"="ENU"
-;; "sList"=","
-;; "sLongDate"="dddd, MMMM d, yyyy"
-;; "sMonDecimalSep"="."
-;; "sMonGrouping"="3;0"
-;; "sMonThousandSep"=","
-;; "sNativeDigits"="0123456789"
-;; "sNegativeSign"="-"
-;; "sPositiveSign"=""
-;; "sShortDate"="M/d/yyyy"
-;; "sThousand"=","
-;; "sTime"=":"
-;; "sTimeFormat"="h:mm:ss tt"
-;; "sShortTime"="h:mm tt"
-;; "sYearMonth"="MMMM yyyy"
-;; "iCalendarType"="1"
-;; "iCountry"="1"
-;; "iCurrDigits"="2"
-;; "iCurrency"="0"
-;; "iDate"="0"
-;; "iDigits"="2"
-;; "NumShape"="1"
-;; "iFirstDayOfWeek"="6"
-;; "iFirstWeekOfYear"="0"
-;; "iLZero"="1"
-;; "iMeasure"="1"
-;; "iNegCurr"="0"
-;; "iNegNumber"="1"
-;; "iPaperSize"="1"
-;; "iTime"="0"
-;; "iTimePrefix"="0"
-;; "iTLZero"="0"
-;; 
-;; [HKEY_CURRENT_USER\Control Panel\International\Geo]
-;; "Nation"="244"
-;; "Name"="US"
+; Locale
+; [HKEY_CURRENT_USER\Control Panel\International]
+; "Locale"="00000409"
+; "LocaleName"="en-US"
+; "s1159"="AM"
+; "s2359"="PM"
+; "sCurrency"="$"
+; "sDate"="/"
+; "sDecimal"="."
+; "sGrouping"="3;0"
+; "sLanguage"="ENU"
+; "sList"=","
+; "sLongDate"="dddd, MMMM d, yyyy"
+; "sMonDecimalSep"="."
+; "sMonGrouping"="3;0"
+; "sMonThousandSep"=","
+; "sNativeDigits"="0123456789"
+; "sNegativeSign"="-"
+; "sPositiveSign"=""
+; "sShortDate"="M/d/yyyy"
+; "sThousand"=","
+; "sTime"=":"
+; "sTimeFormat"="h:mm:ss tt"
+; "sShortTime"="h:mm tt"
+; "sYearMonth"="MMMM yyyy"
+; "iCalendarType"="1"
+; "iCountry"="1"
+; "iCurrDigits"="2"
+; "iCurrency"="0"
+; "iDate"="0"
+; "iDigits"="2"
+; "NumShape"="1"
+; "iFirstDayOfWeek"="6"
+; "iFirstWeekOfYear"="0"
+; "iLZero"="1"
+; "iMeasure"="1"
+; "iNegCurr"="0"
+; "iNegNumber"="1"
+; "iPaperSize"="1"
+; "iTime"="0"
+; "iTimePrefix"="0"
+; "iTLZero"="0"
+; 
+; [HKEY_CURRENT_USER\Control Panel\International\Geo]
+; "Nation"="244"
+; "Name"="US"
 
-;; [HKEY_CURRENT_USER\Control Panel\International\User Profile]
-;; "Languages"=hex(7):65,00,6e,00,2d,00,55,00,53,00,00,00,00,00
-;; "ShowAutoCorrection"=dword:00000001
-;; "ShowTextPrediction"=dword:00000001
-;; "ShowCasing"=dword:00000001
-;; "ShowShiftLock"=dword:00000001
+; [HKEY_CURRENT_USER\Control Panel\International\User Profile]
+; "Languages"=hex(7):65,00,6e,00,2d,00,55,00,53,00,00,00,00,00
+; "ShowAutoCorrection"=dword:00000001
+; "ShowTextPrediction"=dword:00000001
+; "ShowCasing"=dword:00000001
+; "ShowShiftLock"=dword:00000001
 
-;; [HKEY_CURRENT_USER\Keyboard Layout\Preload]
-;; "1"="00000409"
+; [HKEY_CURRENT_USER\Keyboard Layout\Preload]
+; "1"="00000409"
 
-;; [HKEY_CURRENT_USER\Keyboard Layout\ShowToast]
-;; "Show"=dword:00000001
+; [HKEY_CURRENT_USER\Keyboard Layout\ShowToast]
+; "Show"=dword:00000001
 
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language]
-;; "InstallLanguage"="0409"
-;; "Default"="0409"
+; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language]
+; "InstallLanguage"="0409"
+; "Default"="0409"
 
-;; [HKEY_LOCAL_MACHINE\Software\Microsoft\CTF\SortOrder\Language]
-;; "00000000"="00000409"
+; [HKEY_LOCAL_MACHINE\Software\Microsoft\CTF\SortOrder\Language]
+; "00000000"="00000409"
 
-;; explorer tweaks
+; explorer tweaks
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
 [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
@@ -514,42 +516,42 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "Hidden"=dword:00000001
 "HideFileExt"=dword:00000000
 
-;; https://twitter.com/timonsku/status/1764306103720989115
+; https://twitter.com/timonsku/status/1764306103720989115
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell]
 "FolderType"="NotSpecified"
 
-;; restore recycle bin
+; restore recycle bin
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
 "{645FF040-5081-101B-9F08-00AA002F954E}"=-
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}]
 @="Recycle Bin"
 
-;; Win11 TPM
+; Win11 TPM
 [HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup]
 "AllowUpgradesWithUnsupportedTPMOrCPU"=dword:00000001
 
-;; Mouse
-;; [HKEY_CURRENT_USER\Control Panel\Mouse]
-;; "MouseSensitivity"="10"
-;; "MouseSpeed"="0"
-;; "MouseThreshold1"="0"
-;; "MouseThreshold2"="0"
-;; "MouseHoverTime"=dword:00000190
-;; "SmoothMouseXCurve"=hex:\
-;; 	00,00,00,00,00,00,00,00,\
-;; 	C0,CC,0C,00,00,00,00,00,\
-;; 	80,99,19,00,00,00,00,00,\
-;; 	40,66,26,00,00,00,00,00,\
-;; 	00,33,33,00,00,00,00,00
-;; "SmoothMouseYCurve"=hex:\
-;; 	00,00,00,00,00,00,00,00,\
-;; 	00,00,38,00,00,00,00,00,\
-;; 	00,00,70,00,00,00,00,00,\
-;; 	00,00,A8,00,00,00,00,00,\
-;; 	00,00,E0,00,00,00,00,00
+; Mouse
+; [HKEY_CURRENT_USER\Control Panel\Mouse]
+; "MouseSensitivity"="10"
+; "MouseSpeed"="0"
+; "MouseThreshold1"="0"
+; "MouseThreshold2"="0"
+; "MouseHoverTime"=dword:00000190
+; "SmoothMouseXCurve"=hex:\
+; 	00,00,00,00,00,00,00,00,\
+; 	C0,CC,0C,00,00,00,00,00,\
+; 	80,99,19,00,00,00,00,00,\
+; 	40,66,26,00,00,00,00,00,\
+; 	00,33,33,00,00,00,00,00
+; "SmoothMouseYCurve"=hex:\
+; 	00,00,00,00,00,00,00,00,\
+; 	00,00,38,00,00,00,00,00,\
+; 	00,00,70,00,00,00,00,00,\
+; 	00,00,A8,00,00,00,00,00,\
+; 	00,00,E0,00,00,00,00,00
 
-;; services
+; services
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BDESVC]
 "Start"=dword:00000002
 
@@ -610,15 +612,19 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\msiserver]
 "Start"=dword:00000002
 
-;;------;;
+;------;
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc]
 "Start"=dword:00000004
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SysMain]
 "Start"=dword:00000004
 
-;; security
+; security
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows]
+"LoadAppInit_DLLs"=dword:00000000
+"RequireSignedAppInit_DLLs"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows]
 "LoadAppInit_DLLs"=dword:00000000
 "RequireSignedAppInit_DLLs"=dword:00000001
 
@@ -629,19 +635,15 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "AllowAllTrustedApps"=dword:00000000
 "AllowDevelopmentWithoutDevLicense"=dword:00000000
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows]
-"LoadAppInit_DLLs"=dword:00000000
-"RequireSignedAppInit_DLLs"=dword:00000001
-
-;;------;;
-;; [HKEY_LOCAL_MACHINE\SYSTEM\Setup]
-;; "CmdLine"=""
-;; "OOBEInProgress"=dword:00000000
-;; "SystemSetupInProgress"=dword:00000000
-;; "RespecializeCmdLine"=""
-;; "Respecialize"=dword:00000000
-;; "SetupPhase"=dword:00000000
-;; "SetupType"=dword:00000000
+;------;
+; [HKEY_LOCAL_MACHINE\SYSTEM\Setup]
+; "CmdLine"=""
+; "OOBEInProgress"=dword:00000000
+; "SystemSetupInProgress"=dword:00000000
+; "RespecializeCmdLine"=""
+; "Respecialize"=dword:00000000
+; "SetupPhase"=dword:00000000
+; "SetupType"=dword:00000000
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
 "SubscribedContent-310093Enabled"=dword:00000000
@@ -649,12 +651,12 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement]
 "ScoobeSystemSettingEnabled"=dword:00000000
 
-;; Windows Update
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
-;; "PreventDeviceMetadataFromNetwork"=dword:00000000
+; Windows Update
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata]
+; "PreventDeviceMetadataFromNetwork"=dword:00000000
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config]
-;; "DODownloadMode"=dword:00000001
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config]
+; "DODownloadMode"=dword:00000001
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching]
 "SearchOrderConfig"=dword:00000000
@@ -662,16 +664,16 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Config]
 "VulnerableDriverBlocklistEnable"=dword:00000001
 
-;; cross-signed kernel drivers w/ secureboot
-;; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
-;; "UpgradedSystem"=dword:00000001
+; cross-signed kernel drivers w/ secureboot
+; [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
+; "UpgradedSystem"=dword:00000001
 
-;; unbreaks some games
+; unbreaks some games
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]
 "TdrLevel"=dword:00000000
 "TdrDelay"=dword:00000002
 
-;; browser updates
+; browser updates
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Update]
 "AutoUpdateCheckPeriodMinutes"=dword:00000001
 "UpdateDefault"=dword:00000001
@@ -684,30 +686,30 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Fax]
 "AutoUpdateCheckPeriodMinutes"=dword:00000001
 "UpdateDefault"=dword:00000001
 
-;; customization
+; customization
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
 "DisableLogonBackgroundImage"=-
 
-;;------;;
+;------;
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
 "ConsentPromptBehaviorAdmin"=dword:00000005
 "ConsentPromptBehaviorUser"=dword:00000003
-;; "EnableCursorSuppression"=dword:00000000
-;; "EnableLUA"=dword:00000001
-;; "shutdownwithoutlogon"=-
+; "EnableCursorSuppression"=dword:00000000
+; "EnableLUA"=dword:00000001
+; "shutdownwithoutlogon"=-
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
 "AutoAdminLogon"=-
 "AutoRestartShell"=-
 "DisableCAD"=-
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\runas\command]
-;; @="\"%1\" %*"
-;; "IsolatedCommand"="\"%1\" %*"
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\runas\command]
+; @="\"%1\" %*"
+; "IsolatedCommand"="\"%1\" %*"
 
-;; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\open\command]
-;; @="\"%1\" %*"
-;; "IsolatedCommand"="\"%1\" %*"
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\exefile\shell\open\command]
+; @="\"%1\" %*"
+; "IsolatedCommand"="\"%1\" %*"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
 "DisableRegistryTools"=-
