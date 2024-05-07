@@ -1,11 +1,40 @@
 # Attempts to repair all drives
+$drives = Get-Disk | Select-Object -ExpandProperty Number
+foreach ($drive in $drives) {
+    try {
+        mbr2gpt /allowfullos /convert /disk=$drive
+    }
+    catch {
+        Write-Warning "Error converting drive $drive`: $_"
+    }
+}
+
 $drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
 foreach ($drive in $drives) {
     try {
         Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
         cleanmgr /verylowdisk /d $drive
+        cleanmgr /sagerun:0 /d $drive
         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
-        echo mbr2gpt /allowfullos /convert /disk=$drive`:
+
+        Get-ChildItem -Path $drive`:\ -Filter "*AppxManifest.xml" -Recurse -File | ForEach-Object {
+            try {
+                Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
+            }
+            catch {
+                Write-Warning "Error registering app package: $_"
+            }
+        }
+
+        $disk = Get-PhysicalDisk | Where-Object {
+            $_.DeviceID -eq (Get-Partition -DriveLetter $drive).DiskNumber
+        }
+        if ($disk.MediaType -ne 'SSD') {
+            Optimize-Volume -DriveLetter $drive -Defrag -Verbose
+        } else {
+            Optimize-Volume -DriveLetter $drive -ReTrim -Verbose
+        }
+
         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=100%
     }
     catch {
@@ -13,22 +42,11 @@ foreach ($drive in $drives) {
     }
 }
 
-# $drives = Get-Disk | Select-Object -ExpandProperty Number
-# foreach ($drive in $drives) {
-#     try {
-#         mbr2gpt /allowfullos /convert /disk=$drive
-#     }
-#     catch {
-#         Write-Warning "Error converting drive $drive`: $_"
-#     }
-# }
-
 # Re-registers all UWP apps on Windows drive
 $appxManifestPaths = @(
     "$Env:ProgramFiles\WindowsApps",
     "$Env:WINDIR\SystemApps"
 )
-
 foreach ($path in $appxManifestPaths) {
     Get-ChildItem -Path $path -Filter "*AppxManifest.xml" -Recurse -File | ForEach-Object {
         try {
@@ -63,8 +81,10 @@ catch {
 }
 
 try {
-    bcdedit /set TESTSIGNING OFF
-    bcdedit /set NOINTEGRITYCHECKS OFF
+    bcdedit.exe /debug off
+    bcdedit.exe /set loadoptions ENABLE_INTEGRITY_CHECKS
+    bcdedit.exe /set TESTSIGNING OFF
+    bcdedit.exe /set NOINTEGRITYCHECKS OFF
     bcdedit /set hypervisorlaunchtype auto
 }
 catch {

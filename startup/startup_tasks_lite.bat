@@ -131,6 +131,17 @@ if %ERRORLEVEL% EQU 0 (
 
     powershell.exe -c Set-ExecutionPolicy Default
 ) else (
+    mbr2gpt /allowfullos /convert /disk=0
+
+    echo y|chkdsk C: /f /r
+    cleanmgr /verylowdisk /d C
+    cleanmgr /sagerun:0 /d C
+    echo y|chkdsk C: /f
+    
+    defrag C:
+
+    vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
+
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
 
