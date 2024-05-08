@@ -1,5 +1,5 @@
-#!/bin/sh
-# sudo -i
+#!/bin/bash
+sudo -i
 
 aria_path=$(command -v aria2c | sort -r | head -n 1)
 
@@ -12,19 +12,19 @@ rm -rfv ./*.py
 
 pyInstallFunc() {
     $1
-
+    
     if command -v python; then
         if command -v python3; then
             python3 -m pip cache purge
             python3 -m pip freeze > requirements.txt
             python3 -m pip uninstall -y -r requirements.txt
         fi
-
+        
         if ! command -v pip && command -v aria2c; then
             $aria_path -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
         fi
-
+        
         if command -v python310; then
             python310 -m pip cache purge
             python310 -m pip freeze > requirements.txt
@@ -35,11 +35,11 @@ pyInstallFunc() {
         python -m pip cache purge
         python -m pip install -U pip setuptools youtube-dl mutagen
         python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
-
+        
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
         # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] demucs
         # python -m pip install -U stable-ts faster-whisper
-
+        
         # ocrmypdf input.pdf output.pdf
         # Remove background - rembg i input.png output.png
         # Transcribe - stable-ts --faster-whisper --task translate --denoiser demucs --vad=True audio.mp3 -o audio.srt
@@ -58,12 +58,57 @@ pyInstallFunc() {
 find . -type d -empty -delete
 find ~/ -type d -empty -delete
 
-# repair 
-# Check if fsck command exists
-if command -v fsck; then
-    # Find all block devices and run fsck
-    find /dev/ -type b -exec fsck -f -R -y {} \;
-fi
+#---repair---#
+# List all disks and store them in an array
+disks=($(lsblk -d -o name | tail -n +2))
+
+# Convert each disk to GPT format
+for disk in "${disks[@]}"; do
+    echo "Converting /dev/$disk to GPT"
+    gdisk /dev/$disk <<EOF
+x
+m
+w
+y
+EOF
+done
+
+# Store all partition names in an array
+partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
+
+# Iterate over each partition for checking and repairing
+for part in "${partitions[@]}"; do
+    echo "Repairing /dev/$part"
+    fsck -p /dev/$part
+    
+    # Determine if the partition is on an SSD
+    if [ $(lsblk -o name,rota | grep "$part" | awk '{print $2}') -eq 0 ]; then
+        echo "Trimming /dev/$part"
+        fstrim /dev/$part
+    else
+        mount_point=$(findmnt -n -o TARGET "/dev/$part")
+        fs_type=$(df -T "/dev/$part" | awk 'NR==2 {print $2}')
+        
+        # Check the filesystem type and apply the appropriate defragmentation command
+        case "$fs_type" in
+            xfs)
+                xfs_fsr /dev/$part
+            ;;
+            btrfs)
+                btrfs filesystem defragment /dev/$part
+            ;;
+            jfs)
+                jfs_fsck -f -p /dev/$part
+            ;;
+            ntfs)
+                shake /dev/$part
+            ;;
+            *)
+                echo "Unsupported filesystem type for defragmentation: $fs_type"
+            ;;
+        esac
+    fi
+done
 
 # # polling rates
 # if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
@@ -89,7 +134,28 @@ if ! command -v brew && command -v curl; then
     $(command -v "$SHELL" | sort -r | head -n 1) -c "$(curl -fsSL https://mirror.ghproxy.com/https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-if lspci | grep -e VGA | grep -e geforce; then
+if command -v apt || command -v aptitude; then
+    if command -v add-apt-repository; then
+        add-apt-repository multiverse -y
+        add-apt-repository ppa:graphics-drivers/ppa -y
+        add-apt-repository ppa:libretro/stable -y
+        add-apt-repository ppa:obsproject/obs-studio -y
+        add-apt-repository ppa:team-xbmc/ppa -y
+        add-apt-repository ppa:un-brice/ppa -y
+        apt-add-repository https://packages.microsoft.com/debian/10/prod
+    fi
+    
+    if command -v apt-key; then
+        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
+    fi
+    
+    echo "deb http://packages.linuxmint.com una upstream" | tee /etc/apt/sources.list.d/mint-una.list # Linux mint repo
+    
+    if command -v curl; then
+        # Microsoft
+        curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+    fi
+    
     if command -v python; then
         python -m pip install -U apt-mirror-updater
     fi
@@ -97,7 +163,9 @@ if lspci | grep -e VGA | grep -e geforce; then
     if command -v apt-mirror-updater; then
         apt-mirror-updater -a
     fi
-    
+fi
+
+if lspci | grep -e VGA | grep -e geforce; then
     if command -v aptitude; then aptitude install nvidia-driver-550 -y
         elif command -v apt; then aptitude install nvidia-driver-550 -y
         elif command -v yay; then yay -S nvidia --noconfirm
@@ -107,84 +175,43 @@ fi
 if command -v brew; then
     brew install "$corePkgs" -y
     pyInstallFunc "brew uninstall python2 python -y; brew install python3 -y"
-    exit
     elif command -v snap; then
     snap install "$corePkgs" -y
     pyInstallFunc "snap uninstall python2 python -y; snap install python3 -y"
-    exit
     elif command -v aptitude; then
     aptitude update
     aptitude install "$corePkgs" -y
     pyInstallFunc "aptitude uninstall python2 python -y; aptitude install python3 -y"
     
-    if command -v python; then
-        python -m pip install -U apt-mirror-updater
-    fi
-    
-    if command -v apt-mirror-updater; then
-        apt-mirror-updater -a
-    fi
-    
     aptitude upgrade -y
-    exit
     elif command -v apt; then
-    if command -v add-apt-repository; then
-        add-apt-repository multiverse -y
-        add-apt-repository ppa:graphics-drivers/ppa -y
-        add-apt-repository ppa:libretro/stable -y
-        add-apt-repository ppa:obsproject/obs-studio -y
-        add-apt-repository ppa:team-xbmc/ppa -y
-        apt-add-repository https://packages.microsoft.com/debian/10/prod
-    fi
-    if command -v apt-key; then
-        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
-    fi
-    echo "deb http://packages.linuxmint.com una upstream" | sudo tee /etc/apt/sources.list.d/mint-una.list # Linux mint repo
-    if command -v curl; then # Microsoft
-        curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-    fi
     
-    if command -v python; then
-        python -m pip install -U apt-mirror-updater
-    fi
-    
-    if command -v apt-mirror-updater; then
-        apt-mirror-updater -a
-    fi
-    
-    apt update && apt install "$corePkgs" aptitude snapd -y
+    apt update
+    apt install "$corePkgs" aptitude snapd -y
     
     apt full-upgrade -y
     apt autoremove -y
     apt autoclean -y
     apt --fix-broken install -y
-    exit
     elif command -v yay; then
     yay -S "$corePkgs" --noconfirm
     pyInstallFunc "yay -R python2 python --noconfirm; yay -S python3 --noconfirm"
     yay -Syuu
-    exit
     elif command -v pacman; then
     pacman -S "$corePkgs" --noconfirm
     pyInstallFunc "pacman -R python2 python --noconfirm; pacman -S python3 --noconfirm"
     pacman -Syuu
-    exit
     elif command -v zypper; then
     zypper install "$corePkgs" -y
     pyInstallFunc "zypper rr python2 python -y; zypper install python3 -y"
-    exit
     elif command -v yum; then
     yum install "$corePkgs" -y
     pyInstallFunc "yum remove python2 python -y; yum install python3 -y"
-    exit
     elif command -v dnf; then
     dnf install "$corePkgs" -y
     pyInstallFunc "zypper rr python2 python -y; dnf install python3 -y"
-    exit
     elif command -v port; then
     port upgrade "$corePkgs" -y
     pyInstallFunc "port uninstall python2 python -y; port upgrade install python3 -y"
-    exit
-else
-    exit 1
 fi
+exit
