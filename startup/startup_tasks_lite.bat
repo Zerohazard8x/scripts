@@ -392,11 +392,6 @@ if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     )
-    wmic process where name="EncoderServer.exe" CALL setpriority 64
-    wmic process where name="EncoderServer64.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader.exe" CALL setpriority 64
-    wmic process where name="RTSSHooksLoader64.exe" CALL setpriority 64
-    wmic process where name="RTSS.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
@@ -404,7 +399,6 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     )
-    wmic process where name="MSIAfterburner.exe" CALL setpriority 64
 )
 
 if exist "%ProgramFiles(x86)%\steam\steam.exe" (
@@ -425,6 +419,13 @@ if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGame
     tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
+    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
     )
 )
 
