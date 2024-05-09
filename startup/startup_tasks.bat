@@ -84,6 +84,7 @@ if %ERRORLEVEL% EQU 0 (
     )
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
+    ren "%homedrive%\Python310\python.exe" "%homedrive%\Python310\python310.exe"
     WHERE python310
     if %ERRORLEVEL% EQU 0 (
         python310 -m pip cache purge
@@ -145,14 +146,14 @@ if %ERRORLEVEL% EQU 0 (
 ) else (
     mbr2gpt /allowfullos /convert /disk=0
 
-    echo y|chkdsk C: /f /r
-    cleanmgr /verylowdisk /d C
-    cleanmgr /sagerun:0 /d C
-    echo y|chkdsk C: /f
+    echo y|chkdsk %homedrive% /f /r
+    cleanmgr /verylowdisk /d %homedrive%
+    cleanmgr /sagerun:0 /d %homedrive%
+    echo y|chkdsk %homedrive% /f
     
-    defrag C:
+    defrag %homedrive%
 
-    vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=100%
+    vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=100%
 
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
