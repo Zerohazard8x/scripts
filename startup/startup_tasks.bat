@@ -444,6 +444,13 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
     )
 )
 
+if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
+    tasklist /FI "IMAGENAME eq SteelSeriesGG.exe" 2>NUL | find /I /N "SteelSeriesGG.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
+    )
+)
+
 cls 
 choice /C YN /N /M "Open folder script was ran from? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOFOLDER
