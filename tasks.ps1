@@ -17,7 +17,7 @@ foreach ($drive in $drives) {
         cleanmgr /sagerun:0 /d $drive
         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
 
-        Get-ChildItem -Path $drive`:\ -Filter "*AppxManifest.xml" -Recurse -File | ForEach-Object {
+        Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
             try {
                 Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
             }
@@ -48,7 +48,7 @@ $appxManifestPaths = @(
     "$Env:WINDIR\SystemApps"
 )
 foreach ($path in $appxManifestPaths) {
-    Get-ChildItem -Path $path -Filter "*AppxManifest.xml" -Recurse -File | ForEach-Object {
+    Get-ChildItem -Path $path -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
         try {
             Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
         }
