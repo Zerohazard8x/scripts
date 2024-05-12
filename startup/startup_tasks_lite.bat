@@ -20,7 +20,7 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 cls 
-choice /C YN /N /D Y /T 5 /M "Wallpapers? (Y/N)"
+choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOWALL
 
 WHERE aria2c
@@ -64,7 +64,7 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOWALL
 cls 
-choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
+choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPYTHON
 
 WHERE choco
@@ -88,17 +88,17 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPYTHON
 cls
-choice /C YN /N /D Y /T 5 /M "Chocolatey? (Y/N)"
+choice /C YN /N /D Y /T 15 /M "Chocolatey? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOCHOCO
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs smplayer vlc -y
+    choco upgrade chocolatey aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs vlc -y
 )
 
 :NOCHOCO
 cls 
-choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
+choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
@@ -158,7 +158,7 @@ netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 cls 
-choice /C YN /N /D N /T 5 /M "Stop services? (Y/N)"
+choice /C YN /N /D N /T 15 /M "Stop services? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOSVC
 
 @REM Stopping

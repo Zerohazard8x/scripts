@@ -17,14 +17,14 @@ foreach ($drive in $drives) {
         cleanmgr /sagerun:0 /d $drive
         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
 
-        Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
-            try {
-                Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
-            }
-            catch {
-                Write-Warning "Error registering app package: $_"
-            }
-        }
+        # Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
+        #     try {
+        #         Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
+        #     }
+        #     catch {
+        #         Write-Warning "Error registering app package: $_"
+        #     }
+        # }
 
         $disk = Get-PhysicalDisk | Where-Object {
             $_.DeviceID -eq (Get-Partition -DriveLetter $drive).DiskNumber
@@ -42,22 +42,23 @@ foreach ($drive in $drives) {
     }
 }
 
-# Re-registers all UWP apps on Windows drive
-$appxManifestPaths = @(
-    "$Env:ProgramFiles\WindowsApps",
-    "$Env:WINDIR\SystemApps"
-)
-foreach ($path in $appxManifestPaths) {
-    Get-ChildItem -Path $path -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
-        try {
-            Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
-        }
-        catch {
-            Write-Warning "Error registering app package: $_"
-        }
-    }
-}
+# # Re-registers all UWP apps on Windows drive
+# $appxManifestPaths = @(
+#     "$Env:ProgramFiles\WindowsApps",
+#     "$Env:WINDIR\SystemApps"
+# )
+# foreach ($path in $appxManifestPaths) {
+#     Get-ChildItem -Path $path -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
+#         try {
+#             Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
+#         }
+#         catch {
+#             Write-Warning "Error registering app package: $_"
+#         }
+#     }
+# }
 
+# Update UWP apps??
 # Use the CIM cmdlets instead of the WMI cmdlets
 # Use splatting to pass the parameters
 $params = @{
