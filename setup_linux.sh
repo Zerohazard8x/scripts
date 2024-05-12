@@ -37,13 +37,14 @@ pyInstallFunc() {
         python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
         
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
-        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] demucs
+        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] demucs ffsubsync
         # python -m pip install -U stable-ts faster-whisper
         
         # ocrmypdf input.pdf output.pdf
         # Remove background - rembg i input.png output.png
         # Transcribe - stable-ts --faster-whisper --task translate --denoiser demucs --vad=True audio.mp3 -o audio.srt
         # Remove background - demucs --two-stems=vocals input.mp3 output.mp3 # --two-stems=drums, --two-stems=bass
+        # Synchronize subtitles - ffsubsync - ffs video.mp4 -i unsynchronized.srt -o synchronized.srt
     fi
 }
 
