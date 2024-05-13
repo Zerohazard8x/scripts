@@ -58,20 +58,18 @@ foreach ($drive in $drives) {
 #     }
 # }
 
-# Update UWP apps??
-# Use the CIM cmdlets instead of the WMI cmdlets
-# Use splatting to pass the parameters
-$params = @{
-    Namespace = "root\cimv2\mdm\dmmap"
-    ClassName = "MDM_EnterpriseModernAppManagement_AppManagement01"
-}
-try {
-    $cimObj = Get-CimInstance @params -ErrorAction Stop
-    Invoke-CimMethod -InputObject $cimObj -MethodName UpdateScanMethod
-}
-catch {
-    Write-Warning "Error invoking CIM method: $_"
-}
+# # Update UWP apps??
+# $params = @{
+#     Namespace = "root\cimv2\mdm\dmmap"
+#     ClassName = "MDM_EnterpriseModernAppManagement_AppManagement01"
+# }
+# try {
+#     $cimObj = Get-CimInstance @params -ErrorAction Stop
+#     Invoke-CimMethod -InputObject $cimObj -MethodName UpdateScanMethod
+# }
+# catch {
+#     Write-Warning "Error invoking CIM method: $_"
+# }
 
 try {
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
