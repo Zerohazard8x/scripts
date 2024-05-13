@@ -259,6 +259,7 @@ net stop "WdNisSvc" /y
 net stop "WindscribeService" /y
 net stop "WlanSvc" /y
 net stop "audiosrv" /y
+net stop "bits" /y
 net stop "hidusbf" /y
 net stop "iphlpsvc" /y
 net stop "msiserver" /y
@@ -266,6 +267,7 @@ net stop "ndu" /y
 net stop "p2pimsvc" /y
 net stop "p2psvc" /y
 net stop "wscsvc" /y
+net stop "wuauserv" /y
 
 :NOSVC
 sc config "AMD Crash Defender Service" start=demand
@@ -352,6 +354,7 @@ sc config "WdNisSvc" start=auto
 sc config "WindscribeService" start=auto
 sc config "WlanSvc" start=auto
 sc config "audiosrv" start=auto
+sc config "bits" start=auto
 sc config "hidusbf" start=auto
 sc config "iphlpsvc" start=auto
 sc config "msiserver" start=auto
@@ -359,6 +362,7 @@ sc config "ndu" start=auto
 sc config "p2pimsvc" start=auto
 sc config "p2psvc" start=auto
 sc config "wscsvc" start=auto
+sc config "wuauserv" start=auto
 
 sc config "vgk" start=system
 
@@ -384,6 +388,7 @@ net start "WdNisSvc"
 net start "WindscribeService"
 net start "WlanSvc"
 net start "audiosrv"
+net start "bits"
 net start "hidusbf"
 net start "iphlpsvc"
 net start "msiserver"
@@ -391,7 +396,7 @@ net start "ndu"
 net start "p2pimsvc"
 net start "p2psvc"
 net start "wscsvc"
-
+net start "wuauserv"
 net start "vgk"
 
 net stop "SysMain" /y
