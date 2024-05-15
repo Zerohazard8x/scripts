@@ -180,7 +180,10 @@ if %ERRORLEVEL% equ 2 goto NOSVC
 net stop "AMD Crash Defender Service" /y
 net stop "AMD External Events Utility" /y
 net stop "AdobeARMservice" /y
+net stop "AdskLicensingService" /y
 net stop "Apple Mobile Device Service" /y
+net stop "Autodesk Access Service Host" /y
+net stop "Autodesk CER Service" /y
 net stop "Bonjour Service" /y
 net stop "BraveElevationService" /y
 net stop "BraveVpnService" /y
@@ -209,7 +212,7 @@ net stop "NIDomainService" /y
 net stop "NINetworkDiscovery" /y
 net stop "NiSvcLoc" /y
 net stop "OverwolfUpdater" /y
-net stop "PSService" /y
+net stop "PSSvc" /y
 net stop "Parsec" /y
 net stop "RstMwService" /y
 net stop "Steam Client Service" /y
@@ -273,7 +276,10 @@ net stop "wuauserv" /y
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "AdobeARMservice" start=demand
+sc config "AdskLicensingService" start=demand
 sc config "Apple Mobile Device Service" start=demand
+sc config "Autodesk Access Service Host" start=demand
+sc config "Autodesk CER Service" start=demand
 sc config "Bonjour Service" start=demand
 sc config "BraveElevationService" start=demand
 sc config "BraveVpnService" start=demand
@@ -302,7 +308,7 @@ sc config "NIDomainService" start=demand
 sc config "NINetworkDiscovery" start=demand
 sc config "NiSvcLoc" start=demand
 sc config "OverwolfUpdater" start=demand
-sc config "PSService" start=demand
+sc config "PSSvc" start=demand
 sc config "Parsec" start=demand
 sc config "RstMwService" start=demand
 sc config "Steam Client Service" start=demand
