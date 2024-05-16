@@ -1,3 +1,6 @@
+# network
+Get-NetAdapter | set-DnsClientServerAddress -ServerAddresses ('208.67.222.222','208.67.220.220')
+
 # Attempts to repair all drives
 $drives = Get-Disk | Select-Object -ExpandProperty Number
 foreach ($drive in $drives) {
