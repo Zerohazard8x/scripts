@@ -5,7 +5,7 @@ ping 127.0.0.1 -n 2 > nul
 
 del /s /q /f .\*.aria2
 del /s /q /f .\*.py
-del /s /q /f .\*.reg
+@REM del /s /q /f .\*.reg
 
 @REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 @REM powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c

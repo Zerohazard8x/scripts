@@ -4,7 +4,7 @@ ping 127.0.0.1 -n 2 > nul
 
 del /s /q /f .\*.aria2
 del /s /q /f .\*.py
-del /s /q /f .\*.reg
+@REM del /s /q /f .\*.reg
 
 @REM registry
 WHERE reg
