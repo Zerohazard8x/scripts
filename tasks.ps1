@@ -3,17 +3,17 @@ Add-DnsClientDohServerAddress -ServerAddress 208.67.222.222 -DohTemplate https:/
 Add-DnsClientDohServerAddress -ServerAddress 208.67.220.220 -DohTemplate https://doh.opendns.com/dns-query -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 208.67.220.220 -DohTemplate https://doh.opendns.com/dns-query -AutoUpgrade $False
 
-$adapters = Get-NetAdapter | Where-Object { $_.Status -eq "Up" }
+$adapters = Get-NetAdapter
 foreach ($adapter in $adapters) {
     $alias = $adapter.InterfaceAlias
 
-    
-
+    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2620:119:35::35", "2620:119:53::534")
     Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('208.67.222.222','208.67.220.220')
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ResetServerAddresses
 
     # set to obtain an IP address automatically (DHCP)
     # Set-NetIPInterface -InterfaceAlias $alias -Dhcp Enabled
+    # Set-NetIPInterface -InterfaceAlias $alias -AddressFamily IPv6 -Dhcp Enabled
 
     # Restart the network adapter to apply changes
     # Restart-NetAdapter -InterfaceAlias $alias
