@@ -138,7 +138,7 @@ if %ERRORLEVEL% EQU 0 (
     
     defrag %homedrive%
 
-    vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=100%
+    vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=3%
 
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow

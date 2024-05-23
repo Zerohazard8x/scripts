@@ -56,7 +56,7 @@ foreach ($drive in $drives) {
             Optimize-Volume -DriveLetter $drive -ReTrim -Verbose
         }
 
-        vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=100%
+        vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
     }
     catch {
         Write-Warning "Error repairing drive $drive`: $_"
