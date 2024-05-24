@@ -1,7 +1,7 @@
 # network
 Add-DnsClientDohServerAddress -ServerAddress 208.67.222.222 -DohTemplate https://doh.opendns.com/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 208.67.220.220 -DohTemplate https://doh.opendns.com/dns-query -AutoUpgrade $True
-# Add-DnsClientDohServerAddress -ServerAddress 208.67.220.220 -DohTemplate https://doh.opendns.com/dns-query -AutoUpgrade $False
+# Remove-DnsClientDohServerAddress -ServerAddress 208.67.222.222,208.67.220.220
 
 $adapters = Get-NetAdapter
 foreach ($adapter in $adapters) {
