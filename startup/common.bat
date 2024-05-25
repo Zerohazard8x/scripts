@@ -10,14 +10,14 @@ if %ERRORLEVEL% EQU 0 (
     
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://ghproxy.net/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
 
         del /s /q /f .\wifi-pass.zip
     del /s /q /f .\wifi-main\
 
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://ghproxy.net/https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
+            aria2c -x16 -s32 -R --allow-overwrite=true https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
             
             @REM -aoa skips overwrite prompt
             7z x wifi-pass.zip -aoa -o.

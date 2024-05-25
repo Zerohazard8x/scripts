@@ -16,7 +16,7 @@ if %ERRORLEVEL% EQU 0 (
 
     WHERE aria2c
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://ghproxy.net/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     )
 
     reg import .\tweaks.reg
@@ -42,7 +42,7 @@ del /s /q /f .\wallpapers.sh
 
 WHERE aria2c
 if %ERRORLEVEL% EQU 0 (
-    aria2c -x16 -s32 -R --allow-overwrite=true https://ghproxy.net/https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
+    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
 )
 
 start "" wallpapers.sh
@@ -68,7 +68,7 @@ if %ERRORLEVEL% EQU 0 (
 
     python -m pip cache purge
     python -m pip install -U pip setuptools youtube-dl mutagen
-    python -m pip install -U https://ghproxy.net/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
         python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
