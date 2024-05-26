@@ -348,10 +348,13 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 @REM     )
 @REM )
 
-if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
-    tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
+if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
+    tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
     if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
+        tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
+        if "%ERRORLEVEL%"=="1" (
+            start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+        )
     )
 )
 
