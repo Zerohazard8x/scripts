@@ -46,6 +46,7 @@ if %ERRORLEVEL% equ 2 goto NOWALL
 del /s /q /f .\wallpapers.sh
 
 WHERE curl
+if %ERRORLEVEL% EQU 0 (
     mkdir %USERPROFILE%\default_wall
     rm -rfv %USERPROFILE%\default_wall\*.aria2
 
