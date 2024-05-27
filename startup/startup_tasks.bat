@@ -49,39 +49,39 @@ WHERE curl
     mkdir %USERPROFILE%\default_wall
     rm -rfv %USERPROFILE%\default_wall\*.aria2
 
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?hd-wallpapers" -o daily.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?artificial,hd-wallpapers" -o daily_artificial.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cloudy,hd-wallpapers" -o daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cozy,hd-wallpapers" -o daily_cozy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?drawing,hd-wallpapers" -o daily_drawing.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?dry,hd-wallpapers" -o daily_dry.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?fall,hd-wallpapers" -o daily_fall.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?rainy,hd-wallpapers" -o daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?render,hd-wallpapers" -o daily_render.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?spring,hd-wallpapers" -o daily_spring.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?stormy,hd-wallpapers" -o daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?summer,hd-wallpapers" -o daily_summer.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?sunny,hd-wallpapers" -o daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?wet,hd-wallpapers" -o daily_wet.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?windy,hd-wallpapers" -o daily_windy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?winter,hd-wallpapers" -o daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?hd-wallpapers" -o %USERPROFILE%\default_wall\daily.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?artificial,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cloudy,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cozy,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?drawing,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?dry,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?fall,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?rainy,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?render,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?spring,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?stormy,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?summer,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?sunny,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?wet,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?windy,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?winter,hd-wallpapers" -o %USERPROFILE%\default_wall\daily_winter.jpg
 
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?artificial,hd-wallpapers" -o artificial.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?hd-wallpapers" -o weekly.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cloudy,hd-wallpapers" -o winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cozy,hd-wallpapers" -o cozy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?drawing,hd-wallpapers" -o drawing.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?dry,hd-wallpapers" -o dry.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?fall,hd-wallpapers" -o fall.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?rainy,hd-wallpapers" -o winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?render,hd-wallpapers" -o render.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?spring,hd-wallpapers" -o spring.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?stormy,hd-wallpapers" -o winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?summer,hd-wallpapers" -o summer.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?sunny,hd-wallpapers" -o winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?wet,hd-wallpapers" -o wet.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?windy,hd-wallpapers" -o windy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?winter,hd-wallpapers" -o winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?artificial,hd-wallpapers" -o %USERPROFILE%\default_wall\artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?hd-wallpapers" -o %USERPROFILE%\default_wall\weekly.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cloudy,hd-wallpapers" -o %USERPROFILE%\default_wall\winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cozy,hd-wallpapers" -o %USERPROFILE%\default_wall\cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?drawing,hd-wallpapers" -o %USERPROFILE%\default_wall\drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?dry,hd-wallpapers" -o %USERPROFILE%\default_wall\dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?fall,hd-wallpapers" -o %USERPROFILE%\default_wall\fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?rainy,hd-wallpapers" -o %USERPROFILE%\default_wall\winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?render,hd-wallpapers" -o %USERPROFILE%\default_wall\render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?spring,hd-wallpapers" -o %USERPROFILE%\default_wall\spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?stormy,hd-wallpapers" -o %USERPROFILE%\default_wall\winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?summer,hd-wallpapers" -o %USERPROFILE%\default_wall\summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?sunny,hd-wallpapers" -o %USERPROFILE%\default_wall\winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?wet,hd-wallpapers" -o %USERPROFILE%\default_wall\wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?windy,hd-wallpapers" -o %USERPROFILE%\default_wall\windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?winter,hd-wallpapers" -o %USERPROFILE%\default_wall\winter.jpg
 
     @REM phone - 1644x3840
 )
@@ -145,3 +145,4 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPROGRAMS
 start "" common.bat
+exit

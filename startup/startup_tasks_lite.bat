@@ -103,3 +103,4 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPROGRAMS
 start "" common.bat
+exit
