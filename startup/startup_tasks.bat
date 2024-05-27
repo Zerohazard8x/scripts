@@ -48,7 +48,7 @@ del /s /q /f .\wallpapers.sh
 WHERE curl
 if %ERRORLEVEL% EQU 0 (
     mkdir %USERPROFILE%\default_wall
-    rm -rfv %USERPROFILE%\default_wall\*.aria2
+    del /s /q /f %USERPROFILE%\default_wall\*.aria2
 
     curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily.jpg
     curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?artificial,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_artificial.jpg
