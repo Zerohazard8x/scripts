@@ -98,7 +98,7 @@ if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
 WHERE choco
 if %ERRORLEVEL% EQU 0 (
-    choco upgrade chocolatey aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs vlc -y
+    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
 )
 
 :NOPROGRAMS

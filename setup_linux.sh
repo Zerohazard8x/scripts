@@ -3,8 +3,8 @@ sudo -i
 
 aria_path=$(command -v aria2c | sort -r | head -n 1)
 
-corePkgs="aria2 dos2unix firefox ffmpeg git jq mpv nano nomacs peazip powershell phantomjs vlc"
-# plusPkgs="7zip adb discord libreoffice obs-studio pinta qbittorrent steam vscode"
+corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
+# plusPkgs="7zip aria2c adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode"
 # otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer tesseract tor-browser unison vscodium wezterm"
 
 rm -rfv ./*.aria2
