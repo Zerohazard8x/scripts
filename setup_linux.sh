@@ -4,7 +4,7 @@ sudo -i
 aria_path=$(command -v aria2c | sort -r | head -n 1)
 
 corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
-# plusPkgs="7zip aria2c adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode"
+# plusPkgs="7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode"
 # otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer tesseract tor-browser unison vscodium wezterm"
 
 rm -rfv ./*.aria2
@@ -30,7 +30,7 @@ pyInstallFunc() {
             python310 -m pip freeze > requirements.txt
             python310 -m pip uninstall -y -r requirements.txt
             # python310 -m pip install -U pip
-        fi
+        fiy
         
         python -m pip cache purge
         python -m pip install -U pip setuptools youtube-dl mutagen

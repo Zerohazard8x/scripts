@@ -6,15 +6,15 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    @REM Assign %~dp0 to a variable
-    set "scriptPath=%~dp0"
+    @REM Assign to variable
+    set "scriptPath=%cd%"
     powershell.exe -c Set-ExecutionPolicy Bypass
 
     del /s /q /f .\tasks.ps1
     del /s /q /f %USERPROFILE%\Downloads\wifi-pass.zip
     del /s /q /f %USERPROFILE%\Downloads\wifi-main\
     del /s /q /f .\wifi-pass.zip
-        del /s /q /f .\wifi-main\
+    del /s /q /f .\wifi-main\
     
     WHERE curl
     if %ERRORLEVEL% EQU 0 (
