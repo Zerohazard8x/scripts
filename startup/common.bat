@@ -12,7 +12,7 @@ if %ERRORLEVEL% EQU 0 (
     del /s /q /f %USERPROFILE%\Downloads\wifi-pass.zip
     del /s /q /f %USERPROFILE%\Downloads\wifi-main\
     del /s /q /f .\wifi-pass.zip
-    del /s /q /f .\wifi-main\
+        del /s /q /f .\wifi-main\
     
     WHERE curl
     if %ERRORLEVEL% EQU 0 (
@@ -20,7 +20,7 @@ if %ERRORLEVEL% EQU 0 (
 
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
-            curl --remote-time https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o %USERPROFILE%\Downloads\wifi-pass.zip
+            curl --remote-time https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -Lo %USERPROFILE%\Downloads\wifi-pass.zip
             
             @REM -aoa skips overwrite prompt
             7z x %USERPROFILE%\Downloads\wifi-pass.zip -aoa -o%USERPROFILE%\Downloads\

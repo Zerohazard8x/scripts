@@ -32,39 +32,39 @@ WHERE curl
 if %ERRORLEVEL% EQU 0 (
     mkdir .\lite
     del /s /q /f .\lite\*.aria2
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily" -o lite/daily.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -o default/daily_artificial.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?cloudy,hd-wallpapers" -o lite/daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?cozy,hd-wallpapers" -o lite/daily_cozy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?drawing,hd-wallpapers" -o lite/daily_drawing.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?dry,hd-wallpapers" -o lite/daily_dry.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?fall,hd-wallpapers" -o lite/daily_fall.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?rainy,hd-wallpapers" -o lite/daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?render,hd-wallpapers" -o lite/daily_render.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?spring,hd-wallpapers" -o lite/daily_spring.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?stormy,hd-wallpapers" -o lite/daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?summer,hd-wallpapers" -o lite/daily_summer.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?sunny,hd-wallpapers" -o lite/daily_winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?wet,hd-wallpapers" -o lite/daily_wet.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?windy,hd-wallpapers" -o lite/daily_windy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?winter,hd-wallpapers" -o lite/daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily" -Lo lite/daily.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -Lo default/daily_artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?cloudy,hd-wallpapers" -Lo lite/daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?cozy,hd-wallpapers" -Lo lite/daily_cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?drawing,hd-wallpapers" -Lo lite/daily_drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?dry,hd-wallpapers" -Lo lite/daily_dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?fall,hd-wallpapers" -Lo lite/daily_fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?rainy,hd-wallpapers" -Lo lite/daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?render,hd-wallpapers" -Lo lite/daily_render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?spring,hd-wallpapers" -Lo lite/daily_spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?stormy,hd-wallpapers" -Lo lite/daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?summer,hd-wallpapers" -Lo lite/daily_summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?sunny,hd-wallpapers" -Lo lite/daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?wet,hd-wallpapers" -Lo lite/daily_wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?windy,hd-wallpapers" -Lo lite/daily_windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?winter,hd-wallpapers" -Lo lite/daily_winter.jpg
 
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly,hd-wallpapers" -o lite/weekly.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -o default/daily_artificial.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?cloudy,hd-wallpapers" -o lite/winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?cozy,hd-wallpapers" -o lite/cozy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?drawing,hd-wallpapers" -o lite/drawing.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?dry,hd-wallpapers" -o lite/dry.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?fall,hd-wallpapers" -o lite/fall.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?rainy,hd-wallpapers" -o lite/winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?render,hd-wallpapers" -o lite/render.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?spring,hd-wallpapers" -o lite/spring.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?stormy,hd-wallpapers" -o lite/winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?summer,hd-wallpapers" -o lite/summer.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?sunny,hd-wallpapers" -o lite/winter.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?wet,hd-wallpapers" -o lite/wet.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?windy,hd-wallpapers" -o lite/windy.jpg
-    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?winter,hd-wallpapers" -o lite/winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly,hd-wallpapers" -Lo lite/weekly.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/daily?artificial,hd-wallpapers" -Lo default/daily_artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?cloudy,hd-wallpapers" -Lo lite/winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?cozy,hd-wallpapers" -Lo lite/cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?drawing,hd-wallpapers" -Lo lite/drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?dry,hd-wallpapers" -Lo lite/dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?fall,hd-wallpapers" -Lo lite/fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?rainy,hd-wallpapers" -Lo lite/winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?render,hd-wallpapers" -Lo lite/render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?spring,hd-wallpapers" -Lo lite/spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?stormy,hd-wallpapers" -Lo lite/winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?summer,hd-wallpapers" -Lo lite/summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?sunny,hd-wallpapers" -Lo lite/winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?wet,hd-wallpapers" -Lo lite/wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?windy,hd-wallpapers" -Lo lite/windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/1920x1080/weekly?winter,hd-wallpapers" -Lo lite/winter.jpg
 )
 
 :NOWALL
