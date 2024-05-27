@@ -6,28 +6,44 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
-    del /s /q /f .\tasks.ps1
-    
-    WHERE aria2c
-    if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+    powershell.exe -c Set-ExecutionPolicy Bypass
 
-        del /s /q /f .\wifi-pass.zip
+    del /s /q /f .\tasks.ps1
+    del /s /q /f %USERPROFILE%\Downloads\wifi-pass.zip
+    del /s /q /f %USERPROFILE%\Downloads\wifi-main\
+    del /s /q /f .\wifi-pass.zip
     del /s /q /f .\wifi-main\
+    
+    WHERE curl
+    if %ERRORLEVEL% EQU 0 (
+        curl --remote-time -O https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
 
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
+            curl --remote-time https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o %USERPROFILE%\Downloads\wifi-pass.zip
             
             @REM -aoa skips overwrite prompt
-            7z x wifi-pass.zip -aoa -o.
+            7z x %USERPROFILE%\Downloads\wifi-pass.zip -aoa -o%USERPROFILE%\Downloads\
         )
+
+        powershell.exe %USERPROFILE%\Downloads\wifi-main\import.ps1
+    ) else (
+        WHERE aria2c
+        if %ERRORLEVEL% EQU 0 (
+            aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+
+            WHERE 7z
+            if %ERRORLEVEL% EQU 0 (
+                aria2c -x16 -s32 -R --allow-overwrite=true https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -o wifi-pass.zip
+                
+                7z x wifi-pass.zip -aoa -o.
+            )
+        )
+
+        powershell.exe .\import.ps1
     )
 
-    powershell.exe -c Set-ExecutionPolicy Bypass
-
     powershell.exe .\tasks.ps1
-    powershell.exe .\import.ps1
     powershell.exe .\import_private.ps1
 
     powershell.exe -c Set-ExecutionPolicy Default

@@ -14,10 +14,15 @@ WHERE reg
 if %ERRORLEVEL% EQU 0 (
     del /s /q /f .\tweaks.reg
 
-    WHERE aria2c
+    WHERE curl
     if %ERRORLEVEL% EQU 0 (
-        aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-    )
+        curl --remote-time -O https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+    ) else (
+        WHERE aria2c
+        if %ERRORLEVEL% EQU 0 (
+            aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        )
+    )    
 
     reg import .\tweaks.reg
 )
@@ -40,9 +45,45 @@ if %ERRORLEVEL% equ 2 goto NOWALL
 
 del /s /q /f .\wallpapers.sh
 
-WHERE aria2c
-if %ERRORLEVEL% EQU 0 (
-    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/wallpapers.sh
+WHERE curl
+    mkdir %USERPROFILE%\default_wall
+    rm -rfv %USERPROFILE%\default_wall\*.aria2
+
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?hd-wallpapers" -o daily.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?artificial,hd-wallpapers" -o daily_artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cloudy,hd-wallpapers" -o daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?cozy,hd-wallpapers" -o daily_cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?drawing,hd-wallpapers" -o daily_drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?dry,hd-wallpapers" -o daily_dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?fall,hd-wallpapers" -o daily_fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?rainy,hd-wallpapers" -o daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?render,hd-wallpapers" -o daily_render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?spring,hd-wallpapers" -o daily_spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?stormy,hd-wallpapers" -o daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?summer,hd-wallpapers" -o daily_summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?sunny,hd-wallpapers" -o daily_winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?wet,hd-wallpapers" -o daily_wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?windy,hd-wallpapers" -o daily_windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/daily?winter,hd-wallpapers" -o daily_winter.jpg
+
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?artificial,hd-wallpapers" -o artificial.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?hd-wallpapers" -o weekly.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cloudy,hd-wallpapers" -o winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?cozy,hd-wallpapers" -o cozy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?drawing,hd-wallpapers" -o drawing.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?dry,hd-wallpapers" -o dry.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?fall,hd-wallpapers" -o fall.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?rainy,hd-wallpapers" -o winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?render,hd-wallpapers" -o render.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?spring,hd-wallpapers" -o spring.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?stormy,hd-wallpapers" -o winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?summer,hd-wallpapers" -o summer.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?sunny,hd-wallpapers" -o winter.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?wet,hd-wallpapers" -o wet.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?windy,hd-wallpapers" -o windy.jpg
+    curl --remote-time "https://source.unsplash.com/featured/7680x2160/weekly?winter,hd-wallpapers" -o winter.jpg
+
+    @REM phone - 1644x3840
 )
 
 start "" wallpapers.sh
