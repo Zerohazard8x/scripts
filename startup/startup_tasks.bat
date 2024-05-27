@@ -87,8 +87,6 @@ if %ERRORLEVEL% EQU 0 (
     @REM phone - 1644x3840
 )
 
-start "" wallpapers.sh
-
 :NOWALL
 cls 
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
