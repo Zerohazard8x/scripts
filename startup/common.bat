@@ -6,6 +6,8 @@ if %ERRORLEVEL% equ 2 goto NOPSHELL
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
+    @REM Assign %~dp0 to a variable
+    set "scriptPath=%~dp0"
     powershell.exe -c Set-ExecutionPolicy Bypass
 
     del /s /q /f .\tasks.ps1
@@ -26,7 +28,8 @@ if %ERRORLEVEL% EQU 0 (
             7z x %USERPROFILE%\Downloads\wifi-pass.zip -aoa -o%USERPROFILE%\Downloads\
         )
 
-        powershell.exe %USERPROFILE%\Downloads\wifi-main\import.ps1
+        cd %USERPROFILE%\Downloads\wifi-main\
+        powershell.exe .\import.ps1
     ) else (
         WHERE aria2c
         if %ERRORLEVEL% EQU 0 (
@@ -40,8 +43,11 @@ if %ERRORLEVEL% EQU 0 (
             )
         )
 
+        cd wifi-main
         powershell.exe .\import.ps1
     )
+
+    cd /d "%scriptPath%"
 
     powershell.exe .\tasks.ps1
     powershell.exe .\import_private.ps1
