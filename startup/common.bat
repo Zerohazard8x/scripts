@@ -29,7 +29,11 @@ if %ERRORLEVEL% EQU 0 (
         )
 
         cd %USERPROFILE%\Downloads\wifi-main\
+
+        curl --remote-time -LO https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+
         powershell.exe .\import.ps1
+        powershell.exe .\tasks.ps1
     ) else (
         WHERE aria2c
         if %ERRORLEVEL% EQU 0 (
@@ -45,11 +49,11 @@ if %ERRORLEVEL% EQU 0 (
 
         cd wifi-main
         powershell.exe .\import.ps1
+        powershell.exe .\tasks.ps1
     )
 
     cd /d "%scriptPath%"
 
-    powershell.exe .\tasks.ps1
     powershell.exe .\import_private.ps1
 
     powershell.exe -c Set-ExecutionPolicy Default
