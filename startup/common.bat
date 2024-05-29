@@ -52,7 +52,7 @@ if %ERRORLEVEL% EQU 0 (
         powershell.exe .\tasks.ps1
     )
 
-    cd /d "%scriptPath%"
+    cd "%scriptPath%"
 
     powershell.exe .\import_private.ps1
 
