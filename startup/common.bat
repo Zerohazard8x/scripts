@@ -84,107 +84,7 @@ if %ERRORLEVEL% EQU 0 (
 netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
-cls 
-choice /C YN /N /D N /T 15 /M "Stop services? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOSVC
 
-@REM Stopping
-net stop "AMD Crash Defender Service" /y
-net stop "AMD External Events Utility" /y
-net stop "AdobeARMservice" /y
-net stop "AdskLicensingService" /y
-net stop "Apple Mobile Device Service" /y
-net stop "Autodesk Access Service Host" /y
-net stop "Autodesk CER Service" /y
-net stop "Bonjour Service" /y
-net stop "BraveElevationService" /y
-net stop "BraveVpnService" /y
-net stop "CIJSRegister" /y
-net stop "CdRomArbiterService" /y
-net stop "ClickToRunSvc" /y
-net stop "CxAudMsg" /y
-net stop "DtsApo4Service" /y
-net stop "EpicOnlineServices" /y
-net stop "Intel(R) TPM Provisioning Service" /y
-net stop "KNDBWM" /y
-net stop "Killer Analytics Service" /y
-net stop "Killer Network Service" /y
-net stop "Killer Wifi Optimization Service" /y
-net stop "LGHUBUpdaterService" /y
-net stop "LightKeeperService" /y
-net stop "MBAMService" /y
-net stop "MSI_Case_Service" /y
-net stop "MSI_Center_Service" /y
-net stop "MSI_Super_Charger_Service" /y
-net stop "MSI_VoiceControl_Service" /y
-net stop "MicrosoftEdgeElevationService" /y
-net stop "MozillaMaintenance" /y
-net stop "Mystic_Light_Service" /y
-net stop "NIDomainService" /y
-net stop "NINetworkDiscovery" /y
-net stop "NiSvcLoc" /y
-net stop "OverwolfUpdater" /y
-net stop "PSSvc" /y
-net stop "Parsec" /y
-net stop "RstMwService" /y
-net stop "Steam Client Service" /y
-net stop "SteelSeriesGGUpdateServiceProxy" /y
-net stop "SteelSeriesUpdateService" /y
-net stop "TeraCopyService.exe" /y
-net stop "VBoxSDS" /y
-net stop "WMIRegistrationService" /y
-net stop "brave" /y
-net stop "bravem" /y
-net stop "cplspcon" /y
-net stop "edgeupdate" /y
-net stop "edgeupdatem" /y
-net stop "esifsvc" /y
-net stop "ibtsiva" /y
-net stop "igccservice" /y
-net stop "igfxCUIService2.0.0.0" /y
-net stop "jhi_service" /y
-net stop "lkClassAds" /y
-net stop "lkTimeSync" /y
-net stop "logi_lamparray_service" /y
-net stop "niauth" /y
-net stop "nimDNSResponder" /y
-net stop "spacedeskService" /y
-net stop "ss_conn_service" /y
-net stop "ss_conn_service2" /y
-net stop "vgc" /y
-net stop "xTendSoftAPService" /y
-
-@REM net stop "CloudflareWarp" /y
-@REM net stop "MacType" /y
-net stop "BDESVC" /y
-net stop "BFE" /y
-net stop "BrokerInfrastructure" /y
-net stop "CortexLauncherService" /y
-net stop "Dnscache" /y
-net stop "EntAppSvc" /y
-net stop "FrameServer" /y
-net stop "LicenseManager" /y
-net stop "MullvadVPN" /y
-net stop "NVDisplay.ContainerLocalSystem" /y
-net stop "OpenVPNServiceInteractive" /y
-net stop "PNRPsvc" /y
-net stop "Razer Game Manager Service 3" /y
-net stop "W32Time" /y
-net stop "WdNisSvc" /y
-net stop "WindscribeService" /y
-net stop "WlanSvc" /y
-net stop "audiosrv" /y
-net stop "bits" /y
-net stop "hidusbf" /y
-net stop "iphlpsvc" /y
-net stop "msiserver" /y
-net stop "ndu" /y
-net stop "p2pimsvc" /y
-net stop "p2psvc" /y
-net stop "wscsvc" /y
-net stop "wuauserv" /y
-
-:NOSVC
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "AdobeARMservice" start=demand
@@ -222,6 +122,7 @@ sc config "NiSvcLoc" start=demand
 sc config "OverwolfUpdater" start=demand
 sc config "PSSvc" start=demand
 sc config "Parsec" start=demand
+sc config "Razer Synapse Service" start=demand
 sc config "RstMwService" start=demand
 sc config "Steam Client Service" start=demand
 sc config "SteelSeriesGGUpdateServiceProxy" start=demand
