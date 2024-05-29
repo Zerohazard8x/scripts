@@ -18,8 +18,6 @@ if %ERRORLEVEL% EQU 0 (
     
     WHERE curl
     if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -LO https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-
         WHERE 7z
         if %ERRORLEVEL% EQU 0 (
             curl --remote-time https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip -Lo %USERPROFILE%\Downloads\wifi-pass.zip
