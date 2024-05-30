@@ -27,7 +27,7 @@ if %ERRORLEVEL% EQU 0 (
         ) else (
             WHERE aria2c 
             if %ERRORLEVEL% EQU 0 (
-                aria2c -x16 -s32 -R --allow-overwrite=true -o wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+                aria2c -R --allow-overwrite=true -o wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
             )
         )
     )
@@ -38,8 +38,8 @@ if %ERRORLEVEL% EQU 0 (
         7z x wifi-pass.zip -aoa -o.
     )
 
-    if exist "wifi-main" (
-        cd "wifi-main"
+    if exist ".\wifi-main" (
+        cd ".\wifi-main"
 
         WHERE curl 
         if %ERRORLEVEL% EQU 0 (
@@ -51,11 +51,11 @@ if %ERRORLEVEL% EQU 0 (
             ) else (
                 WHERE aria2c 
                 if %ERRORLEVEL% EQU 0 (
-                    aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+                    aria2c -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
                 )
             )
         )
-        
+
         powershell.exe .\import.ps1
         powershell.exe .\tasks.ps1
     )
