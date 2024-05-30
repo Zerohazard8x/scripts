@@ -1,6 +1,24 @@
 @echo off
 setlocal
 
+@REM registry
+WHERE reg
+if %ERRORLEVEL% EQU 0 (
+    del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
+
+    WHERE curl 
+    if %ERRORLEVEL% EQU 0 (
+        curl --remote-time -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+    ) else (
+        WHERE wget 
+        if %ERRORLEVEL% EQU 0 (
+            wget --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        )
+    )
+
+    reg import "%USERPROFILE%\Downloads\tweaks.reg"
+)
+
 cls 
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
@@ -65,9 +83,6 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe .\import_private.ps1
 
     powershell.exe -c Set-ExecutionPolicy Default
-
-    REM Export Wi-Fi profiles
-    netsh wlan export profile key=clear folder=wifi-todo
 ) else (
     mbr2gpt /allowfullos /convert /disk=0
 

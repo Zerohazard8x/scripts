@@ -4,28 +4,10 @@
 ping 127.0.0.1 -n 2 > nul
 
 del /s /q /f .\*.aria2
-del /s /q /f .\*.py
+@REM del /s /q /f .\*.py
 @REM del /s /q /f .\*.reg
 
 @REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
-
-@REM registry
-WHERE reg
-if %ERRORLEVEL% EQU 0 (
-    del /s /q /f .\tweaks.reg
-
-    WHERE curl
-    if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -O https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-    ) else (
-        WHERE aria2c
-        if %ERRORLEVEL% EQU 0 (
-            aria2c -x16 -s32 -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        )
-    )    
-
-    reg import .\tweaks.reg
-)
 
 @REM WHERE w32tm
 @REM if %ERRORLEVEL% EQU 0 (
