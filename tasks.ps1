@@ -1,3 +1,96 @@
+# https://github.com/SimonCropp/WinDebloat
+# winget install --name "paint.net" --exact
+# winget uninstall "OneDrive"
+# winget uninstall --name "Microsoft To Do" --exact
+# winget uninstall --name "Microsoft Whiteboard" --exact
+# winget uninstall --name "Windows Calculator" --exact
+# winget uninstall --name "Windows Camera" --exact
+winget uninstall "DevHome"
+winget uninstall --name "3D Viewer" --exact
+winget uninstall --name "Clipchamp" --exact
+winget uninstall --name "Cortana" --exact
+winget uninstall --name "Feedback Hub" --exact
+winget uninstall --name "Get Help" --exact
+winget uninstall --name "HP Desktop Support Utilities" --exact
+winget uninstall --name "HP Documentation" --exact
+winget uninstall --name "HP Notifications" --exact
+winget uninstall --name "HPHelp" --exact
+winget uninstall --name "MSN Weather" --exact
+winget uninstall --name "Mail and Calendar" --exact
+winget uninstall --name "Microsoft 365 (Office)" --exact
+winget uninstall --name "Microsoft News" --exact
+winget uninstall --name "Microsoft Pay" --exact
+winget uninstall --name "Microsoft People" --exact
+winget uninstall --name "Microsoft Photos" --exact
+winget uninstall --name "Microsoft Solitaire Collection" --exact
+winget uninstall --name "Microsoft Sticky Notes" --exact
+winget uninstall --name "Microsoft Teams" --exact
+winget uninstall --name "Microsoft Tips" --exact
+winget uninstall --name "Mixed Reality Portal" --exact
+winget uninstall --name "Movies & TV" --exact
+winget uninstall --name "News" --exact
+winget uninstall --name "OneNote for Windows 10" --exact
+winget uninstall --name "Paint 3D" --exact
+winget uninstall --name "Paint" --exact
+winget uninstall --name "Phone Link" --exact
+winget uninstall --name "Power Automate" --exact
+winget uninstall --name "Print 3D" --exact
+winget uninstall --name "Quick Assist" --exact
+winget uninstall --name "SharedAccess" --exact
+winget uninstall --name "Skype" --exact
+winget uninstall --name "Solitaire & Casual Games" --exact
+winget uninstall --name "Teams Machine-Wide Installer" --exact
+winget uninstall --name "Windows Alarms & Clock" --exact
+winget uninstall --name "Windows Clock" --exact
+winget uninstall --name "Windows Maps" --exact
+winget uninstall --name "Windows Media Player" --exact
+winget uninstall --name "Windows PC Health Check" --exact
+winget uninstall --name "Windows Voice Recorder" --exact
+winget uninstall --name "Windows Web Experience Pack" --exact
+winget uninstall --name "Xbox Accessories" --exact
+winget uninstall --name "Xbox Console Companion" --exact
+winget uninstall --name "Xbox Game Bar Plugin" --exact
+winget uninstall --name "Xbox Game Bar" --exact
+winget uninstall --name "Xbox Game Speech Window" --exact
+winget uninstall --name "Xbox Identity Provider" --exact
+winget uninstall --name "Xbox TCUI" --exact
+winget uninstall --name "Xbox" --exact
+
+# Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer"`
+#                  -Name "DisableSearchBoxSuggestions"`
+#                  -Type "DWord"`
+#                  -Value "1"
+
+
+# Set-ItemProperty -Path "Registry::HKLM\SOFTWARE\Policies\Microsoft\Windows\Appx"`
+#                  -Name "AllowDevelopmentWithoutDevLicense"`
+#                  -Type "DWord"`
+#                  -Value "1"
+
+# Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Policies\Microsoft\Edge"`
+#                  -Name "HomepageLocation"`
+#                  -Type "String"`
+#                  -Value "about:blank"
+
+# Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Policies\Microsoft\Edge"`
+#                  -Name "NewTabPageLocation"`
+#                  -Type "String"`
+#                  -Value "about:blank"
+
+# Set-ItemProperty -Path "Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked"`
+#                  -Name "{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"`
+#                  -Type "String"`
+#                  -Value ""
+
+# Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer"`
+#                  -Name "ShowCloudFilesInQuickAccess"`
+#                  -Type "DWord"`
+#                  -Value "0"
+
+# Stop-Service -Name "Spooler"
+# Set-Service -Name "Spooler"`
+#             -StartupType "Disabled"
+
 # network
 Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
