@@ -48,6 +48,34 @@ pyInstallFunc() {
     fi
 }
 
+# delete empty folders
+find . -type d -empty -delete
+find ~/ -type d -empty -delete
+
+#---repair---#
+# Get the list of network interfaces
+interfaces=$(ip link show | awk -F': ' '{print $2}')
+for interface in $interfaces; do
+    # Set IPv6 DNS server addresses
+    sed -i "s/^#DNS=.*/DNS=2001:4860:4860::8888 2001:4860:4860::8844/" /etc/systemd/resolved.conf
+    
+    # Set IPv4 DNS server addresses
+    sed -i "s/^#FallbackDNS=.*/FallbackDNS=8.8.8.8 8.8.4.4/" /etc/systemd/resolved.conf
+    
+    # Restart the systemd-resolved service to apply DNS changes
+    systemctl restart systemd-resolved
+    
+    # Set the interface to obtain an IPv4 address automatically (DHCP)
+    dhclient -4 $interface
+    
+    # Set the interface to obtain an IPv6 address automatically (DHCPv6)
+    dhclient -6 $interface
+    
+    # Restart the network interface to apply changes
+    ip link set $interface down
+    ip link set $interface up
+done
+
 # # flush dns
 # if command -v service; then
 #     service network-manager restart
@@ -55,11 +83,6 @@ pyInstallFunc() {
 #     /etc/init.d/nscd restart
 # fi
 
-# delete empty folders
-find . -type d -empty -delete
-find ~/ -type d -empty -delete
-
-#---repair---#
 # List all disks and store them in an array
 disks=($(lsblk -d -o name | tail -n +2))
 
