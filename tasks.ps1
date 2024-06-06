@@ -100,10 +100,10 @@ foreach ($drive in $drives) {
 $drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
 foreach ($drive in $drives) {
     try {
-        Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
-        cleanmgr /verylowdisk /d $drive
-        cleanmgr /sagerun:0 /d $drive
-        Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
+        # Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
+        # cleanmgr /verylowdisk /d $drive
+        # cleanmgr /sagerun:0 /d $drive
+        # Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
 
         # Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
         #     try {
@@ -123,7 +123,7 @@ foreach ($drive in $drives) {
             Optimize-Volume -DriveLetter $drive -ReTrim -Verbose
         }
 
-        vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
+        # vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
     }
     catch {
         Write-Warning "Error repairing drive $drive`: $_"
