@@ -86,14 +86,14 @@ if %ERRORLEVEL% EQU 0 (
 ) else (
     mbr2gpt /allowfullos /convert /disk=0
 
-    echo y|chkdsk %homedrive% /f /r
-    cleanmgr /verylowdisk /d %homedrive%
-    cleanmgr /sagerun:0 /d %homedrive%
-    echo y|chkdsk %homedrive% /f
+    @REM echo y|chkdsk %homedrive% /f /r
+    @REM cleanmgr /verylowdisk /d %homedrive%
+    @REM cleanmgr /sagerun:0 /d %homedrive%
+    @REM echo y|chkdsk %homedrive% /f
     
     defrag %homedrive%
 
-    vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=3%
+    @REM vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=3%
 
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
