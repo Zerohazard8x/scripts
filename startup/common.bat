@@ -23,6 +23,11 @@ cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
 
+@REM reset gpedit
+RD /S /Q "%windir%\System32\GroupPolicyUsers"
+RD /S /Q "%windir%\System32\GroupPolicy"
+gpupdate /force
+
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
     REM Set script path
