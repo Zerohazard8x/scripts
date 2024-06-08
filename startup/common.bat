@@ -318,12 +318,12 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     )
 )
 
-cls 
-choice /C YN /N /M "Open folder script was ran from? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOFOLDER
+@REM cls 
+@REM choice /C YN /N /M "Open folder script was ran from? (Y/N)"
+@REM if %ERRORLEVEL% equ 2 goto NOFOLDER
 
-explorer .
+@REM explorer .
 
-:NOFOLDER
+@REM :NOFOLDER
 endlocal
 exit
