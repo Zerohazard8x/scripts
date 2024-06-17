@@ -8,11 +8,11 @@ if %ERRORLEVEL% EQU 0 (
 
     WHERE curl 
     if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
     ) else (
         WHERE wget 
         if %ERRORLEVEL% EQU 0 (
-            wget --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+            wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
         )
     )
 
@@ -48,11 +48,11 @@ if %ERRORLEVEL% EQU 0 (
 
     WHERE curl 
     if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -Lo wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+        curl --remote-time -C - -Lo wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
     ) else (
         WHERE wget 
         if %ERRORLEVEL% EQU 0 (
-            wget --timestamping -O wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+            wget -c --timestamping -O wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
         ) else (
             WHERE aria2c 
             if %ERRORLEVEL% EQU 0 (
@@ -72,7 +72,7 @@ if %ERRORLEVEL% EQU 0 (
 
         WHERE curl 
         if %ERRORLEVEL% EQU 0 (
-            curl --remote-time -LO https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+            curl --remote-time -C - -Lo https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
         ) else (
             WHERE wget 
             if %ERRORLEVEL% EQU 0 (
