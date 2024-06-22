@@ -334,6 +334,15 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 @REM     )
 @REM )
 
+if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
+    tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+    )
+)
+
+C:\Program Files (x86)\Overwolf
+
 @REM cls 
 @REM choice /C YN /N /M "Open folder script was ran from? (Y/N)"
 @REM if %ERRORLEVEL% equ 2 goto NOFOLDER
