@@ -1,5 +1,8 @@
 @echo off
 
+@REM version string
+@REM lineage lick
+
 @REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
 
@@ -7,8 +10,8 @@ ping 127.0.0.1 -n 2 > nul
 
 @REM WHERE w32tm
 @REM if %ERRORLEVEL% EQU 0 (
-@REM     w32tm /config /update
-@REM     w32tm /resync
+@REM w32tm /config /update
+@REM w32tm /resync
 @REM )
 
 @REM Clear clipboard
@@ -25,61 +28,55 @@ cls
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
 @REM source.unsplash seems deprecated
-@REM WHERE curl
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     mkdir %USERPROFILE%\default_wall
+@REM mkdir %USERPROFILE%\default_wall
 
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?artificial,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_artificial.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?cloudy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?cozy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_cozy.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?drawing,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_drawing.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?dry,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_dry.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?fall,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_fall.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?rainy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?render,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_render.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?spring,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_spring.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?stormy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?summer,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_summer.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?sunny,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?wet,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_wet.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?windy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_windy.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/daily?winter,hd-wallpapers" -Lo %USERPROFILE%\default_wall\daily_winter.jpg
+@REM call :download_file "daily?hd-wallpapers" %USERPROFILE%\default_wall\daily.jpg
+@REM call :download_file "daily?artificial" %USERPROFILE%\default_wall\daily_artificial.jpg
+@REM call :download_file "daily?cloudy" %USERPROFILE%\default_wall\daily_winter.jpg
+@REM call :download_file "daily?cozy" %USERPROFILE%\default_wall\daily_cozy.jpg
+@REM call :download_file "daily?drawing" %USERPROFILE%\default_wall\daily_drawing.jpg
+@REM call :download_file "daily?dry" %USERPROFILE%\default_wall\daily_dry.jpg
+@REM call :download_file "daily?fall" %USERPROFILE%\default_wall\daily_fall.jpg
+@REM call :download_file "daily?rainy" %USERPROFILE%\default_wall\daily_winter.jpg
+@REM call :download_file "daily?render" %USERPROFILE%\default_wall\daily_render.jpg
+@REM call :download_file "daily?spring" %USERPROFILE%\default_wall\daily_spring.jpg
+@REM call :download_file "daily?stormy" %USERPROFILE%\default_wall\daily_winter.jpg
+@REM call :download_file "daily?summer" %USERPROFILE%\default_wall\daily_summer.jpg
+@REM call :download_file "daily?sunny" %USERPROFILE%\default_wall\daily_winter.jpg
+@REM call :download_file "daily?wet" %USERPROFILE%\default_wall\daily_wet.jpg
+@REM call :download_file "daily?windy" %USERPROFILE%\default_wall\daily_windy.jpg
+@REM call :download_file "daily?winter" %USERPROFILE%\default_wall\daily_winter.jpg
 
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?artificial,hd-wallpapers" -Lo %USERPROFILE%\default_wall\artificial.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?hd-wallpapers" -Lo %USERPROFILE%\default_wall\weekly.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?cloudy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?cozy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\cozy.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?drawing,hd-wallpapers" -Lo %USERPROFILE%\default_wall\drawing.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?dry,hd-wallpapers" -Lo %USERPROFILE%\default_wall\dry.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?fall,hd-wallpapers" -Lo %USERPROFILE%\default_wall\fall.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?rainy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?render,hd-wallpapers" -Lo %USERPROFILE%\default_wall\render.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?spring,hd-wallpapers" -Lo %USERPROFILE%\default_wall\spring.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?stormy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?summer,hd-wallpapers" -Lo %USERPROFILE%\default_wall\summer.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?sunny,hd-wallpapers" -Lo %USERPROFILE%\default_wall\winter.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?wet,hd-wallpapers" -Lo %USERPROFILE%\default_wall\wet.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?windy,hd-wallpapers" -Lo %USERPROFILE%\default_wall\windy.jpg
-@REM     curl --remote-time -C - "https://source.unsplash.com/featured/7680x2160/weekly?winter,hd-wallpapers" -Lo %USERPROFILE%\default_wall\winter.jpg
+@REM call :download_file "weekly?artificial" %USERPROFILE%\default_wall\artificial.jpg
+@REM call :download_file "weekly?hd-wallpapers" %USERPROFILE%\default_wall\weekly.jpg
+@REM call :download_file "weekly?cloudy" %USERPROFILE%\default_wall\winter.jpg
+@REM call :download_file "weekly?cozy" %USERPROFILE%\default_wall\cozy.jpg
+@REM call :download_file "weekly?drawing" %USERPROFILE%\default_wall\drawing.jpg
+@REM call :download_file "weekly?dry" %USERPROFILE%\default_wall\dry.jpg
+@REM call :download_file "weekly?fall" %USERPROFILE%\default_wall\fall.jpg
+@REM call :download_file "weekly?rainy" %USERPROFILE%\default_wall\winter.jpg
+@REM call :download_file "weekly?render" %USERPROFILE%\default_wall\render.jpg
+@REM call :download_file "weekly?spring" %USERPROFILE%\default_wall\spring.jpg
+@REM call :download_file "weekly?stormy" %USERPROFILE%\default_wall\winter.jpg
+@REM call :download_file "weekly?summer" %USERPROFILE%\default_wall\summer.jpg
+@REM call :download_file "weekly?sunny" %USERPROFILE%\default_wall\winter.jpg
+@REM call :download_file "weekly?wet" %USERPROFILE%\default_wall\wet.jpg
+@REM call :download_file "weekly?windy" %USERPROFILE%\default_wall\windy.jpg
+@REM call :download_file "weekly?winter" %USERPROFILE%\default_wall\winter.jpg
 
-@REM     @REM phone - 1644x3840
-@REM )
+@REM @REM phone - 1644x3840
 
 :NOWALL
 cls 
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPYTHON
 
-WHERE choco
-if %ERRORLEVEL% EQU 0 (
+where choco >nul 2>&1 && (
     choco uninstall python2 python -y & choco upgrade python3 -y 
 )
 
-WHERE python
-if %ERRORLEVEL% EQU 0 (
-    WHERE python3
-    if %ERRORLEVEL% EQU 0 (
+where python >nul 2>&1 && (
+    where python3 >nul 2>&1 && (
         python3 -m pip cache purge
         python3 -m pip freeze > requirements.txt
         python3 -m pip uninstall -y -r requirements.txt
@@ -109,14 +106,12 @@ cls
 choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
-WHERE choco
-if %ERRORLEVEL% EQU 0 (
+where choco >nul 2>&1 && (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
     choco upgrade 7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode -y
 )
 
-WHERE wsl
-if %ERRORLEVEL% EQU 0 (
+where wsl >nul 2>&1 && (
     wsl --install --no-launch
     wsl --update
 )

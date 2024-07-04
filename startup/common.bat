@@ -1,20 +1,31 @@
 @echo off
 setlocal
 
+@REM version string
+@REM lineage lick
+
+:: Function to download file
+:download_file
+set "url=%~1"
+set "output=%~2"
+for %%T in (curl wget aria2c) do (
+    where %%T >nul 2>&1 && (
+        if "%%T"=="curl" (
+            curl --remote-time -C - -Lo "!output!" "!url!"
+        ) else if "%%T"=="wget" (
+            wget -c --timestamping -O "!output!" "!url!"
+        ) else if "%%T"=="aria2c" (
+            aria2c -R --allow-overwrite=true -o "!output!" "!url!"
+        )
+        exit /b
+    )
+)
+
 @REM registry
-WHERE reg
-if %ERRORLEVEL% EQU 0 (
+where reg >nul 2>&1 && (
     del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
 
-    WHERE curl 
-    if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-    ) else (
-        WHERE wget 
-        if %ERRORLEVEL% EQU 0 (
-            wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        )
-    )
+    call :download_file "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg" "%USERPROFILE%\Downloads\tweaks.reg"
 
     reg import "%USERPROFILE%\Downloads\tweaks.reg"
 )
@@ -30,8 +41,7 @@ gpupdate /force
 
 secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 
-WHERE powershell
-if %ERRORLEVEL% EQU 0 (
+where powershell >nul 2>&1 && (
     REM Set script path
     set "scriptPath=%cd%"
 
@@ -46,20 +56,7 @@ if %ERRORLEVEL% EQU 0 (
 
     cd "%USERPROFILE%\Downloads"
 
-    WHERE curl 
-    if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -Lo wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
-    ) else (
-        WHERE wget 
-        if %ERRORLEVEL% EQU 0 (
-            wget -c --timestamping -O wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
-        ) else (
-            WHERE aria2c 
-            if %ERRORLEVEL% EQU 0 (
-                aria2c -R --allow-overwrite=true -o wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
-            )
-        )
-    )
+    call :download_file "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip" "%USERPROFILE%\Downloads\tweaks.reg"
 
     REM extract zip file
     WHERE 7z 
@@ -70,20 +67,7 @@ if %ERRORLEVEL% EQU 0 (
     if exist ".\wifi-main" (
         cd ".\wifi-main"
 
-        WHERE curl 
-        if %ERRORLEVEL% EQU 0 (
-            curl --remote-time -C - -Lo https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-        ) else (
-            WHERE wget 
-            if %ERRORLEVEL% EQU 0 (
-                wget --timestamping https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-            ) else (
-                WHERE aria2c 
-                if %ERRORLEVEL% EQU 0 (
-                    aria2c -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-                )
-            )
-        )
+        call :download_file "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1" ".\tasks.ps1"
 
         powershell.exe .\import.ps1
         powershell.exe .\tasks.ps1
@@ -340,8 +324,6 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
         start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
     )
 )
-
-C:\Program Files (x86)\Overwolf
 
 @REM cls 
 @REM choice /C YN /N /M "Open folder script was ran from? (Y/N)"
