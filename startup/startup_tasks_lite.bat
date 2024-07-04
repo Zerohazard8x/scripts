@@ -10,41 +10,28 @@ cls
 @REM choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
-@REM mkdir .\lite
-@REM del /s /q /f .\lite\*.aria2
-@REM curl -C - "daily" lite/daily.jpg
-@REM curl -C - "daily?artificial" lite/daily_artificial.jpg
-@REM curl -C - "daily?cloudy" lite/daily_winter.jpg
-@REM curl -C - "daily?cozy" lite/daily_cozy.jpg
-@REM curl -C - "daily?drawing" lite/daily_drawing.jpg
-@REM curl -C - "daily?dry" lite/daily_dry.jpg
-@REM curl -C - "daily?fall" lite/daily_fall.jpg
-@REM curl -C - "daily?rainy" lite/daily_winter.jpg
-@REM curl -C - "daily?render" lite/daily_render.jpg
-@REM curl -C - "daily?spring" lite/daily_spring.jpg
-@REM curl -C - "daily?stormy" lite/daily_winter.jpg
-@REM curl -C - "daily?summer" lite/daily_summer.jpg
-@REM curl -C - "daily?sunny" lite/daily_winter.jpg
-@REM curl -C - "daily?wet" lite/daily_wet.jpg
-@REM curl -C - "daily?windy" lite/daily_windy.jpg
-@REM curl -C - "daily?winter" lite/daily_winter.jpg
+@REM WHERE curl
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     mkdir .\lite
+@REM     del /s /q /f .\lite\*.aria2
 
-@REM curl -C - "weekly" lite/weekly.jpg
-@REM curl -C - "daily?artificial" lite/daily_artificial.jpg
-@REM curl -C - "weekly?cloudy" lite/winter.jpg
-@REM curl -C - "weekly?cozy" lite/cozy.jpg
-@REM curl -C - "weekly?drawing" lite/drawing.jpg
-@REM curl -C - "weekly?dry" lite/dry.jpg
-@REM curl -C - "weekly?fall" lite/fall.jpg
-@REM curl -C - "weekly?rainy" lite/winter.jpg
-@REM curl -C - "weekly?render" lite/render.jpg
-@REM curl -C - "weekly?spring" lite/spring.jpg
-@REM curl -C - "weekly?stormy" lite/winter.jpg
-@REM curl -C - "weekly?summer" lite/summer.jpg
-@REM curl -C - "weekly?sunny" lite/winter.jpg
-@REM curl -C - "weekly?wet" lite/wet.jpg
-@REM curl -C - "weekly?windy" lite/windy.jpg
-@REM curl -C - "weekly?winter" lite/winter.jpg
+@REM     artificial -output artificial.jpg
+@REM     hd-wallpapers" -output weekly.jpg
+@REM     cloudy -output winter.jpg
+@REM     cozy -output cozy.jpg
+@REM     drawing -output drawing.jpg
+@REM     dry -output dry.jpg
+@REM     fall -output fall.jpg
+@REM     rainy -output winter.jpg
+@REM     render -output render.jpg
+@REM     spring -output spring.jpg
+@REM     stormy -output winter.jpg
+@REM     summer -output summer.jpg
+@REM     sunny -output winter.jpg
+@REM     wet -output wet.jpg
+@REM     windy -output windy.jpg
+@REM     winter -output winter.jpg
+@REM )
 
 :NOWALL
 cls 

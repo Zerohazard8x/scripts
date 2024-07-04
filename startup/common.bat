@@ -1,31 +1,17 @@
 @echo off
 setlocal
 
-@REM version string
-@REM lineage lick
-
-:: Function to download file
-:download_file
-set "url=%~1"
-set "output=%~2"
-for %%T in (curl wget aria2c) do (
-    where %%T >nul 2>&1 && (
-        if "%%T"=="curl" (
-            curl --remote-time -C - -Lo "!output!" "!url!"
-        ) else if "%%T"=="wget" (
-            wget -c --timestamping -O "!output!" "!url!"
-        ) else if "%%T"=="aria2c" (
-            aria2c -R --allow-overwrite=true -o "!output!" "!url!"
-        )
-        exit /b
-    )
-)
-
 @REM registry
 where reg >nul 2>&1 && (
     del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
 
-    call :download_file "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg" "%USERPROFILE%\Downloads\tweaks.reg"
+    where curl >nul 2>&1 && (
+        curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+    ) else (
+        where wget >nul 2>&1 && (
+            wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+        )
+    )
 
     reg import "%USERPROFILE%\Downloads\tweaks.reg"
 )
@@ -56,7 +42,17 @@ where powershell >nul 2>&1 && (
 
     cd "%USERPROFILE%\Downloads"
 
-    call :download_file "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip" "%USERPROFILE%\Downloads\tweaks.reg"
+    where curl >nul 2>&1 && (
+        curl --remote-time -C - -Lo wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+    ) else (
+        where wget >nul 2>&1 && (
+            wget -c --timestamping -O wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+        ) else (
+            where aria2c >nul 2>&1 && (
+                aria2c -R --allow-overwrite=true -o wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+            )
+        )
+    )
 
     REM extract zip file
     WHERE 7z 
@@ -67,7 +63,17 @@ where powershell >nul 2>&1 && (
     if exist ".\wifi-main" (
         cd ".\wifi-main"
 
-        call :download_file "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1" ".\tasks.ps1"
+        where curl >nul 2>&1 && (
+            curl --remote-time -C - -Lo https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+        ) else (
+            where wget >nul 2>&1 && (
+                wget --timestamping https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+            ) else (
+                where aria2c >nul 2>&1 && (
+                    aria2c -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+                )
+            )
+        )
 
         powershell.exe .\import.ps1
         powershell.exe .\tasks.ps1
@@ -248,80 +254,47 @@ sc config "SysMain" start=disabled
 sc config "svsvc" start=disabled
 
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    @REM negation
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe" >nul 2>&1 || (
         start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     )
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >nul 2>&1 || (
         start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     )
 )
 
 if exist "%ProgramFiles(x86)%\steam\steam.exe" (
-    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe" >nul 2>&1 || (
         start "" "%ProgramFiles(x86)%\steam\steam.exe"
     )
 )
 
 if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
-    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe" >nul 2>&1 || (
         start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
     )
 )
 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq EpicGamesLauncher.exe" 2>NUL | find /I /N "EpicGamesLauncher.exe" >nul 2>&1 || (
         start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
     )
 )
 
 if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
-    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe" >nul 2>&1 || (
         start "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
     )
 )
 
-@REM if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
-@REM     tasklist /FI "IMAGENAME eq SteelSeriesGG.exe" 2>NUL | find /I /N "SteelSeriesGG.exe">NUL
-@REM     if "%ERRORLEVEL%"=="1" (
-@REM         start "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
-@REM     )
-@REM )
-
-@REM voicemeeter banana
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
-    tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
-        if "%ERRORLEVEL%"=="1" (
+    tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe" >nul 2>&1 || (
+        tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe" >nul 2>&1 || (
             start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
         )
-    )
-)
-
-@REM voicemeeter potato
-@REM if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
-@REM     tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "vvoicemeeter8x64.exe">NUL
-@REM     if "%ERRORLEVEL%"=="1" (
-@REM         tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
-@REM         if "%ERRORLEVEL%"=="1" (
-@REM             start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe
-@REM         )
-@REM     )
-@REM )
-
-if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
-    tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
     )
 )
 

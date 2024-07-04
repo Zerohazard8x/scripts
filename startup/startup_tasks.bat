@@ -10,8 +10,8 @@ ping 127.0.0.1 -n 2 > nul
 
 @REM WHERE w32tm
 @REM if %ERRORLEVEL% EQU 0 (
-@REM w32tm /config /update
-@REM w32tm /resync
+@REM     w32tm /config /update
+@REM     w32tm /resync
 @REM )
 
 @REM Clear clipboard
@@ -28,43 +28,29 @@ cls
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
 @REM source.unsplash seems deprecated
-@REM mkdir %USERPROFILE%\default_wall
+@REM WHERE curl
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     mkdir %USERPROFILE%\default_wall
 
-@REM call :download_file "daily?hd-wallpapers" %USERPROFILE%\default_wall\daily.jpg
-@REM call :download_file "daily?artificial" %USERPROFILE%\default_wall\daily_artificial.jpg
-@REM call :download_file "daily?cloudy" %USERPROFILE%\default_wall\daily_winter.jpg
-@REM call :download_file "daily?cozy" %USERPROFILE%\default_wall\daily_cozy.jpg
-@REM call :download_file "daily?drawing" %USERPROFILE%\default_wall\daily_drawing.jpg
-@REM call :download_file "daily?dry" %USERPROFILE%\default_wall\daily_dry.jpg
-@REM call :download_file "daily?fall" %USERPROFILE%\default_wall\daily_fall.jpg
-@REM call :download_file "daily?rainy" %USERPROFILE%\default_wall\daily_winter.jpg
-@REM call :download_file "daily?render" %USERPROFILE%\default_wall\daily_render.jpg
-@REM call :download_file "daily?spring" %USERPROFILE%\default_wall\daily_spring.jpg
-@REM call :download_file "daily?stormy" %USERPROFILE%\default_wall\daily_winter.jpg
-@REM call :download_file "daily?summer" %USERPROFILE%\default_wall\daily_summer.jpg
-@REM call :download_file "daily?sunny" %USERPROFILE%\default_wall\daily_winter.jpg
-@REM call :download_file "daily?wet" %USERPROFILE%\default_wall\daily_wet.jpg
-@REM call :download_file "daily?windy" %USERPROFILE%\default_wall\daily_windy.jpg
-@REM call :download_file "daily?winter" %USERPROFILE%\default_wall\daily_winter.jpg
+@REM     artificial -output artificial.jpg
+@REM     hd-wallpapers" -output weekly.jpg
+@REM     cloudy -output winter.jpg
+@REM     cozy -output cozy.jpg
+@REM     drawing -output drawing.jpg
+@REM     dry -output dry.jpg
+@REM     fall -output fall.jpg
+@REM     rainy -output winter.jpg
+@REM     render -output render.jpg
+@REM     spring -output spring.jpg
+@REM     stormy -output winter.jpg
+@REM     summer -output summer.jpg
+@REM     sunny -output winter.jpg
+@REM     wet -output wet.jpg
+@REM     windy -output windy.jpg
+@REM     winter -output winter.jpg
 
-@REM call :download_file "weekly?artificial" %USERPROFILE%\default_wall\artificial.jpg
-@REM call :download_file "weekly?hd-wallpapers" %USERPROFILE%\default_wall\weekly.jpg
-@REM call :download_file "weekly?cloudy" %USERPROFILE%\default_wall\winter.jpg
-@REM call :download_file "weekly?cozy" %USERPROFILE%\default_wall\cozy.jpg
-@REM call :download_file "weekly?drawing" %USERPROFILE%\default_wall\drawing.jpg
-@REM call :download_file "weekly?dry" %USERPROFILE%\default_wall\dry.jpg
-@REM call :download_file "weekly?fall" %USERPROFILE%\default_wall\fall.jpg
-@REM call :download_file "weekly?rainy" %USERPROFILE%\default_wall\winter.jpg
-@REM call :download_file "weekly?render" %USERPROFILE%\default_wall\render.jpg
-@REM call :download_file "weekly?spring" %USERPROFILE%\default_wall\spring.jpg
-@REM call :download_file "weekly?stormy" %USERPROFILE%\default_wall\winter.jpg
-@REM call :download_file "weekly?summer" %USERPROFILE%\default_wall\summer.jpg
-@REM call :download_file "weekly?sunny" %USERPROFILE%\default_wall\winter.jpg
-@REM call :download_file "weekly?wet" %USERPROFILE%\default_wall\wet.jpg
-@REM call :download_file "weekly?windy" %USERPROFILE%\default_wall\windy.jpg
-@REM call :download_file "weekly?winter" %USERPROFILE%\default_wall\winter.jpg
-
-@REM @REM phone - 1644x3840
+@REM     @REM phone - 1644x3840
+@REM )
 
 :NOWALL
 cls 
@@ -92,8 +78,7 @@ where python >nul 2>&1 && (
 
     ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
     ren "%homedrive%\Python310\python.exe" "%homedrive%\Python310\python310.exe"
-    WHERE python310
-    if %ERRORLEVEL% EQU 0 (
+    where python310 >nul 2>&1 && (
         python310 -m pip cache purge
         python310 -m pip freeze > requirements.txt
         python310 -m pip uninstall -y -r requirements.txt
