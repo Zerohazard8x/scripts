@@ -1,6 +1,9 @@
 @echo off
 setlocal
 
+@REM version string
+@REM lineage lick
+
 @REM registry
 where reg >nul 2>&1 && (
     del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
