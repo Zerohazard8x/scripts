@@ -41,7 +41,7 @@ if %ERRORLEVEL% EQU 0 (
     REM reset
     powershell.exe -c Set-ExecutionPolicy Default -Scope CurrentUser
 
-    powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process
+    powershell.exe -c Set-ExecutionPolicy Bypass
 
     REM Clean up old files
     del /s /q /f "%USERPROFILE%\Downloads\wifi-pass.zip" "%USERPROFILE%\Downloads\wifi-main\" ".\wifi-pass.zip" ".\wifi-main\"
@@ -51,15 +51,15 @@ if %ERRORLEVEL% EQU 0 (
 
     WHERE curl 
     if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -Lo wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+        curl --remote-time -C - -Lo wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
     ) else (
         WHERE wget 
         if %ERRORLEVEL% EQU 0 (
-            wget -c --timestamping -O wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+            wget -c --timestamping -O wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
         ) else (
             WHERE aria2c 
             if %ERRORLEVEL% EQU 0 (
-                aria2c -R --allow-overwrite=true -o wifi-pass.zip https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip
+                aria2c -R --allow-overwrite=true -o wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
             )
         )
     )
@@ -73,24 +73,25 @@ if %ERRORLEVEL% EQU 0 (
     if exist ".\wifi-main" (
         cd ".\wifi-main"
 
-        WHERE curl 
+        powershell.exe .\import.ps1
+    )
+
+    WHERE curl 
+    if %ERRORLEVEL% EQU 0 (
+        curl --remote-time -C - -LO "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+    ) else (
+        WHERE wget 
         if %ERRORLEVEL% EQU 0 (
-            curl --remote-time -C - -Lo https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
+            wget --timestamping "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
         ) else (
-            WHERE wget 
+            WHERE aria2c 
             if %ERRORLEVEL% EQU 0 (
-                wget --timestamping https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-            ) else (
-                WHERE aria2c 
-                if %ERRORLEVEL% EQU 0 (
-                    aria2c -R --allow-overwrite=true https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1
-                )
+                aria2c -R --allow-overwrite=true "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
             )
         )
-
-        powershell.exe .\import.ps1
-        powershell.exe .\tasks.ps1
     )
+
+    powershell.exe .\tasks.ps1
 
     cd "%scriptPath%"
 
@@ -123,6 +124,7 @@ if %ERRORLEVEL% EQU 0 (
 
     control update
 )
+mkdir wifi-todo
 netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
