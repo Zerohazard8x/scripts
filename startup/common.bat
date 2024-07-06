@@ -38,9 +38,6 @@ if %ERRORLEVEL% EQU 0 (
     REM Set script path
     set "scriptPath=%cd%"
 
-    REM reset
-    powershell.exe -c Set-ExecutionPolicy Default -Scope CurrentUser
-
     powershell.exe -c Set-ExecutionPolicy Bypass
 
     REM Clean up old files
