@@ -65,8 +65,10 @@ winget uninstall --name "Xbox" --exact
 #             -StartupType "Disabled"
 
 # network
-Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
+# Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
+# Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 76.76.2.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 76.76.10.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $False
 # Remove-DnsClientDohServerAddress -ServerAddress 208.67.222.222,208.67.220.220
 
@@ -74,8 +76,10 @@ $adapters = Get-NetAdapter
 foreach ($adapter in $adapters) {
     $alias = $adapter.InterfaceAlias
     
-    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2001:4860:4860::8888", "2001:4860:4860::8844")
-    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('8.8.8.8','8.8.4.4')
+    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2001:4860:4860::8888", "2001:4860:4860::8844")
+    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('8.8.8.8','8.8.4.4')
+    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2606:1a40::2", "2606:1a40:1::2")
+    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('76.76.2.2','76.76.10.2')
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ResetServerAddresses
 
     # set to obtain an IP address automatically (DHCP)
