@@ -126,6 +126,7 @@ netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 
+@REM sc config "vgc" start=demand
 sc config "AMD Crash Defender Service" start=demand
 sc config "AMD External Events Utility" start=demand
 sc config "AdobeARMservice" start=demand
@@ -189,7 +190,6 @@ sc config "nimDNSResponder" start=demand
 sc config "spacedeskService" start=demand
 sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
-sc config "vgc" start=demand
 sc config "xTendSoftAPService" start=demand
 
 @REM sc config "CloudflareWarp" start=auto
@@ -224,10 +224,11 @@ sc config "p2psvc" start=auto
 sc config "wscsvc" start=auto
 sc config "wuauserv" start=auto
 
-sc config "vgk" start=system
+@REM sc config "vgk" start=system
 
 @REM net start "CloudflareWarp"
 @REM net start "MacType"
+@REM net start "vgk"
 net start "BDESVC"
 net start "BFE"
 net start "BrokerInfrastructure"
@@ -257,7 +258,6 @@ net start "p2pimsvc"
 net start "p2psvc"
 net start "wscsvc"
 net start "wuauserv"
-net start "vgk"
 
 net stop "SysMain" /y
 net stop "svsvc" /y
