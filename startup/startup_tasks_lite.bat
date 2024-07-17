@@ -10,28 +10,17 @@ cls
 @REM choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
-@REM WHERE curl
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     mkdir .\lite
-@REM     del /s /q /f .\lite\*.aria2
-
-@REM     artificial -output artificial.jpg
-@REM     hd-wallpapers" -output weekly.jpg
-@REM     cloudy -output winter.jpg
-@REM     cozy -output cozy.jpg
-@REM     drawing -output drawing.jpg
-@REM     dry -output dry.jpg
-@REM     fall -output fall.jpg
-@REM     rainy -output winter.jpg
-@REM     render -output render.jpg
-@REM     spring -output spring.jpg
-@REM     stormy -output winter.jpg
-@REM     summer -output summer.jpg
-@REM     sunny -output winter.jpg
-@REM     wet -output wet.jpg
-@REM     windy -output windy.jpg
-@REM     winter -output winter.jpg
-@REM )
+WHERE curl 
+if %ERRORLEVEL% EQU 0 (
+    mkdir %USERPROFILE%\default_wall
+    curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/1920/1080
+) else (
+    WHERE wget 
+    if %ERRORLEVEL% EQU 0 (
+        mkdir %USERPROFILE%\default_wall
+        wget -c --timestamping -P "%USERPROFILE%\default_wall\" "https://picsum.photos/1920/1080"
+    )
+)
 
 :NOWALL
 cls 

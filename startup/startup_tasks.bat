@@ -18,8 +18,6 @@ ping 127.0.0.1 -n 2 > nul
 @REM "echo off | clip"
 
 cls 
-@REM source.unsplash seems deprecated
-
 @REM /C YN means choices are Y,N
 @REM /D Y means default choice is Y
 @REM /T 15 means 5-second timeout
@@ -28,29 +26,17 @@ cls
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
 @REM source.unsplash seems deprecated
-@REM WHERE curl
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     mkdir %USERPROFILE%\default_wall
-
-@REM     artificial -output artificial.jpg
-@REM     hd-wallpapers" -output weekly.jpg
-@REM     cloudy -output winter.jpg
-@REM     cozy -output cozy.jpg
-@REM     drawing -output drawing.jpg
-@REM     dry -output dry.jpg
-@REM     fall -output fall.jpg
-@REM     rainy -output winter.jpg
-@REM     render -output render.jpg
-@REM     spring -output spring.jpg
-@REM     stormy -output winter.jpg
-@REM     summer -output summer.jpg
-@REM     sunny -output winter.jpg
-@REM     wet -output wet.jpg
-@REM     windy -output windy.jpg
-@REM     winter -output winter.jpg
-
-@REM     @REM phone - 1644x3840
-@REM )
+WHERE curl 
+if %ERRORLEVEL% EQU 0 (
+    mkdir %USERPROFILE%\default_wall
+    curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/3840/2160
+) else (
+    WHERE wget 
+    if %ERRORLEVEL% EQU 0 (
+        mkdir %USERPROFILE%\default_wall
+        wget -c --timestamping -P "%USERPROFILE%\default_wall\" "https://picsum.photos/3840/2160"
+    )
+)
 
 :NOWALL
 cls 
