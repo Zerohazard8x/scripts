@@ -18,7 +18,7 @@ if %ERRORLEVEL% EQU 0 (
     WHERE wget 
     if %ERRORLEVEL% EQU 0 (
         mkdir %USERPROFILE%\default_wall
-        wget -c --timestamping -P "%USERPROFILE%\default_wall\" "https://picsum.photos/1920/1080"
+        wget -c --timestamping --content-disposition -P "%USERPROFILE%\default_wall\" "https://picsum.photos/1920/1080"
     )
 )
 

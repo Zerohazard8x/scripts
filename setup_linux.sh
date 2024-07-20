@@ -34,11 +34,11 @@ pyInstallFunc() {
         
         python -m pip cache purge
         python -m pip install -U pip setuptools youtube-dl mutagen
-        python -m pip install -U https://mirror.ghproxy.com/https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
         
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
-        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] demucs ffsubsync
-        # python -m pip install -U stable-ts faster-whisper
+        # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] ffsubsync
+        # python -m pip install -U stable-ts faster-whisper demucs ffsubsync
         
         # ocrmypdf input.pdf output.pdf
         # Remove background - rembg i input.png output.png
