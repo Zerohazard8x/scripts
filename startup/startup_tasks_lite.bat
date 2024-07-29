@@ -39,8 +39,7 @@ where python >nul 2>&1 && (
     )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools youtube-dl mutagen
-    python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python -m pip install -U pip setuptools youtube-dl yt-dlp mutagen
 )
 
 :NOPYTHON
