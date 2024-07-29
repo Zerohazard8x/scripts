@@ -55,11 +55,13 @@ find ~/ -type d -empty -delete
 interfaces=$(ip link show | awk -F': ' '{print $2}')
 for interface in $interfaces; do
     # Set IPv6 DNS server addresses
-    sed -i "s/^#DNS=.*/DNS=2001:4860:4860::8888 2001:4860:4860::8844/" /etc/systemd/resolved.conf
+    sed -i "s/^#DNS=.*/DNS=2606:1a40::2 2606:1a40:1::2/" /etc/systemd/resolved.conf
+    # sed -i "s/^#DNS=.*/DNS=2001:4860:4860::8888 2001:4860:4860::8844/" /etc/systemd/resolved.conf
     
     # Set IPv4 DNS server addresses
-    sed -i "s/^#FallbackDNS=.*/FallbackDNS=8.8.8.8 8.8.4.4/" /etc/systemd/resolved.conf
-    
+    sed -i "s/^#FallbackDNS=.*/FallbackDNS=76.76.2.2 76.76.10.2/" /etc/systemd/resolved.conf
+    # sed -i "s/^#FallbackDNS=.*/FallbackDNS=8.8.8.8 8.8.4.4/" /etc/systemd/resolved.conf
+
     # Restart the systemd-resolved service to apply DNS changes
     systemctl restart systemd-resolved
     
