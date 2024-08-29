@@ -33,6 +33,9 @@ gpupdate /force
 
 secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 
+@REM password expiry
+wmic UserAccount set PasswordExpires=False
+
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
     REM Set script path
