@@ -65,17 +65,23 @@ winget uninstall --name "Xbox" --exact
 #             -StartupType "Disabled"
 
 # network
+# Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8888 -DohTemplate https://dns.google/dns-query-AutoUpgrade $True
+# Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8844 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 
+# Add-DnsClientDohServerAddress -ServerAddress 2606:1a40::2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
+# Add-DnsClientDohServerAddress -ServerAddress 2606:1a40:1::2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 76.76.2.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
 # Add-DnsClientDohServerAddress -ServerAddress 76.76.10.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
 
 Add-DnsClientDohServerAddress -ServerAddress 9.9.9.11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 149.112.112.11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 2620:fe::11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 2620:fe::fe:11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
 
 # Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $False
-# Remove-DnsClientDohServerAddress -ServerAddress 8.8.8.8,8.8.4.4
+# Remove-DnsClientDohServerAddress -ServerAddress 8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
 
 $adapters = Get-NetAdapter
 foreach ($adapter in $adapters) {
