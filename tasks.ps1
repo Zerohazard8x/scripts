@@ -4,6 +4,7 @@
 # winget uninstall --name "Microsoft Whiteboard" --exact
 # winget uninstall --name "Windows Calculator" --exact
 # winget uninstall --name "Windows Camera" --exact
+# winget uninstall --name "Xbox Identity Provider" --exact
 # winget uninstall --name "Xbox" --exact
 winget uninstall --name "3D Viewer" --exact
 winget uninstall --name "Clipchamp" --exact
@@ -41,7 +42,6 @@ winget uninstall --name "Xbox Console Companion" --exact
 winget uninstall --name "Xbox Game Bar Plugin" --exact
 winget uninstall --name "Xbox Game Bar" --exact
 winget uninstall --name "Xbox Game Speech Window" --exact
-winget uninstall --name "Xbox Identity Provider" --exact
 winget uninstall --name "Xbox TCUI" --exact
 
 # Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
