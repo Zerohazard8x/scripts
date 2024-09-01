@@ -1,10 +1,10 @@
 # https://github.com/SimonCropp/WinDebloat
-# winget install --name "paint.net" --exact
 # winget uninstall "OneDrive"
 # winget uninstall --name "Microsoft To Do" --exact
 # winget uninstall --name "Microsoft Whiteboard" --exact
 # winget uninstall --name "Windows Calculator" --exact
 # winget uninstall --name "Windows Camera" --exact
+# winget uninstall --name "Xbox" --exact
 winget uninstall --name "3D Viewer" --exact
 winget uninstall --name "Clipchamp" --exact
 winget uninstall --name "Cortana" --exact
@@ -43,7 +43,6 @@ winget uninstall --name "Xbox Game Bar" --exact
 winget uninstall --name "Xbox Game Speech Window" --exact
 winget uninstall --name "Xbox Identity Provider" --exact
 winget uninstall --name "Xbox TCUI" --exact
-winget uninstall --name "Xbox" --exact
 
 # Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
 #                  -Name "SearchboxTaskbarMode"`
