@@ -44,6 +44,9 @@ winget uninstall --name "Xbox Game Bar" --exact
 winget uninstall --name "Xbox Game Speech Window" --exact
 winget uninstall --name "Xbox TCUI" --exact
 
+# microsoft store
+Get-AppxPackage -AllUsers Microsoft.WindowsStore* | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+
 # Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
 #                  -Name "SearchboxTaskbarMode"`
 #                  -Type "DWord"`
