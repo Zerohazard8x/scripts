@@ -1,54 +1,57 @@
-# https://github.com/SimonCropp/WinDebloat
-# winget uninstall "OneDrive"
-# winget uninstall --name "Microsoft To Do" --exact
-# winget uninstall --name "Microsoft Whiteboard" --exact
-# winget uninstall --name "Windows Calculator" --exact
-# winget uninstall --name "Windows Camera" --exact
-# winget uninstall --name "Xbox Accessories" --exact
-# winget uninstall --name "Xbox Game Bar Plugin" --exact
-# winget uninstall --name "Xbox Game Bar" --exact
-# winget uninstall --name "Xbox Identity Provider" --exact
-# winget uninstall --name "Xbox" --exact
-winget uninstall --name "3D Viewer" --exact
-winget uninstall --name "Clipchamp" --exact
-winget uninstall --name "Cortana" --exact
-winget uninstall --name "Feedback Hub" --exact
-winget uninstall --name "Get Help" --exact
-winget uninstall --name "HPHelp" --exact
-winget uninstall --name "MSN Weather" --exact
-winget uninstall --name "Mail and Calendar" --exact
-winget uninstall --name "Microsoft News" --exact
-winget uninstall --name "Microsoft Pay" --exact
-winget uninstall --name "Microsoft People" --exact
-winget uninstall --name "Microsoft Photos" --exact
-winget uninstall --name "Microsoft Solitaire Collection" --exact
-winget uninstall --name "Microsoft Sticky Notes" --exact
-winget uninstall --name "Microsoft Tips" --exact
-winget uninstall --name "Mixed Reality Portal" --exact
-winget uninstall --name "Movies & TV" --exact
-winget uninstall --name "News" --exact
-winget uninstall --name "OneNote for Windows 10" --exact
-winget uninstall --name "Paint 3D" --exact
-winget uninstall --name "Power Automate" --exact
-winget uninstall --name "Print 3D" --exact
-winget uninstall --name "SharedAccess" --exact
-winget uninstall --name "Skype" --exact
-winget uninstall --name "Solitaire & Casual Games" --exact
-winget uninstall --name "Teams Machine-Wide Installer" --exact
-winget uninstall --name "Windows Alarms & Clock" --exact
-winget uninstall --name "Windows Clock" --exact
-winget uninstall --name "Windows Maps" --exact
-winget uninstall --name "Windows Media Player" --exact
-winget uninstall --name "Windows Web Experience Pack" --exact
-winget uninstall --name "Xbox Console Companion" --exact
-winget uninstall --name "Xbox Game Speech Window" --exact
-winget uninstall --name "Xbox TCUI" --exact
-
 # microsoft store
 Get-AppxPackage -AllUsers Microsoft.WindowsStore* | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 
-# upgrade uwp apps
-winget upgrade -h --all
+try {
+    # https://github.com/SimonCropp/WinDebloat
+    # winget uninstall "OneDrive"
+    # winget uninstall --name "Microsoft To Do" --exact
+    # winget uninstall --name "Microsoft Whiteboard" --exact
+    # winget uninstall --name "Windows Calculator" --exact
+    # winget uninstall --name "Windows Camera" --exact
+    # winget uninstall --name "Xbox Accessories" --exact
+    # winget uninstall --name "Xbox Game Bar Plugin" --exact
+    # winget uninstall --name "Xbox Game Bar" --exact
+    # winget uninstall --name "Xbox Identity Provider" --exact
+    # winget uninstall --name "Xbox" --exact
+    winget uninstall --name "3D Viewer" --exact
+    winget uninstall --name "Clipchamp" --exact
+    winget uninstall --name "Cortana" --exact
+    winget uninstall --name "Feedback Hub" --exact
+    winget uninstall --name "Get Help" --exact
+    winget uninstall --name "HPHelp" --exact
+    winget uninstall --name "MSN Weather" --exact
+    winget uninstall --name "Mail and Calendar" --exact
+    winget uninstall --name "Microsoft News" --exact
+    winget uninstall --name "Microsoft Pay" --exact
+    winget uninstall --name "Microsoft People" --exact
+    winget uninstall --name "Microsoft Photos" --exact
+    winget uninstall --name "Microsoft Solitaire Collection" --exact
+    winget uninstall --name "Microsoft Sticky Notes" --exact
+    winget uninstall --name "Microsoft Tips" --exact
+    winget uninstall --name "Mixed Reality Portal" --exact
+    winget uninstall --name "Movies & TV" --exact
+    winget uninstall --name "News" --exact
+    winget uninstall --name "OneNote for Windows 10" --exact
+    winget uninstall --name "Paint 3D" --exact
+    winget uninstall --name "Power Automate" --exact
+    winget uninstall --name "Print 3D" --exact
+    winget uninstall --name "SharedAccess" --exact
+    winget uninstall --name "Skype" --exact
+    winget uninstall --name "Solitaire & Casual Games" --exact
+    winget uninstall --name "Teams Machine-Wide Installer" --exact
+    winget uninstall --name "Windows Alarms & Clock" --exact
+    winget uninstall --name "Windows Clock" --exact
+    winget uninstall --name "Windows Maps" --exact
+    winget uninstall --name "Windows Media Player" --exact
+    winget uninstall --name "Windows Web Experience Pack" --exact
+    winget uninstall --name "Xbox Console Companion" --exact
+    winget uninstall --name "Xbox Game Speech Window" --exact
+    winget uninstall --name "Xbox TCUI" --exact
+    winget upgrade -h --all
+}
+catch {
+    Write-Warning "Error: $_"
+}
 
 # Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
 #                  -Name "SearchboxTaskbarMode"`
@@ -206,7 +209,7 @@ catch {
 
 # PSWindowsUpdate module is still not available
 # use the wuauclt command as a fallback
-if (-not(Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) -and (Get-Command wuauclt -ErrorAction SilentlyContinue)) {
+if (-not(Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
     try {
         wuauclt /detectnow
         wuauclt /updatenow
