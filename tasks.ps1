@@ -47,6 +47,9 @@ winget uninstall --name "Xbox TCUI" --exact
 # microsoft store
 Get-AppxPackage -AllUsers Microsoft.WindowsStore* | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 
+# upgrade uwp apps
+winget upgrade -h --all
+
 # Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
 #                  -Name "SearchboxTaskbarMode"`
 #                  -Type "DWord"`
@@ -166,19 +169,6 @@ foreach ($drive in $drives) {
 #             Write-Warning "Error registering app package: $_"
 #         }
 #     }
-# }
-
-# # Update UWP apps??
-# $params = @{
-#     Namespace = "root\cimv2\mdm\dmmap"
-#     ClassName = "MDM_EnterpriseModernAppManagement_AppManagement01"
-# }
-# try {
-#     $cimObj = Get-CimInstance @params -ErrorAction Stop
-#     Invoke-CimMethod -InputObject $cimObj -MethodName UpdateScanMethod
-# }
-# catch {
-#     Write-Warning "Error invoking CIM method: $_"
 # }
 
 try {
