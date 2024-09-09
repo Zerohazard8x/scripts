@@ -47,7 +47,7 @@ try {
     winget uninstall --name "Xbox Console Companion" --exact
     winget uninstall --name "Xbox Game Speech Window" --exact
     winget uninstall --name "Xbox TCUI" --exact
-    winget upgrade -h --all
+    winget upgrade -h --all --include-unknown
 }
 catch {
     Write-Warning "Error: $_"
