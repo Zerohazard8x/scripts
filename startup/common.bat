@@ -346,7 +346,10 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
     )
 )
 
-C:\Program Files (x86)\Overwolf
+tasklist /FI "IMAGENAME eq XboxPcApp.exe" 2>NUL | find /I /N "XboxPcApp.exe">NUL
+if "%ERRORLEVEL%"=="1" (
+    start "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+)
 
 @REM cls 
 @REM choice /C YN /N /M "Open folder script was ran from? (Y/N)"
