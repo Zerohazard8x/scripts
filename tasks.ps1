@@ -1,5 +1,5 @@
 # microsoft store
-Get-AppxPackage -AllUsers Microsoft.WindowsStore* | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+Get-AppxPackage -AllUsers Microsoft.WindowsStore* | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 
 try {
     # https://github.com/SimonCropp/WinDebloat
@@ -12,6 +12,7 @@ try {
     # winget uninstall --name "Xbox Game Bar Plugin" --exact
     # winget uninstall --name "Xbox Game Bar" --exact
     # winget uninstall --name "Xbox Identity Provider" --exact
+    # winget uninstall --name "Xbox TCUI" --exact
     # winget uninstall --name "Xbox" --exact
     winget uninstall --name "3D Viewer" --exact
     winget uninstall --name "Clipchamp" --exact
@@ -46,7 +47,7 @@ try {
     winget uninstall --name "Windows Web Experience Pack" --exact
     winget uninstall --name "Xbox Console Companion" --exact
     winget uninstall --name "Xbox Game Speech Window" --exact
-    winget uninstall --name "Xbox TCUI" --exact
+
     winget upgrade -h --all --include-unknown
 }
 catch {
