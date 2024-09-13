@@ -348,7 +348,7 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 
 tasklist /FI "IMAGENAME eq XboxPcApp.exe" 2>NUL | find /I /N "XboxPcApp.exe">NUL
 if "%ERRORLEVEL%"=="1" (
-    start "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+    start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
 )
 
 @REM cls 
