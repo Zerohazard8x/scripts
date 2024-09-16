@@ -175,6 +175,14 @@ foreach ($drive in $drives) {
 #     }
 # }
 
+# windows defender
+try {
+    Set-MpPreference -EnableControlledFolderAccess Enabled
+}
+catch {
+    Write-Warning "Error: $_"
+}
+
 try {
     dism /online /cleanup-image /restorehealth /startcomponentcleanup
     sfc /scannow
