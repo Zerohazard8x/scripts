@@ -78,7 +78,7 @@ if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
 where choco >nul 2>&1 && (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
-    choco upgrade 7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode -y
+    choco upgrade 7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam-client vscode -y
 )
 
 where wsl >nul 2>&1 && (
