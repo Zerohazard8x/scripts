@@ -2,7 +2,7 @@
 setlocal
 
 @REM version string
-@REM lineage lick
+@REM minescule mouse
 
 @REM registry
 WHERE reg

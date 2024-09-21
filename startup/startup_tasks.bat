@@ -1,7 +1,7 @@
 @echo off
 
 @REM version string
-@REM lineage lick
+@REM minescule mouse
 
 @REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
