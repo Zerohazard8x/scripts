@@ -52,5 +52,8 @@ where choco >nul 2>&1 && (
 )
 
 :NOPROGRAMS
-start "" common.bat
-exit
+if %ERRORLEVEL% EQU 0 (
+    exit
+) else (
+    cmd /k
+)
