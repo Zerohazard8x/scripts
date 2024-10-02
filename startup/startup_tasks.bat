@@ -65,8 +65,8 @@ where python >nul 2>&1 && (
     ren "%homedrive%\Python310\python.exe" "%homedrive%\Python310\python310.exe"
     where python310 >nul 2>&1 && (
         python310 -m pip cache purge
-        python310 -m pip freeze > requirements.txt
-        python310 -m pip uninstall -y -r requirements.txt
+        @REM python310 -m pip freeze > requirements.txt
+        @REM python310 -m pip uninstall -y -r requirements.txt
         @REM python310 -m pip install -U pip
     )
 )

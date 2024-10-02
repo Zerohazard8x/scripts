@@ -18,16 +18,16 @@ pyInstallFunc() {
             python3 -m pip uninstall -y -r requirements.txt
         fi
         
+        if command -v python310; then
+            python310 -m pip cache purge
+            # python310 -m pip freeze > requirements.txt
+            # python310 -m pip uninstall -y -r requirements.txt
+            # python310 -m pip install -U pip
+        fi
+
         if ! command -v pip && command -v aria2c; then
             aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
             python get-pip.py
-        fi
-        
-        if command -v python310; then
-            python310 -m pip cache purge
-            python310 -m pip freeze > requirements.txt
-            python310 -m pip uninstall -y -r requirements.txt
-            # python310 -m pip install -U pip
         fi
         
         python -m pip cache purge
@@ -43,6 +43,11 @@ pyInstallFunc() {
         # Transcribe - stable-ts --faster-whisper --task translate --denoiser demucs --vad=True audio.mp3 -o audio.srt
         # Remove background - demucs --two-stems=vocals input.mp3 output.mp3 # --two-stems=drums, --two-stems=bass
         # Synchronize subtitles - ffsubsync - ffs video.mp4 -i unsynchronized.srt -o synchronized.srt
+
+        # update packages
+        python -m pip freeze > requirements.txt
+        sed -i 's/==/>=/g' requirements.txt
+        python -m pip install -r requirements.txt --upgrade
     fi
 }
 

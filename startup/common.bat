@@ -38,6 +38,16 @@ wmic UserAccount set PasswordExpires=False
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
+    
+    REM update packages
+    WHERE python
+    if %ERRORLEVEL% EQU 0 (
+        python -m pip freeze > requirements.txt
+        powershell -Command "(gc requirements.txt) -replace '==', '>=' | Out-File requirements.txt -encoding ASCII"
+        python -m pip install -r requirements.txt --upgrade
+        
+    )
+
     REM Set script path
     set "scriptPath=%cd%"
 
@@ -346,7 +356,7 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
     )
 )
 
-tasklist /FI "IMAGENAME eq XboxPcApp.exe" 2>NUL | find /I /N "XboxPcApp.exe">NUL
+tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe">NUL
 if "%ERRORLEVEL%"=="1" (
     start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
 )
