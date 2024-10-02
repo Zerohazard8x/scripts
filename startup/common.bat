@@ -45,7 +45,7 @@ if %ERRORLEVEL% EQU 0 (
         python -m pip freeze > requirements.txt
         powershell -Command "(gc requirements.txt) -replace '==', '>=' | Out-File requirements.txt -encoding ASCII"
         python -m pip install -r requirements.txt --upgrade
-        
+
     )
 
     REM Set script path
@@ -179,6 +179,7 @@ sc config "PSSvc" start=demand
 sc config "Parsec" start=demand
 sc config "Razer Synapse Service" start=demand
 sc config "RstMwService" start=demand
+sc config "RtkAudioUniversalService" start=demand
 sc config "Steam Client Service" start=demand
 sc config "SteelSeriesGGUpdateServiceProxy" start=demand
 sc config "SteelSeriesUpdateService" start=demand
@@ -205,11 +206,12 @@ sc config "ss_conn_service" start=demand
 sc config "ss_conn_service2" start=demand
 sc config "xTendSoftAPService" start=demand
 
-@REM sc config "CloudflareWarp" start=auto
 @REM sc config "MacType" start=auto
+@REM sc config "Surfshark Service" start=auto
 sc config "BDESVC" start=auto
 sc config "BFE" start=auto
 sc config "BrokerInfrastructure" start=auto
+sc config "CloudflareWarp" start=auto
 sc config "CortexLauncherService" start=auto
 sc config "Dnscache" start=auto
 sc config "EntAppSvc" start=auto
@@ -238,13 +240,13 @@ sc config "wscsvc" start=auto
 sc config "wuauserv" start=auto
 
 @REM sc config "vgk" start=system
-
-@REM net start "CloudflareWarp"
-@REM net start "MacType"
 @REM net start "vgk"
+
+@REM net start "MacType"
 net start "BDESVC"
 net start "BFE"
 net start "BrokerInfrastructure"
+net start "CloudflareWarp"
 net start "CortexLauncherService"
 net start "Dnscache"
 net start "EntAppSvc"
