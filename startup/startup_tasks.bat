@@ -55,7 +55,7 @@ where python >nul 2>&1 && (
     )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools youtube-dl yt-dlp mutagen
+    python -m pip install -U pip setuptools yt-dlp[curl-cffi] mutagen
 
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
         python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas

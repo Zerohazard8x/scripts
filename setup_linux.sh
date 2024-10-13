@@ -31,8 +31,10 @@ pyInstallFunc() {
         fi
         
         python -m pip cache purge
-        python -m pip install -U pip setuptools youtube-dl yt-dlp mutagen
+        python -m pip install -U pip setuptools yt-dlp[curl-cffi] mutagen
+        # python -m pip install -U yt-dlp[curl-cffi] installs curl-cffi w/ support for yt-dlp
         # python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        # python -m pip install youtube-dl
         
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
         # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] ffsubsync
