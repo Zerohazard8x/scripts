@@ -294,10 +294,10 @@ if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
     )
 )
 
-if exist "%ProgramFiles(x86)%\steam\steam.exe" (
-    tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe">NUL
+if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
+    tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe">NUL
     if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\steam\steam.exe"
+        start "" "%ProgramFiles(x86)%\Steam\steam.exe"
     )
 )
 
