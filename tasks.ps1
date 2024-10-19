@@ -177,6 +177,7 @@ foreach ($drive in $drives) {
 
 # windows defender
 try {
+    Set-MpPreference -DisableRealtimeMonitoring $false
     Set-MpPreference -EnableControlledFolderAccess Enabled
 }
 catch {
