@@ -129,29 +129,25 @@ foreach ($drive in $drives) {
 $drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
 foreach ($drive in $drives) {
     try {
+        # # clean and repair
         # Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
         # cleanmgr /verylowdisk /d $drive
         # cleanmgr /sagerun:0 /d $drive
         # Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
 
+        # # re-register all applications
         # Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
         #     try {
         #         Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
         #     }
         #     catch {
-        #         Write-Warning "Error registering app package: $_"
+        #         Write-Warning "Error: $_"
         #     }
         # }
 
-        $disk = Get-PhysicalDisk | Where-Object {
-            $_.DeviceID -eq (Get-Partition -DriveLetter $drive).DiskNumber
-        }
-        if ($disk.MediaType -ne 'SSD') {
-            Optimize-Volume -DriveLetter $drive -Defrag -Verbose
-        } else {
-            Optimize-Volume -DriveLetter $drive -ReTrim -Verbose
-        }
+        defrag /o /c /m
 
+        # # reset shadow storage
         # vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
     }
     catch {
