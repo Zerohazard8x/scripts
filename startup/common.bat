@@ -179,6 +179,7 @@ sc config "NiSvcLoc" start=demand
 sc config "OverwolfUpdater" start=demand
 sc config "PSSvc" start=demand
 sc config "Parsec" start=demand
+sc config "QMEmulatorService" start=demand
 sc config "Razer Synapse Service" start=demand
 sc config "RstMwService" start=demand
 sc config "RtkAudioUniversalService" start=demand
