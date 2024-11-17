@@ -2,8 +2,8 @@
 sudo -i
 
 corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
-# plusPkgs="7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy steam vscode"
-# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer tesseract tor-browser unison vscodium wezterm"
+# plusPkgs="7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy vscode"
+# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
 
 rm -rfv ./*.aria2
 rm -rfv ./*.py
@@ -95,53 +95,53 @@ done
 # List all disks and store them in an array
 disks=($(lsblk -d -o name | tail -n +2))
 
-# Convert each disk to GPT format
-for disk in "${disks[@]}"; do
-    echo "Converting /dev/$disk to GPT"
-    gdisk /dev/$disk <<EOF
-x
-m
-w
-y
-EOF
-done
+# # Convert each disk to GPT format
+# for disk in "${disks[@]}"; do
+#     echo "Converting /dev/$disk to GPT"
+#     gdisk /dev/$disk <<EOF
+# x
+# m
+# w
+# y
+# EOF
+# done
 
 # Store all partition names in an array
 partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
 
-# Iterate over each partition for checking and repairing
-for part in "${partitions[@]}"; do
-    echo "Repairing /dev/$part"
-    fsck -p /dev/$part
+# # Iterate over each partition for checking and repairing
+# for part in "${partitions[@]}"; do
+#     echo "Repairing /dev/$part"
+#     fsck -p /dev/$part
     
-    # Determine if the partition is on an SSD
-    if [ $(lsblk -o name,rota | grep "$part" | awk '{print $2}') -eq 0 ]; then
-        echo "Trimming /dev/$part"
-        fstrim /dev/$part
-    else
-        mount_point=$(findmnt -n -o TARGET "/dev/$part")
-        fs_type=$(df -T "/dev/$part" | awk 'NR==2 {print $2}')
+#     # Determine if the partition is on an SSD
+#     if [ $(lsblk -o name,rota | grep "$part" | awk '{print $2}') -eq 0 ]; then
+#         echo "Trimming /dev/$part"
+#         fstrim /dev/$part
+#     else
+#         mount_point=$(findmnt -n -o TARGET "/dev/$part")
+#         fs_type=$(df -T "/dev/$part" | awk 'NR==2 {print $2}')
         
-        # Check the filesystem type and apply the appropriate defragmentation command
-        case "$fs_type" in
-            xfs)
-                xfs_fsr /dev/$part
-            ;;
-            btrfs)
-                btrfs filesystem defragment /dev/$part
-            ;;
-            jfs)
-                jfs_fsck -f -p /dev/$part
-            ;;
-            ntfs)
-                shake /dev/$part
-            ;;
-            *)
-                echo "Unsupported filesystem type for defragmentation: $fs_type"
-            ;;
-        esac
-    fi
-done
+#         # Check the filesystem type and apply the appropriate defragmentation command
+#         case "$fs_type" in
+#             xfs)
+#                 xfs_fsr /dev/$part
+#             ;;
+#             btrfs)
+#                 btrfs filesystem defragment /dev/$part
+#             ;;
+#             jfs)
+#                 jfs_fsck -f -p /dev/$part
+#             ;;
+#             ntfs)
+#                 shake /dev/$part
+#             ;;
+#             *)
+#                 echo "Unsupported filesystem type for defragmentation: $fs_type"
+#             ;;
+#         esac
+#     fi
+# done
 
 # # polling rates
 # if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then

@@ -1,3 +1,9 @@
+# Ensure the script runs with administrative privileges
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Warning "run this script as admin"
+    exit
+}
+
 # microsoft store
 Get-AppxPackage -AllUsers Microsoft.WindowsStore* | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 
@@ -115,45 +121,73 @@ foreach ($adapter in $adapters) {
     # Restart-NetAdapter -InterfaceAlias $alias
 }
 
-# Attempts to repair all drives
-$drives = Get-Disk | Select-Object -ExpandProperty Number
-foreach ($drive in $drives) {
-    try {
-        mbr2gpt /allowfullos /convert /disk=$drive
-    }
-    catch {
-        Write-Warning "Error converting drive $drive`: $_"
-    }
-}
+# make all taskschd.msc tasks run manually
+# $scheduledTasks = Get-ScheduledTask
+# foreach ($task in $scheduledTasks) {
+#     try {
+#         $taskName = $task.TaskName
+#         $taskPath = $task.TaskPath
 
-$drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
-foreach ($drive in $drives) {
-    try {
-        # # clean and repair
-        # Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
-        # cleanmgr /verylowdisk /d $drive
-        # cleanmgr /sagerun:0 /d $drive
-        # Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
+#         # Retrieve the full task details
+#         $fullTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath
 
-        # # re-register all applications
-        # Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
-        #     try {
-        #         Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
-        #     }
-        #     catch {
-        #         Write-Warning "Error: $_"
-        #     }
-        # }
+#         # Extract actions, principal, and settings
+#         $actions = $fullTask.Actions
+#         $principal = $fullTask.Principal
+#         $settings = $fullTask.Settings
 
-        defrag /o /c /m
+#         # Create a new scheduled task definition without triggers
+#         $newTask = New-ScheduledTask -Action $actions -Principal $principal -Settings $settings
 
-        # # reset shadow storage
-        # vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
-    }
-    catch {
-        Write-Warning "Error repairing drive $drive`: $_"
-    }
-}
+#         # Register the new task, effectively removing all triggers
+#         Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -InputObject $newTask -Force
+
+#         Write-Output "Updated task: $taskPath$taskName"
+#     }
+#     catch {
+#         Write-Warning "Failed: $taskPath$taskName. Error: $_"
+#     }
+# }
+
+# # Attempts to repair all drives
+# $drives = Get-Disk | Select-Object -ExpandProperty Number
+# foreach ($drive in $drives) {
+#     try {
+#         mbr2gpt /allowfullos /convert /disk=$drive
+#     }
+#     catch {
+#         Write-Warning "Error converting drive $drive`: $_"
+#     }
+# }
+
+# $drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
+# foreach ($drive in $drives) {
+#     try {
+#         # clean and repair
+#         Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
+#         cleanmgr /verylowdisk /d $drive
+#         cleanmgr /sagerun:0 /d $drive
+#         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
+
+#         # re-register all applications
+#         Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
+#             try {
+#                 Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
+#             }
+#             catch {
+#                 Write-Warning "Error: $_"
+#             }
+#         }
+
+#         defrag /o /c /m
+
+#         # reset shadow storage
+#         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
+#     }
+#     catch {
+#         Write-Warning "Error repairing drive $drive`: $_"
+#     }
+# }
 
 # # Re-registers all UWP apps on Windows drive
 # $appxManifestPaths = @(
@@ -180,13 +214,13 @@ catch {
     Write-Warning "Error: $_"
 }
 
-try {
-    dism /online /cleanup-image /restorehealth /startcomponentcleanup
-    sfc /scannow
-}
-catch {
-    Write-Warning "Error running DISM or SFC: $_"
-}
+# try {
+#     dism /online /cleanup-image /restorehealth /startcomponentcleanup
+#     sfc /scannow
+# }
+# catch {
+#     Write-Warning "Error running DISM or SFC: $_"
+# }
 
 try {
     bcdedit.exe /debug off
@@ -201,7 +235,7 @@ catch {
 
 try {
     if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
-        Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
+        # Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
         Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
         Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false
     }
