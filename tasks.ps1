@@ -208,7 +208,7 @@ foreach ($adapter in $adapters) {
 # windows defender
 try {
     Set-MpPreference -DisableRealtimeMonitoring $false
-    Set-MpPreference -EnableControlledFolderAccess Enabled
+    # Set-MpPreference -EnableControlledFolderAccess Enabled
 }
 catch {
     Write-Warning "Error: $_"
