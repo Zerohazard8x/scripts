@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+; NOTE: Example - Both of these should be the same bc they both have D: as mount point
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\PackageVolumes\6]
+"Flags"=dword:0000027a
+"MediaId"="{929313F0-0000-0000-B9BE-C36672871674}"
+; "MountPoint"="D:"
+"Name"="\\\\?\\Volume{a56a76d1-da8d-46f9-a841-689bec5f92c8}"
+; "SisPath"="D:\\WindowsApps"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\PackageVolumes\7]
+"Flags"=dword:0000027a
+"MediaId"="{929313F0-0000-0000-B9BE-C36672871674}"
+; "MountPoint"="D:"
+"Name"="\\\\?\\Volume{a56a76d1-da8d-46f9-a841-689bec5f92c8}"
+; "SisPath"="D:\\WindowsApps"
