@@ -1,6 +1,7 @@
 Windows Registry Editor Version 5.00
 
 ; NOTE: Example - Both of these should be the same bc they both have the same "Name"
+; Prioritize higher number
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\PackageVolumes\6]
 "Flags"=dword:0000027a
 "MediaId"="{929313F0-0000-0000-B9BE-C36672871674}"
