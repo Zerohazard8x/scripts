@@ -199,8 +199,8 @@ if command -v apt || command -v aptitude; then
 fi
 
 if lspci | grep -e VGA | grep -e geforce; then
-    if command -v aptitude; then aptitude install nvidia-driver-550 -y
-        elif command -v apt; then aptitude install nvidia-driver-550 -y
+    if command -v aptitude; then aptitude install nvidia-driver-560 -y
+        elif command -v apt; then aptitude install nvidia-driver-560 -y
         elif command -v yay; then yay -S nvidia --noconfirm
     elif command -v pacman; then pacman -S nvidia --noconfirm; fi
 fi
