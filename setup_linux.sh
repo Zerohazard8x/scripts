@@ -3,7 +3,7 @@ sudo -i
 
 corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
 # plusPkgs="7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy vscode"
-# otherPkgs="audacious audacity alacritty blender chromium czkawka darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
+# otherPkgs="audacious audacity alacritty blender chromium darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi krokiet meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
 
 rm -rfv ./*.aria2
 rm -rfv ./*.py
