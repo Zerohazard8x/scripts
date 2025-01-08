@@ -54,7 +54,8 @@ try {
     winget uninstall --name "Xbox Console Companion" --exact
     winget uninstall --name "Xbox Game Speech Window" --exact
 
-    winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+    winget upgrade --all --accept-source-agreements --accept-package-agreements
+    # winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
 }
 catch {
     Write-Warning "Error: $_"
