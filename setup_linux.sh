@@ -2,8 +2,8 @@
 sudo -i
 
 corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
-# plusPkgs="7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy vscode"
-# otherPkgs="audacious audacity alacritty blender chromium darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi krokiet meld microsoft-edge miktex neovim obsidian okular openvpn opera parsec pdfsam picard retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
+# plusPkgs="7zip aria2 adb discord dos2unix nano scrcpy vscode"
+# otherPkgs="audacious audacity alacritty blender chromium darktable doomsday exiftool filezilla foobar2000 ghostscript ioquake3 jdownloader kdenlive kodi krokiet libreoffice  meld microsoft-edge miktex neovim obsidian obs-studio okular openvpn opera parsec pdfsam picard pinta qbittorrent retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
 
 rm -rfv ./*.aria2
 rm -rfv ./*.py
@@ -31,7 +31,7 @@ pyInstallFunc() {
         fi
         
         python -m pip cache purge
-        python -m pip install -U pip setuptools yt-dlp[curl-cffi] mutagen
+        python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
         # python -m pip install -U yt-dlp[curl-cffi] installs curl-cffi w/ support for yt-dlp
         # python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
         # python -m pip install youtube-dl

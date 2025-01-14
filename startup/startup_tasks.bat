@@ -55,7 +55,7 @@ where python >nul 2>&1 && (
     )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp[curl-cffi] mutagen
+    python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
 
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
         python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
@@ -78,13 +78,13 @@ if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
 where choco >nul 2>&1 && (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
-    choco upgrade 7zip aria2 adb discord dos2unix libreoffice obs-studio nano pinta qbittorrent scrcpy vscode -y
+    choco upgrade 7zip aria2 adb discord dos2unix nano scrcpy vscode -y
 )
 
-where wsl >nul 2>&1 && (
-    wsl --install --no-launch
-    wsl --update
-)
+@REM where wsl >nul 2>&1 && (
+@REM     wsl --install --no-launch
+@REM     wsl --update
+@REM )
 
 :NOPROGRAMS
 
