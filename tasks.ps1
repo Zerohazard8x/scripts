@@ -81,12 +81,12 @@ catch {
 #             -StartupType "Disabled"
 
 # network
-Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate https://dns.google/dns-query-AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 1.1.1.2 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 1.0.0.2 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
 
-Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8888 -DohTemplate https://dns.google/dns-query-AutoUpgrade $True
+Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8888 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8844 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
