@@ -339,27 +339,19 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 @REM     )
 @REM )
 
-@REM voicemeeter banana
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
     if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+    )
+) else (
+    if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
         tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
         if "%ERRORLEVEL%"=="1" (
-            start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+            start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
         )
     )
 )
-
-@REM voicemeeter potato
-@REM if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
-@REM     tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "vvoicemeeter8x64.exe">NUL
-@REM     if "%ERRORLEVEL%"=="1" (
-@REM         tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
-@REM         if "%ERRORLEVEL%"=="1" (
-@REM             start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe
-@REM         )
-@REM     )
-@REM )
 
 if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
     tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe">NUL
