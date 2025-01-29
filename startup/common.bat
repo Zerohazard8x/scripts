@@ -5,22 +5,22 @@ setlocal
 @REM minescule mouse
 
 @REM registry
-WHERE reg
-if %ERRORLEVEL% EQU 0 (
-    del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
+@REM WHERE reg
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
 
-    WHERE curl 
-    if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-    ) else (
-        WHERE wget 
-        if %ERRORLEVEL% EQU 0 (
-            wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-        )
-    )
+@REM     WHERE curl 
+@REM     if %ERRORLEVEL% EQU 0 (
+@REM         curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+@REM     ) else (
+@REM         WHERE wget 
+@REM         if %ERRORLEVEL% EQU 0 (
+@REM             wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
+@REM         )
+@REM     )
 
-    reg import "%USERPROFILE%\Downloads\tweaks.reg"
-)
+@REM     reg import "%USERPROFILE%\Downloads\tweaks.reg"
+@REM )
 
 cls 
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
