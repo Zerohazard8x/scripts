@@ -56,8 +56,10 @@ where python >nul 2>&1 && (
 
     python -m pip cache purge
     python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
-    python -m pip install -U stable-ts faster-whisper demucs
+    python -m pip install -U whisperx torchaudio==2.0.1 torch==2.0.0
+
     @REM python -m pip install -U openai-whisper
+    @REM python -m pip install -U stable-ts faster-whisper demucs
 
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
         python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas

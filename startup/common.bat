@@ -39,14 +39,14 @@ wmic UserAccount set PasswordExpires=False
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
     
-    REM update packages
-    WHERE python
-    if %ERRORLEVEL% EQU 0 (
-        python -m pip freeze > requirements.txt
-        powershell -Command "(gc requirements.txt) -replace '==', '>=' | Out-File requirements.txt -encoding ASCII"
-        python -m pip install -r requirements.txt --upgrade
+    @REM update packages
+    @REM WHERE python
+    @REM if %ERRORLEVEL% EQU 0 (
+    @REM     python -m pip freeze > requirements.txt
+    @REM     powershell -Command "(gc requirements.txt) -replace '==', '>=' | Out-File requirements.txt -encoding ASCII"
+    @REM     python -m pip install -r requirements.txt --upgrade
 
-    )
+    @REM )
 
     REM Set script path
     set "scriptPath=%cd%"
