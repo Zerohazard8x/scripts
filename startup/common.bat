@@ -54,31 +54,31 @@ if %ERRORLEVEL% EQU 0 (
     powershell.exe -c Set-ExecutionPolicy Bypass
 
     REM Clean up old files
-    del /s /q /f "%USERPROFILE%\Downloads\wifi-pass.zip" "%USERPROFILE%\Downloads\wifi-main\" ".\wifi-pass.zip" ".\wifi-main\"
+    @REM del /s /q /f "%USERPROFILE%\Downloads\wifi-pass.zip" "%USERPROFILE%\Downloads\wifi-main\" ".\wifi-pass.zip" ".\wifi-main\"
     del /s /q /f .\tasks.ps1
 
     cd "%USERPROFILE%\Downloads"
 
-    WHERE curl 
-    if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -Lo wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-    ) else (
-        WHERE wget 
-        if %ERRORLEVEL% EQU 0 (
-            wget -c --timestamping -O wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-        ) else (
-            WHERE aria2c 
-            if %ERRORLEVEL% EQU 0 (
-                aria2c -R --allow-overwrite=true -o wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-            )
-        )
-    )
+    @REM WHERE curl 
+    @REM if %ERRORLEVEL% EQU 0 (
+    @REM     curl --remote-time -C - -Lo wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
+    @REM ) else (
+    @REM     WHERE wget 
+    @REM     if %ERRORLEVEL% EQU 0 (
+    @REM         wget -c --timestamping -O wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
+    @REM     ) else (
+    @REM         WHERE aria2c 
+    @REM         if %ERRORLEVEL% EQU 0 (
+    @REM             aria2c -R --allow-overwrite=true -o wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
+    @REM         )
+    @REM     )
+    @REM )
 
     REM extract zip file
-    WHERE 7z 
-    if %ERRORLEVEL% EQU 0 (
-        7z x wifi-pass.zip -aoa -o.
-    )
+    @REM WHERE 7z 
+    @REM if %ERRORLEVEL% EQU 0 (
+    @REM     7z x wifi-pass.zip -aoa -o.
+    @REM )
 
     if exist ".\wifi-main" (
         cd ".\wifi-main"

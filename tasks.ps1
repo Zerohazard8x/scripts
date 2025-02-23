@@ -159,6 +159,7 @@ foreach ($adapter in $adapters) {
 # }
 
 # # Attempts to repair all drives
+# defrag /o /c /m
 # $drives = Get-Disk | Select-Object -ExpandProperty Number
 # foreach ($drive in $drives) {
 #     try {
@@ -187,8 +188,6 @@ foreach ($adapter in $adapters) {
 #                 Write-Warning "Error: $_"
 #             }
 #         }
-
-#         defrag /o /c /m
 
 #         # reset shadow storage
 #         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
