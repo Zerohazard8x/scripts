@@ -136,8 +136,8 @@ if %ERRORLEVEL% EQU 0 (
 
     control update
 )
-mkdir wifi-todo
-netsh wlan export profile key=clear folder=wifi-todo
+@REM mkdir wifi-todo
+@REM netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 
