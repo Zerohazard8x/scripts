@@ -1,0 +1,34 @@
+Windows Registry Editor Version 5.00
+
+; Windows 10/11 Pro
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]
+"CompositionEditionID"="Enterprise"
+"EditionID"="Professional"
+"ProductName"="Windows 10 Pro"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion]
+"CompositionEditionID"="Enterprise"
+"EditionID"="Professional"
+"ProductName"="Windows 10 Pro"
+
+; Windows 10/11 Home
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]
+; "CompositionEditionID"="Core"
+; "EditionID"="Core"
+; "ProductName"="Windows 10 Home"
+
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion]
+; "CompositionEditionID"="Core"
+; "EditionID"="Core"
+; "ProductName"="Windows 10 Home"
+
+; Windows 10/11 Enterprise LTSC 2024
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]
+; "CompositionEditionID"="EnterpriseS"
+; "EditionID"="EnterpriseS"
+; "ProductName"="Windows 10 Enterprise LTSC 2024"
+
+; [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion]
+; "CompositionEditionID"="EnterpriseS"
+; "EditionID"="EnterpriseS"
+; "ProductName"="Windows 10 Enterprise LTSC 2024"
