@@ -55,23 +55,27 @@ where python >nul 2>&1 && (
     )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
-    python -m pip install -U whisperx torchaudio==2.0.1 torch==2.0.0
+    python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen uv
 
-    @REM python -m pip install -U openai-whisper
-    @REM python -m pip install -U stable-ts faster-whisper demucs
+    WHERE uv 
+    if %ERRORLEVEL% EQU 0 (
+        uv venv --python 3.12
+        uv pip install --python 3.12 -U whisperx
+        @REM uv pip install --python 3.12 -U openai-whisper
+        @REM uv pip install --python 3.12 -U stable-ts faster-whisper demucs
+    )
 
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
         python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
     )
 
-    ren "%localappdata%\Programs\Python\Python310\python.exe" "%localappdata%\Programs\Python\Python310\python310.exe"
-    ren "%homedrive%\Python310\python.exe" "%homedrive%\Python310\python310.exe"
-    where python310 >nul 2>&1 && (
-        python310 -m pip cache purge
-        @REM python310 -m pip freeze > requirements.txt
-        @REM python310 -m pip uninstall -y -r requirements.txt
-        @REM python310 -m pip install -U pip
+    @REM upgrade
+    WHERE powershell 
+    if %ERRORLEVEL% EQU 0 (
+        python -m pip freeze > requirements.txt
+        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+        python -m pip install --upgrade -r requirements.txt
+        del requirements.txt
     )
 )
 

@@ -17,13 +17,6 @@ pyInstallFunc() {
             python3 -m pip freeze > requirements.txt
             python3 -m pip uninstall -y -r requirements.txt
         fi
-        
-        if command -v python310; then
-            python310 -m pip cache purge
-            # python310 -m pip freeze > requirements.txt
-            # python310 -m pip uninstall -y -r requirements.txt
-            # python310 -m pip install -U pip
-        fi
 
         if ! command -v pip && command -v aria2c; then
             aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
@@ -31,11 +24,16 @@ pyInstallFunc() {
         fi
         
         python -m pip cache purge
-        python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
-        # python -m pip install -U yt-dlp[curl-cffi] installs curl-cffi w/ support for yt-dlp
-        # python -m pip install -U https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen uv
         # python -m pip install youtube-dl
         
+        if command -v uv; then
+            uv venv --python 3.12
+            uv pip install --python 3.12 -U whisperx
+            # uv pip install --python 3.12 -U openai-whisper
+            # uv pip install --python 3.12 -U stable-ts faster-whisper demucs
+        fi
+
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
         # python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] ffsubsync
         # python -m pip install -U stable-ts faster-whisper demucs ffsubsync
