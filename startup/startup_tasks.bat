@@ -48,12 +48,6 @@ where choco >nul 2>&1 && (
 )
 
 where python >nul 2>&1 && (
-    where python3 >nul 2>&1 && (
-        python3 -m pip cache purge
-        python3 -m pip freeze > requirements.txt
-        python3 -m pip uninstall -y -r requirements.txt
-    )
-
     python -m pip cache purge
     python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen uv
 

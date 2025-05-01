@@ -12,11 +12,11 @@ pyInstallFunc() {
     $1
     
     if command -v python; then
-        if command -v python3; then
-            python3 -m pip cache purge
-            python3 -m pip freeze > requirements.txt
-            python3 -m pip uninstall -y -r requirements.txt
-        fi
+        # if command -v python3; then
+        #     python3 -m pip cache purge
+        #     python3 -m pip freeze > requirements.txt
+        #     python3 -m pip uninstall -y -r requirements.txt
+        # fi
 
         if ! command -v pip && command -v aria2c; then
             aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
