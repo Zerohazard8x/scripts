@@ -28,7 +28,7 @@ pyInstallFunc() {
         # python -m pip install youtube-dl
         
         if command -v uv; then
-            uv venv --python 3.12
+            # uv venv --python 3.12
             uv pip install --python 3.12 -U whisperx
             # uv pip install --python 3.12 -U openai-whisper
             # uv pip install --python 3.12 -U stable-ts faster-whisper demucs

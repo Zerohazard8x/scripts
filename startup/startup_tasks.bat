@@ -53,7 +53,7 @@ where python >nul 2>&1 && (
 
     WHERE uv 
     if %ERRORLEVEL% EQU 0 (
-        uv venv --python 3.12
+        @REM uv venv --python 3.12
         uv pip install --python 3.12 -U whisperx
         @REM uv pip install --python 3.12 -U openai-whisper
         @REM uv pip install --python 3.12 -U stable-ts faster-whisper demucs
