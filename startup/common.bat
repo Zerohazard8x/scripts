@@ -86,6 +86,13 @@ if "%ERRORLEVEL%"=="1" (
     start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
 )
 
+if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
+    tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\FanControl\FanControl.exe"
+    )
+)
+
 @REM registry
 @REM WHERE reg
 @REM if %ERRORLEVEL% EQU 0 (
