@@ -115,15 +115,15 @@ cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
 
-@REM reset gpedit
-RD /S /Q "%windir%\System32\GroupPolicyUsers"
-RD /S /Q "%windir%\System32\GroupPolicy"
-gpupdate /force
+@REM @REM reset gpedit
+@REM RD /S /Q "%windir%\System32\GroupPolicyUsers"
+@REM RD /S /Q "%windir%\System32\GroupPolicy"
+@REM gpupdate /force
 
-secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
+@REM secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 
 @REM password expiry
-wmic UserAccount set PasswordExpires=False
+@REM wmic UserAccount set PasswordExpires=False
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (

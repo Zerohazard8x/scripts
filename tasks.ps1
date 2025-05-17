@@ -4,8 +4,10 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit
 }
 
-# microsoft store
-Get-AppxPackage -AllUsers Microsoft.WindowsStore* | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+# Microsoft Store
+Get-AppxPackage -AllUsers Microsoft.WindowsStore* | ForEach-Object {
+    Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"
+}
 
 try {
     # https://github.com/SimonCropp/WinDebloat
@@ -54,6 +56,13 @@ try {
     winget uninstall --name "Xbox Console Companion" --exact
     winget uninstall --name "Xbox Game Speech Window" --exact
 
+    # Codec extensions
+    winget install 9nmzlz57r3t7 -s msstore --accept-source-agreements --accept-package-agreements # HEVC
+    winget install 9n4wgh0z6vhq -s msstore --accept-source-agreements --accept-package-agreements # HEVC (OEM)
+    winget install 9MVZQVXJBQ9V -s msstore --accept-source-agreements --accept-package-agreements # AV1
+    winget install 9N4D0MSMP0PT -s msstore --accept-source-agreements --accept-package-agreements # VP9
+    winget install 9n95q1zzpmh4 -s msstore --accept-source-agreements --accept-package-agreements # MPEG-2
+
     winget upgrade --all --accept-source-agreements --accept-package-agreements
     # winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
 }
@@ -61,26 +70,14 @@ catch {
     Write-Warning "Error: $_"
 }
 
-# Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search"`
-#                  -Name "SearchboxTaskbarMode"`
-#                  -Type "DWord"`
-#                  -Value "0"
-
-# Set-ItemProperty -Path "Registry::HKLM\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell"`
-#                  -Name "ExecutionPolicy"`
-#                  -Type "String"`
-#                  -Value "Unrestricted"
-
-# Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer"`
-#                  -Name "DisableSearchBoxSuggestions"`
-#                  -Type "DWord"`
-#                  -Value "1"
+# Set-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type "DWord" -Value "0"
+# Set-ItemProperty -Path "Registry::HKLM\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" -Name "ExecutionPolicy" -Type "String" -Value "Unrestricted"
+# Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableSearchBoxSuggestions" -Type "DWord" -Value "1"
 
 # Stop-Service -Name "Spooler"
-# Set-Service -Name "Spooler"`
-#             -StartupType "Disabled"
+# Set-Service -Name "Spooler" -StartupType "Disabled"
 
-# network
+# Network
 Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 1.1.1.2 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
@@ -107,19 +104,16 @@ Add-DnsClientDohServerAddress -ServerAddress 2620:fe::fe:11 -DohTemplate https:/
 $adapters = Get-NetAdapter
 foreach ($adapter in $adapters) {
     $alias = $adapter.InterfaceAlias
-    
+
     Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2606:4700:4700::1112", "2606:4700:4700::1002")
     Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('1.1.1.2','1.0.0.2')
 
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2001:4860:4860::8888", "2001:4860:4860::8844")
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('8.8.8.8','8.8.4.4')
-
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2606:1a40::2", "2606:1a40:1::2")
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('76.76.2.2','76.76.10.2')
-
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2620:fe::11", "2620:fe::fe:11")
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('9.9.9.11','149.112.112.11')
-
     # Set-DnsClientServerAddress -InterfaceAlias $alias -ResetServerAddresses
 
     # set to obtain an IP address automatically (DHCP)
@@ -130,27 +124,22 @@ foreach ($adapter in $adapters) {
     # Restart-NetAdapter -InterfaceAlias $alias
 }
 
-# make all taskschd.msc tasks run manually
+# Make all taskschd.msc tasks run manually
 # $scheduledTasks = Get-ScheduledTask
 # foreach ($task in $scheduledTasks) {
 #     try {
 #         $taskName = $task.TaskName
 #         $taskPath = $task.TaskPath
-
 #         # Retrieve the full task details
 #         $fullTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath
-
 #         # Extract actions, principal, and settings
 #         $actions = $fullTask.Actions
 #         $principal = $fullTask.Principal
 #         $settings = $fullTask.Settings
-
 #         # Create a new scheduled task definition without triggers
 #         $newTask = New-ScheduledTask -Action $actions -Principal $principal -Settings $settings
-
 #         # Register the new task, effectively removing all triggers
 #         Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -InputObject $newTask -Force
-
 #         Write-Output "Updated task: $taskPath$taskName"
 #     }
 #     catch {
@@ -158,7 +147,7 @@ foreach ($adapter in $adapters) {
 #     }
 # }
 
-# # Attempts to repair all drives
+# Attempts to repair all drives
 # defrag /o /c /m
 # $drives = Get-Disk | Select-Object -ExpandProperty Number
 # foreach ($drive in $drives) {
@@ -178,7 +167,6 @@ foreach ($adapter in $adapters) {
 #         cleanmgr /verylowdisk /d $drive
 #         cleanmgr /sagerun:0 /d $drive
 #         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
-
 #         # re-register all applications
 #         Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
 #             try {
@@ -188,7 +176,6 @@ foreach ($adapter in $adapters) {
 #                 Write-Warning "Error: $_"
 #             }
 #         }
-
 #         # reset shadow storage
 #         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
 #     }
@@ -197,7 +184,7 @@ foreach ($adapter in $adapters) {
 #     }
 # }
 
-# # Re-registers all UWP apps on Windows drive
+# Re-registers all UWP apps on Windows drive
 # $appxManifestPaths = @(
 #     "$Env:ProgramFiles\WindowsApps",
 #     "$Env:WINDIR\SystemApps"
@@ -213,7 +200,7 @@ foreach ($adapter in $adapters) {
 #     }
 # }
 
-# windows defender
+# Windows Defender
 try {
     Set-MpPreference -DisableRealtimeMonitoring $false
     Set-MpPreference -EnableControlledFolderAccess Disabled
@@ -255,15 +242,21 @@ catch {
     Write-Warning "Error installing or running Windows updates: $_"
 }
 
-# PSWindowsUpdate module is still not available
-# use the wuauclt command as a fallback
-if (-not(Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
+if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
     try {
-        wuauclt /detectnow
-        wuauclt /updatenow
+        if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
+            Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
+            Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false
+        }
+        else {
+            # PSWindowsUpdate module is still not available
+            # use the wuauclt command as a fallback
+            wuauclt /detectnow
+            wuauclt /updatenow
+        }
     }
     catch {
-        Write-Warning "Error running wuauclt: $_"
+        Write-Warning "Error: $_"
     }
 }
 
@@ -273,7 +266,6 @@ try {
 catch {
     Write-Warning "Error opening Windows Update control panel: $_"
 }
-
 
 # Installs chocolatey
 # if (-not(Get-Command choco -ErrorAction SilentlyContinue)) {
