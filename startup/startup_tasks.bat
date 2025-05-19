@@ -6,17 +6,6 @@
 @REM Ping-abuse timeout - 1 second
 ping 127.0.0.1 -n 2 > nul
 
-@REM powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
-
-@REM WHERE w32tm
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     w32tm /config /update
-@REM     w32tm /resync
-@REM )
-
-@REM Clear clipboard
-@REM "echo off | clip"
-
 cls 
 @REM /C YN means choices are Y,N
 @REM /D Y means default choice is Y

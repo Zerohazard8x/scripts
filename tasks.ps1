@@ -4,11 +4,6 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit
 }
 
-# Microsoft Store
-Get-AppxPackage -AllUsers Microsoft.WindowsStore* | ForEach-Object {
-    Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"
-}
-
 try {
     # https://github.com/SimonCropp/WinDebloat
     # winget uninstall "OneDrive"
@@ -55,16 +50,6 @@ try {
     winget uninstall --name "Windows Web Experience Pack" --exact
     winget uninstall --name "Xbox Console Companion" --exact
     winget uninstall --name "Xbox Game Speech Window" --exact
-
-    # Codec extensions
-    winget install 9nmzlz57r3t7 -s msstore --accept-source-agreements --accept-package-agreements # HEVC
-    winget install 9n4wgh0z6vhq -s msstore --accept-source-agreements --accept-package-agreements # HEVC (OEM)
-    winget install 9MVZQVXJBQ9V -s msstore --accept-source-agreements --accept-package-agreements # AV1
-    winget install 9N4D0MSMP0PT -s msstore --accept-source-agreements --accept-package-agreements # VP9
-    winget install 9n95q1zzpmh4 -s msstore --accept-source-agreements --accept-package-agreements # MPEG-2
-
-    winget upgrade --all --accept-source-agreements --accept-package-agreements
-    # winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
 }
 catch {
     Write-Warning "Error: $_"
@@ -76,6 +61,145 @@ catch {
 
 # Stop-Service -Name "Spooler"
 # Set-Service -Name "Spooler" -StartupType "Disabled"
+
+# Windows store
+function Get-StoreAppPackages {
+    # Derived from https://christitus.com/installing-appx-without-msstore/ by LLM
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string] $ProductId,
+
+        [ValidateSet('RP','WIF','Retail','Beta')]
+        [string] $Ring = 'RP',
+
+        [string] $Lang = 'en-US'
+    )
+
+    # 1. Try winget first
+    Write-Verbose "Attempting winget install for $ProductId"
+    try {
+        & winget install --id $ProductId --source msstore `
+            --accept-source-agreements --accept-package-agreements
+        if (($LASTEXITCODE -eq 0) -or ($LASTEXITCODE -eq -1978335189)) {
+            Write-Verbose "Winget install succeeded for $ProductId"
+            return "Installed via winget: $ProductId"
+        }
+        Write-Warning "winget exited with code $LASTEXITCODE; falling back to API download."
+    }
+    catch {
+        Write-Warning "winget install error: $_"
+    }
+
+    # 2. Determine preferred architecture
+    $is64 = [Environment]::Is64BitOperatingSystem
+    if ($is64) {
+        $preferredArch = 'x64'
+        $fallbackArch  = 'x86'
+    } else {
+        $preferredArch = 'x86'
+        $fallbackArch  = 'x64'
+    }
+    Write-Verbose "OS is $([Environment]::OSVersion); preferring $preferredArch"
+
+    # 3. Set up download directory
+    $apiUrl      = 'https://store.rg-adguard.net/api/GetFiles'
+    $productUrl  = "https://www.microsoft.com/store/productId/$ProductId"
+    $downloadDir = Join-Path $env:TEMP "StoreDownloads\$ProductId"
+    if (-not (Test-Path $downloadDir)) {
+        New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
+    }
+
+    # 4. Query RG-AdGuard API
+    $body = @{ type='url'; url=$productUrl; ring=$Ring; lang=$Lang }
+    try {
+        $response = Invoke-RestMethod -Method Post -Uri $apiUrl `
+                     -ContentType 'application/x-www-form-urlencoded' `
+                     -Body $body
+    }
+    catch {
+        Throw "Failed to call RG-AdGuard API: $_"
+    }
+
+    # 5. Parse all candidate URLs
+    $pattern = '<tr style.*?<a href="(?<url>[^"]+)"[^>]*>(?<name>[^<]+)</a>'
+    $matches = [regex]::Matches($response, $pattern)
+
+    # 6. Filter into buckets
+    $byArch = @{
+        Preferred = @()
+        Neutral   = @()
+        Fallback  = @()
+    }
+    foreach ($m in $matches) {
+        $url  = $m.Groups['url'].Value
+        $name = $m.Groups['name'].Value
+
+        if ($name -match '_(x86|x64|neutral).*?\.(appx|appxbundle)$') {
+            switch -Regex ($name) {
+                "_$preferredArch" { $byArch.Preferred += @{ Name=$name; Url=$url }; break }
+                "_neutral"        { $byArch.Neutral   += @{ Name=$name; Url=$url }; break }
+                "_$fallbackArch"  { $byArch.Fallback  += @{ Name=$name; Url=$url }; break }
+            }
+        }
+    }
+
+    # 7. Choose the first available in preference order
+    $chosen = $byArch.Preferred + $byArch.Neutral + $byArch.Fallback
+    if (-not $chosen) {
+        Write-Warning "No suitable package found for $ProductId"
+        return
+    }
+    $pkgInfo = $chosen[0]
+    $outFile = Join-Path $downloadDir $pkgInfo.Name
+
+    # 8. Download chosen package if not already present
+    if (-not (Test-Path $outFile)) {
+        try {
+            Write-Verbose "Downloading $($pkgInfo.Name)"
+            Invoke-WebRequest -Uri $pkgInfo.Url `
+                              -OutFile $outFile `
+                              -UseBasicParsing
+        }
+        catch {
+            Throw "Download failed for $($pkgInfo.Name): $_"
+        }
+    }
+
+    # 9. Install the .appx/.appxbundle
+    try {
+        Write-Verbose "Installing $outFile"
+        Add-AppxPackage -Path $outFile -ForceApplicationShutdown -Confirm:$false
+        Write-Verbose "Installed $($pkgInfo.Name) successfully"
+    }
+    catch {
+        Write-Warning "Installation failed for $($pkgInfo.Name): $_"
+    }
+
+    # 10. Cleanup
+    try {
+        Write-Verbose "Removing directory $downloadDir"
+        Remove-Item -Path $downloadDir -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Verbose "Cleanup complete"
+    }
+    catch {
+        Write-Warning "Cleanup error: $_"
+    }
+
+    return "Installed $($pkgInfo.Name) and cleaned up temporary files."
+}
+
+Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
+
+# codecs
+Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
+Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
+Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
+Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
+Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+
+winget upgrade --all --accept-source-agreements --accept-package-agreements
+# winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
 
 # Network
 Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
@@ -98,108 +222,6 @@ Add-DnsClientDohServerAddress -ServerAddress 149.112.112.11 -DohTemplate https:/
 Add-DnsClientDohServerAddress -ServerAddress 2620:fe::11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
 Add-DnsClientDohServerAddress -ServerAddress 2620:fe::fe:11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
 
-# Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $False
-# Remove-DnsClientDohServerAddress -ServerAddress 8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
-
-$adapters = Get-NetAdapter
-foreach ($adapter in $adapters) {
-    $alias = $adapter.InterfaceAlias
-
-    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2606:4700:4700::1112", "2606:4700:4700::1002")
-    Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('1.1.1.2','1.0.0.2')
-
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2001:4860:4860::8888", "2001:4860:4860::8844")
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('8.8.8.8','8.8.4.4')
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2606:1a40::2", "2606:1a40:1::2")
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('76.76.2.2','76.76.10.2')
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ("2620:fe::11", "2620:fe::fe:11")
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ('9.9.9.11','149.112.112.11')
-    # Set-DnsClientServerAddress -InterfaceAlias $alias -ResetServerAddresses
-
-    # set to obtain an IP address automatically (DHCP)
-    # Set-NetIPInterface -InterfaceAlias $alias -Dhcp Enabled
-    # Set-NetIPInterface -InterfaceAlias $alias -AddressFamily IPv6 -Dhcp Enabled
-
-    # Restart the network adapter to apply changes
-    # Restart-NetAdapter -InterfaceAlias $alias
-}
-
-# Make all taskschd.msc tasks run manually
-# $scheduledTasks = Get-ScheduledTask
-# foreach ($task in $scheduledTasks) {
-#     try {
-#         $taskName = $task.TaskName
-#         $taskPath = $task.TaskPath
-#         # Retrieve the full task details
-#         $fullTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath
-#         # Extract actions, principal, and settings
-#         $actions = $fullTask.Actions
-#         $principal = $fullTask.Principal
-#         $settings = $fullTask.Settings
-#         # Create a new scheduled task definition without triggers
-#         $newTask = New-ScheduledTask -Action $actions -Principal $principal -Settings $settings
-#         # Register the new task, effectively removing all triggers
-#         Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -InputObject $newTask -Force
-#         Write-Output "Updated task: $taskPath$taskName"
-#     }
-#     catch {
-#         Write-Warning "Failed: $taskPath$taskName. Error: $_"
-#     }
-# }
-
-# Attempts to repair all drives
-# defrag /o /c /m
-# $drives = Get-Disk | Select-Object -ExpandProperty Number
-# foreach ($drive in $drives) {
-#     try {
-#         mbr2gpt /allowfullos /convert /disk=$drive
-#     }
-#     catch {
-#         Write-Warning "Error converting drive $drive`: $_"
-#     }
-# }
-
-# $drives = Get-Volume | Select-Object -ExpandProperty DriveLetter
-# foreach ($drive in $drives) {
-#     try {
-#         # clean and repair
-#         Repair-Volume -DriveLetter $drive -OfflineScanAndFix -ErrorAction Stop
-#         cleanmgr /verylowdisk /d $drive
-#         cleanmgr /sagerun:0 /d $drive
-#         Repair-Volume -DriveLetter $drive -SpotFix -ErrorAction Stop
-#         # re-register all applications
-#         Get-ChildItem -Path $drive`:\ -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
-#             try {
-#                 Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
-#             }
-#             catch {
-#                 Write-Warning "Error: $_"
-#             }
-#         }
-#         # reset shadow storage
-#         vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
-#     }
-#     catch {
-#         Write-Warning "Error repairing drive $drive`: $_"
-#     }
-# }
-
-# Re-registers all UWP apps on Windows drive
-# $appxManifestPaths = @(
-#     "$Env:ProgramFiles\WindowsApps",
-#     "$Env:WINDIR\SystemApps"
-# )
-# foreach ($path in $appxManifestPaths) {
-#     Get-ChildItem -Path $path -Filter "AppxManifest.xml" -Recurse -File | ForEach-Object {
-#         try {
-#             Add-AppxPackage -DisableDevelopmentMode -Register $_.FullName -ErrorAction Stop
-#         }
-#         catch {
-#             Write-Warning "Error registering app package: $_"
-#         }
-#     }
-# }
-
 # Windows Defender
 try {
     Set-MpPreference -DisableRealtimeMonitoring $false
@@ -208,14 +230,6 @@ try {
 catch {
     Write-Warning "Error: $_"
 }
-
-# try {
-#     dism /online /cleanup-image /restorehealth /startcomponentcleanup
-#     sfc /scannow
-# }
-# catch {
-#     Write-Warning "Error running DISM or SFC: $_"
-# }
 
 try {
     bcdedit.exe /debug off
@@ -266,12 +280,5 @@ try {
 catch {
     Write-Warning "Error opening Windows Update control panel: $_"
 }
-
-# Installs chocolatey
-# if (-not(Get-Command choco -ErrorAction SilentlyContinue)) {
-#     # Negation of (Get-Command choco -ErrorAction SilentlyContinue)
-#     powershell.exe -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-#     refreshenv
-# }
 
 exit

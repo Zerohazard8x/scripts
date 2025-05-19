@@ -93,37 +93,9 @@ if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
     )
 )
 
-@REM registry
-@REM WHERE reg
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     del /s /q /f "%USERPROFILE%\Downloads\tweaks.reg"
-
-@REM     WHERE curl 
-@REM     if %ERRORLEVEL% EQU 0 (
-@REM         curl --remote-time -C - -Lo "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-@REM     ) else (
-@REM         WHERE wget 
-@REM         if %ERRORLEVEL% EQU 0 (
-@REM             wget -c --timestamping -O "%USERPROFILE%\Downloads\tweaks.reg" https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tweaks.reg
-@REM         )
-@REM     )
-
-@REM     reg import "%USERPROFILE%\Downloads\tweaks.reg"
-@REM )
-
 cls 
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPSHELL
-
-@REM @REM reset gpedit
-@REM RD /S /Q "%windir%\System32\GroupPolicyUsers"
-@REM RD /S /Q "%windir%\System32\GroupPolicy"
-@REM gpupdate /force
-
-@REM secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
-
-@REM password expiry
-@REM wmic UserAccount set PasswordExpires=False
 
 WHERE powershell
 if %ERRORLEVEL% EQU 0 (
