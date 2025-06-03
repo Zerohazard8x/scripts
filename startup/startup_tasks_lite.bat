@@ -5,6 +5,81 @@
 
 ping 127.0.0.1 -n 2 > nul
 
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
+    tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Steam\steam.exe"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" (
+    tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+    )
+) else (
+    if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+        tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe">NUL
+        if "%ERRORLEVEL%"=="1" (
+            start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+        )
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
+    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
+    )
+)
+
+if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
+    tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+    )
+) else (
+    if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
+        tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
+        if "%ERRORLEVEL%"=="1" (
+            start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
+        )
+    )
+)
+
+if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
+    tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+    )
+)
+
+tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe">NUL
+if "%ERRORLEVEL%"=="1" (
+    start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+)
+
+if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
+    tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe">NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles(x86)%\FanControl\FanControl.exe"
+    )
+)
+
 cls 
 @REM source.unsplash seems deprecated
 @REM choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
