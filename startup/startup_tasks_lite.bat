@@ -20,24 +20,6 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 )
 
 cls 
-@REM source.unsplash seems deprecated
-@REM choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
-@REM if %ERRORLEVEL% equ 2 goto NOWALL
-
-WHERE curl 
-if %ERRORLEVEL% EQU 0 (
-    mkdir %USERPROFILE%\default_wall
-    curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/1920/1080
-) else (
-    WHERE wget 
-    if %ERRORLEVEL% EQU 0 (
-        mkdir %USERPROFILE%\default_wall
-        wget -c --timestamping --content-disposition -P "%USERPROFILE%\default_wall\" "https://picsum.photos/1920/1080"
-    )
-)
-
-:NOWALL
-cls 
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPYTHON
 
@@ -53,7 +35,16 @@ where python >nul 2>&1 && (
     )
 
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen
+    python -m pip install -U pip setuptools yt-dlp mutagen
+
+    @REM upgrade
+    WHERE powershell 
+    if %ERRORLEVEL% EQU 0 (
+        python -m pip freeze > requirements.txt
+        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+        python -m pip install --upgrade -r requirements.txt
+        del requirements.txt
+    )
 )
 
 :NOPYTHON

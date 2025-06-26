@@ -24,8 +24,8 @@ pyInstallFunc() {
         fi
         
         python -m pip cache purge
-        python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen uv
-        # python -m pip install youtube-dl
+        python -m pip install -U pip setuptools yt-dlp mutagen uv
+        # python -m pip install youtube-dl yt-dlp[default,curl-cffi]
         
         if command -v uv; then
             # uv venv --python 3.12
@@ -48,6 +48,13 @@ pyInstallFunc() {
         python -m pip freeze > requirements.txt
         sed -i 's/==/>=/g' requirements.txt
         python -m pip install -r requirements.txt --upgrade
+        rm -rfv requirements.txt
+
+        # update packages (uv)
+        python -m pip freeze > requirements.txt
+        sed -i 's/==/>=/g' requirements.txt
+        python -m pip install -r requirements.txt --upgrade
+        rm -rfv requirements.txt
     fi
 }
 

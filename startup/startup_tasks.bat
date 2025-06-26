@@ -29,19 +29,19 @@ cls
 @REM if %ERRORLEVEL% equ 2 goto NOWALL
 
 @REM source.unsplash seems deprecated
-WHERE curl 
-if %ERRORLEVEL% EQU 0 (
-    mkdir %USERPROFILE%\default_wall
-    curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/3840/2160
-) else (
-    WHERE wget 
-    if %ERRORLEVEL% EQU 0 (
-        mkdir %USERPROFILE%\default_wall
-        wget -c --timestamping --content-disposition -P "%USERPROFILE%\default_wall\" "https://picsum.photos/3840/2160"
-    )
-)
+@REM WHERE curl 
+@REM if %ERRORLEVEL% EQU 0 (
+@REM     mkdir %USERPROFILE%\default_wall
+@REM     curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/3840/2160
+@REM ) else (
+@REM     WHERE wget 
+@REM     if %ERRORLEVEL% EQU 0 (
+@REM         mkdir %USERPROFILE%\default_wall
+@REM         wget -c --timestamping --content-disposition -P "%USERPROFILE%\default_wall\" "https://picsum.photos/3840/2160"
+@REM     )
+@REM )
 
-:NOWALL
+@REM :NOWALL
 cls 
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
 if %ERRORLEVEL% equ 2 goto NOPYTHON
@@ -52,7 +52,7 @@ where choco >nul 2>&1 && (
 
 where python >nul 2>&1 && (
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp[default,curl-cffi] mutagen uv
+    python -m pip install -U pip setuptools yt-dlp mutagen uv
 
     WHERE uv 
     if %ERRORLEVEL% EQU 0 (
@@ -72,6 +72,15 @@ where python >nul 2>&1 && (
         python -m pip freeze > requirements.txt
         powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
         python -m pip install --upgrade -r requirements.txt
+        del requirements.txt
+    )
+
+    @REM upgrade (uv)
+    WHERE powershell 
+    if %ERRORLEVEL% EQU 0 (
+        uv pip freeze --python 3.12 > requirements.txt
+        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+        uv pip install --python 3.12 --upgrade -r requirements.txt
         del requirements.txt
     )
 )
