@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal EnableExtensions EnableDelayedExpansion
 
 @REM version string
 @REM minescule mouse
@@ -79,263 +79,137 @@ if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
     )
 )
 
-cls 
+REM -------------------------------------------------------------------
+REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
+REM -------------------------------------------------------------------
+cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPSHELL
+if errorlevel 2 goto NOPSHELL
 
-WHERE powershell
+REM Check for PowerShell
+where powershell >nul 2>&1
 if %ERRORLEVEL% EQU 0 (
-    
-    @REM update packages
-    @REM WHERE python
-    @REM if %ERRORLEVEL% EQU 0 (
-    @REM     python -m pip freeze > requirements.txt
-    @REM     powershell -Command "(gc requirements.txt) -replace '==', '>=' | Out-File requirements.txt -encoding ASCII"
-    @REM     python -m pip install -r requirements.txt --upgrade
+    REM Save current folder
+    set "scriptPath=%CD%"
 
-    @REM )
+    REM Bypass policy
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
+      "Write-Host 'ExecutionPolicy set to Bypass'"
 
-    REM Set script path
-    set "scriptPath=%cd%"
+    REM Remove old tasks.ps1
+    del /s /q /f "%scriptPath%\tasks.ps1" 2>nul
 
-    powershell.exe -c Set-ExecutionPolicy Bypass
-
-    REM Clean up old files
-    @REM del /s /q /f "%USERPROFILE%\Downloads\wifi-pass.zip" "%USERPROFILE%\Downloads\wifi-main\" ".\wifi-pass.zip" ".\wifi-main\"
-    del /s /q /f .\tasks.ps1
-
-    cd "%USERPROFILE%\Downloads"
-
-    @REM WHERE curl 
-    @REM if %ERRORLEVEL% EQU 0 (
-    @REM     curl --remote-time -C - -Lo wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-    @REM ) else (
-    @REM     WHERE wget 
-    @REM     if %ERRORLEVEL% EQU 0 (
-    @REM         wget -c --timestamping -O wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-    @REM     ) else (
-    @REM         WHERE aria2c 
-    @REM         if %ERRORLEVEL% EQU 0 (
-    @REM             aria2c -R --allow-overwrite=true -o wifi-pass.zip "https://github.com/Zerohazard8x/wifi/archive/refs/heads/main.zip"
-    @REM         )
-    @REM     )
-    @REM )
-
-    REM extract zip file
-    @REM WHERE 7z 
-    @REM if %ERRORLEVEL% EQU 0 (
-    @REM     7z x wifi-pass.zip -aoa -o.
-    @REM )
-
-    if exist ".\wifi-main" (
-        cd ".\wifi-main"
-
-        powershell.exe .\import.ps1
-    )
-
-    WHERE curl 
+    REM Download latest tasks.ps1
+    where curl >nul 2>&1
     if %ERRORLEVEL% EQU 0 (
-        curl --remote-time -C - -LO "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+        curl -L -o tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
     ) else (
-        WHERE wget 
-        if %ERRORLEVEL% EQU 0 (
-            wget --timestamping "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
-        ) else (
-            WHERE aria2c 
-            if %ERRORLEVEL% EQU 0 (
-                aria2c -R --allow-overwrite=true "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
-            )
-        )
+        @REM if exist "%ProgramFiles%\Unix\wget.exe" (
+        @REM     "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+        @REM )
     )
 
-    powershell.exe .\tasks.ps1
+    REM Run tasks.ps1 if present
+    if exist tasks.ps1 (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File tasks.ps1
+    )
 
-    cd "%scriptPath%"
+    REM Return to original folder and import private script
+    cd /d "%scriptPath%"
+    if exist import_private.ps1 (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File import_private.ps1
+    )
 
-    powershell.exe .\import_private.ps1
-
-    powershell.exe -c Set-ExecutionPolicy Default
+    REM Restore default execution policy
+    powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
 ) else (
-    mbr2gpt /allowfullos /convert /disk=0
+    REM Fallback repairs …
+    @REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
+    @REM defrag /O /C /M 2>nul
 
-    @REM @REM clean and repair
-    @REM echo y|chkdsk %homedrive% /f /r
-    @REM cleanmgr /verylowdisk /d %homedrive%
-    @REM cleanmgr /sagerun:0 /d %homedrive%
-    @REM echo y|chkdsk %homedrive% /f
-    
-    defrag /o /c /m
+    @REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
+    @REM sfc /scannow 2>nul
 
-    @REM @REM reset
-    @REM vssadmin Resize ShadowStorage /For=%homedrive% /On=%homedrive% /MaxSize=3%
-
-    dism /online /cleanup-image /restorehealth /startcomponentcleanup
-    sfc /scannow
-
-    bcdedit.exe /debug off
-    bcdedit.exe /set loadoptions ENABLE_INTEGRITY_CHECKS
-    bcdedit.exe /set TESTSIGNING OFF
-    bcdedit.exe /set NOINTEGRITYCHECKS OFF
+    bcdedit /debug off
+    bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
+    bcdedit /set TESTSIGNING OFF
+    bcdedit /set NOINTEGRITYCHECKS OFF
     bcdedit /set hypervisorlaunchtype auto
 
     wuauclt /detectnow
     wuauclt /updatenow
-
-    control update
+    control update 2>nul
 )
-@REM mkdir wifi-todo
-@REM netsh wlan export profile key=clear folder=wifi-todo
 
 :NOPSHELL
 
-@REM sc config "vgc" start=demand
-sc config "AMD Crash Defender Service" start=demand
-sc config "AMD External Events Utility" start=demand
-sc config "AdobeARMservice" start=demand
-sc config "AdskLicensingService" start=demand
-sc config "Apple Mobile Device Service" start=demand
-sc config "Autodesk Access Service Host" start=demand
-sc config "Autodesk CER Service" start=demand
-sc config "Bonjour Service" start=demand
-sc config "BraveElevationService" start=demand
-sc config "BraveVpnService" start=demand
-sc config "CIJSRegister" start=demand
-sc config "CdRomArbiterService" start=demand
-sc config "ClickToRunSvc" start=demand
-sc config "CxAudMsg" start=demand
-sc config "DtsApo4Service" start=demand
-sc config "EpicOnlineServices" start=demand
-sc config "Intel(R) TPM Provisioning Service" start=demand
-sc config "KNDBWM" start=demand
-sc config "Killer Analytics Service" start=demand
-sc config "Killer Network Service" start=demand
-sc config "Killer Wifi Optimization Service" start=demand
-sc config "LGHUBUpdaterService" start=demand
-sc config "LightKeeperService" start=demand
-sc config "MBAMService" start=demand
-sc config "MSI_Case_Service" start=demand
-sc config "MSI_Center_Service" start=demand
-sc config "MSI_Super_Charger_Service" start=demand
-sc config "MSI_VoiceControl_Service" start=demand
-sc config "MicrosoftEdgeElevationService" start=demand
-sc config "MozillaMaintenance" start=demand
-sc config "Mystic_Light_Service" start=demand
-sc config "NIDomainService" start=demand
-sc config "NINetworkDiscovery" start=demand
-sc config "NiSvcLoc" start=demand
-sc config "OverwolfUpdater" start=demand
-sc config "PSSvc" start=demand
-sc config "Parsec" start=demand
-sc config "QMEmulatorService" start=demand
-sc config "Razer Synapse Service" start=demand
-sc config "RstMwService" start=demand
-sc config "RtkAudioUniversalService" start=demand
-sc config "Steam Client Service" start=demand
-sc config "SteelSeriesGGUpdateServiceProxy" start=demand
-sc config "SteelSeriesUpdateService" start=demand
-sc config "TeraCopyService.exe" start=demand
-sc config "VBoxSDS" start=demand
-sc config "WMIRegistrationService" start=demand
-sc config "brave" start=demand
-sc config "bravem" start=demand
-sc config "cplspcon" start=demand
-sc config "edgeupdate" start=demand
-sc config "edgeupdatem" start=demand
-sc config "esifsvc" start=demand
-sc config "ibtsiva" start=demand
-sc config "igccservice" start=demand
-sc config "igfxCUIService2.0.0.0" start=demand
-sc config "jhi_service" start=demand
-sc config "lkClassAds" start=demand
-sc config "lkTimeSync" start=demand
-sc config "logi_lamparray_service" start=demand
-sc config "niauth" start=demand
-sc config "nimDNSResponder" start=demand
-sc config "spacedeskService" start=demand
-sc config "ss_conn_service" start=demand
-sc config "ss_conn_service2" start=demand
-sc config "xTendSoftAPService" start=demand
+REM -------------------------------------------------------------------
+REM Configure service startup types (manual)
+REM -------------------------------------------------------------------
+setlocal enabledelayedexpansion
+for %%S in (
+    "vgc" "AMD Crash Defender Service" "AMD External Events Utility"
+    "AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
+    "Autodesk Access Service Host" "Autodesk CER Service" "Bonjour Service"
+    "BraveElevationService" "BraveVpnService" "CIJSRegister" "CdRomArbiterService"
+    "ClickToRunSvc" "CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
+    "Intel(R) TPM Provisioning Service" "KNDBWM" "Killer Analytics Service"
+    "Killer Network Service" "Killer Wifi Optimization Service"
+    "LGHUBUpdaterService" "LightKeeperService" "MBAMService"
+    "MSI_Case_Service" "MSI_Center_Service" "MSI_Super_Charger_Service"
+    "MSI_VoiceControl_Service" "MicrosoftEdgeElevationService"
+    "MozillaMaintenance" "Mystic_Light_Service" "NIDomainService"
+    "NINetworkDiscovery" "NiSvcLoc" "OverwolfUpdater" "PSSvc"
+    "Parsec" "QMEmulatorService" "Razer Synapse Service"
+    "RstMwService" "RtkAudioUniversalService" "Steam Client Service"
+    "SteelSeriesGGUpdateServiceProxy" "SteelSeriesUpdateService"
+    "TeraCopyService.exe" "VBoxSDS" "WMIRegistrationService"
+    "brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem" 
+    "esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
+    "jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
+    "niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
+    "ss_conn_service2" "xTendSoftAPService"
+) do (
+    sc config %%~S start=demand >nul 2>&1
+)
 
-@REM sc config "MacType" start=auto
-@REM sc config "Surfshark Service" start=auto
-sc config "BDESVC" start=auto
-sc config "BFE" start=auto
-sc config "BrokerInfrastructure" start=auto
-sc config "CloudflareWarp" start=auto
-sc config "CortexLauncherService" start=auto
-sc config "Dnscache" start=auto
-sc config "EntAppSvc" start=auto
-sc config "FrameServer" start=auto
-sc config "LicenseManager" start=auto
-sc config "MullvadVPN" start=auto
-sc config "NVDisplay.ContainerLocalSystem" start=auto
-sc config "OpenVPNServiceInteractive" start=auto
-sc config "PNRPsvc" start=auto
-sc config "Razer Game Manager Service 3" start=auto
-sc config "RzActionSvc" start=auto
-sc config "Spooler" start=auto
-sc config "W32Time" start=auto
-sc config "WdNisSvc" start=auto
-sc config "WindscribeService" start=auto
-sc config "WlanSvc" start=auto
-sc config "audiosrv" start=auto
-sc config "bits" start=auto
-sc config "hidusbf" start=auto
-sc config "iphlpsvc" start=auto
-sc config "msiserver" start=auto
-sc config "ndu" start=auto
-sc config "p2pimsvc" start=auto
-sc config "p2psvc" start=auto
-sc config "wscsvc" start=auto
-sc config "wuauserv" start=auto
+REM -------------------------------------------------------------------
+REM Configure service startup types (automatic)
+REM -------------------------------------------------------------------
+for %%S in (
+    "BDESVC" "BFE" "BrokerInfrastructure" "CloudflareWarp"
+    "CortexLauncherService" "Dnscache" "EntAppSvc" "FrameServer"
+    "LicenseManager" "MullvadVPN" "NVDisplay.ContainerLocalSystem"
+    "OpenVPNServiceInteractive" "PNRPsvc" "Razer Game Manager Service 3"
+    "RzActionSvc" "Spooler" "W32Time" "WdNisSvc" "WindscribeService"
+    "WlanSvc" "audiosrv" "bits" "hidusbf" "iphlpsvc" "msiserver" "ndu"
+    "p2pimsvc" "p2psvc" "wscsvc" "wuauserv"
+) do (
+    sc config %%~S start=auto >nul 2>&1
+)
 
-@REM sc config "vgk" start=system
-@REM net start "vgk"
+REM -------------------------------------------------------------------
+REM Start key services
+REM -------------------------------------------------------------------
+for %%S in (
+    "BDESVC" "BFE" "BrokerInfrastructure" "CloudflareWarp"
+    "CortexLauncherService" "Dnscache" "EntAppSvc" "FrameServer"
+    "LicenseManager" "MullvadVPN" "NVDisplay.ContainerLocalSystem"
+    "OpenVPNServiceInteractive" "PNRPsvc" "Razer Game Manager Service 3"
+    "RzActionSvc" "Spooler" "W32Time" "WdNisSvc" "WindscribeService"
+    "WlanSvc" "audiosrv" "bits" "hidusbf" "iphlpsvc" "msiserver" "ndu"
+    "p2pimsvc" "p2psvc" "wscsvc" "wuauserv"
+) do (
+    net start %%~S >nul 2>&1
+)
 
-@REM net start "MacType"
-net start "BDESVC"
-net start "BFE"
-net start "BrokerInfrastructure"
-net start "CloudflareWarp"
-net start "CortexLauncherService"
-net start "Dnscache"
-net start "EntAppSvc"
-net start "FrameServer"
-net start "LicenseManager"
-net start "MullvadVPN"
-net start "NVDisplay.ContainerLocalSystem"
-net start "OpenVPNServiceInteractive"
-net start "PNRPsvc"
-net start "Razer Game Manager Service 3"
-net start "RzActionSvc"
-net start "Spooler"
-net start "W32Time"
-net start "WdNisSvc"
-net start "WindscribeService"
-net start "WlanSvc"
-net start "audiosrv"
-net start "bits"
-net start "hidusbf"
-net start "iphlpsvc"
-net start "msiserver"
-net start "ndu"
-net start "p2pimsvc"
-net start "p2psvc"
-net start "wscsvc"
-net start "wuauserv"
+REM -------------------------------------------------------------------
+REM Disable and stop SysMain & svsvc
+REM -------------------------------------------------------------------
+net stop "SysMain" >nul 2>&1
+net stop "svsvc" >nul 2>&1
+sc config "SysMain" start=disabled >nul 2>&1
+sc config "svsvc" start=disabled >nul 2>&1
 
-net stop "SysMain" /y
-net stop "svsvc" /y
-
-sc config "SysMain" start=disabled
-sc config "svsvc" start=disabled
-
-@REM cls 
-@REM choice /C YN /N /M "Open folder script was ran from? (Y/N)"
-@REM if %ERRORLEVEL% equ 2 goto NOFOLDER
-
-@REM explorer .
-
-@REM :NOFOLDER
 endlocal
-exit
+exit /b 0

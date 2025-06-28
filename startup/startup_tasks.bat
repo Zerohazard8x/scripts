@@ -1,11 +1,16 @@
 @echo off
 
-@REM version string
-@REM minescule mouse
+REM -------------------------------------------------------------------
+REM version string
+REM minescule mouse
+REM -------------------------------------------------------------------
 
-@REM Ping-abuse timeout - 1 second
-ping 127.0.0.1 -n 2 > nul
+REM Ping-abuse timeout – ~1 second
+ping 127.0.0.1 -n 2 >nul
 
+REM -------------------------------------------------------------------
+REM Launch Voicemeeter if installed
+REM -------------------------------------------------------------------
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
     if "%ERRORLEVEL%"=="1" (
@@ -20,91 +25,98 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     )
 )
 
-cls 
-@REM /C YN means choices are Y,N
-@REM /D Y means default choice is Y
-@REM /T 15 means 5-second timeout
-@REM choice /C YN /N /D Y /T 15 /M "Wallpapers? (Y/N)"
+REM Clear screen
+cls
 
-@REM if %ERRORLEVEL% equ 2 goto NOWALL
-
-@REM source.unsplash seems deprecated
-@REM WHERE curl 
-@REM if %ERRORLEVEL% EQU 0 (
-@REM     mkdir %USERPROFILE%\default_wall
-@REM     curl --remote-time -LJO --output-dir %USERPROFILE%\default_wall\ https://picsum.photos/3840/2160
-@REM ) else (
-@REM     WHERE wget 
-@REM     if %ERRORLEVEL% EQU 0 (
-@REM         mkdir %USERPROFILE%\default_wall
-@REM         wget -c --timestamping --content-disposition -P "%USERPROFILE%\default_wall\" "https://picsum.photos/3840/2160"
-@REM     )
-@REM )
-
-@REM :NOWALL
-cls 
+REM -------------------------------------------------------------------
+REM Prompt: Python? (Y/N) [default Y after 15s]
+REM -------------------------------------------------------------------
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPYTHON
+if errorlevel 2 goto NOPYTHON
 
+REM -------------------------------------------------------------------
+REM If Chocolatey exists, upgrade Python via choco
+REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco uninstall python2 python -y & choco upgrade python3 -y 
+    choco uninstall python2 python -y && choco upgrade python3 -y
 )
 
+REM -------------------------------------------------------------------
+REM If python in PATH, purge cache and upgrade packages
+REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp mutagen uv
+    python -m pip install --upgrade pip setuptools yt-dlp mutagen uv
 
-    WHERE uv 
-    if %ERRORLEVEL% EQU 0 (
-        @REM uv venv --python 3.12
-        uv pip install --python 3.12 -U whisperx
-        @REM uv pip install --python 3.12 -U openai-whisper
-        @REM uv pip install --python 3.12 -U stable-ts faster-whisper demucs
+    REM Attempt to use 'uv' wrapper if available
+    where uv >nul 2>&1
+    if errorlevel 0 (
+        uv pip install --python 3.12 --upgrade whisperx
     )
 
+    REM Install VapourSynth plugins if vsrepo script found
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
-        python "%programfiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
+        python "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
     )
 
-    @REM upgrade
-    WHERE powershell 
-    if %ERRORLEVEL% EQU 0 (
+    REM Regenerate requirements and upgrade via PowerShell
+    where powershell >nul 2>&1 && (
         python -m pip freeze > requirements.txt
-        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+        powershell -Command ^
+          "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
         python -m pip install --upgrade -r requirements.txt
         del requirements.txt
-    )
 
-    @REM upgrade (uv)
-    WHERE powershell 
-    if %ERRORLEVEL% EQU 0 (
-        uv pip freeze --python 3.12 > requirements.txt
-        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
-        uv pip install --python 3.12 --upgrade -r requirements.txt
-        del requirements.txt
+        REM Also upgrade via uv for Python 3.12 if present
+        where uv >nul 2>&1 && (
+            uv pip freeze --python 3.12 > requirements.txt
+            powershell -Command ^
+              "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+            uv pip install --python 3.12 --upgrade -r requirements.txt
+            del requirements.txt
+        )
     )
 )
 
 :NOPYTHON
-cls 
-choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
+REM Clear screen
+cls
+
+REM -------------------------------------------------------------------
+REM Prompt: Install programs? (Y/N) [default Y after 15s]
+REM -------------------------------------------------------------------
+choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
+if errorlevel 2 goto NOPROGRAMS
+
+REM -------------------------------------------------------------------
+REM Upgrade Chocolatey packages
+REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
+    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
     choco upgrade 7zip aria2 adb discord dos2unix nano scrcpy vscode -y
 )
 
-@REM where wsl >nul 2>&1 && (
-@REM     wsl --install --no-launch
-@REM     wsl --update
-@REM )
+REM where wsl >nul 2>&1 && (
+REM     wsl --install --no-launch
+REM     wsl --update
+REM )
 
 :NOPROGRAMS
 
-start "" common.bat
-if %ERRORLEVEL% EQU 0 (
-    exit
+REM -------------------------------------------------------------------
+REM Finally, run common.bat and handle its exit code
+REM -------------------------------------------------------------------
+if exist "common.bat" (
+    start "" common.bat
+    if errorlevel 1 (
+        REM If it failed, keep the console open
+        cmd /k
+    ) else (
+        REM On success, exit cleanly
+        exit /b 0
+    )
 ) else (
+    echo *** ERROR: common.bat not found! ***
     cmd /k
 )

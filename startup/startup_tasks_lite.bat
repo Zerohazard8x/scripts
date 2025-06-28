@@ -1,10 +1,16 @@
 @echo off
 
-@REM version string
-@REM minescule mouse
+REM -------------------------------------------------------------------
+REM version string
+REM minescule mouse
+REM -------------------------------------------------------------------
 
-ping 127.0.0.1 -n 2 > nul
+REM Ping-abuse timeout – ~1 second
+ping 127.0.0.1 -n 2 >nul
 
+REM -------------------------------------------------------------------
+REM Launch Voicemeeter if installed
+REM -------------------------------------------------------------------
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
     if "%ERRORLEVEL%"=="1" (
@@ -19,46 +25,77 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
     )
 )
 
-cls 
-choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPYTHON
+REM Clear screen
+cls
 
+REM -------------------------------------------------------------------
+REM Prompt: Python? (Y/N) [default Y after 15s]
+REM -------------------------------------------------------------------
+choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
+if errorlevel 2 goto NOPYTHON
+
+REM -------------------------------------------------------------------
+REM If Chocolatey exists, upgrade Python via choco
+REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco uninstall python2 python -y & choco upgrade python3 -y 
+    choco uninstall python2 python -y && choco upgrade python3 -y
 )
 
+REM -------------------------------------------------------------------
+REM If python in PATH, purge cache and upgrade packages
+REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
-    where python3 >nul 2>&1 && (
-        python3 -m pip cache purge
-        python3 -m pip freeze > requirements.txt
-        python3 -m pip uninstall -y -r requirements.txt
-    )
-
     python -m pip cache purge
-    python -m pip install -U pip setuptools yt-dlp mutagen
+    python -m pip install --upgrade pip setuptools yt-dlp mutagen uv
 
-    @REM upgrade
-    WHERE powershell 
-    if %ERRORLEVEL% EQU 0 (
+    REM Regenerate requirements and upgrade via PowerShell
+    where powershell >nul 2>&1 && (
         python -m pip freeze > requirements.txt
-        powershell -Command "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
+        powershell -Command ^
+          "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
         python -m pip install --upgrade -r requirements.txt
         del requirements.txt
     )
 )
 
 :NOPYTHON
-cls
-choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
-if %ERRORLEVEL% equ 2 goto NOPROGRAMS
 
+REM Clear screen
+cls
+
+REM -------------------------------------------------------------------
+REM Prompt: Install programs? (Y/N) [default Y after 15s]
+REM -------------------------------------------------------------------
+choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
+if errorlevel 2 goto NOPROGRAMS
+
+REM -------------------------------------------------------------------
+REM Upgrade Chocolatey packages
+REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc -y
+    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
 )
 
+REM where wsl >nul 2>&1 && (
+REM     wsl --install --no-launch
+REM     wsl --update
+REM )
+
 :NOPROGRAMS
-if %ERRORLEVEL% EQU 0 (
-    exit
+
+REM -------------------------------------------------------------------
+REM Finally, run common.bat and handle its exit code
+REM -------------------------------------------------------------------
+if exist "common.bat" (
+    start "" common.bat
+    if errorlevel 1 (
+        REM If it failed, keep the console open
+        cmd /k
+    ) else (
+        REM On success, exit cleanly
+        exit /b 0
+    )
 ) else (
+    echo *** ERROR: common.bat not found! ***
     cmd /k
 )
