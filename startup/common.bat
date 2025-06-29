@@ -5,21 +5,21 @@ setlocal EnableExtensions EnableDelayedExpansion
 @REM minescule mouse
 
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
-    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe">NUL
+    tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
     )
 )
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
-    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe">NUL
+    tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
     )
 )
 
 if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
-    tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe">NUL
+    tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\Steam\steam.exe"
     )
@@ -33,13 +33,13 @@ if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
 @REM )
 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" (
-    tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe">NUL
+    tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
     )
 ) else (
     if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-        tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe">NUL
+        tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
         if "%ERRORLEVEL%"=="1" (
             start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
         )
@@ -47,7 +47,7 @@ if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGame
 )
 
 if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
-    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe">NUL
+    tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
     )
@@ -61,19 +61,19 @@ if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 @REM )
 
 if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
-    tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe">NUL
+    tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
     )
 )
 
-tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe">NUL
+tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe" >NUL
 if "%ERRORLEVEL%"=="1" (
     start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
 )
 
 if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
-    tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe">NUL
+    tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe" >NUL
     if "%ERRORLEVEL%"=="1" (
         start "" "%ProgramFiles(x86)%\FanControl\FanControl.exe"
     )
@@ -90,19 +90,20 @@ REM Check for PowerShell
 where powershell >nul 2>&1
 if %ERRORLEVEL% EQU 0 (
     REM Save current folder
-    set "scriptPath=%CD%"
+    set "scriptPath=%~dp0"
+    cd /d "%scriptPath%"
 
     REM Bypass policy
     powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-      "Write-Host 'ExecutionPolicy set to Bypass'"
+    "Write-Host 'ExecutionPolicy set to Bypass'"
 
     REM Remove old tasks.ps1
-    del /s /q /f "%scriptPath%\tasks.ps1" 2>nul
+    if exist "%scriptPath%\tasks.ps1" del /s /q /f "%scriptPath%\tasks.ps1" 2>nul
 
     REM Download latest tasks.ps1
     where curl >nul 2>&1
     if %ERRORLEVEL% EQU 0 (
-        curl -L -o tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+        curl -L -o "%scriptPath%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
     ) else (
         @REM if exist "%ProgramFiles%\Unix\wget.exe" (
         @REM     "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
@@ -110,20 +111,19 @@ if %ERRORLEVEL% EQU 0 (
     )
 
     REM Run tasks.ps1 if present
-    if exist tasks.ps1 (
-        powershell.exe -NoProfile -ExecutionPolicy Bypass -File tasks.ps1
+    if exist "%scriptPath%\tasks.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\tasks.ps1"
     )
 
-    REM Return to original folder and import private script
-    cd /d "%scriptPath%"
-    if exist import_private.ps1 (
-        powershell.exe -NoProfile -ExecutionPolicy Bypass -File import_private.ps1
+    REM Check for private script
+    if exist "%scriptPath%\import_private.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\import_private.ps1"
     )
 
     REM Restore default execution policy
     powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
 ) else (
-    REM Fallback repairs …
+    REM Fallback repairs
     @REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
     @REM defrag /O /C /M 2>nul
 
@@ -146,7 +146,6 @@ if %ERRORLEVEL% EQU 0 (
 REM -------------------------------------------------------------------
 REM Configure service startup types (manual)
 REM -------------------------------------------------------------------
-setlocal enabledelayedexpansion
 for %%S in (
     "vgc" "AMD Crash Defender Service" "AMD External Events Utility"
     "AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
@@ -164,7 +163,7 @@ for %%S in (
     "RstMwService" "RtkAudioUniversalService" "Steam Client Service"
     "SteelSeriesGGUpdateServiceProxy" "SteelSeriesUpdateService"
     "TeraCopyService.exe" "VBoxSDS" "WMIRegistrationService"
-    "brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem" 
+    "brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem"
     "esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
     "jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
     "niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
@@ -174,7 +173,7 @@ for %%S in (
 )
 
 REM -------------------------------------------------------------------
-REM Configure service startup types (automatic)
+REM Configure and start key services (automatic)
 REM -------------------------------------------------------------------
 for %%S in (
     "BDESVC" "BFE" "BrokerInfrastructure" "CloudflareWarp"
@@ -186,20 +185,6 @@ for %%S in (
     "p2pimsvc" "p2psvc" "wscsvc" "wuauserv"
 ) do (
     sc config %%~S start=auto >nul 2>&1
-)
-
-REM -------------------------------------------------------------------
-REM Start key services
-REM -------------------------------------------------------------------
-for %%S in (
-    "BDESVC" "BFE" "BrokerInfrastructure" "CloudflareWarp"
-    "CortexLauncherService" "Dnscache" "EntAppSvc" "FrameServer"
-    "LicenseManager" "MullvadVPN" "NVDisplay.ContainerLocalSystem"
-    "OpenVPNServiceInteractive" "PNRPsvc" "Razer Game Manager Service 3"
-    "RzActionSvc" "Spooler" "W32Time" "WdNisSvc" "WindscribeService"
-    "WlanSvc" "audiosrv" "bits" "hidusbf" "iphlpsvc" "msiserver" "ndu"
-    "p2pimsvc" "p2psvc" "wscsvc" "wuauserv"
-) do (
     net start %%~S >nul 2>&1
 )
 
