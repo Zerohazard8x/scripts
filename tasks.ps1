@@ -4,6 +4,24 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit
 }
 
+function Safe-Invoke {
+    param(
+        [Parameter(Mandatory)] [string] $Command,
+        [string[]] $Args
+    )
+    if (Get-Command $Command -ErrorAction SilentlyContinue) {
+        try {
+            & $Command @Args
+        }
+        catch {
+            Write-Warning "Failed: $Command $($Args -join ' '): $_"
+        }
+    }
+    else {
+        Write-Warning "Command not found: $Command"
+    }
+}
+
 try {
     # https://github.com/SimonCropp/WinDebloat
     # winget uninstall "OneDrive"
@@ -17,42 +35,26 @@ try {
     # winget uninstall --name "Xbox Identity Provider" --exact
     # winget uninstall --name "Xbox TCUI" --exact
     # winget uninstall --name "Xbox" --exact
-    winget uninstall --name "3D Viewer" --exact
-    winget uninstall --name "Clipchamp" --exact
-    winget uninstall --name "Cortana" --exact
-    winget uninstall --name "Feedback Hub" --exact
-    winget uninstall --name "Get Help" --exact
-    winget uninstall --name "HPHelp" --exact
-    winget uninstall --name "MSN Weather" --exact
-    winget uninstall --name "Mail and Calendar" --exact
-    winget uninstall --name "Microsoft News" --exact
-    winget uninstall --name "Microsoft Pay" --exact
-    winget uninstall --name "Microsoft People" --exact
-    winget uninstall --name "Microsoft Photos" --exact
-    winget uninstall --name "Microsoft Solitaire Collection" --exact
-    winget uninstall --name "Microsoft Sticky Notes" --exact
-    winget uninstall --name "Microsoft Tips" --exact
-    winget uninstall --name "Mixed Reality Portal" --exact
-    winget uninstall --name "Movies & TV" --exact
-    winget uninstall --name "News" --exact
-    winget uninstall --name "OneNote for Windows 10" --exact
-    winget uninstall --name "Paint 3D" --exact
-    winget uninstall --name "Power Automate" --exact
-    winget uninstall --name "Print 3D" --exact
-    winget uninstall --name "SharedAccess" --exact
-    winget uninstall --name "Skype" --exact
-    winget uninstall --name "Solitaire & Casual Games" --exact
-    winget uninstall --name "Teams Machine-Wide Installer" --exact
-    winget uninstall --name "Windows Alarms & Clock" --exact
-    winget uninstall --name "Windows Clock" --exact
-    winget uninstall --name "Windows Maps" --exact
-    winget uninstall --name "Windows Media Player" --exact
-    winget uninstall --name "Windows Web Experience Pack" --exact
-    winget uninstall --name "Xbox Console Companion" --exact
-    winget uninstall --name "Xbox Game Speech Window" --exact
+
+    $appsToRemove = @(
+        "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
+        "MSN Weather","Mail and Calendar","Microsoft News","Microsoft Pay",
+        "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
+        "Microsoft Sticky Notes","Microsoft Tips","Mixed Reality Portal",
+        "Movies & TV","News","OneNote for Windows 10","Paint 3D",
+        "Power Automate","Print 3D","SharedAccess","Skype",
+        "Solitaire & Casual Games","Teams Machine-Wide Installer",
+        "Windows Alarms & Clock","Windows Clock","Windows Maps",
+        "Windows Media Player","Windows Web Experience Pack",
+        "Xbox Console Companion","Xbox Game Speech Window"
+    )
+
+    foreach ($app in $appsToRemove) {
+        Safe-Invoke -Command "winget" -Args @("uninstall","--name",$app,"--exact")
+    }
 }
 catch {
-    Write-Warning "Error: $_"
+    Write-Warning "Error during bulk uninstall: $_"
 }
 
 # Windows store
@@ -60,45 +62,44 @@ function Get-StoreAppPackages {
     # Derived from https://christitus.com/installing-appx-without-msstore/ by LLM
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)]
-        [string] $ProductId,
-
-        [ValidateSet('RP','WIF','Retail','Beta')]
-        [string] $Ring = 'RP',
-
+        [Parameter(Mandatory)][string] $ProductId,
+        [ValidateSet('RP','WIF','Retail','Beta')][string] $Ring = 'RP',
         [string] $Lang = 'en-US'
     )
 
     # 1. Try winget first
     Write-Verbose "Attempting winget install for $ProductId"
-    try {
-        & winget install --id $ProductId --source msstore `
-            --accept-source-agreements --accept-package-agreements
-        if (($LASTEXITCODE -eq 0) -or ($LASTEXITCODE -eq -1978335189)) {
-            Write-Verbose "Winget install succeeded for $ProductId"
-            return "Installed via winget: $ProductId"
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        try {
+            & winget install --id $ProductId --source msstore `
+                --accept-source-agreements --accept-package-agreements
+            if ($LASTEXITCODE -in 0,-1978335189) {
+                Write-Verbose "Winget install succeeded for $ProductId"
+                return "Installed via winget: $ProductId"
+            }
+            Write-Warning "winget exited with code $LASTEXITCODE; falling back to API download."
         }
-        Write-Warning "winget exited with code $LASTEXITCODE; falling back to API download."
+        catch {
+            Write-Warning "winget install error: $_"
+        }
     }
-    catch {
-        Write-Warning "winget install error: $_"
+    else {
+        Write-Verbose "winget not available; skipping to API download."
     }
 
     # 2. Determine preferred architecture
     $is64 = [Environment]::Is64BitOperatingSystem
     if ($is64) {
-        $preferredArch = 'x64'
-        $fallbackArch  = 'x86'
+        $preferredArch = 'x64'; $fallbackArch = 'x86'
     } else {
-        $preferredArch = 'x86'
-        $fallbackArch  = 'x64'
+        $preferredArch = 'x86'; $fallbackArch = 'x64'
     }
     Write-Verbose "OS is $([Environment]::OSVersion); preferring $preferredArch"
 
     # 3. Set up download directory
-    $apiUrl      = 'https://store.rg-adguard.net/api/GetFiles'
-    $productUrl  = "https://www.microsoft.com/store/productId/$ProductId"
-    $downloadDir = Join-Path $env:TEMP "StoreDownloads\$ProductId"
+    $apiUrl     = 'https://store.rg-adguard.net/api/GetFiles'
+    $productUrl = "https://www.microsoft.com/store/productId/$ProductId"
+    $downloadDir= Join-Path $env:TEMP "StoreDownloads\$ProductId"
     if (-not (Test-Path $downloadDir)) {
         New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
     }
@@ -119,15 +120,10 @@ function Get-StoreAppPackages {
     $matches = [regex]::Matches($response, $pattern)
 
     # 6. Filter into buckets
-    $byArch = @{
-        Preferred = @()
-        Neutral   = @()
-        Fallback  = @()
-    }
+    $byArch = @{ Preferred = @(); Neutral = @(); Fallback = @() }
     foreach ($m in $matches) {
         $url  = $m.Groups['url'].Value
         $name = $m.Groups['name'].Value
-
         if ($name -match '_(x86|x64|neutral).*?\.(appx|appxbundle)$') {
             switch -Regex ($name) {
                 "_$preferredArch" { $byArch.Preferred += @{ Name=$name; Url=$url }; break }
@@ -150,9 +146,7 @@ function Get-StoreAppPackages {
     if (-not (Test-Path $outFile)) {
         try {
             Write-Verbose "Downloading $($pkgInfo.Name)"
-            Invoke-WebRequest -Uri $pkgInfo.Url `
-                              -OutFile $outFile `
-                              -UseBasicParsing
+            Invoke-WebRequest -Uri $pkgInfo.Url -OutFile $outFile -UseBasicParsing
         }
         catch {
             Throw "Download failed for $($pkgInfo.Name): $_"
@@ -191,14 +185,31 @@ Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
 
-winget upgrade --all --accept-source-agreements --accept-package-agreements
-# winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+# winget upgrade
+Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
+# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # Network
-Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 1.1.1.2 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 1.0.0.2 -DohTemplate https://security.cloudflare-dns.com/dns-query -AutoUpgrade $True
+try {
+    # check if command is available
+    if (Get-Command Add-DnsClientDohServerAddress -ErrorAction SilentlyContinue) {
+        # configure dns
+        Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
+        Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
+        Add-DnsClientDohServerAddress -ServerAddress 1.1.1.2 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
+        Add-DnsClientDohServerAddress -ServerAddress 1.0.0.2 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
+    }
+    else {
+        # fallback
+        $interfaces = Get-NetAdapter | Where-Object { $_.Status -eq "Up" }
+        foreach ($interface in $interfaces) {
+            Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses "1.1.1.2,1.0.0.2"
+        }
+    }
+}
+catch {
+    Write-LogMessage "Error configuring DNS: $_" "Error"
+}
 
 # Windows Defender
 try {
@@ -220,11 +231,11 @@ catch {
     Write-Warning "Error running bcdedit: $_"
 }
 
+# Windows Update
 try {
     if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
-        # Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
         Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
-        Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false
+        Get-WindowsUpdate -Install  -AcceptAll -IgnoreReboot -Confirm:$false
     }
     else {
         Install-Module PSWindowsUpdate -Force -Confirm:$false
@@ -238,7 +249,7 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
     try {
         if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
             Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
-            Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false
+            Get-WindowsUpdate -Install  -AcceptAll -IgnoreReboot -Confirm:$false
         }
         else {
             # PSWindowsUpdate module is still not available
