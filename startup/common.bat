@@ -79,6 +79,13 @@ if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
     )
 )
 
+if exist "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe" (
+    tasklist /FI "IMAGENAME eq thunderbird.exe" 2>NUL | find /I /N "thunderbird.exe" >NUL
+    if "%ERRORLEVEL%"=="1" (
+        start "" "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe"
+    )
+)
+
 REM -------------------------------------------------------------------
 REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
 REM -------------------------------------------------------------------
