@@ -46,12 +46,18 @@ REM If python in PATH, purge cache and upgrade packages
 REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
     python -m pip cache purge
-    python -m pip install --upgrade pip setuptools yt-dlp mutagen uv
+    python -m pip install --upgrade pip setuptools yt-dlp mutagen
 
-    REM Attempt to use 'uv' wrapper if available
-    where uv >nul 2>&1
+    where python3.12 >nul 2>&1
     if errorlevel 0 (
-        uv pip install --python 3.12 --upgrade whisperx
+        python3.12 -m pip install -U pip whisperx
+    ) else (
+        where uv >nul 2>&1
+        if errorlevel 0 (
+            uv python install 3.12
+        ) else (
+            python -m pip install -U uv
+        )
     )
 
     REM Install VapourSynth plugins if vsrepo script found
@@ -67,12 +73,12 @@ where python >nul 2>&1 && (
         python -m pip install --upgrade -r requirements.txt
         del requirements.txt
 
-        REM Also upgrade via uv for Python 3.12 if present
-        where uv >nul 2>&1 && (
-            uv pip freeze --python 3.12 > requirements.txt
+        REM Also upgrade for Python 3.12 if present
+        where python3.12 >nul 2>&1 && (
+            python3.12 -m pip freeze > requirements.txt
             powershell -Command ^
               "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
-            uv pip install --python 3.12 --upgrade -r requirements.txt
+            python3.12 -m pip install --upgrade -r requirements.txt
             del requirements.txt
         )
     )

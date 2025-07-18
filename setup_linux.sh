@@ -35,23 +35,30 @@ pyInstall() {
         # fi
 
         # Install pip if needed
-        if ! command -v pip &>/dev/null && command -v aria2c &>/dev/null; then
-            echo "Installing pip..."
-            aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-        fi
+        # if ! command -v pip &>/dev/null && command -v aria2c &>/dev/null; then
+        #     echo "Installing pip..."
+        #     aria2c -x16 -s32 -R --allow-overwrite=true https://bootstrap.pypa.io/get-pip.py
+        #     python get-pip.py
+        # fi
 
         echo "Updating Python packages..."
         python -m pip cache purge
-        python -m pip install -U pip setuptools yt-dlp mutagen uv
+        python -m pip install -U pip setuptools yt-dlp mutagen
         # python -m pip install youtube-dl yt-dlp[default,curl-cffi]
 
-        if command -v uv &>/dev/null; then
-            echo "Installing packages with uv..."
-            # uv venv --python 3.12
-            uv pip install --python 3.12 -U whisperx
-            # uv pip install --python 3.12 -U openai-whisper
-            # uv pip install --python 3.12 -U stable-ts faster-whisper demucs
+        echo "Updating Python 3.12 packages..."
+        if command -v python3.12 &>/dev/null; then
+            python3.12 -m pip install -U pip whisperx
+            # python3.12 -m pip install -U openai-whisper
+            # python3.12 -m pip install -U stable-ts faster-whisper demucs
+        else
+            echo "Python 3.12 not found, installing using uv..."
+            if command -v uv &>/dev/null; then
+                uv python install 3.12
+            else 
+                echo "uv not found, installing uv using pip..."
+                python -m pip install -U uv
+            fi
         fi
 
         # python -m pip install -U git+https://github.com/martinetd/samloader.git
