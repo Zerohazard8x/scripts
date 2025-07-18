@@ -55,6 +55,7 @@ where python >nul 2>&1 && (
         where uv >nul 2>&1
         if errorlevel 0 (
             uv python install 3.12
+            uv python update-shell
         ) else (
             python -m pip install -U uv
         )

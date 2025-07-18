@@ -55,6 +55,7 @@ pyInstall() {
             echo "Python 3.12 not found, installing using uv..."
             if command -v uv &>/dev/null; then
                 uv python install 3.12
+                uv python update-shell
             else 
                 echo "uv not found, installing uv using pip..."
                 python -m pip install -U uv
