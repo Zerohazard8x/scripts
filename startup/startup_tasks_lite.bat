@@ -84,18 +84,28 @@ REM )
 :NOPROGRAMS
 
 REM -------------------------------------------------------------------
-REM Finally, run common.bat and handle its exit code
+REM Finally, run common.bat (in a new window), wait, and capture its exit code
 REM -------------------------------------------------------------------
 if exist "common.bat" (
-    start "" common.bat
-    if errorlevel 1 (
-        REM If it failed, keep the console open
-        cmd /k
-    ) else (
-        REM On success, exit cleanly
-        exit /b 0
-    )
+    REM Use START /WAIT with cmd /c so we get the real ERRORLEVEL from the child .bat
+    start "" /wait cmd /c common.bat
+    set "rc=%errorlevel%"
 ) else (
     echo *** ERROR: common.bat not found! ***
-    cmd /k
+    set "rc=1"
 )
+
+REM If common.bat failed, keep console open
+if not "%rc%"=="0" (
+    echo.
+    echo common.bat exited with code %rc%. Keeping this window open.
+    cmd /k
+    exit /b %rc%
+)
+
+REM =========================================================
+REM Success path: auto-close unless user presses Y within 15 seconds
+choice /C YN /N /T 15 /D N /M "Exit? (Y/N)"
+if errorlevel 2 exit /b 0    
+cmd /k                        
+REM =========================================================
