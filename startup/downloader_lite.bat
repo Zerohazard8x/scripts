@@ -42,5 +42,3 @@ if exist ".\common.bat" (
         )
     )
 )
-
-cmd /k
