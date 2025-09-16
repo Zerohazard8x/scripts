@@ -204,5 +204,5 @@ sc config "SysMain" start=disabled >nul 2>&1
 sc config "svsvc" start=disabled >nul 2>&1
 
 endlocal
-choice /C YN /N /T 15 /D N /M "Exit? (Y/N)"
+choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
 if errorlevel 2 exit /b 0
