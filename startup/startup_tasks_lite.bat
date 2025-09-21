@@ -46,7 +46,7 @@ REM If python in PATH, purge cache and upgrade packages
 REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
     python -m pip cache purge
-    python -m pip install --upgrade pip setuptools yt-dlp mutagen
+    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp mutagen
 
     REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
