@@ -35,6 +35,7 @@ try {
     # winget uninstall --name "Xbox Identity Provider" --exact
     # winget uninstall --name "Xbox TCUI" --exact
     # winget uninstall --name "Xbox" --exact
+    # winget uninstall --name "Windows Web Experience Pack" --exact
 
     $appsToRemove = @(
         "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
@@ -45,8 +46,7 @@ try {
         "Power Automate","Print 3D","SharedAccess","Skype",
         "Solitaire & Casual Games","Teams Machine-Wide Installer",
         "Windows Alarms & Clock","Windows Clock","Windows Maps",
-        "Windows Media Player","Windows Web Experience Pack",
-        "Xbox Console Companion","Xbox Game Speech Window"
+        "Windows Media Player", "Xbox Console Companion","Xbox Game Speech Window"
     )
 
     foreach ($app in $appsToRemove) {
@@ -66,6 +66,23 @@ function Get-StoreAppPackages {
         [ValidateSet('RP','WIF','Retail','Beta')][string] $Ring = 'RP',
         [string] $Lang = 'en-US'
     )
+
+    # Check if installed 
+    try {
+        $existing = Get-AppxPackage -AllUsers | Where-Object {
+            ($_.Name -like "*$ProductId*") -or
+            ($_.PackageFamilyName -like "*$ProductId*")
+        }
+    }
+    catch {
+        Write-Warning "Error checking existing packages: $_"
+        $existing = $null
+    }
+
+    if ($existing) {
+        Write-Verbose "Package matching '$ProductId' already installed (skipping)."
+        return "Already installed: $ProductId"
+    }
 
     # 1. Try winget first
     Write-Verbose "Attempting winget install for $ProductId"
@@ -184,6 +201,7 @@ Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
 Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+Get-StoreAppPackages -ProductId '9MSSGKG348SP' # Windows Web Experience Pack
 
 # winget upgrade
 Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
@@ -268,6 +286,13 @@ try {
 }
 catch {
     Write-Warning "Error opening Windows Update control panel: $_"
+}
+
+try {
+    Start-Process "ms-windows-store://downloadsandupdates"
+}
+catch {
+    Write-Warning "Error opening Microsoft Store updates: $_"
 }
 
 exit
