@@ -183,13 +183,11 @@ REM -------------------------------------------------------------------
 REM Configure and start key services (automatic)
 REM -------------------------------------------------------------------
 for %%S in (
-    "BDESVC" "BFE" "BrokerInfrastructure" "CloudflareWarp"
+    "CloudflareWarp"
     "CortexLauncherService" "Dnscache" "EntAppSvc" "FrameServer"
     "LicenseManager" "MullvadVPN" "NVDisplay.ContainerLocalSystem"
-    "OpenVPNServiceInteractive" "PNRPsvc" "Razer Game Manager Service 3"
-    "RzActionSvc" "Spooler" "W32Time" "WdNisSvc" "WindscribeService"
-    "WlanSvc" "audiosrv" "bits" "hidusbf" "iphlpsvc" "msiserver" "ndu"
-    "p2pimsvc" "p2psvc" "wscsvc" "wuauserv"
+    "OpenVPNServiceInteractive" "Razer Game Manager Service 3"
+    "RzActionSvc"
 ) do (
     sc config %%~S start=auto >nul 2>&1
     net start %%~S >nul 2>&1
@@ -198,10 +196,10 @@ for %%S in (
 REM -------------------------------------------------------------------
 REM Disable and stop SysMain & svsvc
 REM -------------------------------------------------------------------
-net stop "SysMain" >nul 2>&1
-net stop "svsvc" >nul 2>&1
-sc config "SysMain" start=disabled >nul 2>&1
-sc config "svsvc" start=disabled >nul 2>&1
+@REM net stop "SysMain" >nul 2>&1
+@REM net stop "svsvc" >nul 2>&1
+@REM sc config "SysMain" start=disabled >nul 2>&1
+@REM sc config "svsvc" start=disabled >nul 2>&1
 
 endlocal
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
