@@ -35,7 +35,6 @@ try {
     # winget uninstall --name "Xbox Identity Provider" --exact
     # winget uninstall --name "Xbox TCUI" --exact
     # winget uninstall --name "Xbox" --exact
-    # winget uninstall --name "Windows Web Experience Pack" --exact
 
     $appsToRemove = @(
         "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
@@ -45,7 +44,7 @@ try {
         "Movies & TV","News","OneNote for Windows 10","Paint 3D",
         "Power Automate","Print 3D","SharedAccess","Skype",
         "Solitaire & Casual Games","Teams Machine-Wide Installer",
-        "Windows Alarms & Clock","Windows Clock","Windows Maps",
+        "Windows Alarms & Clock","Windows Clock","Windows Maps","Windows Web Experience Pack",
         "Windows Media Player", "Xbox Console Companion","Xbox Game Speech Window"
     )
 
@@ -201,7 +200,6 @@ Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
 Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
-Get-StoreAppPackages -ProductId '9MSSGKG348SP' # Windows Web Experience Pack
 
 # winget upgrade
 Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
