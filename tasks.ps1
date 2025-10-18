@@ -200,7 +200,8 @@ function Get-StoreAppPackages {
 # chocolatey
 if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
     Write-Host "Chocolatey not detected. Installing..."
-    
+
+    Remove-Item -Force -r -v C:\ProgramData\chocolatey
     [Net.ServicePointManager]::SecurityProtocol =
         [Net.ServicePointManager]::SecurityProtocol -bor 3072
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
