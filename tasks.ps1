@@ -25,27 +25,32 @@ function Safe-Invoke {
 try {
     # https://github.com/SimonCropp/WinDebloat
     # winget uninstall "OneDrive"
-    # winget uninstall --name "Microsoft To Do" --exact
-    # winget uninstall --name "Microsoft Whiteboard" --exact
-    # winget uninstall --name "Windows Calculator" --exact
-    # winget uninstall --name "Windows Camera" --exact
-    # winget uninstall --name "Xbox Accessories" --exact
-    # winget uninstall --name "Xbox Game Bar Plugin" --exact
-    # winget uninstall --name "Xbox Game Bar" --exact
-    # winget uninstall --name "Xbox Identity Provider" --exact
-    # winget uninstall --name "Xbox TCUI" --exact
-    # winget uninstall --name "Xbox" --exact
+    # "Microsoft To Do"
+    # "Microsoft Whiteboard"
+    # "Windows Calculator"
+    # "Windows Camera"
+    # "Xbox Accessories"
+    # "Xbox Game Bar Plugin"
+    # "Xbox Game Bar"
+    # "Xbox Identity Provider"
+    # "Xbox TCUI"
+    # "Xbox"
+    # "Xbox Game Speech Window"
+    # "Xbox Console Companion"
+    # "Windows Web Experience Pack"
+    # "Teams Machine-Wide Installer"
+    # "SharedAccess"
 
     $appsToRemove = @(
         "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
-        "MSN Weather","Mail and Calendar","Microsoft News","Microsoft Pay",
+        "MSN Weather","Microsoft News","Microsoft Pay",
         "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
         "Microsoft Sticky Notes","Microsoft Tips","Mixed Reality Portal",
         "Movies & TV","News","OneNote for Windows 10","Paint 3D",
-        "Power Automate","Print 3D","SharedAccess","Skype",
-        "Solitaire & Casual Games","Teams Machine-Wide Installer",
-        "Windows Alarms & Clock","Windows Clock","Windows Maps","Windows Web Experience Pack",
-        "Windows Media Player", "Xbox Console Companion","Xbox Game Speech Window"
+        "Power Automate","Print 3D","Skype",
+        "Solitaire & Casual Games",
+        "Windows Alarms & Clock","Windows Clock","Windows Maps",
+        "Windows Media Player"
     )
 
     foreach ($app in $appsToRemove) {
