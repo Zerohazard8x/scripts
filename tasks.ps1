@@ -197,6 +197,16 @@ function Get-StoreAppPackages {
     return "Installed $($pkgInfo.Name) and cleaned up temporary files."
 }
 
+# chocolatey
+if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+    Write-Host "Chocolatey not detected. Installing..."
+    
+    [Net.ServicePointManager]::SecurityProtocol =
+        [Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
+        'https://community.chocolatey.org/install.ps1'))
+}
+
 Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
 
 # codecs
