@@ -158,7 +158,7 @@ for %%S in (
     "AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
     "Autodesk Access Service Host" "Autodesk CER Service" "Bonjour Service"
     "BraveElevationService" "BraveVpnService" "CIJSRegister" "CdRomArbiterService"
-    "ClickToRunSvc" "CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
+    "CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
     "Intel(R) TPM Provisioning Service" "KNDBWM" "Killer Analytics Service"
     "Killer Network Service" "Killer Wifi Optimization Service"
     "LGHUBUpdaterService" "LightKeeperService" "MBAMService"
@@ -189,7 +189,7 @@ for %%S in (
     "OpenVPNServiceInteractive" "Razer Game Manager Service 3"
     "RzActionSvc"
 ) do (
-    sc config %%~S start=auto >nul 2>&1
+    @REM sc config %%~S start=auto >nul 2>&1
     net start %%~S >nul 2>&1
 )
 
