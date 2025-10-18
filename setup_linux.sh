@@ -8,7 +8,7 @@ fi
 
 # Define package lists
 corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
-# plusPkgs="7zip aria2 adb discord dos2unix nano scrcpy vscode"
+# plusPkgs="7zip aria2 adb discord dos2unix nano scrcpy vscode thunderbird"
 # otherPkgs="audacious audacity alacritty blender chromium darktable doomsday exiftool filezilla fluent-reader foobar2000 ioquake3 jdownloader kdenlive kodi krokiet libreoffice  meld microsoft-edge miktex neovim obsidian obs-studio okular openvpn opera parsec pdfsam picard pinta qbittorrent quiterss retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
 
 # Clean up current directory
