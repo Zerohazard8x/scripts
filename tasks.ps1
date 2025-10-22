@@ -23,24 +23,6 @@ function Safe-Invoke {
 }
 
 try {
-    # https://github.com/SimonCropp/WinDebloat
-    # winget uninstall "OneDrive"
-    # "Microsoft To Do"
-    # "Microsoft Whiteboard"
-    # "Windows Calculator"
-    # "Windows Camera"
-    # "Xbox Accessories"
-    # "Xbox Game Bar Plugin"
-    # "Xbox Game Bar"
-    # "Xbox Identity Provider"
-    # "Xbox TCUI"
-    # "Xbox"
-    # "Xbox Game Speech Window"
-    # "Xbox Console Companion"
-    # "Windows Web Experience Pack"
-    # "Teams Machine-Wide Installer"
-    # "SharedAccess"
-
     $appsToRemove = @(
         "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
         "MSN Weather","Microsoft News","Microsoft Pay",
@@ -224,6 +206,24 @@ Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
 Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+
+Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
+Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
+Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
+Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion). 
+Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do. 
+Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI. 
+Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar). 
+Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay). 
+Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider. 
+Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator. 
+Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive. 
+Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera. 
+
+# "Teams Machine-Wide Installer"
+# "SharedAccess"
+# "Xbox Game Bar Plugin"
+# https://github.com/SimonCropp/WinDebloat
 
 # winget upgrade
 Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
