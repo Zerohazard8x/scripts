@@ -56,6 +56,14 @@ try {
     foreach ($app in $appsToRemove) {
         Safe-Invoke -Command "winget" -Args @("uninstall","--name",$app,"--exact")
     }
+
+    $idsToRemove = @(
+        "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5"
+    )
+
+    foreach ($app in $idsToRemove) {
+        Safe-Invoke -Command "winget" -Args @("uninstall","--id",$app)
+    }
 }
 catch {
     Write-Warning "Error during bulk uninstall: $_"
