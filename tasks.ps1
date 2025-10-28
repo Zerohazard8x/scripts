@@ -207,6 +207,8 @@ Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
 
+Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
+Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
 Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
 Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
 Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
