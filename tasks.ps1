@@ -40,7 +40,7 @@ try {
     }
 
     $idsToRemove = @(
-        "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5"
+        "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
     )
 
     foreach ($app in $idsToRemove) {
@@ -109,7 +109,7 @@ function Get-StoreAppPackages {
 
     # 3. Set up download directory
     $apiUrl     = 'https://store.rg-adguard.net/api/GetFiles'
-    $productUrl = "https://www.microsoft.com/store/productId/$ProductId"
+    $productUrl = "Get-StoreAppPackages -ProductId '$ProductId"
     $downloadDir= Join-Path $env:TEMP "StoreDownloads\$ProductId"
     if (-not (Test-Path $downloadDir)) {
         New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
@@ -207,8 +207,20 @@ Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
 
+Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
+Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
+Get-StoreAppPackages -ProductId '9N0DX20HK701'
+Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
+Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
+Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
+Get-StoreAppPackages -ProductId '9NCTDW2W1BH8'
 Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
 Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
+Get-StoreAppPackages -ProductId '9NZBF4GT040C'
+Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
+Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
+Get-StoreAppPackages -ProductId '9PG2DK419DRG'
+Get-StoreAppPackages -ProductId '9PMMSR1CGPWG'
 Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
 Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
 Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
