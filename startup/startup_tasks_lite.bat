@@ -98,8 +98,8 @@ if exist "common.bat" (
 REM If common.bat failed, keep console open
 if not "%rc%"=="0" (
     echo.
-    echo common.bat exited with code %rc%. Keeping this window open.
-    cmd /k
+    echo common.bat exited with code %rc%. Writing to %~dp0startup_tasks.log and closing.
+    >>"%~dp0startup_tasks.log" echo [%date% %time%] common.bat exited with code %rc%
     exit /b %rc%
 )
 

@@ -37,7 +37,7 @@ if exist ".\common.bat" (
         
         findstr /C:"minescule" /C:"mouse" ".\startup_tasks.bat" >nul 2>&1
         if %errorlevel% equ 0 (
-            start "" ".\startup_tasks.bat"
+            call ".\startup_tasks.bat"
             exit
         )
     )
