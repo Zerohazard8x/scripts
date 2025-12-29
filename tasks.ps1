@@ -22,29 +22,42 @@ function Safe-Invoke {
     }
 }
 
+Write-Host ""
+$uninstallChoice = Read-Host "App uninstallations? (Y/N)"
+if ([string]::IsNullOrWhiteSpace($uninstallChoice)) { $uninstallChoice = "N" }
+$uninstallChoice = $uninstallChoice.Trim().ToUpperInvariant()
+
+$DO_UNINSTALL = $false
+if ($uninstallChoice -eq "Y") { $DO_UNINSTALL = $true }
+
 try {
-    $appsToRemove = @(
-        "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
-        "MSN Weather","Microsoft News","Microsoft Pay",
-        "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
-        "Microsoft Sticky Notes","Microsoft Tips","Mixed Reality Portal",
-        "Movies & TV","News","OneNote for Windows 10","Paint 3D",
-        "Power Automate","Print 3D","Skype",
-        "Solitaire & Casual Games",
-        "Windows Alarms & Clock","Windows Clock","Windows Maps",
-        "Windows Media Player"
-    )
+    if ($DO_UNINSTALL) {
+        $appsToRemove = @(
+            "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
+            "MSN Weather","Microsoft News","Microsoft Pay",
+            "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
+            "Microsoft Sticky Notes","Microsoft Tips","Mixed Reality Portal",
+            "Movies & TV","News","OneNote for Windows 10","Paint 3D",
+            "Power Automate","Print 3D","Skype",
+            "Solitaire & Casual Games",
+            "Windows Alarms & Clock","Windows Clock","Windows Maps",
+            "Windows Media Player"
+        )
 
-    foreach ($app in $appsToRemove) {
-        Safe-Invoke -Command "winget" -Args @("uninstall","--name",$app,"--exact")
+        foreach ($app in $appsToRemove) {
+            Safe-Invoke -Command "winget" -Args @("uninstall","--name",$app,"--exact")
+        }
+
+        $idsToRemove = @(
+            "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
+        )
+
+        foreach ($app in $idsToRemove) {
+            Safe-Invoke -Command "winget" -Args @("uninstall","--id",$app)
+        }
     }
-
-    $idsToRemove = @(
-        "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
-    )
-
-    foreach ($app in $idsToRemove) {
-        Safe-Invoke -Command "winget" -Args @("uninstall","--id",$app)
+    else {
+        Write-Host "Skipping app uninstallations."
     }
 }
 catch {

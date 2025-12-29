@@ -90,7 +90,7 @@ REM -------------------------------------------------------------------
 REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
 REM -------------------------------------------------------------------
 cls
-choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
+choice /C YN /N /D N /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
 REM Check for PowerShell
@@ -150,6 +150,10 @@ if %ERRORLEVEL% EQU 0 (
 
 :NOPSHELL
 
+cls
+choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
+if errorlevel 2 goto NOSERVTWEAKS
+
 REM -------------------------------------------------------------------
 REM Configure service startup types (manual)
 REM -------------------------------------------------------------------
@@ -200,6 +204,8 @@ REM -------------------------------------------------------------------
 @REM net stop "svsvc" >nul 2>&1
 @REM sc config "SysMain" start=disabled >nul 2>&1
 @REM sc config "svsvc" start=disabled >nul 2>&1
+
+:NOSERVTWEAKS
 
 endlocal
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
