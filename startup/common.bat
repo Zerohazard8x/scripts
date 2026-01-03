@@ -90,7 +90,7 @@ REM -------------------------------------------------------------------
 REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
 REM -------------------------------------------------------------------
 cls
-choice /C YN /N /D N /T 15 /M "Powershell n Repair? (Y/N)"
+choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
 REM Check for PowerShell

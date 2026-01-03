@@ -23,12 +23,20 @@ function Safe-Invoke {
 }
 
 Write-Host ""
-$uninstallChoice = Read-Host "App uninstallations? (Y/N)"
-if ([string]::IsNullOrWhiteSpace($uninstallChoice)) { $uninstallChoice = "N" }
-$uninstallChoice = $uninstallChoice.Trim().ToUpperInvariant()
 
+# defaults to N after 15 seconds
 $DO_UNINSTALL = $false
-if ($uninstallChoice -eq "Y") { $DO_UNINSTALL = $true }
+if (Get-Command choice.exe -ErrorAction SilentlyContinue) {
+    & choice.exe /C YN /N /D N /T 15 /M "App uninstallations? (Y/N)" | Out-Null
+    $DO_UNINSTALL = ($LASTEXITCODE -eq 1)   # 1 = Y, 2 = N
+}
+else {
+    # Fallback if choice.exe is unavailable
+    $uninstallChoice = Read-Host "App uninstallations? (Y/N)"
+    if ([string]::IsNullOrWhiteSpace($uninstallChoice)) { $uninstallChoice = "N" }
+    $uninstallChoice = $uninstallChoice.Trim().ToUpperInvariant()
+    $DO_UNINSTALL = ($uninstallChoice -eq "Y")
+}
 
 try {
     if ($DO_UNINSTALL) {
