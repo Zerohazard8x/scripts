@@ -99,19 +99,21 @@ if %ERRORLEVEL% EQU 0 (
     REM Save current folder
     set "scriptPath=%~dp0"
     cd /d "%scriptPath%"
+    set "downloadDir=%USERPROFILE%\Downloads"
+    if not exist "%downloadDir%" mkdir "%downloadDir%"
 
     REM Bypass policy
     powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
     "Write-Host 'ExecutionPolicy set to Bypass'"
 
     REM Remove old tasks.ps1
-    if exist "%scriptPath%\tasks.ps1" del /s /q /f "%scriptPath%\tasks.ps1" 2>nul
-    if exist "%scriptPath%\import.ps1" del /s /q /f "%scriptPath%\import.ps1" 2>nul
+    if exist "%downloadDir%\tasks.ps1" del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
+    if exist "%downloadDir%\import.ps1" del /s /q /f "%downloadDir%\import.ps1" 2>nul
 
     REM Download latest tasks.ps1
     where curl >nul 2>&1
     if %ERRORLEVEL% EQU 0 (
-        curl -L -o "%scriptPath%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+        curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
     ) else (
         @REM if exist "%ProgramFiles%\Unix\wget.exe" (
         @REM     "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
@@ -121,7 +123,7 @@ if %ERRORLEVEL% EQU 0 (
     REM Download latest import.ps1
     where curl >nul 2>&1
     if %ERRORLEVEL% EQU 0 (
-        curl -L -o "%scriptPath%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
+        curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
     ) else (
         @REM if exist "%ProgramFiles%\Unix\wget.exe" (
         @REM     "%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
@@ -129,18 +131,18 @@ if %ERRORLEVEL% EQU 0 (
     )
 
     REM Run tasks.ps1 if present
-    if exist "%scriptPath%\tasks.ps1" (
-        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\tasks.ps1"
+    if exist "%downloadDir%\tasks.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
     )
 
     REM Run import.ps1 if present
-    if exist "%scriptPath%\import.ps1" (
-        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\import.ps1"
+    if exist "%downloadDir%\import.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
     )
 
     REM Check for private script
-    if exist "%scriptPath%\import_private.ps1" (
-        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\import_private.ps1"
+    if exist "%downloadDir%\import_private.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
     )
 
     REM Restore default execution policy
