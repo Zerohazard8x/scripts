@@ -106,6 +106,7 @@ if %ERRORLEVEL% EQU 0 (
 
     REM Remove old tasks.ps1
     if exist "%scriptPath%\tasks.ps1" del /s /q /f "%scriptPath%\tasks.ps1" 2>nul
+    if exist "%scriptPath%\import.ps1" del /s /q /f "%scriptPath%\import.ps1" 2>nul
 
     REM Download latest tasks.ps1
     where curl >nul 2>&1
@@ -117,9 +118,24 @@ if %ERRORLEVEL% EQU 0 (
         @REM )
     )
 
+    REM Download latest import.ps1
+    where curl >nul 2>&1
+    if %ERRORLEVEL% EQU 0 (
+        curl -L -o "%scriptPath%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
+    ) else (
+        @REM if exist "%ProgramFiles%\Unix\wget.exe" (
+        @REM     "%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
+        @REM )
+    )
+
     REM Run tasks.ps1 if present
     if exist "%scriptPath%\tasks.ps1" (
         powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\tasks.ps1"
+    )
+
+    REM Run import.ps1 if present
+    if exist "%scriptPath%\import.ps1" (
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%scriptPath%\import.ps1"
     )
 
     REM Check for private script
