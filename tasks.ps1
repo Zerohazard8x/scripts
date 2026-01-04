@@ -41,15 +41,13 @@ else {
 try {
     if ($DO_UNINSTALL) {
         $appsToRemove = @(
-            "3D Viewer","Clipchamp","Cortana","Feedback Hub","Get Help","HPHelp",
-            "MSN Weather","Microsoft News","Microsoft Pay",
+            "3D Viewer","Clipchamp","Microsoft Clipchamp","Feedback Hub","HPHelp","Microsoft Pay",
             "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
-            "Microsoft Sticky Notes","Microsoft Tips","Mixed Reality Portal",
+            "Microsoft Sticky Notes","Sticky Notes","Microsoft Tips","Mixed Reality Portal",
             "Movies & TV","News","OneNote for Windows 10","Paint 3D",
             "Power Automate","Print 3D","Skype",
-            "Solitaire & Casual Games",
-            "Windows Alarms & Clock","Windows Clock","Windows Maps",
-            "Windows Media Player"
+            "Solitaire & Casual Games","Windows Maps",
+            "Media Player", "Sound Recorder", "Family", "Quick Assist", "Outlook", "Translator", "Microsoft Teams"
         )
 
         foreach ($app in $appsToRemove) {
@@ -57,7 +55,7 @@ try {
         }
 
         $idsToRemove = @(
-            "9NHT9RB2F4HD","9WZDNCRD29V9","9NRX63209R7B","9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
+            "9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
         )
 
         foreach ($app in $idsToRemove) {
@@ -222,37 +220,50 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
 
 # codecs
-Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
-Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
 Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
 Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
+Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
 Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
+Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
+Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
 
+Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
+Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
+Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
+
+# Get-StoreAppPackages -ProductId '9NHT9RB2F4HD' # copilot
+# Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
+# Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
+# Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
+Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
+Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
+Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
+Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
 Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
 Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
 Get-StoreAppPackages -ProductId '9N0DX20HK701'
 Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
 Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
+Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion). 
 Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
-Get-StoreAppPackages -ProductId '9NCTDW2W1BH8'
+Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do. 
+Get-StoreAppPackages -ProductId '9NC184TX90WZ'
+Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI. 
 Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
 Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
 Get-StoreAppPackages -ProductId '9NZBF4GT040C'
-Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
-Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
-Get-StoreAppPackages -ProductId '9PG2DK419DRG'
-Get-StoreAppPackages -ProductId '9PMMSR1CGPWG'
-Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
-Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
-Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
-Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion). 
-Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do. 
-Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI. 
 Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar). 
 Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay). 
+Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera. 
+Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
+Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
+Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
+Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
 Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider. 
 Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator. 
 Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive. 
+Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
 Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera. 
 
 # "Teams Machine-Wide Installer"
