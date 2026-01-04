@@ -237,7 +237,6 @@ Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
 # Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
 # Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
 Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
-Get-StoreAppPackages -ProductId '9mspc6mp8fm4' # Microsoft Whiteboard. 
 Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
 Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
 Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
