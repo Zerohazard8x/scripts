@@ -266,9 +266,6 @@ Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
 Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
 Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera. 
 
-# "Teams Machine-Wide Installer"
-# "SharedAccess"
-# "Xbox Game Bar Plugin"
 # https://github.com/SimonCropp/WinDebloat
 
 # winget upgrade
