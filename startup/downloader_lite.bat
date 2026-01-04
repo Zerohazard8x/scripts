@@ -4,6 +4,10 @@ if not exist "%downloadDir%" mkdir "%downloadDir%"
 del /s /q /f "%downloadDir%\common.bat"
 del /s /q /f "%downloadDir%\startup_tasks_lite.bat"
 
+if exist "import_private.ps1" (
+    copy .\import_private.ps1 %USERPROFILE%\Downloads\import_private.ps1
+)
+
 where curl >nul 2>&1
 if %errorlevel% equ 0 (
     curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
