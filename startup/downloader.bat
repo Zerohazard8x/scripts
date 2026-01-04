@@ -5,7 +5,7 @@ del /s /q /f "%downloadDir%\common.bat"
 del /s /q /f "%downloadDir%\startup_tasks.bat"
 
 if exist "import_private.ps1" (
-    copy .\import_private.ps1 %USERPROFILE%\Downloads\import_private.ps1
+    copy .\import_private.ps1 "%downloadDir%\import_private.ps1"
 )
 
 where curl >nul 2>&1
