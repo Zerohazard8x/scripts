@@ -228,6 +228,7 @@ Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
 Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
 Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
 
+Get-StoreAppPackages -ProductId '9N5TDP8VCMHS' # Web Media
 Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
 Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
 Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
