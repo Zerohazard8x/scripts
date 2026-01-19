@@ -24,19 +24,35 @@ function Safe-Invoke {
 
 Write-Host ""
 
-# defaults to N after 15 seconds
-$DO_UNINSTALL = $false
-if (Get-Command choice.exe -ErrorAction SilentlyContinue) {
-    & choice.exe /C YN /N /D N /T 15 /M "App uninstallations? (Y/N)" | Out-Null
-    $DO_UNINSTALL = ($LASTEXITCODE -eq 1)   # 1 = Y, 2 = N
+function Prompt-YesNoDefaultN {
+    param(
+        [string]$Message = "App uninstallations? (Y/N)",
+        [int]$TimeoutSeconds = 15
+    )
+
+    # If there is no interactive console, just default to No.
+    if (-not $Host.UI -or -not $Host.UI.RawUI) {
+        return $false
+    }
+
+    Write-Host "$Message (default: N in $TimeoutSeconds seconds) " -NoNewline
+
+    $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
+
+    while ([DateTime]::UtcNow -lt $deadline) {
+        if ($Host.UI.RawUI.KeyAvailable) {
+            $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").Character
+            Write-Host ""  # newline after keypress
+            return ($key.ToString().ToUpperInvariant() -eq 'Y')
+        }
+        Start-Sleep -Milliseconds 50
+    }
+
+    Write-Host ""  # newline after timeout
+    return $false   # default N
 }
-else {
-    # Fallback if choice.exe is unavailable
-    $uninstallChoice = Read-Host "App uninstallations? (Y/N)"
-    if ([string]::IsNullOrWhiteSpace($uninstallChoice)) { $uninstallChoice = "N" }
-    $uninstallChoice = $uninstallChoice.Trim().ToUpperInvariant()
-    $DO_UNINSTALL = ($uninstallChoice -eq "Y")
-}
+
+$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 15
 
 try {
     if ($DO_UNINSTALL) {
