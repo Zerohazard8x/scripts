@@ -37,3 +37,23 @@ secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 
 @REM password expiry
 wmic UserAccount set PasswordExpires=False
+
+@REM reset windows search
+taskkill /f /im explorer.exe
+net stop "Windows Search"
+taskkill /f /im SearchFilterHost.exe
+taskkill /f /im SearchHost.exe
+taskkill /f /im SearchIndexer.exe
+taskkill /f /im SearchProtocolHost.exe
+taskkill /f /im ShellExperienceHost.exe
+taskkill /f /im StartMenuExperienceHost.exe
+
+@REM windows 11
+del "%ProgramData%\Microsoft\Search\Data\Applications\Windows\Windows.db" 
+ren "%LocalAppData%\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\LocalState" LocalState.old
+
+@REM windows 10
+del "%ProgramData%\Microsoft\Search\Data\Applications\Windows\Windows.edb"
+ren "%LocalAppData%\Packages\Microsoft.Windows.Search_cw5n1h2txyewy\LocalState" LocalState.old
+
+net start "Windows Search"
