@@ -69,7 +69,7 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 
 tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe" >NUL
 if "%ERRORLEVEL%"=="1" (
-    start "" "shell:AppsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+    start "" "msxbox://"
 )
 
 if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
