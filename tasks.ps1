@@ -299,14 +299,25 @@ netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://securit
 
 # Set DNS servers on all "Up" adapters
 $ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
-$dns = @(
-  "1.1.1.2"
-  "1.0.0.2"
-  "2606:4700:4700::1112"
-  "2606:4700:4700::1002"
-)
+$ipv4 = @("1.1.1.2","1.0.0.2")
+$ipv6 = @("2606:4700:4700::1112","2606:4700:4700::1002")
+
 foreach ($i in $ifaces) {
-  Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses $dns
+  Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
+}
+
+foreach ($i in $ifaces) {
+  foreach ($ip in $ipv4) {
+    $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
+    New-Item -Path $p -Force | Out-Null
+    New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+  }
+
+  foreach ($ip in $ipv6) {
+    $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
+    New-Item -Path $p -Force | Out-Null
+    New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+  }
 }
 
 # Windows Defender
