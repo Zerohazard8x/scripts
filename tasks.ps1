@@ -386,4 +386,11 @@ catch {
     Write-Warning "Error opening Microsoft Store updates: $_"
 }
 
+try {
+    Start-Process "msxbox://installs"
+}
+catch {
+    Write-Warning "Error opening Xbox installs: $_"
+}
+
 exit
