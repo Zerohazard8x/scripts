@@ -1,17 +1,17 @@
-Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8888 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2001:4860:4860::8844 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 8.8.4.4 -DohTemplate https://dns.google/dns-query -AutoUpgrade $True
+# 2001:4860:4860::8888 -DohTemplate https://dns.google/dns-query
+# 2001:4860:4860::8844 -DohTemplate https://dns.google/dns-query
+# 8.8.8.8 -DohTemplate https://dns.google/dns-query
+# 8.8.4.4 -DohTemplate https://dns.google/dns-query
 
-Add-DnsClientDohServerAddress -ServerAddress 2606:1a40::2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2606:1a40:1::2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 76.76.2.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 76.76.10.2 -DohTemplate https://freedns.controld.com/p2 -AutoUpgrade $True
+# 2606:1a40::2 -DohTemplate https://freedns.controld.com/p2
+# 2606:1a40:1::2 -DohTemplate https://freedns.controld.com/p2
+# 76.76.2.2 -DohTemplate https://freedns.controld.com/p2
+# 76.76.10.2 -DohTemplate https://freedns.controld.com/p2
 
-Add-DnsClientDohServerAddress -ServerAddress 9.9.9.11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 149.112.112.11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2620:fe::11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
-Add-DnsClientDohServerAddress -ServerAddress 2620:fe::fe:11 -DohTemplate https://dns11.quad9.net/dns-query -AutoUpgrade $True
+# 9.9.9.11 -DohTemplate https://dns11.quad9.net/dns-query
+# 149.112.112.11 -DohTemplate https://dns11.quad9.net/dns-query
+# 2620:fe::11 -DohTemplate https://dns11.quad9.net/dns-query
+# 2620:fe::fe:11 -DohTemplate https://dns11.quad9.net/dns-query
 
 
 # Add-DnsClientDohServerAddress -ServerAddress 8.8.8.8 -DohTemplate https://dns.google/dns-query -AutoUpgrade $False

@@ -289,26 +289,24 @@ Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
 Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
-# Network
-try {
-    # check if command is available
-    if (Get-Command Add-DnsClientDohServerAddress -ErrorAction SilentlyContinue) {
-        # configure dns
-        Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1112 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
-        Add-DnsClientDohServerAddress -ServerAddress 2606:4700:4700::1002 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
-        Add-DnsClientDohServerAddress -ServerAddress 1.1.1.2 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
-        Add-DnsClientDohServerAddress -ServerAddress 1.0.0.2 -DohTemplate "https://security.cloudflare-dns.com/dns-query" -AutoUpgrade $True
-    }
-    else {
-        # fallback
-        $interfaces = Get-NetAdapter | Where-Object { $_.Status -eq "Up" }
-        foreach ($interface in $interfaces) {
-            Set-DnsClientServerAddress -InterfaceIndex $interface.ifIndex -ServerAddresses "1.1.1.2,1.0.0.2"
-        }
-    }
-}
-catch {
-    Write-LogMessage "Error configuring DNS: $_" "Error"
+# configure dns
+netsh dns add global doh=yes ddr=yes # Enable DoH
+
+netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+
+# Set DNS servers on all "Up" adapters
+$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
+$dns = @(
+  "1.1.1.2"
+  "1.0.0.2"
+  "2606:4700:4700::1112"
+  "2606:4700:4700::1002"
+)
+foreach ($i in $ifaces) {
+  Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses $dns
 }
 
 # Windows Defender
