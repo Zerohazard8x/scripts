@@ -393,4 +393,11 @@ catch {
     Write-Warning "Error opening Xbox installs: $_"
 }
 
+try {
+    Start-Process "steam://open/downloads"
+}
+catch {
+    Write-Warning "Error opening Steam downloads: $_"
+}
+
 exit
