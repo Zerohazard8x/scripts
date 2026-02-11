@@ -144,7 +144,7 @@ function Get-StoreAppPackages {
 
     # 3. Set up download directory
     $apiUrl     = 'https://store.rg-adguard.net/api/GetFiles'
-    $productUrl = "Get-StoreAppPackages -ProductId '$ProductId"
+    $productUrl = "https://www.microsoft.com/store/productId/$ProductId"
     $downloadDir= Join-Path $env:TEMP "StoreDownloads\$ProductId"
     if (-not (Test-Path $downloadDir)) {
         New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
