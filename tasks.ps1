@@ -4,6 +4,11 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit
 }
 
+# --- Error handling defaults ---
+$ErrorActionPreference = 'Continue'
+$ProgressPreference = 'SilentlyContinue'
+$PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
+
 function Safe-Invoke {
     param(
         [Parameter(Mandatory)] [string] $Command,
@@ -57,25 +62,25 @@ $DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 15
 try {
     if ($DO_UNINSTALL) {
         $appsToRemove = @(
-            "3D Viewer","Clipchamp","Microsoft Clipchamp","Feedback Hub","HPHelp","Microsoft Pay",
-            "Microsoft People","Microsoft Photos","Microsoft Solitaire Collection",
-            "Microsoft Sticky Notes","Sticky Notes","Microsoft Tips","Mixed Reality Portal",
-            "Movies & TV","News","OneNote for Windows 10","Paint 3D",
-            "Power Automate","Print 3D","Skype",
-            "Solitaire & Casual Games","Windows Maps",
+            "3D Viewer", "Clipchamp", "Microsoft Clipchamp", "Feedback Hub", "HPHelp", "Microsoft Pay",
+            "Microsoft People", "Microsoft Photos", "Microsoft Solitaire Collection",
+            "Microsoft Sticky Notes", "Sticky Notes", "Microsoft Tips", "Mixed Reality Portal",
+            "Movies & TV", "News", "OneNote for Windows 10", "Paint 3D",
+            "Power Automate", "Print 3D", "Skype",
+            "Solitaire & Casual Games", "Windows Maps",
             "Media Player", "Sound Recorder", "Family", "Quick Assist", "Outlook", "Translator", "Microsoft Teams"
         )
 
         foreach ($app in $appsToRemove) {
-            Safe-Invoke -Command "winget" -Args @("uninstall","--name",$app,"--exact")
+            Safe-Invoke -Command "winget" -Args @("uninstall", "--name", $app, "--exact")
         }
 
         $idsToRemove = @(
-            "9P7BP5VNWKX5","9PDJDJS743XF","9WZDNCRFHWKN"
+            "9P7BP5VNWKX5", "9PDJDJS743XF", "9WZDNCRFHWKN"
         )
 
         foreach ($app in $idsToRemove) {
-            Safe-Invoke -Command "winget" -Args @("uninstall","--id",$app)
+            Safe-Invoke -Command "winget" -Args @("uninstall", "--id", $app)
         }
     }
     else {
@@ -92,7 +97,7 @@ function Get-StoreAppPackages {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string] $ProductId,
-        [ValidateSet('RP','WIF','Retail','Beta')][string] $Ring = 'RP',
+        [ValidateSet('RP', 'WIF', 'Retail', 'Beta')][string] $Ring = 'RP',
         [string] $Lang = 'en-US'
     )
 
@@ -119,7 +124,7 @@ function Get-StoreAppPackages {
         try {
             & winget install --id $ProductId --source msstore `
                 --accept-source-agreements --accept-package-agreements
-            if ($LASTEXITCODE -in 0,-1978335189) {
+            if ($LASTEXITCODE -in 0, -1978335189) {
                 Write-Verbose "Winget install succeeded for $ProductId"
                 return "Installed via winget: $ProductId"
             }
@@ -137,28 +142,30 @@ function Get-StoreAppPackages {
     $is64 = [Environment]::Is64BitOperatingSystem
     if ($is64) {
         $preferredArch = 'x64'; $fallbackArch = 'x86'
-    } else {
+    }
+    else {
         $preferredArch = 'x86'; $fallbackArch = 'x64'
     }
     Write-Verbose "OS is $([Environment]::OSVersion); preferring $preferredArch"
 
     # 3. Set up download directory
-    $apiUrl     = 'https://store.rg-adguard.net/api/GetFiles'
+    $apiUrl = 'https://store.rg-adguard.net/api/GetFiles'
     $productUrl = "https://www.microsoft.com/store/productId/$ProductId"
-    $downloadDir= Join-Path $env:TEMP "StoreDownloads\$ProductId"
+    $downloadDir = Join-Path $env:TEMP "StoreDownloads\$ProductId"
     if (-not (Test-Path $downloadDir)) {
         New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
     }
 
     # 4. Query RG-AdGuard API
-    $body = @{ type='url'; url=$productUrl; ring=$Ring; lang=$Lang }
+    $body = @{ type = 'url'; url = $productUrl; ring = $Ring; lang = $Lang }
     try {
         $response = Invoke-RestMethod -Method Post -Uri $apiUrl `
-                     -ContentType 'application/x-www-form-urlencoded' `
-                     -Body $body
+            -ContentType 'application/x-www-form-urlencoded' `
+            -Body $body
     }
     catch {
-        Throw "Failed to call RG-AdGuard API: $_"
+        Write-Warning "RG-AdGuard API call failed (continuing): $_"
+        return
     }
 
     # 5. Parse all candidate URLs
@@ -168,13 +175,13 @@ function Get-StoreAppPackages {
     # 6. Filter into buckets
     $byArch = @{ Preferred = @(); Neutral = @(); Fallback = @() }
     foreach ($m in $matches) {
-        $url  = $m.Groups['url'].Value
+        $url = $m.Groups['url'].Value
         $name = $m.Groups['name'].Value
         if ($name -match '_(x86|x64|neutral).*?\.(appx|appxbundle)$') {
             switch -Regex ($name) {
-                "_$preferredArch" { $byArch.Preferred += @{ Name=$name; Url=$url }; break }
-                "_neutral"        { $byArch.Neutral   += @{ Name=$name; Url=$url }; break }
-                "_$fallbackArch"  { $byArch.Fallback  += @{ Name=$name; Url=$url }; break }
+                "_$preferredArch" { $byArch.Preferred += @{ Name = $name; Url = $url }; break }
+                "_neutral" { $byArch.Neutral += @{ Name = $name; Url = $url }; break }
+                "_$fallbackArch" { $byArch.Fallback += @{ Name = $name; Url = $url }; break }
             }
         }
     }
@@ -195,7 +202,8 @@ function Get-StoreAppPackages {
             Invoke-WebRequest -Uri $pkgInfo.Url -OutFile $outFile -UseBasicParsing
         }
         catch {
-            Throw "Download failed for $($pkgInfo.Name): $_"
+            Write-Warning "Download failed for $($pkgInfo.Name) (continuing): $_"
+            return
         }
     }
 
@@ -228,10 +236,15 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 
     Remove-Item -Force -r -v C:\ProgramData\chocolatey
     [Net.ServicePointManager]::SecurityProtocol =
-        [Net.ServicePointManager]::SecurityProtocol -bor 3072
+    [Net.ServicePointManager]::SecurityProtocol -bor 3072
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
-        'https://community.chocolatey.org/install.ps1'))
+            'https://community.chocolatey.org/install.ps1'))
 }
+catch {
+    Write-Warning "Chocolatey install failed (continuing): $_"
+}
+}
+
 
 Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
 
@@ -286,7 +299,7 @@ Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
 # https://github.com/SimonCropp/WinDebloat
 
 # winget upgrade
-Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements")
+Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
@@ -299,25 +312,29 @@ netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://securit
 
 # Set DNS servers on all "Up" adapters
 $ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
-$ipv4 = @("1.1.1.2","1.0.0.2")
-$ipv6 = @("2606:4700:4700::1112","2606:4700:4700::1002")
+$ipv4 = @("1.1.1.2", "1.0.0.2")
+$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
 
 foreach ($i in $ifaces) {
-  Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
+    Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
 }
 
 foreach ($i in $ifaces) {
-  foreach ($ip in $ipv4) {
-    $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
-    New-Item -Path $p -Force | Out-Null
-    New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
-  }
+    foreach ($ip in $ipv4) {
+        $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
+        New-Item -Path $p -Force | Out-Null
+        New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+    }
 
-  foreach ($ip in $ipv6) {
-    $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
-    New-Item -Path $p -Force | Out-Null
-    New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
-  }
+    foreach ($ip in $ipv6) {
+        $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
+        New-Item -Path $p -Force | Out-Null
+        New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+    }
+}
+}
+catch {
+    Write-Warning "DNS/DoH configuration failed (continuing): $_"
 }
 
 # Windows Defender
