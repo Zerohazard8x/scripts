@@ -243,7 +243,6 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 catch {
     Write-Warning "Chocolatey install failed (continuing): $_"
 }
-}
 
 
 Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
@@ -332,7 +331,7 @@ foreach ($i in $ifaces) {
         New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
     }
 }
-}
+
 catch {
     Write-Warning "DNS/DoH configuration failed (continuing): $_"
 }
