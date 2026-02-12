@@ -304,36 +304,37 @@ Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agree
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
-netsh dns add global doh=yes ddr=yes # Enable DoH
+try {
+    netsh dns add global doh=yes ddr=yes # Enable DoH
 
-netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+    netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+    netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+    netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+    netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 
-# Set DNS servers on all "Up" adapters
-$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
-$ipv4 = @("1.1.1.2", "1.0.0.2")
-$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
+    # Set DNS servers on all "Up" adapters
+    $ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
+    $ipv4 = @("1.1.1.2", "1.0.0.2")
+    $ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
 
-foreach ($i in $ifaces) {
-    Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
-}
-
-foreach ($i in $ifaces) {
-    foreach ($ip in $ipv4) {
-        $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
-        New-Item -Path $p -Force | Out-Null
-        New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+    foreach ($i in $ifaces) {
+        Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
     }
 
-    foreach ($ip in $ipv6) {
-        $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
-        New-Item -Path $p -Force | Out-Null
-        New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+    foreach ($i in $ifaces) {
+        foreach ($ip in $ipv4) {
+            $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
+            New-Item -Path $p -Force | Out-Null
+            New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+        }
+
+        foreach ($ip in $ipv6) {
+            $p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
+            New-Item -Path $p -Force | Out-Null
+            New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+        }
     }
 }
-
 catch {
     Write-Warning "DNS/DoH configuration failed (continuing): $_"
 }
