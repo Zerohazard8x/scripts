@@ -57,3 +57,16 @@ del "%ProgramData%\Microsoft\Search\Data\Applications\Windows\Windows.edb"
 ren "%LocalAppData%\Packages\Microsoft.Windows.Search_cw5n1h2txyewy\LocalState" LocalState.old
 
 net start "Windows Search"
+
+@REM power options reset
+powercfg -restoredefaultschemes
+
+@REM change "turn off the display", etc
+:: Plugged in (AC) — NEVER turn off display
+powercfg /change monitor-timeout-ac 0
+
+:: Plugged in (AC) — NEVER sleep
+powercfg /change standby-timeout-ac 0
+
+:: On battery (DC) — NEVER turn off display
+powercfg /change monitor-timeout-dc 0
