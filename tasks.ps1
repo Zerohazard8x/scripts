@@ -391,6 +391,11 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
     }
 }
 
+# unhide power settings
+# Get Power Settings entries and add/set 'Attributes' to 2 to unhide
+$PowerCfg = (Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings' -Recurse).Name -notmatch '\bDefaultPowerSchemeValues|(\\[0-9]|\b255)$'
+foreach ($item in $PowerCfg) { Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE','HKLM:') -Name 'Attributes' -Value 2 -Force }
+
 try {
     control update
 }
