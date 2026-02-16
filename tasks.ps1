@@ -62,13 +62,78 @@ $DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 15
 try {
     if ($DO_UNINSTALL) {
         $appsToRemove = @(
-            "3D Viewer", "Clipchamp", "Microsoft Clipchamp", "Feedback Hub", "HPHelp", "Microsoft Pay",
-            "Microsoft People", "Microsoft Photos", "Microsoft Solitaire Collection",
-            "Microsoft Sticky Notes", "Sticky Notes", "Microsoft Tips", "Mixed Reality Portal",
-            "Movies & TV", "News", "OneNote for Windows 10", "Paint 3D",
-            "Power Automate", "Print 3D", "Skype",
-            "Solitaire & Casual Games", "Windows Maps",
-            "Media Player", "Sound Recorder", "Family", "Quick Assist", "Outlook", "Translator", "Microsoft Teams"
+            # 3D / legacy inbox apps
+            "3D Viewer", "Microsoft 3D Viewer",
+            "Paint 3D",
+            "Print 3D",
+
+            # Clipchamp naming variants
+            "Clipchamp", "Microsoft Clipchamp", "Clipchamp - Video Editor",
+
+            # Feedback Hub
+            "Feedback Hub", "Windows Feedback Hub",
+
+            # HP OEM helper
+            "HPHelp", "HP Help", "HP Help and Support",
+
+            # Wallet / Pay
+            "Microsoft Pay", "Microsoft Wallet", "Wallet",
+
+            # People
+            "Microsoft People", "People",
+
+            # Photos
+            "Microsoft Photos", "Photos", "Microsoft Photos Legacy",
+
+            # Solitaire
+            "Microsoft Solitaire Collection", "Solitaire & Casual Games",
+
+            # Sticky Notes
+            "Microsoft Sticky Notes", "Sticky Notes",
+
+            # Tips (often “Tips”, sometimes under “Microsoft Tips”)
+            "Microsoft Tips", "Tips",
+
+            # Mixed Reality
+            "Mixed Reality Portal", "Windows Mixed Reality",
+
+            # Movies & TV
+            "Movies & TV", "Films & TV",
+
+            # News
+            "News", "Microsoft News",
+
+            "OneNote for Windows 10",
+
+            # Power Automate
+            "Power Automate", "Power Automate Desktop",
+
+            # Skype
+            "Skype",
+
+            # Maps
+            "Windows Maps", "Maps",
+
+            # Media Player / audio-video app branding drift
+            "Media Player", "Windows Media Player", "Groove Music",
+
+            # Voice recorder naming drift (Win10 commonly “Windows Voice Recorder”)
+            "Sound Recorder", "Windows Voice Recorder",
+
+            # Family Safety=
+            "Family", "Microsoft Family Safety",
+
+            # Quick Assist
+            "Quick Assist",
+
+            # Outlook
+            "Outlook", "Outlook for Windows", "Outlook for Windows (New)", "Microsoft Outlook",
+
+            # Translator
+            "Translator", "Microsoft Translator",
+
+            # Teams
+            "Microsoft Teams", "Microsoft Teams (work or school)", "Microsoft Teams (free)", "Microsoft Teams classic"
         )
 
         foreach ($app in $appsToRemove) {
