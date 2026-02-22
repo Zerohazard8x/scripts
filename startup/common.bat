@@ -93,8 +93,10 @@ cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
-REM dns config part 1
-netsh dns add global doh=yes ddr=yes @REM Enable DoH
+@REM dns config part 1
+@REM Enable DoH
+netsh dns add global doh=yes ddr=yes
+
 netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
