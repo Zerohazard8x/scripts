@@ -93,6 +93,13 @@ cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
+REM dns config part 1
+netsh dns add global doh=yes ddr=yes @REM Enable DoH
+netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+
 REM Check for PowerShell
 where powershell >nul 2>&1
 if %ERRORLEVEL% EQU 0 (
@@ -155,16 +162,16 @@ if %ERRORLEVEL% EQU 0 (
     @REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
     @REM sfc /scannow 2>nul
 
-    bcdedit /debug off
-    bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
-    bcdedit /set TESTSIGNING OFF
-    bcdedit /set NOINTEGRITYCHECKS OFF
-    bcdedit /set hypervisorlaunchtype auto
-
     wuauclt /detectnow
     wuauclt /updatenow
     control update 2>nul
 )
+
+bcdedit /debug off
+bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
+bcdedit /set TESTSIGNING OFF
+bcdedit /set NOINTEGRITYCHECKS OFF
+bcdedit /set hypervisorlaunchtype auto
 
 :NOPSHELL
 
@@ -224,6 +231,11 @@ REM -------------------------------------------------------------------
 @REM sc config "svsvc" start=disabled >nul 2>&1
 
 :NOSERVTWEAKS
+
+control update
+start "" "ms-windows-store://downloadsandupdates"
+start "" "msxbox://installs"
+start "" "steam://open/downloads"
 
 endlocal
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"

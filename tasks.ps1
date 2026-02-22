@@ -370,13 +370,6 @@ Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agree
 
 # configure dns
 try {
-    netsh dns add global doh=yes ddr=yes # Enable DoH
-
-    netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-    netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-    netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-    netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-
     # Set DNS servers on all "Up" adapters
     $ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
     $ipv4 = @("1.1.1.2", "1.0.0.2")
@@ -411,17 +404,6 @@ try {
 }
 catch {
     Write-Warning "Error: $_"
-}
-
-try {
-    bcdedit.exe /debug off
-    bcdedit.exe /set loadoptions ENABLE_INTEGRITY_CHECKS
-    bcdedit.exe /set TESTSIGNING OFF
-    bcdedit.exe /set NOINTEGRITYCHECKS OFF
-    bcdedit /set hypervisorlaunchtype auto
-}
-catch {
-    Write-Warning "Error running bcdedit: $_"
 }
 
 # Windows Update
@@ -459,34 +441,8 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 # unhide power settings
 # Get Power Settings entries and add/set 'Attributes' to 2 to unhide
 $PowerCfg = (Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings' -Recurse).Name -notmatch '\bDefaultPowerSchemeValues|(\\[0-9]|\b255)$'
-foreach ($item in $PowerCfg) { Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE','HKLM:') -Name 'Attributes' -Value 2 -Force }
-
-try {
-    control update
-}
-catch {
-    Write-Warning "Error opening Windows Update control panel: $_"
-}
-
-try {
-    Start-Process "ms-windows-store://downloadsandupdates"
-}
-catch {
-    Write-Warning "Error opening Microsoft Store updates: $_"
-}
-
-try {
-    Start-Process "msxbox://installs"
-}
-catch {
-    Write-Warning "Error opening Xbox installs: $_"
-}
-
-try {
-    Start-Process "steam://open/downloads"
-}
-catch {
-    Write-Warning "Error opening Steam downloads: $_"
+foreach ($item in $PowerCfg) {
+    Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE','HKLM:') -Name 'Attributes' -Value 2 -Force 
 }
 
 exit
