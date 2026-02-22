@@ -205,7 +205,7 @@ for %%S in (
     "esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
     "jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
     "niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
-    "ss_conn_service2" "xTendSoftAPService"
+    "ss_conn_service2" "xTendSoftAPService" "ClickToRunSvc"
 ) do (
     sc config %%~S start=demand >nul 2>&1
 )
