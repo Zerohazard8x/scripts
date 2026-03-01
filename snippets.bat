@@ -9,7 +9,6 @@ if %ERRORLEVEL% EQU 0 (
 @REM @REM Clear clipboard
 @REM echo off | clip
 
-
 @REM registry
 WHERE reg
 if %ERRORLEVEL% EQU 0 (
@@ -36,7 +35,11 @@ gpupdate /force
 secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 
 @REM password expiry
-wmic UserAccount set PasswordExpires=False
+net stop winmgmt
+winmgmt /resetrepository
+net start winmgmt
+@REM if fails
+@REM winmgmt /salvagerepository
 
 @REM reset windows search
 taskkill /f /im explorer.exe
