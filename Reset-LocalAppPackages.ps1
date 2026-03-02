@@ -123,11 +123,10 @@ function Reset-PackageFolder {
   $family = Get-PackageFamilyNameFromPath -PackagePath $PkgPath
 
   # 1) Never full-delete these
-  if ($global:NeverNukeInAggressive | Where-Object { $family -like "*$_*" } | Select-Object -First 1) {
-
+  if ($global:doNotFullDelete | Where-Object { $family -like "*$_*" } | Select-Object -First 1) {
     # For identity-sensitive packages, preserve LocalState/Settings
     if ($global:IdentitySensitive | Where-Object { $family -like "*$_*" } | Select-Object -First 1) {
-      Write-Log "Aggressive: $family is identity-sensitive; using LIGHT reset (preserve LocalState/Settings)."
+      Write-Log "$family is identity-sensitive; preserving LocalState/Settings"
       # preserve Settings + LocalState.
       $toDelete = @(
         "LocalCache",
@@ -146,7 +145,7 @@ function Reset-PackageFolder {
       return
     }
 
-    Write-Log "Aggressive: $family is protected; using SAFE reset (no full delete)."
+    Write-Log "$family is protected; not full-deleting"
     Reset-PackageFolderSafe -PkgPath $PkgPath
     return
   }
@@ -154,7 +153,7 @@ function Reset-PackageFolder {
   # Only nuke the whole folder if we can re-register from SystemApps.
   $manifest = Find-SystemAppsManifestForFamily -FamilyName $family
   if (-not $manifest) {
-    Write-Log "Aggressive requested but no SystemApps manifest for $family; falling back to safe-mode reset."
+    Write-Log "No SystemApps manifest for $family; falling back to safe-mode reset."
     Reset-PackageFolderSafe -PkgPath $PkgPath
     return
   }
@@ -172,7 +171,7 @@ if (-not (Test-Path -LiteralPath $packagesRoot)) {
 }
 
 # Base exclusions
-$excludes = @(
+$baseExcludes = @(
   "Microsoft.Windows.StartMenuExperienceHost",
   "Microsoft.Windows.ShellExperienceHost",
   "Microsoft.WindowsStore",
@@ -181,7 +180,7 @@ $excludes = @(
 )
 
 # won't be full-deleted
-$global:NeverNukeInAggressive = @(
+$global:doNotFullDelete = @(
   # Store stack + installer plumbing
   "Microsoft.WindowsStore",
   "Microsoft.StorePurchaseApp",
@@ -216,10 +215,10 @@ Write-Log "Backup dir:    $global:BackupDir"
 
 $pkgs = Get-ChildItem -LiteralPath $packagesRoot -Directory -ErrorAction Stop
 
-# Apply excludes (skip completely)
+# Apply baseExcludes (skip completely)
 $pkgs = $pkgs | Where-Object {
   $name = $_.Name
-  -not ($excludes | Where-Object { $name -like "*$_*" } | Select-Object -First 1)
+  -not ($baseExcludes | Where-Object { $name -like "*$_*" } | Select-Object -First 1)
 }
 
 Write-Log ("Targets: {0}" -f $pkgs.Count)
