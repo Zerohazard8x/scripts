@@ -1,4 +1,9 @@
 @echo off
+if /I not "%SCRIPT_LOWPRIO%"=="1" (
+    set "SCRIPT_LOWPRIO=1"
+    start "" /b /wait /low cmd /c ""%~f0" %*"
+    exit /b %errorlevel%
+)
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
 del /s /q /f "%downloadDir%\common.bat"

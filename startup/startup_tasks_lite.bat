@@ -1,4 +1,9 @@
 @echo off
+if /I not "%SCRIPT_LOWPRIO%"=="1" (
+    set "SCRIPT_LOWPRIO=1"
+    start "" /b /wait /low cmd /c ""%~f0" %*"
+    exit /b %errorlevel%
+)
 
 REM -------------------------------------------------------------------
 REM version string
@@ -88,7 +93,7 @@ REM Finally, run common.bat (in a new window), wait, and capture its exit code
 REM -------------------------------------------------------------------
 if exist "common.bat" (
     REM Use START /WAIT with cmd /c so we get the real ERRORLEVEL from the child .bat
-    start "" /wait cmd /c common.bat
+    start "" /wait /low cmd /c common.bat
     set "rc=%errorlevel%"
 ) else (
     echo *** ERROR: common.bat not found! ***

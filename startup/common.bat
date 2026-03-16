@@ -1,4 +1,9 @@
 @echo off
+if /I not "%SCRIPT_LOWPRIO%"=="1" (
+    set "SCRIPT_LOWPRIO=1"
+    start "" /b /wait /low cmd /c ""%~f0" %*"
+    exit /b %errorlevel%
+)
 setlocal EnableExtensions EnableDelayedExpansion
 
 @REM version string
