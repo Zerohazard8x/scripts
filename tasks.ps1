@@ -1,3 +1,30 @@
+function Set-LowestProcessPriority {
+	$signature = @"
+using System;
+using System.Runtime.InteropServices;
+public static class NativePriority {
+    [DllImport("ntdll.dll")]
+    public static extern int NtSetInformationProcess(IntPtr processHandle, int processInformationClass, ref int processInformation, int processInformationLength);
+}
+"@
+
+	try {
+		Add-Type -TypeDefinition $signature -ErrorAction SilentlyContinue | Out-Null
+		$proc = [System.Diagnostics.Process]::GetCurrentProcess()
+		$proc.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Idle
+		$proc.PriorityBoostEnabled = $false
+
+		$ioPriorityVeryLow = 0
+		$pagePriorityVeryLow = 1
+		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 33, [ref]$ioPriorityVeryLow, 4)
+		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 39, [ref]$pagePriorityVeryLow, 4)
+	}
+	catch {
+		Write-Verbose "Could not force lowest process priority settings: $_"
+	}
+}
+
+Set-LowestProcessPriority
 # Ensure the script runs with administrative privileges
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 	Write-Warning "run this script as admin"
