@@ -193,34 +193,34 @@ cls
 choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
-REM -------------------------------------------------------------------
-REM Configure service startup types (manual)
-REM -------------------------------------------------------------------
-for %%S in (
-	"vgc" "AMD Crash Defender Service" "AMD External Events Utility"
-	"AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
-	"Autodesk Access Service Host" "Autodesk CER Service" "Bonjour Service"
-	"BraveElevationService" "BraveVpnService" "CIJSRegister" "CdRomArbiterService"
-	"CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
-	"Intel(R) TPM Provisioning Service" "KNDBWM" "Killer Analytics Service"
-	"Killer Network Service" "Killer Wifi Optimization Service"
-	"LGHUBUpdaterService" "LightKeeperService" "MBAMService"
-	"MSI_Case_Service" "MSI_Center_Service" "MSI_Super_Charger_Service"
-	"MSI_VoiceControl_Service" "MicrosoftEdgeElevationService"
-	"MozillaMaintenance" "Mystic_Light_Service" "NIDomainService"
-	"NINetworkDiscovery" "NiSvcLoc" "OverwolfUpdater" "PSSvc"
-	"Parsec" "QMEmulatorService" "Razer Synapse Service"
-	"RstMwService" "RtkAudioUniversalService" "Steam Client Service"
-	"SteelSeriesGGUpdateServiceProxy" "SteelSeriesUpdateService"
-	"TeraCopyService.exe" "VBoxSDS" "WMIRegistrationService"
-	"brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem"
-	"esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
-	"jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
-	"niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
-	"ss_conn_service2" "xTendSoftAPService" "ClickToRunSvc"
-) do (
-	sc config %%~S start=demand >nul 2>&1
-)
+@REM REM -------------------------------------------------------------------
+@REM REM Configure service startup types (manual)
+@REM REM -------------------------------------------------------------------
+@REM for %%S in (
+@REM 	"vgc" "AMD Crash Defender Service" "AMD External Events Utility"
+@REM 	"AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
+@REM 	"Autodesk Access Service Host" "Autodesk CER Service" "Bonjour Service"
+@REM 	"BraveElevationService" "BraveVpnService" "CIJSRegister" "CdRomArbiterService"
+@REM 	"CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
+@REM 	"Intel(R) TPM Provisioning Service" "KNDBWM" "Killer Analytics Service"
+@REM 	"Killer Network Service" "Killer Wifi Optimization Service"
+@REM 	"LGHUBUpdaterService" "LightKeeperService" "MBAMService"
+@REM 	"MSI_Case_Service" "MSI_Center_Service" "MSI_Super_Charger_Service"
+@REM 	"MSI_VoiceControl_Service" "MicrosoftEdgeElevationService"
+@REM 	"MozillaMaintenance" "Mystic_Light_Service" "NIDomainService"
+@REM 	"NINetworkDiscovery" "NiSvcLoc" "OverwolfUpdater" "PSSvc"
+@REM 	"Parsec" "QMEmulatorService" "Razer Synapse Service"
+@REM 	"RstMwService" "RtkAudioUniversalService" "Steam Client Service"
+@REM 	"SteelSeriesGGUpdateServiceProxy" "SteelSeriesUpdateService"
+@REM 	"TeraCopyService.exe" "VBoxSDS" "WMIRegistrationService"
+@REM 	"brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem"
+@REM 	"esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
+@REM 	"jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
+@REM 	"niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
+@REM 	"ss_conn_service2" "xTendSoftAPService" "ClickToRunSvc"
+@REM ) do (
+@REM 	sc config %%~S start=demand >nul 2>&1
+@REM )
 
 REM -------------------------------------------------------------------
 REM Configure and start key services (automatic)

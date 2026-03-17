@@ -1,10 +1,15 @@
+[CmdletBinding(SupportsShouldProcess = $true)]
+param(
+	[switch]$IncludeRunningServices
+)
+
 function Set-LowestProcessPriority {
 	$signature = @"
 using System;
 using System.Runtime.InteropServices;
 public static class NativePriority {
-    [DllImport("ntdll.dll")]
-    public static extern int NtSetInformationProcess(IntPtr processHandle, int processInformationClass, ref int processInformation, int processInformationLength);
+	[DllImport("ntdll.dll")]
+	public static extern int NtSetInformationProcess(IntPtr processHandle, int processInformationClass, ref int processInformation, int processInformationLength);
 }
 "@
 
@@ -82,6 +87,92 @@ function Prompt-YesNoDefaultN {
 
 	Write-Host ""  # newline after timeout
 	return $false   # default N
+}
+
+function Get-ExePathFromServicePath {
+	param([string]$PathName)
+
+	if ([string]::IsNullOrWhiteSpace($PathName)) { return $null }
+
+	$expanded = [Environment]::ExpandEnvironmentVariables($PathName.Trim())
+
+	if ($expanded -match '^\s*"([^"]+)"') {
+		return $matches[1]
+	}
+
+	if ($expanded -match '^\s*([^\s]+)') {
+		return $matches[1]
+	}
+
+	return $expanded
+}
+
+function Test-IsUnderWindowsDirectory {
+	param([string]$ExePath)
+
+	if ([string]::IsNullOrWhiteSpace($ExePath)) { return $false }
+
+	$winDir = [Environment]::GetFolderPath('Windows')
+	$full = [Environment]::ExpandEnvironmentVariables($ExePath)
+
+	return $full.StartsWith($winDir, [System.StringComparison]::OrdinalIgnoreCase)
+}
+
+function Get-ScStartType {
+	param([string]$ServiceName)
+
+	$out = sc.exe qc $ServiceName 2>$null
+	if (-not $out) { return $null }
+
+	$text = $out | Out-String
+
+	if ($text -match 'DELAYED_AUTO_START') { return 'AutomaticDelayedStart' }
+	if ($text -match 'AUTO_START') { return 'Automatic' }
+	if ($text -match 'DEMAND_START') { return 'Manual' }
+	if ($text -match 'DISABLED') { return 'Disabled' }
+	if ($text -match 'BOOT_START') { return 'Boot' }
+	if ($text -match 'SYSTEM_START') { return 'System' }
+
+	return 'Unknown'
+}
+
+# set non-stock services to manual start
+$services = Get-CimInstance Win32_Service | ForEach-Object {
+	$exePath = Get-ExePathFromServicePath $_.PathName
+	$scType = Get-ScStartType $_.Name
+
+	[PSCustomObject]@{
+		Name         = $_.Name
+		DisplayName  = $_.DisplayName
+		State        = $_.State
+		ServiceType  = $_.ServiceType
+		PathName     = $_.PathName
+		ExePath      = $exePath
+		Win32Start   = $_.StartMode
+		ActualStart  = $scType
+		UnderWindows = Test-IsUnderWindowsDirectory $exePath
+	}
+}
+
+$candidates = $services | Where-Object {
+	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
+	-not $_.UnderWindows
+}
+
+if (-not $candidates) {
+	Write-Host "No matching services found."
+	return
+}
+
+$candidates |
+Sort-Object DisplayName |
+Select-Object DisplayName, Name, State, ActualStart, ExePath |
+Format-Table -AutoSize
+
+foreach ($svc in $candidates) {
+	if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
+		Set-Service -Name $svc.Name -StartupType Manual
+	}
 }
 
 $DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 15
@@ -193,7 +284,7 @@ function Get-StoreAppPackages {
 		[string] $Lang = 'en-US'
 	)
 
-	# Check if installed 
+	# Check if installed
 	try {
 		$existing = Get-AppxPackage -AllUsers | Where-Object {
 			($_.Name -like "*$ProductId*") -or
@@ -360,34 +451,34 @@ Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
 # Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
 # Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
 Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
-Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack). 
-Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app). 
+Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
+Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
 Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
 Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
 Get-StoreAppPackages -ProductId '9N0DX20HK701'
 Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
 Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
-Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion). 
+Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
 Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
-Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do. 
+Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do.
 Get-StoreAppPackages -ProductId '9NC184TX90WZ'
-Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI. 
+Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
 Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
 Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
 Get-StoreAppPackages -ProductId '9NZBF4GT040C'
-Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar). 
-Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay). 
-Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera. 
+Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar).
+Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay).
+Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera.
 Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
 Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
 Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
 Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
 Get-StoreAppPackages -ProductId '9PLJQ12FQ3CV'
-Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider. 
-Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator. 
-Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive. 
+Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider.
+Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator.
+Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
 Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
-Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera. 
+Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
 
 # https://github.com/SimonCropp/WinDebloat
 
@@ -469,7 +560,7 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 # Get Power Settings entries and add/set 'Attributes' to 2 to unhide
 $PowerCfg = (Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings' -Recurse).Name -notmatch '\bDefaultPowerSchemeValues|(\\[0-9]|\b255)$'
 foreach ($item in $PowerCfg) {
-	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force 
+	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
 }
 
 exit
