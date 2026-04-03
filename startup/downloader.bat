@@ -4,6 +4,7 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
     start "" /b /wait /low cmd /c ""%~f0" %*"
     exit /b %errorlevel%
 )
+setlocal EnableExtensions
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
 del /s /q /f "%downloadDir%\common.bat"
@@ -49,7 +50,18 @@ if exist "%downloadDir%\common.bat" (
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
         if %errorlevel% equ 0 (
             call "%downloadDir%\startup_tasks.bat"
-            exit
+            set "rc=%errorlevel%"
+            goto :cleanup
         )
     )
 )
+
+set "rc=1"
+
+:cleanup
+del /s /q /f "%downloadDir%\common.bat" 2>nul
+del /s /q /f "%downloadDir%\startup_tasks.bat" 2>nul
+del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
+del /s /q /f "%downloadDir%\import.ps1" 2>nul
+del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
+endlocal & exit /b %rc%
