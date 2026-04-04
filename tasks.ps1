@@ -154,6 +154,42 @@ $services = Get-CimInstance Win32_Service | ForEach-Object {
 	}
 }
 
+# set processes to lowest priority
+$processNames = @(
+	'MSIAfterburner',
+	'HWiNFO64',
+	'RTSS',
+	'steam.exe',
+	'steamwebhelper',
+	'RiotClientServices',
+	'EpicGamesLauncher',
+	'EpicWebHelper',
+	'RazerCortex',
+	'SteelSeriesGG',
+	'OverwolfLauncher',
+	'Overwolf',
+	'XboxPcAppFT',
+	'XboxPcApp',
+	'FanControl',
+	'voicemeeterpro_x64',
+	'voicemeeter8x64',
+	'voicemeeterpro',
+	'voicemeeter8',
+	'thunderbird'
+)
+
+foreach ($name in $processNames) {
+	Get-Process -Name $name -ErrorAction SilentlyContinue |
+		ForEach-Object {
+			try {
+				$_.PriorityClass = 'Idle'
+			}
+			catch {
+				# Ignore processes that cannot be changed
+			}
+		}
+}
+
 $candidates = $services | Where-Object {
 	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
 	-not $_.UnderWindows

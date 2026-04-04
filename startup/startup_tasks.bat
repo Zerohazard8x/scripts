@@ -13,23 +13,6 @@ REM -------------------------------------------------------------------
 REM Ping-abuse timeout – ~1 second
 ping 127.0.0.1 -n 2 >nul
 
-REM -------------------------------------------------------------------
-REM Launch Voicemeeter if installed
-REM -------------------------------------------------------------------
-if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
-    tasklist /FI "IMAGENAME eq voicemeeterpro_x64.exe" 2>NUL | find /I /N "voicemeeterpro_x64.exe">NUL
-    if "%ERRORLEVEL%"=="1" (
-        start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
-    )
-) else (
-    if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
-        tasklist /FI "IMAGENAME eq voicemeeter8x64.exe" 2>NUL | find /I /N "voicemeeter8x64.exe">NUL
-        if "%ERRORLEVEL%"=="1" (
-            start "" "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
-        )
-    )
-)
-
 REM Clear screen
 cls
 

@@ -11,89 +11,113 @@ setlocal EnableExtensions EnableDelayedExpansion
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 	tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
 	)
 )
 
 if exist "%ProgramFiles%\HWiNFO64\HWiNFO64.EXE" (
 	tasklist /FI "IMAGENAME eq HWiNFO64.EXE" 2>NUL | find /I /N "HWiNFO64.EXE" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles%\HWiNFO64\HWiNFO64.EXE"
 	)
 )
 
 if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
 	tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
 	)
 )
 
 if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
 	tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\Steam\steam.exe"
 	)
 )
 
 @REM if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
 @REM     tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
-@REM     if "%ERRORLEVEL%"=="1" (
+@REM     if errorlevel 1 (
 @REM         start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
 @REM     )
 @REM )
 
 if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" (
 	tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
 	)
-) else (
-	if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
-		tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
-		if "%ERRORLEVEL%"=="1" (
-			start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
-		)
+) else if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+	tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
+	if errorlevel 1 (
+		start "" "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
 	)
 )
 
 if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
 	tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
 	)
 )
 
 @REM if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
 @REM     tasklist /FI "IMAGENAME eq SteelSeriesGG.exe" 2>NUL | find /I /N "SteelSeriesGG.exe">NUL
-@REM     if "%ERRORLEVEL%"=="1" (
+@REM     if errorlevel 1 (
 @REM         start "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
 @REM     )
 @REM )
 
 if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 	tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
 	)
 )
 
 @REM tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe" >NUL
-@REM if "%ERRORLEVEL%"=="1" (
+@REM if errorlevel 1 (
 @REM     start "" "msxbox://"
 @REM )
 
 @REM if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
 @REM     tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe" >NUL
-@REM     if "%ERRORLEVEL%"=="1" (
+@REM     if errorlevel 1 (
 @REM         start "" "%ProgramFiles(x86)%\FanControl\FanControl.exe"
 @REM     )
 @REM )
 
+set "vm_path="
+set "vm_exe="
+
+REM pick executable (priority order)
+if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+	set "vm_exe=voicemeeterpro_x64.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
+	set "vm_exe=voicemeeter8x64.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro.exe"
+	set "vm_exe=voicemeeterpro.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8.exe"
+	set "vm_exe=voicemeeter8.exe"
+)
+
+REM run if found and not already running
+if defined vm_path (
+	tasklist /FI "IMAGENAME eq %vm_exe%" 2>NUL | find /I "%vm_exe%" >NUL
+	if errorlevel 1 (
+		start "" "%vm_path%"
+	)
+)
+
 if exist "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe" (
 	tasklist /FI "IMAGENAME eq thunderbird.exe" 2>NUL | find /I /N "thunderbird.exe" >NUL
-	if "%ERRORLEVEL%"=="1" (
+	if errorlevel 1 (
 		start "" "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe"
 	)
 )
@@ -135,21 +159,19 @@ if %ERRORLEVEL% EQU 0 (
 	where curl >nul 2>&1
 	if %ERRORLEVEL% EQU 0 (
 		curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
-	) else (
-		@REM if exist "%ProgramFiles%\Unix\wget.exe" (
-		@REM     "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
-		@REM )
-	)
+	) 
+	@REM else if exist "%ProgramFiles%\Unix\wget.exe" (
+	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+	@REM )
 
 	REM Download latest import.ps1
 	where curl >nul 2>&1
 	if %ERRORLEVEL% EQU 0 (
 		curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
-	) else (
-		@REM if exist "%ProgramFiles%\Unix\wget.exe" (
-		@REM     "%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
-		@REM )
-	)
+	) 
+	@REM else if exist "%ProgramFiles%\Unix\wget.exe" (
+	@REM 	"%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
+	@REM )
 
 	REM Run tasks.ps1 if present
 	if exist "%downloadDir%\tasks.ps1" (
