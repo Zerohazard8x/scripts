@@ -159,7 +159,7 @@ $processNames = @(
 	'MSIAfterburner',
 	'HWiNFO64',
 	'RTSS',
-	'steam.exe',
+	'steam',
 	'steamwebhelper',
 	'RiotClientServices',
 	'EpicGamesLauncher',
@@ -175,7 +175,10 @@ $processNames = @(
 	'voicemeeter8x64',
 	'voicemeeterpro',
 	'voicemeeter8',
-	'thunderbird'
+	'thunderbird',
+	'OneDrive',
+	'OneDrive.Sync.Service',
+	'MEGAsync'
 )
 
 foreach ($name in $processNames) {

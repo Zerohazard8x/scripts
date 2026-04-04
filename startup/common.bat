@@ -122,6 +122,20 @@ if exist "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe" (
 	)
 )
 
+if exist "%ProgramFiles%\Microsoft OneDrive\OneDrive.exe" (
+	tasklist /FI "IMAGENAME eq OneDrive.exe" 2>NUL | find /I /N "OneDrive.exe" >NUL
+	if errorlevel 1 (
+		start "" "%ProgramFiles%\Microsoft OneDrive\OneDrive.exe"
+	)
+)
+
+if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
+	tasklist /FI "IMAGENAME eq MEGAsync.exe" 2>NUL | find /I /N "MEGAsync.exe" >NUL
+	if errorlevel 1 (
+		start "" "%localappdata%\MEGAsync\MEGAsync.exe"
+	)
+)
+
 REM -------------------------------------------------------------------
 REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
 REM -------------------------------------------------------------------
