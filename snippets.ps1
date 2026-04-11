@@ -92,8 +92,8 @@ foreach ($drive in $drives) {
                 Write-Warning "Error: $_"
             }
         }
-        # reset shadow storage
-        vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=3%
+        # reset shadow storage (default is 2%??)
+        vssadmin Resize ShadowStorage /For=$drive`: /On=$drive`: /MaxSize=2%
     }
     catch {
         Write-Warning "Error repairing drive $drive`: $_"
