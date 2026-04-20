@@ -34,7 +34,7 @@ REM If python in PATH, purge cache and upgrade packages
 REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
     python -m pip cache purge
-    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp mutagen
+    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
     where python3.12 >nul 2>&1
     if errorlevel 0 (
