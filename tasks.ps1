@@ -183,14 +183,14 @@ $processNames = @(
 
 foreach ($name in $processNames) {
 	Get-Process -Name $name -ErrorAction SilentlyContinue |
-		ForEach-Object {
-			try {
-				$_.PriorityClass = 'Idle'
-			}
-			catch {
-				# Ignore processes that cannot be changed
-			}
+	ForEach-Object {
+		try {
+			$_.PriorityClass = 'Idle'
 		}
+		catch {
+			# Ignore processes that cannot be changed
+		}
+	}
 }
 
 $candidates = $services | Where-Object {
@@ -202,15 +202,102 @@ if (-not $candidates) {
 	Write-Host "No matching services found."
 	return
 }
+else {
+	$candidates |
+	Sort-Object DisplayName |
+	Select-Object DisplayName, Name, State, ActualStart, ExePath |
+	Format-Table -AutoSize
 
-$candidates |
-Sort-Object DisplayName |
-Select-Object DisplayName, Name, State, ActualStart, ExePath |
-Format-Table -AutoSize
+	foreach ($svc in $candidates) {
+		if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
+			Set-Service -Name $svc.Name -StartupType Manual
+		}
+	}
+}
 
-foreach ($svc in $candidates) {
-	if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
-		Set-Service -Name $svc.Name -StartupType Manual
+# remove disconnected devices as in device manager
+function Parse-PnpUtilBlocks {
+	param(
+		[string[]]$Lines,
+		[hashtable]$Map,
+		[string]$RequiredKey
+	)
+
+	$items = @()
+	$current = [ordered]@{}
+
+	foreach ($line in $Lines) {
+		if ($line -match '^\s*$') {
+			if ($current[$RequiredKey]) {
+				$items += [pscustomobject]$current
+			}
+			$current = [ordered]@{}
+			continue
+		}
+
+		foreach ($label in $Map.Keys) {
+			if ($line -match "^\s*$([regex]::Escape($label))\s*:\s*(.+)$") {
+				$value = $matches[1].Trim()
+
+				if ($label -in 'Instance ID', 'Published Name', 'Driver Name') {
+					$value = $value.ToLowerInvariant()
+				}
+
+				$current[$Map[$label]] = $value
+				break
+			}
+		}
+	}
+
+	# pnputil output does not always end with a blank line
+	if ($current[$RequiredKey]) {
+		$items += [pscustomobject]$current
+	}
+
+	$items
+}
+
+$devices = Parse-PnpUtilBlocks `
+	-Lines (pnputil /enum-devices /disconnected /drivers) `
+	-RequiredKey InstanceId `
+	-Map @{
+	'Instance ID'        = 'InstanceId'
+	'Device Description' = 'Description'
+	'Driver Name'        = 'DriverName'
+}
+
+$drivers = Parse-PnpUtilBlocks `
+	-Lines (pnputil /enum-drivers) `
+	-RequiredKey PublishedName `
+	-Map @{
+	'Published Name'          = 'PublishedName'
+	'Provider Name'           = 'ProviderName'
+	'Driver Package Provider' = 'ProviderName'
+}
+
+$driverByInf = @{}
+foreach ($driver in $drivers) {
+	$driverByInf[$driver.PublishedName] = $driver
+}
+
+if (-not $devices) {
+	Write-Host "No disconnected devices found."
+}
+else {
+	foreach ($device in $devices) {
+		Write-Host "`nRemoving device: $($device.Description)"
+		pnputil /remove-device "$($device.InstanceId)"
+
+		$driver = $driverByInf[$device.DriverName]
+
+		# Only exact "Microsoft" is treated as protected
+		if ($driver -and $driver.ProviderName -notmatch '^\s*Microsoft\s*$') {
+			Write-Host "Deleting driver package: $($device.DriverName)"
+			pnputil /delete-driver "$($device.DriverName)" /uninstall
+		}
+		elseif ($device.DriverName) {
+			Write-Host "Keeping driver package: $($device.DriverName)"
+		}
 	}
 }
 
