@@ -125,6 +125,6 @@ if not "%rc%"=="0" (
 REM =========================================================
 REM Success path: auto-close unless user presses Y within 15 seconds
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
-if errorlevel 2 exit /b 0    
-cmd /k                        
+if errorlevel 2 exit /b 0
+cmd /k
 REM =========================================================

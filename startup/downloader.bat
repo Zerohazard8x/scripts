@@ -46,10 +46,10 @@ if exist "%downloadDir%\common.bat" (
                 )
             )
         )
-        
+
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
         if %errorlevel% equ 0 (
-            call "%downloadDir%\startup_tasks.bat"
+            start "" /wait /low call "%downloadDir%\startup_tasks.bat"
             set "rc=%errorlevel%"
             goto :cleanup
         )
