@@ -105,7 +105,7 @@ REM )
 REM -------------------------------------------------------------------
 REM Finally, run common.bat (in a new window), wait, and capture its exit code
 REM -------------------------------------------------------------------
-if exist "common.bat" (
+if exist "%downloadDir%\common.bat" (
     REM Use START /WAIT with cmd /c so we get the real ERRORLEVEL from the child .bat
     start "" /wait /low cmd /c "%downloadDir%\common.bat"
     set "rc=%errorlevel%"
