@@ -178,7 +178,9 @@ $processNames = @(
 	'thunderbird',
 	'OneDrive',
 	'OneDrive.Sync.Service',
-	'MEGAsync'
+	'MEGAsync',
+	'WinStore.App',
+	'StoreDesktopExtension'
 )
 
 foreach ($name in $processNames) {
