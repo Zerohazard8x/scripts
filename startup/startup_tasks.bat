@@ -119,12 +119,12 @@ if not "%rc%"=="0" (
     echo.
     echo common.bat exited with code %rc%. Writing to %~dp0startup_tasks.log and closing.
     >>"%~dp0startup_tasks.log" echo [%date% %time%] common.bat exited with code %rc%
-    exit /b %rc%
+    endlocal & exit /b %rc%
 )
 
 REM =========================================================
 REM Success path: auto-close unless user presses Y within 15 seconds
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
-if errorlevel 2 exit /b 0
+if errorlevel 2 endlocal & exit /b 0
 cmd /k
 REM =========================================================
