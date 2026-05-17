@@ -2,7 +2,7 @@
 if /I not "%SCRIPT_LOWPRIO%"=="1" (
 	set "SCRIPT_LOWPRIO=1"
 	start "" /b /wait /low cmd /c ""%~f0" %*"
-	exit /b %errorlevel%
+	exit %errorlevel%
 )
 setlocal EnableExtensions EnableDelayedExpansion
 
@@ -289,4 +289,4 @@ start "" "steam://open/downloads"
 
 endlocal
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
-if errorlevel 2 exit /b 0
+if errorlevel 2 exit 0

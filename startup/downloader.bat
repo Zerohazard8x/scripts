@@ -2,7 +2,7 @@
 if /I not "%SCRIPT_LOWPRIO%"=="1" (
     set "SCRIPT_LOWPRIO=1"
     start "" /b /wait /low cmd /c ""%~f0" %*"
-    exit /b %errorlevel%
+    exit %errorlevel%
 )
 setlocal EnableExtensions
 set "downloadDir=%USERPROFILE%\Downloads"
@@ -64,4 +64,4 @@ del /s /q /f "%downloadDir%\startup_tasks.bat" 2>nul
 del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 del /s /q /f "%downloadDir%\import.ps1" 2>nul
 del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
-endlocal & exit /b %rc%
+endlocal & exit %rc%
