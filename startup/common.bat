@@ -205,17 +205,17 @@ if %ERRORLEVEL% EQU 0 (
 	REM Restore default execution policy
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
 ) else (
-	REM Fallback repairs
-	@REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
-	@REM defrag /O /C /M 2>nul
-
-	@REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
-	@REM sfc /scannow 2>nul
-
 	wuauclt /detectnow
 	wuauclt /updatenow
 	control update 2>nul
 )
+
+REM repairs
+@REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
+@REM defrag /O /C /M 2>nul
+
+@REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
+@REM sfc /scannow 2>nul
 
 bcdedit /debug off
 bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
@@ -229,44 +229,12 @@ cls
 choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
-@REM REM -------------------------------------------------------------------
-@REM REM Configure service startup types (manual)
-@REM REM -------------------------------------------------------------------
-@REM for %%S in (
-@REM 	"vgc" "AMD Crash Defender Service" "AMD External Events Utility"
-@REM 	"AdobeARMservice" "AdskLicensingService" "Apple Mobile Device Service"
-@REM 	"Autodesk Access Service Host" "Autodesk CER Service" "Bonjour Service"
-@REM 	"BraveElevationService" "BraveVpnService" "CIJSRegister" "CdRomArbiterService"
-@REM 	"CxAudMsg" "DtsApo4Service" "EpicOnlineServices"
-@REM 	"Intel(R) TPM Provisioning Service" "KNDBWM" "Killer Analytics Service"
-@REM 	"Killer Network Service" "Killer Wifi Optimization Service"
-@REM 	"LGHUBUpdaterService" "LightKeeperService" "MBAMService"
-@REM 	"MSI_Case_Service" "MSI_Center_Service" "MSI_Super_Charger_Service"
-@REM 	"MSI_VoiceControl_Service" "MicrosoftEdgeElevationService"
-@REM 	"MozillaMaintenance" "Mystic_Light_Service" "NIDomainService"
-@REM 	"NINetworkDiscovery" "NiSvcLoc" "OverwolfUpdater" "PSSvc"
-@REM 	"Parsec" "QMEmulatorService" "Razer Synapse Service"
-@REM 	"RstMwService" "RtkAudioUniversalService" "Steam Client Service"
-@REM 	"SteelSeriesGGUpdateServiceProxy" "SteelSeriesUpdateService"
-@REM 	"TeraCopyService.exe" "VBoxSDS" "WMIRegistrationService"
-@REM 	"brave" "bravem" "cplspcon" "edgeupdate" "edgeupdatem"
-@REM 	"esifsvc" "ibtsiva" "igccservice" "igfxCUIService2.0.0.0"
-@REM 	"jhi_service" "lkClassAds" "lkTimeSync" "logi_lamparray_service"
-@REM 	"niauth" "nimDNSResponder" "spacedeskService" "ss_conn_service"
-@REM 	"ss_conn_service2" "xTendSoftAPService" "ClickToRunSvc"
-@REM ) do (
-@REM 	sc config %%~S start=demand >nul 2>&1
-@REM )
-
 REM -------------------------------------------------------------------
 REM Configure and start key services (automatic)
 REM -------------------------------------------------------------------
 for %%S in (
-	"CloudflareWarp"
-	"CortexLauncherService" "Dnscache" "EntAppSvc" "FrameServer"
-	"LicenseManager" "MullvadVPN" "NVDisplay.ContainerLocalSystem"
-	"OpenVPNServiceInteractive" "Razer Game Manager Service 3"
-	"RzActionSvc"
+	"Dnscache" "EntAppSvc" "FrameServer"
+	"LicenseManager"
 ) do (
 	@REM sc config %%~S start=auto >nul 2>&1
 	net start %%~S >nul 2>&1

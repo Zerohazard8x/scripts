@@ -193,27 +193,27 @@ foreach ($name in $processNames) {
 			# Ignore processes that cannot be changed
 		}
 	}
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 }
 
-$candidates = $services | Where-Object {
+$nonSystemServices = $services | Where-Object {
 	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
 	-not $_.UnderWindows
 }
 
-if (-not $candidates) {
-	Write-Host "No matching services found."
-	return
-}
-else {
-	$candidates |
-	Sort-Object DisplayName |
-	Select-Object DisplayName, Name, State, ActualStart, ExePath |
-	Format-Table -AutoSize
-
-	foreach ($svc in $candidates) {
+if ($nonSystemServices) {
+	foreach ($svc in $nonSystemServices) {
 		if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
 			Set-Service -Name $svc.Name -StartupType Manual
 		}
+
+		# priority
+		$exeName = [IO.Path]::GetFileName($svc.ExePath)
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 	}
 }
 
@@ -612,6 +612,7 @@ Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
 
 # winget upgrade
 Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
+Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
