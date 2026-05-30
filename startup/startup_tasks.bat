@@ -1,7 +1,7 @@
 @echo off
 if /I not "%SCRIPT_LOWPRIO%"=="1" (
     set "SCRIPT_LOWPRIO=1"
-    start "" /b /wait /low cmd /c ""%~f0" %*"
+    start "" /b /wait /low cmd /s /c ""%~f0" %*"
     exit /b %errorlevel%
 )
 setlocal EnableExtensions
@@ -37,25 +37,25 @@ REM -------------------------------------------------------------------
 REM If python in PATH, purge cache and upgrade packages
 REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
-    python -m pip cache purge
-    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+    call :RunElevatedCommand python -m pip cache purge
+    call :RunElevatedCommand python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
     where python3.12 >nul 2>&1
     if errorlevel 0 (
-        python3.12 -m pip install -U pip whisperx
+        call :RunElevatedCommand python3.12 -m pip install -U pip whisperx
     ) else (
         where uv >nul 2>&1
         if errorlevel 0 (
-            uv python install 3.12
-            uv python update-shell
+            call :RunElevatedCommand uv python install 3.12
+            call :RunElevatedCommand uv python update-shell
         ) else (
-            python -m pip install -U uv
+            call :RunElevatedCommand python -m pip install -U uv
         )
     )
 
     REM Install VapourSynth plugins if vsrepo script found
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
-        python "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
+        call :RunElevatedCommand python "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
     )
 
     REM Regenerate requirements and upgrade via PowerShell
@@ -63,7 +63,7 @@ where python >nul 2>&1 && (
         python -m pip freeze > requirements.txt
         powershell -Command ^
           "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
-        python -m pip install --upgrade -r requirements.txt
+        call :RunElevatedCommand python -m pip install --upgrade -r requirements.txt
         del requirements.txt
 
         REM Also upgrade for Python 3.12 if present
@@ -71,7 +71,7 @@ where python >nul 2>&1 && (
             python3.12 -m pip freeze > requirements.txt
             powershell -Command ^
               "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
-            python3.12 -m pip install --upgrade -r requirements.txt
+            call :RunElevatedCommand python3.12 -m pip install --upgrade -r requirements.txt
             del requirements.txt
         )
     )
@@ -92,7 +92,8 @@ REM -------------------------------------------------------------------
 REM Upgrade Chocolatey packages
 REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    call :RunElevatedCommand choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y ^&^& choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
+    call :RunElevatedCommand choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y 
+    call :RunElevatedCommand choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
 )
 
 REM where wsl >nul 2>&1 && (
@@ -138,10 +139,10 @@ exit /b %errorlevel%
 set "SCRIPT_ELEVATED_COMMAND=%*"
 call :IsAdmin
 if "%errorlevel%"=="0" (
-    cmd /d /c "%SCRIPT_ELEVATED_COMMAND%"
+    cmd /d /s /c ""%SCRIPT_ELEVATED_COMMAND%""
     exit /b %errorlevel%
 )
 
 echo Requesting administrator approval for: %SCRIPT_ELEVATED_COMMAND%
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $env:SCRIPT_ELEVATED_COMMAND) -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', [char]34 + $env:SCRIPT_ELEVATED_COMMAND + [char]34) -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%

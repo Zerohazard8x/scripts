@@ -1,7 +1,7 @@
 @echo off
 if /I not "%SCRIPT_LOWPRIO%"=="1" (
     set "SCRIPT_LOWPRIO=1"
-    start "" /b /wait /low cmd /c ""%~f0" %*"
+    start "" /b /wait /low cmd /s /c ""%~f0" %*"
     exit /b %errorlevel%
 )
 setlocal EnableExtensions
@@ -37,15 +37,15 @@ REM -------------------------------------------------------------------
 REM If python in PATH, purge cache and upgrade packages
 REM -------------------------------------------------------------------
 where python >nul 2>&1 && (
-    python -m pip cache purge
-    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+    call :RunElevatedCommand python -m pip cache purge
+    call :RunElevatedCommand python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
     REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
         python -m pip freeze > requirements.txt
         powershell -Command ^
           "(Get-Content requirements.txt) | ForEach-Object { $_ -replace '==','>=' } | Set-Content requirements.txt"
-        python -m pip install --upgrade -r requirements.txt
+        call :RunElevatedCommand python -m pip install --upgrade -r requirements.txt
         del requirements.txt
     )
 )
@@ -111,10 +111,10 @@ exit /b %errorlevel%
 set "SCRIPT_ELEVATED_COMMAND=%*"
 call :IsAdmin
 if "%errorlevel%"=="0" (
-    cmd /d /c "%SCRIPT_ELEVATED_COMMAND%"
+    cmd /d /s /c ""%SCRIPT_ELEVATED_COMMAND%""
     exit /b %errorlevel%
 )
 
 echo Requesting administrator approval for: %SCRIPT_ELEVATED_COMMAND%
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $env:SCRIPT_ELEVATED_COMMAND) -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', [char]34 + $env:SCRIPT_ELEVATED_COMMAND + [char]34) -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%
