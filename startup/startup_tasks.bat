@@ -5,6 +5,7 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
     exit /b %errorlevel%
 )
 setlocal EnableExtensions
+
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
 
@@ -29,7 +30,7 @@ REM -------------------------------------------------------------------
 REM If Chocolatey exists, upgrade Python via choco
 REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco uninstall python2 python -y && choco upgrade python3 -y
+    call :RunElevatedCommand choco uninstall python2 python -y ^&^& choco upgrade python3 -y
 )
 
 REM -------------------------------------------------------------------
@@ -91,8 +92,7 @@ REM -------------------------------------------------------------------
 REM Upgrade Chocolatey packages
 REM -------------------------------------------------------------------
 where choco >nul 2>&1 && (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
-    choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
+    call :RunElevatedCommand choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y ^&^& choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
 )
 
 REM where wsl >nul 2>&1 && (
@@ -127,4 +127,21 @@ REM Success path: auto-close unless user presses Y within 15 seconds
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
 if errorlevel 2 endlocal & exit /b 0
 cmd /k
+endlocal & exit /b %errorlevel%
 REM =========================================================
+
+:IsAdmin
+fltmc >nul 2>&1
+exit /b %errorlevel%
+
+:RunElevatedCommand
+set "SCRIPT_ELEVATED_COMMAND=%*"
+call :IsAdmin
+if "%errorlevel%"=="0" (
+    cmd /d /c "%SCRIPT_ELEVATED_COMMAND%"
+    exit /b %errorlevel%
+)
+
+echo Requesting administrator approval for: %SCRIPT_ELEVATED_COMMAND%
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $env:SCRIPT_ELEVATED_COMMAND) -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
+exit /b %errorlevel%

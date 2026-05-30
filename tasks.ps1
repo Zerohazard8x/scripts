@@ -30,10 +30,43 @@ public static class NativePriority {
 }
 
 Set-LowestProcessPriority
-# Ensure the script runs with administrative privileges
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-	Write-Warning "run this script as admin"
-	exit
+function Test-IsAdministrator {
+	$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+	$currentPrincipal = [Security.Principal.WindowsPrincipal] $currentIdentity
+
+	return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+function Start-ElevatedSelf {
+	if ([string]::IsNullOrWhiteSpace($PSCommandPath)) {
+		throw 'Cannot relaunch the current script because PSCommandPath is empty.'
+	}
+
+	$escapedScriptPath = $PSCommandPath.Replace('"', '\"')
+	$argumentLine = '-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $escapedScriptPath
+	if ($args.Count -gt 0) {
+		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
+	}
+
+	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -Wait -PassThru
+	if ($null -ne $process.ExitCode) {
+		exit $process.ExitCode
+	}
+
+	exit 0
+}
+
+# Ensure the script runs with administrative privileges. If it was launched from
+# a non-elevated scheduled task, ask Windows for elevation instead of failing.
+if (-not (Test-IsAdministrator)) {
+	Write-Warning 'Requesting administrator approval for tasks.ps1...'
+	try {
+		Start-ElevatedSelf @args
+	}
+	catch {
+		Write-Error "Could not relaunch tasks.ps1 as administrator: $_"
+		exit 1
+	}
 }
 
 # --- Error handling defaults ---
