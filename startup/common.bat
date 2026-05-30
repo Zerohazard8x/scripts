@@ -6,6 +6,12 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
 )
 setlocal EnableExtensions EnableDelayedExpansion
 
+set "COMMON_ADMIN_STAGE="
+if /I "%~1"=="--admin-powershell" set "COMMON_ADMIN_STAGE=powershell"
+if /I "%~1"=="--admin-services" set "COMMON_ADMIN_STAGE=services"
+if /I "%COMMON_ADMIN_STAGE%"=="powershell" goto ADMIN_POWERSHELL_REPAIR
+if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
+
 @REM version string
 @REM minescule mouse
 
@@ -143,6 +149,17 @@ cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
+call :IsAdmin
+if "%errorlevel%"=="0" goto ADMIN_POWERSHELL_REPAIR
+
+call :RunElevatedStage powershell
+set "rc=%errorlevel%"
+if not "%rc%"=="0" (
+	endlocal & exit /b %rc%
+)
+goto NOPSHELL
+
+:ADMIN_POWERSHELL_REPAIR
 @REM dns config part 1
 @REM Enable DoH
 netsh dns add global doh=yes ddr=yes
@@ -223,12 +240,25 @@ bcdedit /set TESTSIGNING OFF
 bcdedit /set NOINTEGRITYCHECKS OFF
 bcdedit /set hypervisorlaunchtype auto
 
+if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
+
 :NOPSHELL
 
 cls
 choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
+call :IsAdmin
+if "%errorlevel%"=="0" goto ADMIN_SERVICE_TWEAKS
+
+call :RunElevatedStage services
+set "rc=%errorlevel%"
+if not "%rc%"=="0" (
+	endlocal & exit /b %rc%
+)
+goto NOSERVTWEAKS
+
+:ADMIN_SERVICE_TWEAKS
 REM -------------------------------------------------------------------
 REM Configure and start key services (automatic)
 REM -------------------------------------------------------------------
@@ -248,6 +278,8 @@ REM -------------------------------------------------------------------
 @REM sc config "SysMain" start=disabled >nul 2>&1
 @REM sc config "svsvc" start=disabled >nul 2>&1
 
+if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
+
 :NOSERVTWEAKS
 
 control update
@@ -258,3 +290,19 @@ start "" "steam://open/downloads"
 endlocal
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
 if errorlevel 2 exit 0
+cmd /k
+exit /b %errorlevel%
+
+:IsAdmin
+fltmc >nul 2>&1
+exit /b %errorlevel%
+
+:RunElevatedStage
+set "COMMON_ELEVATE_STAGE=%~1"
+call :IsAdmin
+if "%errorlevel%"=="0" exit /b 0
+
+echo Requesting administrator approval for %COMMON_ELEVATE_STAGE% tasks...
+set "SCRIPT_ELEVATE_TARGET=%~f0"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $p = Start-Process -FilePath $env:SCRIPT_ELEVATE_TARGET -ArgumentList $stageArg -Verb RunAs -Wait -PassThru; exit $p.ExitCode"
+exit /b %errorlevel%
