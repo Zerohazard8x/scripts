@@ -41,11 +41,11 @@ where python >nul 2>&1 && (
     call :RunElevatedCommand python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
     where python3.12 >nul 2>&1
-    if errorlevel 0 (
+    if %ERRORLEVEL% EQU 0 (
         call :RunElevatedCommand python3.12 -m pip install -U pip whisperx
     ) else (
         where uv >nul 2>&1
-        if errorlevel 0 (
+        if %ERRORLEVEL% EQU 0 (
             call :RunElevatedCommand uv python install 3.12
             call :RunElevatedCommand uv python update-shell
         ) else (
