@@ -38,9 +38,7 @@ if not errorlevel 1 (
 if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
-        @REM -----------------------------------------------------------
         @REM Download startup_tasks.bat with the same tool fallback order
-        @REM -----------------------------------------------------------
         where curl >nul 2>&1
         if not errorlevel 1 (
             curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks.bat"
@@ -56,9 +54,7 @@ if exist "%downloadDir%\common.bat" (
             )
         )
 
-        @REM -----------------------------------------------------------
         @REM Verify startup_tasks.bat marker text before running it
-        @REM -----------------------------------------------------------
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
         if not errorlevel 1 (
             call "%downloadDir%\startup_tasks.bat"
