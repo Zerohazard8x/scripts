@@ -6,27 +6,19 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
 )
 setlocal EnableExtensions
 
-REM -------------------------------------------------------------------
-REM Use Downloads as the temporary staging folder
-REM -------------------------------------------------------------------
+@REM Use Downloads as the temporary staging folder
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
-REM -------------------------------------------------------------------
-REM Remove stale downloaded startup scripts before fetching fresh copies
-REM -------------------------------------------------------------------
+@REM Remove stale downloaded startup scripts before fetching fresh copies
 del /s /q /f "%downloadDir%\common.bat"
 del /s /q /f "%downloadDir%\startup_tasks.bat"
 
-REM -------------------------------------------------------------------
-REM Stage optional private import script for common.bat
-REM -------------------------------------------------------------------
+@REM Stage optional private import script for common.bat
 if exist "import_private.ps1" (
     copy .\import_private.ps1 "%downloadDir%\import_private.ps1"
 )
 
-REM -------------------------------------------------------------------
-REM Download common.bat, preferring curl then wget then aria2c
-REM -------------------------------------------------------------------
+@REM Download common.bat, preferring curl then wget then aria2c
 where curl >nul 2>&1
 if not errorlevel 1 (
     curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
@@ -42,15 +34,13 @@ if not errorlevel 1 (
     )
 )
 
-REM -------------------------------------------------------------------
-REM Verify common.bat marker text before downloading startup_tasks.bat
-REM -------------------------------------------------------------------
+@REM Verify common.bat marker text before downloading startup_tasks.bat
 if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
-        REM -----------------------------------------------------------
-        REM Download startup_tasks.bat with the same tool fallback order
-        REM -----------------------------------------------------------
+        @REM -----------------------------------------------------------
+        @REM Download startup_tasks.bat with the same tool fallback order
+        @REM -----------------------------------------------------------
         where curl >nul 2>&1
         if not errorlevel 1 (
             curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks.bat"
@@ -66,9 +56,9 @@ if exist "%downloadDir%\common.bat" (
             )
         )
 
-        REM -----------------------------------------------------------
-        REM Verify startup_tasks.bat marker text before running it
-        REM -----------------------------------------------------------
+        @REM -----------------------------------------------------------
+        @REM Verify startup_tasks.bat marker text before running it
+        @REM -----------------------------------------------------------
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
         if not errorlevel 1 (
             call "%downloadDir%\startup_tasks.bat"
@@ -78,15 +68,11 @@ if exist "%downloadDir%\common.bat" (
     )
 )
 
-REM -------------------------------------------------------------------
-REM Treat missing or unverified downloads as failure
-REM -------------------------------------------------------------------
+@REM Treat missing or unverified downloads as failure
 set "rc=1"
 
 :cleanup
-REM -------------------------------------------------------------------
-REM Remove temporary downloaded scripts after the chain finishes
-REM -------------------------------------------------------------------
+@REM Remove temporary downloaded scripts after the chain finishes
 del /s /q /f "%downloadDir%\common.bat" 2>nul
 del /s /q /f "%downloadDir%\startup_tasks.bat" 2>nul
 del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
