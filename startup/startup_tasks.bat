@@ -51,9 +51,7 @@ where python >nul 2>&1 && (
     python -m pip cache purge
     python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
-    @REM ---------------------------------------------------------------
     @REM Ensure Python 3.12 exists, using uv when available
-    @REM ---------------------------------------------------------------
     where python3.12 >nul 2>&1
     if errorlevel 1 (
         where uv >nul 2>&1
@@ -139,13 +137,11 @@ if not "%rc%"=="0" (
     endlocal & exit /b %rc%
 )
 
-@REM =========================================================
 @REM Success path: auto-close unless user presses Y within 15 seconds
 choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
 if errorlevel 2 endlocal & exit /b 0
 cmd /k
 endlocal & exit /b %errorlevel%
-@REM =========================================================
 
 :IsAdmin
 @REM fltmc succeeds only from an elevated command prompt
