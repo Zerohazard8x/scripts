@@ -6,9 +6,7 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
 )
 setlocal EnableExtensions EnableDelayedExpansion
 
-REM -------------------------------------------------------------------
-REM Elevated stage entry points
-REM -------------------------------------------------------------------
+@REM Elevated stage entry points
 set "COMMON_ADMIN_STAGE="
 if /I "%~1"=="--admin-powershell" set "COMMON_ADMIN_STAGE=powershell"
 if /I "%~1"=="--admin-services" set "COMMON_ADMIN_STAGE=services"
@@ -18,9 +16,7 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
 @REM version string
 @REM minescule mouse
 
-REM -------------------------------------------------------------------
-REM Launch background tray/game/cloud applications if installed
-REM -------------------------------------------------------------------
+@REM Launch background tray/game/cloud applications if installed
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 	tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
@@ -102,13 +98,11 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 @REM     )
 @REM )
 
-REM -------------------------------------------------------------------
-REM Detect preferred Voicemeeter executable
-REM -------------------------------------------------------------------
+@REM Detect preferred Voicemeeter executable
 set "vm_path="
 set "vm_exe="
 
-REM pick executable (priority order)
+@REM pick executable (priority order)
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
 	set "vm_exe=voicemeeterpro_x64.exe"
@@ -123,9 +117,7 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 	set "vm_exe=voicemeeter8.exe"
 )
 
-REM -------------------------------------------------------------------
-REM Launch Voicemeeter if found and not already running
-REM -------------------------------------------------------------------
+@REM Launch Voicemeeter if found and not already running
 if defined vm_path (
 	tasklist /FI "IMAGENAME eq %vm_exe%" 2>NUL | find /I "%vm_exe%" >NUL
 	if errorlevel 1 (
@@ -154,16 +146,12 @@ if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
 	)
 )
 
-REM -------------------------------------------------------------------
-REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
-REM -------------------------------------------------------------------
+@REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
 cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
-REM -------------------------------------------------------------------
-REM Elevate the PowerShell and repair section once if needed
-REM -------------------------------------------------------------------
+@REM Elevate the PowerShell and repair section once if needed
 call :IsAdmin
 if "%errorlevel%"=="0" goto ADMIN_POWERSHELL_REPAIR
 
@@ -184,24 +172,24 @@ netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-
 netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 
-REM Check for PowerShell
+@REM Check for PowerShell
 where powershell >nul 2>&1
 if not errorlevel 1 (
-	REM Save current folder
+	@REM Save current folder
 	set "scriptPath=%~dp0"
 	cd /d "%scriptPath%"
 	set "downloadDir=%USERPROFILE%\Downloads"
 	if not exist "%downloadDir%" mkdir "%downloadDir%"
 
-	REM Bypass policy
+	@REM Bypass policy
 	powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 	"Write-Host 'ExecutionPolicy set to Bypass'"
 
-	REM Remove old tasks.ps1
+	@REM Remove old tasks.ps1
 	if exist "%downloadDir%\tasks.ps1" del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 	if exist "%downloadDir%\import.ps1" del /s /q /f "%downloadDir%\import.ps1" 2>nul
 
-	REM Download latest tasks.ps1
+	@REM Download latest tasks.ps1
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
@@ -210,7 +198,7 @@ if not errorlevel 1 (
 	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
 	@REM )
 
-	REM Download latest import.ps1
+	@REM Download latest import.ps1
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
@@ -219,22 +207,22 @@ if not errorlevel 1 (
 	@REM 	"%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
 	@REM )
 
-	REM Run tasks.ps1 if present
+	@REM Run tasks.ps1 if present
 	if exist "%downloadDir%\tasks.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
 	)
 
-	REM Run import.ps1 if present
+	@REM Run import.ps1 if present
 	if exist "%downloadDir%\import.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
 	)
 
-	REM Check for private script
+	@REM Check for private script
 	if exist "%downloadDir%\import_private.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
 	)
 
-	REM Restore default execution policy
+	@REM Restore default execution policy
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
 ) else (
 	wuauclt /detectnow
@@ -242,16 +230,14 @@ if not errorlevel 1 (
 	control update 2>nul
 )
 
-REM repairs
+@REM repairs
 @REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
 @REM defrag /O /C /M 2>nul
 
 @REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
 @REM sfc /scannow 2>nul
 
-REM -------------------------------------------------------------------
-REM Restore boot configuration integrity settings
-REM -------------------------------------------------------------------
+@REM Restore boot configuration integrity settings
 bcdedit /debug off
 bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
 bcdedit /set TESTSIGNING OFF
@@ -266,9 +252,7 @@ cls
 choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
-REM -------------------------------------------------------------------
-REM Elevate the service-tweaks section once if needed
-REM -------------------------------------------------------------------
+@REM Elevate the service-tweaks section once if needed
 call :IsAdmin
 if "%errorlevel%"=="0" goto ADMIN_SERVICE_TWEAKS
 
@@ -280,9 +264,7 @@ if not "%rc%"=="0" (
 goto NOSERVTWEAKS
 
 :ADMIN_SERVICE_TWEAKS
-REM -------------------------------------------------------------------
-REM Configure and start key services (automatic)
-REM -------------------------------------------------------------------
+@REM Configure and start key services (automatic)
 for %%S in (
 	"Dnscache" "EntAppSvc" "FrameServer"
 	"LicenseManager"
@@ -291,9 +273,7 @@ for %%S in (
 	net start %%~S >nul 2>&1
 )
 
-REM -------------------------------------------------------------------
-REM Disable and stop SysMain & svsvc
-REM -------------------------------------------------------------------
+@REM Disable and stop SysMain & svsvc
 @REM net stop "SysMain" >nul 2>&1
 @REM net stop "svsvc" >nul 2>&1
 @REM sc config "SysMain" start=disabled >nul 2>&1
@@ -303,9 +283,7 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
 
 :NOSERVTWEAKS
 
-REM -------------------------------------------------------------------
-REM Open update/download pages for Windows, Microsoft Store, Xbox, and Steam
-REM -------------------------------------------------------------------
+@REM Open update/download pages for Windows, Microsoft Store, Xbox, and Steam
 control update
 start "" /min "ms-windows-store://downloadsandupdates"
 start "" /min "msxbox://installs"
@@ -318,16 +296,12 @@ cmd /k
 exit /b %errorlevel%
 
 :IsAdmin
-REM -------------------------------------------------------------------
-REM fltmc succeeds only from an elevated command prompt
-REM -------------------------------------------------------------------
+@REM fltmc succeeds only from an elevated command prompt
 fltmc >nul 2>&1
 exit /b %errorlevel%
 
 :RunElevatedStage
-REM -------------------------------------------------------------------
-REM Relaunch this batch file for one selected elevated stage
-REM -------------------------------------------------------------------
+@REM Relaunch this batch file for one selected elevated stage
 set "COMMON_ELEVATE_STAGE=%~1"
 call :IsAdmin
 if "%errorlevel%"=="0" exit /b 0
