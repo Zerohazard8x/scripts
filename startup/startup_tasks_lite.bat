@@ -22,8 +22,8 @@ if not exist "%downloadDir%" mkdir "%downloadDir%"
 @REM Ping-abuse timeout - ~1 second
 ping 127.0.0.1 -n 2 >nul
 
-@REM Clear screen
-cls
+@REM @REM Clear screen
+@REM cls
 
 @REM Prompt: Python? (Y/N) [default Y after 15s]
 choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
@@ -66,8 +66,8 @@ if /I "%STARTUP_ADMIN_STAGE%"=="python" endlocal & exit /b %errorlevel%
 
 :NOPYTHON
 
-@REM Clear screen
-cls
+@REM @REM Clear screen
+@REM cls
 
 @REM Prompt: Install programs? (Y/N) [default Y after 15s]
 choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"

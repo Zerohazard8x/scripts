@@ -147,7 +147,7 @@ if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
 )
 
 @REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
-cls
+@REM cls
 choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
@@ -248,7 +248,7 @@ if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
 
 :NOPSHELL
 
-cls
+@REM cls
 choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
