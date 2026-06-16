@@ -5,6 +5,7 @@ if /I not "%SCRIPT_LOWPRIO%"=="1" (
     exit /b %errorlevel%
 )
 setlocal EnableExtensions
+set "PIP_BREAK_SYSTEM_PACKAGES=1"
 
 @REM Elevated stage entry points
 set "STARTUP_ADMIN_STAGE="
@@ -137,11 +138,12 @@ if not "%rc%"=="0" (
     endlocal & exit /b %rc%
 )
 
-@REM Success path: auto-close unless user presses Y within 15 seconds
-choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
-if errorlevel 2 endlocal & exit /b 0
-cmd /k
-endlocal & exit /b %errorlevel%
+@REM @REM Success path: auto-close unless user presses Y within 15 seconds
+@REM choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
+@REM if errorlevel 2 endlocal & exit /b 0
+endlocal & exit /b 0
+@REM cmd /k
+@REM endlocal & exit /b %errorlevel%
 
 :IsAdmin
 @REM fltmc succeeds only from an elevated command prompt
@@ -162,18 +164,18 @@ exit /b %errorlevel%
 :UpgradeFrozenRequirements
 @REM Freeze installed packages, loosen pins, upgrade, and clean temp file
 set "SCRIPT_PYTHON_EXE=%~1"
-set "SCRIPT_REQUI@REMENTS_FILE=%TEMP%\requirements-%RANDOM%-%RANDOM%.txt"
-%SCRIPT_PYTHON_EXE% -m pip freeze > "%SCRIPT_REQUI@REMENTS_FILE%"
+set "SCRIPT_REQUIREMENTS_FILE=%TEMP%\requirements-%RANDOM%-%RANDOM%.txt"
+%SCRIPT_PYTHON_EXE% -m pip freeze > "%SCRIPT_REQUIREMENTS_FILE%"
 if errorlevel 1 (
-    del /q /f "%SCRIPT_REQUI@REMENTS_FILE%" 2>nul
+    del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
     exit /b 1
 )
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$r = $env:SCRIPT_REQUI@REMENTS_FILE; (Get-Content -LiteralPath $r) -replace '==', '>=' | Set-Content -LiteralPath $r -Encoding ASCII"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$r = $env:SCRIPT_REQUIREMENTS_FILE; (Get-Content -LiteralPath $r) -replace '==', '>=' | Set-Content -LiteralPath $r -Encoding ASCII"
 if errorlevel 1 (
-    del /q /f "%SCRIPT_REQUI@REMENTS_FILE%" 2>nul
+    del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
     exit /b 1
 )
-%SCRIPT_PYTHON_EXE% -m pip install --upgrade -r "%SCRIPT_REQUI@REMENTS_FILE%"
+%SCRIPT_PYTHON_EXE% -m pip install --upgrade -r "%SCRIPT_REQUIREMENTS_FILE%"
 set "SCRIPT_UPGRADE_RC=%errorlevel%"
-del /q /f "%SCRIPT_REQUI@REMENTS_FILE%" 2>nul
+del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
 exit /b %SCRIPT_UPGRADE_RC%

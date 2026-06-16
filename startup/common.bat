@@ -290,10 +290,11 @@ start "" /min "msxbox://installs"
 start "" /min "steam://open/downloads"
 
 endlocal
-choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
-if errorlevel 2 exit 0
-cmd /k
-exit /b %errorlevel%
+@REM choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
+@REM if errorlevel 2 exit 0
+exit 0
+@REM cmd /k
+@REM exit /b %errorlevel%
 
 :IsAdmin
 @REM fltmc succeeds only from an elevated command prompt
