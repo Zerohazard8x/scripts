@@ -62,6 +62,7 @@ where python >nul 2>&1 && (
             uv python install 3.12
             uv python update-shell
         )
+        python3.12 -m pip install -U pip whisperx
     ) else (
         python3.12 -m pip install -U pip whisperx
     )
