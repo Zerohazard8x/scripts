@@ -62,8 +62,10 @@ where python >nul 2>&1 && (
             uv python install 3.12
             uv python update-shell
         )
+        where nvidia-smi >nul 2>&1 && python3.12 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
         python3.12 -m pip install -U pip whisperx
     ) else (
+        where nvidia-smi >nul 2>&1 && python3.12 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
         python3.12 -m pip install -U pip whisperx
     )
 
