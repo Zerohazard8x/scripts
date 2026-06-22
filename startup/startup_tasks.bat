@@ -78,10 +78,10 @@ where python >nul 2>&1 && (
     where powershell >nul 2>&1 && (
         call :UpgradeFrozenRequirements python
 
-        @REM Also upgrade for Python 3.12 if present
-        where python3.12 >nul 2>&1 && (
-            call :UpgradeFrozenRequirements python3.12
-        )
+        @REM @REM Also upgrade for Python 3.12 if present
+        @REM where python3.12 >nul 2>&1 && (
+        @REM     call :UpgradeFrozenRequirements python3.12
+        @REM )
     )
 )
 
