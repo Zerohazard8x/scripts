@@ -251,6 +251,19 @@ if ($nonSystemServices) {
 }
 
 # scheduled tasks: disable non-Microsoft Exec tasks
+function Invoke-ShouldProcess {
+	param(
+		[string]$Target,
+		[string]$Action
+	)
+
+	if ($PSCmdlet) {
+		return $PSCmdlet.ShouldProcess($Target, $Action)
+	}
+
+	return $true
+}
+
 $DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 15
 $ScheduledTaskMode = if ($DO_SCHEDULED_TASKS) { 'Disable' } else { 'Report' } # Report | Disable # | Unregister
 
@@ -259,7 +272,11 @@ function Get-TaskExecCommandsFromXml {
 		[xml]$Xml
 	)
 
-	$ns = New-Object System.Xml.XmlNamespaceManager($Xml.NameTable)
+	if (-not $Xml -or -not $Xml.NameTable) {
+		return @()
+	}
+
+	$ns = [System.Xml.XmlNamespaceManager]::new($Xml.NameTable)
 	$ns.AddNamespace('t', 'http://schemas.microsoft.com/windows/2004/02/mit/task')
 
 	$Xml.SelectNodes('//t:Actions/t:Exec/t:Command', $ns) |
@@ -348,11 +365,11 @@ $nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
 	$xml = $null
 
 	try {
-		$xmlText = Export-ScheduledTask -InputObject $task
+		$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
 		$xml = [xml]$xmlText
 	}
 	catch {
-		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName)"
+		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName): $_"
 		continue
 	}
 
@@ -414,14 +431,14 @@ else {
 			}
 
 			'Disable' {
-				if ($PSCmdlet.ShouldProcess($fullName, 'Disable scheduled task')) {
-					Disable-ScheduledTask -InputObject $item.Task | Out-Null
+				if (Invoke-ShouldProcess -Target $fullName -Action 'Disable scheduled task') {
+					Disable-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath | Out-Null
 				}
 			}
 
 			# 'Unregister' {
-			# 	if ($PSCmdlet.ShouldProcess($fullName, 'Unregister scheduled task')) {
-			# 		Unregister-ScheduledTask -InputObject $item.Task -Confirm:$false
+			# 	if (Invoke-ShouldProcess -Target $fullName -Action 'Unregister scheduled task') {
+			# 		Unregister-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath -Confirm:$false
 			# 	}
 			# }
 		}
