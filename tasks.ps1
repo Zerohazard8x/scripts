@@ -250,6 +250,184 @@ if ($nonSystemServices) {
 	}
 }
 
+# scheduled tasks: disable non-Microsoft Exec tasks
+$DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 15
+$ScheduledTaskMode = if ($DO_SCHEDULED_TASKS) { 'Disable' } else { 'Report' } # Report | Disable # | Unregister
+
+function Get-TaskExecCommandsFromXml {
+	param(
+		[xml]$Xml
+	)
+
+	$ns = New-Object System.Xml.XmlNamespaceManager($Xml.NameTable)
+	$ns.AddNamespace('t', 'http://schemas.microsoft.com/windows/2004/02/mit/task')
+
+	$Xml.SelectNodes('//t:Actions/t:Exec/t:Command', $ns) |
+		ForEach-Object { $_.'#text' } |
+		Where-Object { $_ }
+}
+
+function Resolve-TaskCommandPath {
+	param(
+		[string]$Command
+	)
+
+	if (-not $Command) {
+		return $null
+	}
+
+	$expanded = [Environment]::ExpandEnvironmentVariables($Command.Trim('"'))
+
+	$cmd = Get-Command $expanded -ErrorAction SilentlyContinue
+	if ($cmd -and $cmd.Source) {
+		return $cmd.Source
+	}
+
+	if (Test-Path -LiteralPath $expanded) {
+		return (Resolve-Path -LiteralPath $expanded).Path
+	}
+
+	return $expanded
+}
+
+function Test-MicrosoftSignedFile {
+	param(
+		[string]$Path
+	)
+
+	if (-not $Path -or -not (Test-Path -LiteralPath $Path)) {
+		return $false
+	}
+
+	$sig = Get-AuthenticodeSignature -LiteralPath $Path -ErrorAction SilentlyContinue
+
+	if (-not $sig -or $sig.Status -ne 'Valid' -or -not $sig.SignerCertificate) {
+		return $false
+	}
+
+	$sig.SignerCertificate.Subject -match 'CN=Microsoft (Windows|Corporation|Code Signing PCA|Publisher)'
+}
+
+function Test-UnderWindows {
+	param(
+		[string]$Path
+	)
+
+	if (-not $Path) {
+		return $false
+	}
+
+	$expanded = [Environment]::ExpandEnvironmentVariables($Path)
+
+	try {
+		$resolved = if (Test-Path -LiteralPath $expanded) {
+			(Resolve-Path -LiteralPath $expanded).Path
+		}
+		else {
+			$expanded
+		}
+
+		$win = [IO.Path]::GetFullPath($env:WINDIR).TrimEnd('\') + '\'
+		$full = [IO.Path]::GetFullPath($resolved)
+
+		return $full.StartsWith($win, [StringComparison]::OrdinalIgnoreCase)
+	}
+	catch {
+		return $false
+	}
+}
+
+$scheduledTasks = Get-ScheduledTask
+
+$nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
+	if ($task.TaskPath -like '\Microsoft\*') {
+		continue
+	}
+
+	$xmlText = $null
+	$xml = $null
+
+	try {
+		$xmlText = Export-ScheduledTask -InputObject $task
+		$xml = [xml]$xmlText
+	}
+	catch {
+		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName)"
+		continue
+	}
+
+	$author = $xml.Task.RegistrationInfo.Author
+
+	if ($author -match '^\s*(Microsoft|Microsoft Corporation|Windows)\b') {
+		continue
+	}
+
+	$commands = @(Get-TaskExecCommandsFromXml -Xml $xml)
+
+	if (-not $commands) {
+		continue
+	}
+
+	$resolvedCommands = @($commands | ForEach-Object { Resolve-TaskCommandPath $_ })
+
+	$hasWindowsCommand = $false
+	$hasMicrosoftSignedCommand = $false
+
+	foreach ($cmdPath in $resolvedCommands) {
+		if (Test-UnderWindows -Path $cmdPath) {
+			$hasWindowsCommand = $true
+		}
+
+		if (Test-MicrosoftSignedFile -Path $cmdPath) {
+			$hasMicrosoftSignedCommand = $true
+		}
+	}
+
+	if ($hasWindowsCommand -or $hasMicrosoftSignedCommand) {
+		continue
+	}
+
+	[pscustomobject]@{
+		TaskName = $task.TaskName
+		TaskPath = $task.TaskPath
+		State    = $task.State
+		Author   = $author
+		Command  = ($resolvedCommands -join ' | ')
+		Task     = $task
+	}
+}
+
+if (-not $nonMicrosoftTasks) {
+	Write-Host "No non-Microsoft scheduled task candidates found."
+}
+else {
+	$nonMicrosoftTasks |
+		Select-Object TaskPath, TaskName, State, Author, Command |
+		Format-Table -AutoSize
+
+	foreach ($item in $nonMicrosoftTasks) {
+		$fullName = "$($item.TaskPath)$($item.TaskName)"
+
+		switch ($ScheduledTaskMode) {
+			'Report' {
+				Write-Host "Candidate scheduled task: $fullName"
+			}
+
+			'Disable' {
+				if ($PSCmdlet.ShouldProcess($fullName, 'Disable scheduled task')) {
+					Disable-ScheduledTask -InputObject $item.Task | Out-Null
+				}
+			}
+
+			# 'Unregister' {
+			# 	if ($PSCmdlet.ShouldProcess($fullName, 'Unregister scheduled task')) {
+			# 		Unregister-ScheduledTask -InputObject $item.Task -Confirm:$false
+			# 	}
+			# }
+		}
+	}
+}
+
 # remove disconnected devices as in device manager
 function Parse-PnpUtilBlocks {
 	param(

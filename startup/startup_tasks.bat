@@ -112,6 +112,7 @@ goto NOPROGRAMS
 where choco >nul 2>&1 && (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
     choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
+    choco upgrade all -y
 )
 
 @REM where wsl >nul 2>&1 && (

@@ -89,6 +89,7 @@ goto NOPROGRAMS
 @REM Upgrade Chocolatey packages
 where choco >nul 2>&1 && (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
+    choco upgrade all -y
 )
 
 if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
