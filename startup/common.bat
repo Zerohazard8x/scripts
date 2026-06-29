@@ -283,14 +283,12 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
 
 :NOSERVTWEAKS
 
-@REM Open Windows Update first
-control update
-
 @REM Ask before opening Store/Xbox/Steam links.
 @REM No /D and no /T means it will not auto-select.
-choice /C YN /N /M "Open Microsoft Store, Xbox, and Steam downloads? (Y/N)"
+choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
+control update
 start "" /min "ms-windows-store://downloadsandupdates"
 start "" /min "msxbox://installs"
 start "" /min "steam://open/downloads"
