@@ -1,4 +1,4 @@
-@REM @echo off
+@echo off
 @REM Relaunch this script at low priority
 @REM if /I not "%SCRIPT_LOWPRIO%"=="1" (
 @REM     set "SCRIPT_LOWPRIO=1"

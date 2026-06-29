@@ -1,4 +1,4 @@
-@REM @echo off
+@echo off
 @REM if /I not "%SCRIPT_LOWPRIO%"=="1" (
 @REM 	set "SCRIPT_LOWPRIO=1"
 @REM 	start "" /b /wait /low /min cmd /c ""%~f0" %*"
