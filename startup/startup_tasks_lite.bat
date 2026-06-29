@@ -1,7 +1,8 @@
 @echo off
 if /I not "%SCRIPT_LOWPRIO%"=="1" (
     set "SCRIPT_LOWPRIO=1"
-    start "" /b /wait /low /min cmd /s /c ""%~f0" %*"
+    @REM start "" /b /wait /low /min cmd /s /c ""%~f0" %*"
+    start "" /b /wait /min cmd /s /c ""%~f0" %*"
     exit /b %errorlevel%
 )
 setlocal EnableExtensions
@@ -26,8 +27,8 @@ ping 127.0.0.1 -n 2 >nul
 @REM @REM Clear screen
 @REM cls
 
-@REM Prompt: Python? (Y/N) [default Y after 15s]
-choice /C YN /N /D Y /T 15 /M "Python? (Y/N)"
+@REM Prompt: Python? (Y/N) [default Y after 5s]
+choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
 if errorlevel 2 goto NOPYTHON
 
 @REM Elevate the full Python section once if needed
@@ -55,11 +56,6 @@ where python >nul 2>&1 && (
     @REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
         call :UpgradeFrozenRequirements python
-
-        @REM Also upgrade for Python 3.12 if present
-        where python3.12 >nul 2>&1 && (
-            call :UpgradeFrozenRequirements python3.12
-        )
     )
 )
 
@@ -70,8 +66,8 @@ if /I "%STARTUP_ADMIN_STAGE%"=="python" endlocal & exit /b %errorlevel%
 @REM @REM Clear screen
 @REM cls
 
-@REM Prompt: Install programs? (Y/N) [default Y after 15s]
-choice /C YN /N /D Y /T 15 /M "Install programs? (Y/N)"
+@REM Prompt: Install programs? (Y/N) [default Y after 5s]
+choice /C YN /N /D Y /T 5 /M "Install programs? (Y/N)"
 if errorlevel 2 goto NOPROGRAMS
 
 @REM Elevate the full program-upgrade section once if needed
@@ -99,7 +95,8 @@ if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
 @REM Finally, run common.bat (in a new window), wait, and capture its exit code
 if exist "%downloadDir%\common.bat" (
     @REM Use START /WAIT with cmd /c so we get the real ERRORLEVEL from the child .bat
-    start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
+    @REM start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
+    start "" /wait /min cmd /c "%downloadDir%\common.bat"
     set "rc=%errorlevel%"
 ) else (
     echo *** ERROR: common.bat not found! ***
@@ -115,7 +112,7 @@ if not "%rc%"=="0" (
 )
 
 @REM @REM Success path: auto-close unless user presses Y within 15 seconds
-@REM choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
+@REM choice /C YN /N /T 5 /D N /M "Stay open? (Y/N)"
 @REM if errorlevel 2 endlocal & exit /b 0
 endlocal & exit /b 0
 @REM cmd /k

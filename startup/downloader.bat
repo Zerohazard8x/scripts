@@ -1,10 +1,10 @@
-@echo off
+@REM @echo off
 @REM Relaunch this script at low priority
-if /I not "%SCRIPT_LOWPRIO%"=="1" (
-    set "SCRIPT_LOWPRIO=1"
-    start "" /b /wait /low /min cmd /c ""%~f0" %*"
-    exit %errorlevel%
-)
+@REM if /I not "%SCRIPT_LOWPRIO%"=="1" (
+@REM     set "SCRIPT_LOWPRIO=1"
+@REM     start "" /b /wait /low /min cmd /c ""%~f0" %*"
+@REM     exit %errorlevel%
+@REM )
 setlocal EnableExtensions
 
 @REM Configure idle wait before starting network/download work
@@ -16,6 +16,9 @@ if not defined SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS set "SCRIPT_STARTUP_IDLE_SAMPL
 @REM Wait only once, then continue when idle or when the max wait expires
 if /I not "%SCRIPT_STARTUP_IDLE_DONE%"=="1" (
     set "SCRIPT_STARTUP_IDLE_DONE=1"
+    echo Startup tasks will wait for idle. Press N to stop, or wait to continue.
+    choice /c YN /t 5 /d Y /m "Continue"
+    if errorlevel 2 endlocal & exit /b 0
     call :WaitForStartupIdle
 )
 

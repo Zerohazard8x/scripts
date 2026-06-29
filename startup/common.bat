@@ -1,9 +1,9 @@
-@echo off
-if /I not "%SCRIPT_LOWPRIO%"=="1" (
-	set "SCRIPT_LOWPRIO=1"
-	start "" /b /wait /low /min cmd /c ""%~f0" %*"
-	exit %errorlevel%
-)
+@REM @echo off
+@REM if /I not "%SCRIPT_LOWPRIO%"=="1" (
+@REM 	set "SCRIPT_LOWPRIO=1"
+@REM 	start "" /b /wait /low /min cmd /c ""%~f0" %*"
+@REM 	exit %errorlevel%
+@REM )
 setlocal EnableExtensions EnableDelayedExpansion
 
 @REM Elevated stage entry points
@@ -49,7 +49,7 @@ if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
 @REM if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
 @REM     tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
 @REM     if errorlevel 1 (
-@REM         start "" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+@REM         start "" /min "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
 @REM     )
 @REM )
 
@@ -146,9 +146,9 @@ if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
 	)
 )
 
-@REM Prompt: Powershell n Repair? (Y/N) [default Y after 15s]
+@REM Prompt: Powershell n Repair? (Y/N) [default Y after 5s]
 @REM cls
-choice /C YN /N /D Y /T 15 /M "Powershell n Repair? (Y/N)"
+choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
 @REM Elevate the PowerShell and repair section once if needed
@@ -249,7 +249,7 @@ if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
 :NOPSHELL
 
 @REM cls
-choice /C YN /N /D N /T 15 /M "Service tweaks? (Y/N)"
+choice /C YN /N /D N /T 5 /M "Service tweaks? (Y/N)"
 if errorlevel 2 goto NOSERVTWEAKS
 
 @REM Elevate the service-tweaks section once if needed
@@ -264,14 +264,14 @@ if not "%rc%"=="0" (
 goto NOSERVTWEAKS
 
 :ADMIN_SERVICE_TWEAKS
-@REM Configure and start key services (automatic)
-for %%S in (
-	"Dnscache" "EntAppSvc" "FrameServer"
-	"LicenseManager"
-) do (
-	@REM sc config %%~S start=auto >nul 2>&1
-	net start %%~S >nul 2>&1
-)
+@REM @REM Configure and start key services (automatic)
+@REM for %%S in (
+@REM 	"Dnscache" "EntAppSvc" "FrameServer"
+@REM 	"LicenseManager"
+@REM ) do (
+@REM 	@REM sc config %%~S start=auto >nul 2>&1
+@REM 	net start %%~S >nul 2>&1
+@REM )
 
 @REM Disable and stop SysMain & svsvc
 @REM net stop "SysMain" >nul 2>&1
@@ -283,16 +283,23 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
 
 :NOSERVTWEAKS
 
-@REM Open update/download pages for Windows, Microsoft Store, Xbox, and Steam
+@REM Open Windows Update first
 control update
+
+@REM Ask before opening Store/Xbox/Steam links.
+@REM No /D and no /T means it will not auto-select.
+choice /C YN /N /M "Open Microsoft Store, Xbox, and Steam downloads? (Y/N)"
+if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
+
 start "" /min "ms-windows-store://downloadsandupdates"
 start "" /min "msxbox://installs"
 start "" /min "steam://open/downloads"
 
+:SKIP_DOWNLOAD_LINKS
 endlocal
-@REM choice /C YN /N /T 15 /D N /M "Stay open? (Y/N)"
+@REM choice /C YN /N /T 5 /D N /M "Stay open? (Y/N)"
 @REM if errorlevel 2 exit 0
-exit 0
+exit /b 0
 @REM cmd /k
 @REM exit /b %errorlevel%
 

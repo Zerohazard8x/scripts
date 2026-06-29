@@ -3,33 +3,33 @@ param(
 	[switch]$IncludeRunningServices
 )
 
-function Set-LowestProcessPriority {
-	$signature = @"
-using System;
-using System.Runtime.InteropServices;
-public static class NativePriority {
-	[DllImport("ntdll.dll")]
-	public static extern int NtSetInformationProcess(IntPtr processHandle, int processInformationClass, ref int processInformation, int processInformationLength);
-}
-"@
+# function Set-LowestProcessPriority {
+# 	$signature = @"
+# using System;
+# using System.Runtime.InteropServices;
+# public static class NativePriority {
+# 	[DllImport("ntdll.dll")]
+# 	public static extern int NtSetInformationProcess(IntPtr processHandle, int processInformationClass, ref int processInformation, int processInformationLength);
+# }
+# "@
 
-	try {
-		Add-Type -TypeDefinition $signature -ErrorAction SilentlyContinue | Out-Null
-		$proc = [System.Diagnostics.Process]::GetCurrentProcess()
-		$proc.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Idle
-		$proc.PriorityBoostEnabled = $false
+# 	try {
+# 		Add-Type -TypeDefinition $signature -ErrorAction SilentlyContinue | Out-Null
+# 		$proc = [System.Diagnostics.Process]::GetCurrentProcess()
+# 		$proc.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Idle
+# 		$proc.PriorityBoostEnabled = $false
 
-		$ioPriorityVeryLow = 0
-		$pagePriorityVeryLow = 1
-		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 33, [ref]$ioPriorityVeryLow, 4)
-		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 39, [ref]$pagePriorityVeryLow, 4)
-	}
-	catch {
-		Write-Verbose "Could not force lowest process priority settings: $_"
-	}
-}
+# 		$ioPriorityVeryLow = 0
+# 		$pagePriorityVeryLow = 1
+# 		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 33, [ref]$ioPriorityVeryLow, 4)
+# 		[void][NativePriority]::NtSetInformationProcess($proc.Handle, 39, [ref]$pagePriorityVeryLow, 4)
+# 	}
+# 	catch {
+# 		Write-Verbose "Could not force lowest process priority settings: $_"
+# 	}
+# }
 
-Set-LowestProcessPriority
+# Set-LowestProcessPriority
 function Test-IsAdministrator {
 	$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
 	$currentPrincipal = [Security.Principal.WindowsPrincipal] $currentIdentity
@@ -56,24 +56,6 @@ function Start-ElevatedSelf {
 	exit 0
 }
 
-# Ensure the script runs with administrative privileges. If it was launched from
-# a non-elevated scheduled task, ask Windows for elevation instead of failing.
-if (-not (Test-IsAdministrator)) {
-	Write-Warning 'Requesting administrator approval for tasks.ps1...'
-	try {
-		Start-ElevatedSelf @args
-	}
-	catch {
-		Write-Error "Could not relaunch tasks.ps1 as administrator: $_"
-		exit 1
-	}
-}
-
-# --- Error handling defaults ---
-$ErrorActionPreference = 'Continue'
-$ProgressPreference = 'SilentlyContinue'
-$PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
-
 function Safe-Invoke {
 	param(
 		[Parameter(Mandatory)] [string] $Command,
@@ -92,12 +74,10 @@ function Safe-Invoke {
 	}
 }
 
-Write-Host ""
-
 function Prompt-YesNoDefaultN {
 	param(
 		[string]$Message = "App uninstallations? (Y/N)",
-		[int]$TimeoutSeconds = 15
+		[int]$TimeoutSeconds = 5
 	)
 
 	# If there is no interactive console, just default to No.
@@ -169,88 +149,6 @@ function Get-ScStartType {
 	return 'Unknown'
 }
 
-# set non-stock services to manual start
-$services = Get-CimInstance Win32_Service | ForEach-Object {
-	$exePath = Get-ExePathFromServicePath $_.PathName
-	$scType = Get-ScStartType $_.Name
-
-	[PSCustomObject]@{
-		Name         = $_.Name
-		DisplayName  = $_.DisplayName
-		State        = $_.State
-		ServiceType  = $_.ServiceType
-		PathName     = $_.PathName
-		ExePath      = $exePath
-		Win32Start   = $_.StartMode
-		ActualStart  = $scType
-		UnderWindows = Test-IsUnderWindowsDirectory $exePath
-	}
-}
-
-# set processes to lowest priority
-$processNames = @(
-	'MSIAfterburner',
-	'HWiNFO64',
-	'RTSS',
-	'steam',
-	'steamwebhelper',
-	'RiotClientServices',
-	'EpicGamesLauncher',
-	'EpicWebHelper',
-	'RazerCortex',
-	'SteelSeriesGG',
-	'OverwolfLauncher',
-	'Overwolf',
-	'XboxPcAppFT',
-	'XboxPcApp',
-	'FanControl',
-	'voicemeeterpro_x64',
-	'voicemeeter8x64',
-	'voicemeeterpro',
-	'voicemeeter8',
-	'thunderbird',
-	'OneDrive',
-	'OneDrive.Sync.Service',
-	'MEGAsync',
-	'WinStore.App',
-	'StoreDesktopExtension'
-)
-
-foreach ($name in $processNames) {
-	Get-Process -Name $name -ErrorAction SilentlyContinue |
-	ForEach-Object {
-		try {
-			$_.PriorityClass = 'Idle'
-		}
-		catch {
-			# Ignore processes that cannot be changed
-		}
-	}
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
-}
-
-$nonSystemServices = $services | Where-Object {
-	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
-	-not $_.UnderWindows
-}
-
-if ($nonSystemServices) {
-	foreach ($svc in $nonSystemServices) {
-		if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
-			Set-Service -Name $svc.Name -StartupType Manual
-		}
-
-		# priority
-		$exeName = [IO.Path]::GetFileName($svc.ExePath)
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
-	}
-}
-
-# scheduled tasks: disable non-Microsoft Exec tasks
 function Invoke-ShouldProcess {
 	param(
 		[string]$Target,
@@ -263,9 +161,6 @@ function Invoke-ShouldProcess {
 
 	return $true
 }
-
-$DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 15
-$ScheduledTaskMode = if ($DO_SCHEDULED_TASKS) { 'Disable' } else { 'Report' } # Report | Disable # | Unregister
 
 function Get-TaskExecCommandsFromXml {
 	param(
@@ -354,98 +249,6 @@ function Test-UnderWindows {
 	}
 }
 
-$scheduledTasks = Get-ScheduledTask
-
-$nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
-	if ($task.TaskPath -like '\Microsoft\*') {
-		continue
-	}
-
-	$xmlText = $null
-	$xml = $null
-
-	try {
-		$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
-		$xml = [xml]$xmlText
-	}
-	catch {
-		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName): $_"
-		continue
-	}
-
-	$author = $xml.Task.RegistrationInfo.Author
-
-	if ($author -match '^\s*(Microsoft|Microsoft Corporation|Windows)\b') {
-		continue
-	}
-
-	$commands = @(Get-TaskExecCommandsFromXml -Xml $xml)
-
-	if (-not $commands) {
-		continue
-	}
-
-	$resolvedCommands = @($commands | ForEach-Object { Resolve-TaskCommandPath $_ })
-
-	$hasWindowsCommand = $false
-	$hasMicrosoftSignedCommand = $false
-
-	foreach ($cmdPath in $resolvedCommands) {
-		if (Test-UnderWindows -Path $cmdPath) {
-			$hasWindowsCommand = $true
-		}
-
-		if (Test-MicrosoftSignedFile -Path $cmdPath) {
-			$hasMicrosoftSignedCommand = $true
-		}
-	}
-
-	if ($hasWindowsCommand -or $hasMicrosoftSignedCommand) {
-		continue
-	}
-
-	[pscustomobject]@{
-		TaskName = $task.TaskName
-		TaskPath = $task.TaskPath
-		State    = $task.State
-		Author   = $author
-		Command  = ($resolvedCommands -join ' | ')
-		Task     = $task
-	}
-}
-
-if (-not $nonMicrosoftTasks) {
-	Write-Host "No non-Microsoft scheduled task candidates found."
-}
-else {
-	$nonMicrosoftTasks |
-		Select-Object TaskPath, TaskName, State, Author, Command |
-		Format-Table -AutoSize
-
-	foreach ($item in $nonMicrosoftTasks) {
-		$fullName = "$($item.TaskPath)$($item.TaskName)"
-
-		switch ($ScheduledTaskMode) {
-			'Report' {
-				Write-Host "Candidate scheduled task: $fullName"
-			}
-
-			'Disable' {
-				if (Invoke-ShouldProcess -Target $fullName -Action 'Disable scheduled task') {
-					Disable-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath | Out-Null
-				}
-			}
-
-			# 'Unregister' {
-			# 	if (Invoke-ShouldProcess -Target $fullName -Action 'Unregister scheduled task') {
-			# 		Unregister-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath -Confirm:$false
-			# 	}
-			# }
-		}
-	}
-}
-
-# remove disconnected devices as in device manager
 function Parse-PnpUtilBlocks {
 	param(
 		[string[]]$Lines,
@@ -487,150 +290,6 @@ function Parse-PnpUtilBlocks {
 	$items
 }
 
-$devices = Parse-PnpUtilBlocks `
-	-Lines (pnputil /enum-devices /disconnected /drivers) `
-	-RequiredKey InstanceId `
-	-Map @{
-	'Instance ID'        = 'InstanceId'
-	'Device Description' = 'Description'
-	'Driver Name'        = 'DriverName'
-}
-
-$drivers = Parse-PnpUtilBlocks `
-	-Lines (pnputil /enum-drivers) `
-	-RequiredKey PublishedName `
-	-Map @{
-	'Published Name'          = 'PublishedName'
-	'Provider Name'           = 'ProviderName'
-	'Driver Package Provider' = 'ProviderName'
-}
-
-$driverByInf = @{}
-foreach ($driver in $drivers) {
-	$driverByInf[$driver.PublishedName] = $driver
-}
-
-if (-not $devices) {
-	Write-Host "No disconnected devices found."
-}
-else {
-	foreach ($device in $devices) {
-		Write-Host "`nRemoving device: $($device.Description)"
-		pnputil /remove-device "$($device.InstanceId)"
-
-		$driver = $driverByInf[$device.DriverName]
-
-		# Only exact "Microsoft" is treated as protected
-		if ($driver -and $driver.ProviderName -notmatch '^\s*Microsoft\s*$') {
-			Write-Host "Deleting driver package: $($device.DriverName)"
-			pnputil /delete-driver "$($device.DriverName)" /uninstall
-		}
-		elseif ($device.DriverName) {
-			Write-Host "Keeping driver package: $($device.DriverName)"
-		}
-	}
-}
-
-$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 15
-
-try {
-	if ($DO_UNINSTALL) {
-		$appsToRemove = @(
-			# 3D / legacy inbox apps
-			"3D Viewer", "Microsoft 3D Viewer",
-			"Paint 3D",
-			"Print 3D",
-
-			# Clipchamp naming variants
-			"Clipchamp", "Microsoft Clipchamp", "Clipchamp - Video Editor",
-
-			# Feedback Hub
-			"Feedback Hub", "Windows Feedback Hub",
-
-			# HP OEM helper
-			"HPHelp", "HP Help", "HP Help and Support",
-
-			# Wallet / Pay
-			"Microsoft Pay", "Microsoft Wallet", "Wallet",
-
-			# People
-			"Microsoft People", "People",
-
-			# Photos
-			"Microsoft Photos", "Photos", "Microsoft Photos Legacy",
-
-			# Solitaire
-			"Microsoft Solitaire Collection", "Solitaire & Casual Games",
-
-			# Sticky Notes
-			"Microsoft Sticky Notes", "Sticky Notes",
-
-			# Tips (often “Tips”, sometimes under “Microsoft Tips”)
-			"Microsoft Tips", "Tips",
-
-			# Mixed Reality
-			"Mixed Reality Portal", "Windows Mixed Reality",
-
-			# Movies & TV
-			"Movies & TV", "Films & TV",
-
-			# News
-			"News", "Microsoft News",
-
-			"OneNote for Windows 10",
-
-			# Power Automate
-			"Power Automate", "Power Automate Desktop",
-
-			# Skype
-			"Skype",
-
-			# Maps
-			"Windows Maps", "Maps",
-
-			# Media Player / audio-video app branding drift
-			"Media Player", "Windows Media Player", "Groove Music",
-
-			# Voice recorder naming drift (Win10 commonly “Windows Voice Recorder”)
-			"Sound Recorder", "Windows Voice Recorder",
-
-			# Family Safety=
-			"Family", "Microsoft Family Safety",
-
-			# Quick Assist
-			"Quick Assist",
-
-			# Outlook
-			"Outlook", "Outlook for Windows", "Outlook for Windows (New)", "Microsoft Outlook",
-
-			# Translator
-			"Translator", "Microsoft Translator",
-
-			# Teams
-			"Microsoft Teams", "Microsoft Teams (work or school)", "Microsoft Teams (free)", "Microsoft Teams classic"
-		)
-
-		foreach ($app in $appsToRemove) {
-			Safe-Invoke -Command "winget" -Args @("uninstall", "--name", $app, "--exact")
-		}
-
-		$idsToRemove = @(
-			"9P7BP5VNWKX5", "9PDJDJS743XF", "9WZDNCRFHWKN"
-		)
-
-		foreach ($app in $idsToRemove) {
-			Safe-Invoke -Command "winget" -Args @("uninstall", "--id", $app)
-		}
-	}
-	else {
-		Write-Host "Skipping app uninstallations."
-	}
-}
-catch {
-	Write-Warning "Error during bulk uninstall: $_"
-}
-
-# Windows store
 function Get-StoreAppPackages {
 	# Derived from https://christitus.com/installing-appx-without-msstore/ by LLM
 	[CmdletBinding()]
@@ -769,6 +428,353 @@ function Get-StoreAppPackages {
 	return "Installed $($pkgInfo.Name) and cleaned up temporary files."
 }
 
+# Ensure the script runs with administrative privileges. 
+# If it was launched from a non-elevated scheduled task, ask Windows for elevation instead of failing.
+if (-not (Test-IsAdministrator)) {
+	Write-Warning 'Requesting administrator approval for tasks.ps1...'
+	try {
+		Start-ElevatedSelf @args
+	}
+	catch {
+		Write-Error "Could not relaunch tasks.ps1 as administrator: $_"
+		exit 1
+	}
+}
+
+# --- Error handling defaults ---
+$ErrorActionPreference = 'Continue'
+$ProgressPreference = 'SilentlyContinue'
+$PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
+
+Write-Host ""
+
+# set non-stock services to manual start
+$services = Get-CimInstance Win32_Service | ForEach-Object {
+	$exePath = Get-ExePathFromServicePath $_.PathName
+	$scType = Get-ScStartType $_.Name
+
+	[PSCustomObject]@{
+		Name         = $_.Name
+		DisplayName  = $_.DisplayName
+		State        = $_.State
+		ServiceType  = $_.ServiceType
+		PathName     = $_.PathName
+		ExePath      = $exePath
+		Win32Start   = $_.StartMode
+		ActualStart  = $scType
+		UnderWindows = Test-IsUnderWindowsDirectory $exePath
+	}
+}
+
+# set processes to lowest priority
+$processNames = @(
+	'MSIAfterburner',
+	'HWiNFO64',
+	'RTSS',
+	'steam',
+	'steamwebhelper',
+	'RiotClientServices',
+	'EpicGamesLauncher',
+	'EpicWebHelper',
+	'RazerCortex',
+	'SteelSeriesGG',
+	'OverwolfLauncher',
+	'Overwolf',
+	'XboxPcAppFT',
+	'XboxPcApp',
+	'FanControl',
+	'voicemeeterpro_x64',
+	'voicemeeter8x64',
+	'voicemeeterpro',
+	'voicemeeter8',
+	'thunderbird',
+	'OneDrive',
+	'OneDrive.Sync.Service',
+	'MEGAsync',
+	'WinStore.App',
+	'StoreDesktopExtension'
+)
+
+foreach ($name in $processNames) {
+	Get-Process -Name $name -ErrorAction SilentlyContinue |
+	ForEach-Object {
+		try {
+			$_.PriorityClass = 'Idle'
+		}
+		catch {
+			# Ignore processes that cannot be changed
+		}
+	}
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
+}
+
+$nonSystemServices = $services | Where-Object {
+	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
+	-not $_.UnderWindows
+}
+
+if ($nonSystemServices) {
+	foreach ($svc in $nonSystemServices) {
+		if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
+			Set-Service -Name $svc.Name -StartupType Manual
+		}
+
+		# priority
+		$exeName = [IO.Path]::GetFileName($svc.ExePath)
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
+	}
+}
+
+# scheduled tasks: disable non-Microsoft Exec tasks
+$DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 5
+$ScheduledTaskMode = if ($DO_SCHEDULED_TASKS) { 'Disable' } else { 'Report' } # Report | Disable # | Unregister
+
+$scheduledTasks = Get-ScheduledTask
+
+$nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
+	if ($task.TaskPath -like '\Microsoft\*') {
+		continue
+	}
+
+	$xmlText = $null
+	$xml = $null
+
+	try {
+		$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
+		$xml = [xml]$xmlText
+	}
+	catch {
+		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName): $_"
+		continue
+	}
+
+	$author = $xml.Task.RegistrationInfo.Author
+
+	if ($author -match '^\s*(Microsoft|Microsoft Corporation|Windows)\b') {
+		continue
+	}
+
+	$commands = @(Get-TaskExecCommandsFromXml -Xml $xml)
+
+	if (-not $commands) {
+		continue
+	}
+
+	$resolvedCommands = @($commands | ForEach-Object { Resolve-TaskCommandPath $_ })
+
+	$hasWindowsCommand = $false
+	$hasMicrosoftSignedCommand = $false
+
+	foreach ($cmdPath in $resolvedCommands) {
+		if (Test-UnderWindows -Path $cmdPath) {
+			$hasWindowsCommand = $true
+		}
+
+		if (Test-MicrosoftSignedFile -Path $cmdPath) {
+			$hasMicrosoftSignedCommand = $true
+		}
+	}
+
+	if ($hasWindowsCommand -or $hasMicrosoftSignedCommand) {
+		continue
+	}
+
+	[pscustomobject]@{
+		TaskName = $task.TaskName
+		TaskPath = $task.TaskPath
+		State    = $task.State
+		Author   = $author
+		Command  = ($resolvedCommands -join ' | ')
+		Task     = $task
+	}
+}
+
+if (-not $nonMicrosoftTasks) {
+	Write-Host "No non-Microsoft scheduled task candidates found."
+}
+else {
+	$nonMicrosoftTasks |
+		Select-Object TaskPath, TaskName, State, Author, Command |
+		Format-Table -AutoSize
+
+	foreach ($item in $nonMicrosoftTasks) {
+		$fullName = "$($item.TaskPath)$($item.TaskName)"
+
+		switch ($ScheduledTaskMode) {
+			'Report' {
+				Write-Host "Candidate scheduled task: $fullName"
+			}
+
+			'Disable' {
+				if (Invoke-ShouldProcess -Target $fullName -Action 'Disable scheduled task') {
+					Disable-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath | Out-Null
+				}
+			}
+
+			# 'Unregister' {
+			# 	if (Invoke-ShouldProcess -Target $fullName -Action 'Unregister scheduled task') {
+			# 		Unregister-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath -Confirm:$false
+			# 	}
+			# }
+		}
+	}
+}
+
+# remove disconnected devices as in device manager
+$DO_REMOVE_DRIVERS = Prompt-YesNoDefaultN -Message "Remove disconnected devices and non-Microsoft drivers? (Y/N)" -TimeoutSeconds 5
+
+if ($DO_REMOVE_DRIVERS) {
+	$devices = Parse-PnpUtilBlocks `
+		-Lines (pnputil /enum-devices /disconnected /drivers) `
+		-RequiredKey InstanceId `
+		-Map @{
+		'Instance ID'        = 'InstanceId'
+		'Device Description' = 'Description'
+		'Driver Name'        = 'DriverName'
+	}
+
+	$drivers = Parse-PnpUtilBlocks `
+		-Lines (pnputil /enum-drivers) `
+		-RequiredKey PublishedName `
+		-Map @{
+		'Published Name'          = 'PublishedName'
+		'Provider Name'           = 'ProviderName'
+		'Driver Package Provider' = 'ProviderName'
+	}
+
+	$driverByInf = @{}
+	foreach ($driver in $drivers) {
+		$driverByInf[$driver.PublishedName] = $driver
+	}
+
+	if (-not $devices) {
+		Write-Host "No disconnected devices found."
+	}
+	else {
+		foreach ($device in $devices) {
+			Write-Host "`nRemoving device: $($device.Description)"
+			pnputil /remove-device "$($device.InstanceId)"
+
+			$driver = $driverByInf[$device.DriverName]
+
+			# Only exact "Microsoft" is treated as protected
+			if ($driver -and $driver.ProviderName -notmatch '^\s*Microsoft\s*$') {
+				Write-Host "Deleting driver package: $($device.DriverName)"
+				pnputil /delete-driver "$($device.DriverName)" /uninstall
+			}
+			elseif ($device.DriverName) {
+				Write-Host "Keeping driver package: $($device.DriverName)"
+			}
+		}
+	}
+}
+else {
+	Write-Host "Skipping disconnected device and driver removal."
+}
+
+$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 5
+
+try {
+	if ($DO_UNINSTALL) {
+		$appsToRemove = @(
+			# 3D / legacy inbox apps
+			"3D Viewer", "Microsoft 3D Viewer",
+			"Paint 3D",
+			"Print 3D",
+
+			# Clipchamp naming variants
+			"Clipchamp", "Microsoft Clipchamp", "Clipchamp - Video Editor",
+
+			# Feedback Hub
+			"Feedback Hub", "Windows Feedback Hub",
+
+			# HP OEM helper
+			"HPHelp", "HP Help", "HP Help and Support",
+
+			# Wallet / Pay
+			"Microsoft Pay", "Microsoft Wallet", "Wallet",
+
+			# People
+			"Microsoft People", "People",
+
+			# Photos
+			"Microsoft Photos", "Photos", "Microsoft Photos Legacy",
+
+			# Solitaire
+			"Microsoft Solitaire Collection", "Solitaire & Casual Games",
+
+			# Sticky Notes
+			"Microsoft Sticky Notes", "Sticky Notes",
+
+			# Tips (often “Tips”, sometimes under “Microsoft Tips”)
+			"Microsoft Tips", "Tips",
+
+			# Mixed Reality
+			"Mixed Reality Portal", "Windows Mixed Reality",
+
+			# Movies & TV
+			"Movies & TV", "Films & TV",
+
+			# News
+			"News", "Microsoft News",
+
+			"OneNote for Windows 10",
+
+			# Power Automate
+			"Power Automate", "Power Automate Desktop",
+
+			# Skype
+			"Skype",
+
+			# Maps
+			"Windows Maps", "Maps",
+
+			# Media Player / audio-video app branding drift
+			"Media Player", "Windows Media Player", "Groove Music",
+
+			# Voice recorder naming drift (Win10 commonly “Windows Voice Recorder”)
+			"Sound Recorder", "Windows Voice Recorder",
+
+			# Family Safety=
+			"Family", "Microsoft Family Safety",
+
+			# Quick Assist
+			"Quick Assist",
+
+			# Outlook
+			"Outlook", "Outlook for Windows", "Outlook for Windows (New)", "Microsoft Outlook",
+
+			# Translator
+			"Translator", "Microsoft Translator",
+
+			# Teams
+			"Microsoft Teams", "Microsoft Teams (work or school)", "Microsoft Teams (free)", "Microsoft Teams classic"
+		)
+
+		foreach ($app in $appsToRemove) {
+			Safe-Invoke -Command "winget" -Args @("uninstall", "--name", $app, "--exact")
+		}
+
+		$idsToRemove = @(
+			"9P7BP5VNWKX5", "9PDJDJS743XF", "9WZDNCRFHWKN", "9nblggh5r558"
+		)
+
+		foreach ($app in $idsToRemove) {
+			Safe-Invoke -Command "winget" -Args @("uninstall", "--id", $app)
+		}
+	}
+	else {
+		Write-Host "Skipping app uninstallations."
+	}
+}
+catch {
+	Write-Warning "Error during bulk uninstall: $_"
+}
+
 # chocolatey
 try {
 	if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
@@ -784,7 +790,6 @@ try {
 catch {
 	Write-Warning "Chocolatey install failed (continuing): $_"
 }
-
 
 Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
 
@@ -806,6 +811,7 @@ Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
 # Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
 # Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
 # Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
+# Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do.
 Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
 Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
 Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
@@ -816,7 +822,6 @@ Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
 Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
 Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
 Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
-Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do.
 Get-StoreAppPackages -ProductId '9NC184TX90WZ'
 Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
 Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
@@ -913,11 +918,11 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 	}
 }
 
-# unhide power settings
-# Get Power Settings entries and add/set 'Attributes' to 2 to unhide
-$PowerCfg = (Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings' -Recurse).Name -notmatch '\bDefaultPowerSchemeValues|(\\[0-9]|\b255)$'
-foreach ($item in $PowerCfg) {
-	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
-}
+# # unhide power settings
+# # Get Power Settings entries and add/set 'Attributes' to 2 to unhide
+# $PowerCfg = (Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings' -Recurse).Name -notmatch '\bDefaultPowerSchemeValues|(\\[0-9]|\b255)$'
+# foreach ($item in $PowerCfg) {
+# 	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
+# }
 
 exit
