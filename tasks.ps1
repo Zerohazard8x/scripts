@@ -175,8 +175,8 @@ function Get-TaskExecCommandsFromXml {
 	$ns.AddNamespace('t', 'http://schemas.microsoft.com/windows/2004/02/mit/task')
 
 	$Xml.SelectNodes('//t:Actions/t:Exec/t:Command', $ns) |
-		ForEach-Object { $_.'#text' } |
-		Where-Object { $_ }
+	ForEach-Object { $_.'#text' } |
+	Where-Object { $_ }
 }
 
 function Resolve-TaskCommandPath {
@@ -448,24 +448,6 @@ $PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
 
 Write-Host ""
 
-# set non-stock services to manual start
-$services = Get-CimInstance Win32_Service | ForEach-Object {
-	$exePath = Get-ExePathFromServicePath $_.PathName
-	$scType = Get-ScStartType $_.Name
-
-	[PSCustomObject]@{
-		Name         = $_.Name
-		DisplayName  = $_.DisplayName
-		State        = $_.State
-		ServiceType  = $_.ServiceType
-		PathName     = $_.PathName
-		ExePath      = $exePath
-		Win32Start   = $_.StartMode
-		ActualStart  = $scType
-		UnderWindows = Test-IsUnderWindowsDirectory $exePath
-	}
-}
-
 # set processes to lowest priority
 $processNames = @(
 	'MSIAfterburner',
@@ -510,23 +492,48 @@ foreach ($name in $processNames) {
 	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 }
 
-$nonSystemServices = $services | Where-Object {
-	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
-	-not $_.UnderWindows
-}
+# set non-stock services to manual start
+$DO_SET_NONSTOCK_SERVICES = Prompt-YesNoDefaultN -Message "Set non-stock services to Manual startup? (Y/N)" -TimeoutSeconds 5
 
-if ($nonSystemServices) {
-	foreach ($svc in $nonSystemServices) {
-		if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
-			Set-Service -Name $svc.Name -StartupType Manual
+if ($DO_SET_NONSTOCK_SERVICES) {
+	$services = Get-CimInstance Win32_Service | ForEach-Object {
+		$exePath = Get-ExePathFromServicePath $_.PathName
+		$scType = Get-ScStartType $_.Name
+
+		[PSCustomObject]@{
+			Name         = $_.Name
+			DisplayName  = $_.DisplayName
+			State        = $_.State
+			ServiceType  = $_.ServiceType
+			PathName     = $_.PathName
+			ExePath      = $exePath
+			Win32Start   = $_.StartMode
+			ActualStart  = $scType
+			UnderWindows = Test-IsUnderWindowsDirectory $exePath
 		}
-
-		# priority
-		$exeName = [IO.Path]::GetFileName($svc.ExePath)
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
-		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 	}
+
+	$nonSystemServices = $services | Where-Object {
+		$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
+		-not $_.UnderWindows
+	}
+
+	if ($nonSystemServices) {
+		foreach ($svc in $nonSystemServices) {
+			if ($PSCmdlet.ShouldProcess($svc.Name, 'Set startup type to Manual')) {
+				Set-Service -Name $svc.Name -StartupType Manual
+			}
+
+			# priority
+			$exeName = [IO.Path]::GetFileName($svc.ExePath)
+			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
+		}
+	}
+}
+else {
+	Write-Host "Skipping non-stock service startup changes."
 }
 
 # scheduled tasks: disable non-Microsoft Exec tasks
@@ -598,8 +605,8 @@ if (-not $nonMicrosoftTasks) {
 }
 else {
 	$nonMicrosoftTasks |
-		Select-Object TaskPath, TaskName, State, Author, Command |
-		Format-Table -AutoSize
+	Select-Object TaskPath, TaskName, State, Author, Command |
+	Format-Table -AutoSize
 
 	foreach ($item in $nonMicrosoftTasks) {
 		$fullName = "$($item.TaskPath)$($item.TaskName)"
@@ -849,34 +856,42 @@ Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--acce
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
-try {
-	# Set DNS servers on all "Up" adapters
-	$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
-	$ipv4 = @("1.1.1.2", "1.0.0.2")
-	$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
+$DO_CONFIGURE_DNS = Prompt-YesNoDefaultN `
+	-Message "Configure DNS? (Y/N)" `
+	-TimeoutSeconds 5
 
-	foreach ($i in $ifaces) {
-		Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
-	}
+if ($DO_CONFIGURE_DNS) {
+	try {
+		# Set DNS servers on all "Up" adapters
+		$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
+		$ipv4 = @("1.1.1.2", "1.0.0.2")
+		$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
 
-	foreach ($i in $ifaces) {
-		foreach ($ip in $ipv4) {
-			$p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
-			New-Item -Path $p -Force | Out-Null
-			New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+		foreach ($i in $ifaces) {
+			Set-DnsClientServerAddress -InterfaceIndex $i.ifIndex -ServerAddresses ($ipv4 + $ipv6)
 		}
 
-		foreach ($ip in $ipv6) {
-			$p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
-			New-Item -Path $p -Force | Out-Null
-			New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+		foreach ($i in $ifaces) {
+			foreach ($ip in $ipv4) {
+				$p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh\$ip"
+				New-Item -Path $p -Force | Out-Null
+				New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+			}
+
+			foreach ($ip in $ipv6) {
+				$p = "HKLM:\System\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$($i.InterfaceGuid)\DohInterfaceSettings\Doh6\$ip"
+				New-Item -Path $p -Force | Out-Null
+				New-ItemProperty -Path $p -Name "DohFlags" -Value 1 -PropertyType QWord -Force | Out-Null
+			}
 		}
 	}
+	catch {
+		Write-Warning "DNS/DoH configuration failed (continuing): $_"
+	}
 }
-catch {
-	Write-Warning "DNS/DoH configuration failed (continuing): $_"
+else {
+	Write-Host "Skipping DNS configuration."
 }
-
 # Windows Defender
 try {
 	Set-MpPreference -DisableRealtimeMonitoring $false
