@@ -16,7 +16,9 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
 @REM version string
 @REM minescule mouse
 
+@REM ##########################
 @REM Launch background tray/game/cloud applications if installed
+@REM ##########################
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 	tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
@@ -163,14 +165,17 @@ if not "%rc%"=="0" (
 goto NOPSHELL
 
 :ADMIN_POWERSHELL_REPAIR
+@REM ##########################
 @REM dns config part 1
-@REM Enable DoH
-netsh dns add global doh=yes ddr=yes
+@REM ##########################
 
-netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
-netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+@REM Enable DoH
+@REM netsh dns add global doh=yes ddr=yes
+
+@REM netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+@REM netsh dns add encryption server=1.0.0.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+@REM netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
+@REM netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 
 @REM Check for PowerShell
 where powershell >nul 2>&1
@@ -230,7 +235,10 @@ if not errorlevel 1 (
 	control update 2>nul
 )
 
+@REM ##########################
 @REM repairs
+@REM ##########################
+
 @REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
 @REM defrag /O /C /M 2>nul
 
@@ -238,11 +246,19 @@ if not errorlevel 1 (
 @REM sfc /scannow 2>nul
 
 @REM Restore boot configuration integrity settings
-bcdedit /debug off
-bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
-bcdedit /set TESTSIGNING OFF
-bcdedit /set NOINTEGRITYCHECKS OFF
-bcdedit /set hypervisorlaunchtype auto
+@REM bcdedit /debug off
+@REM bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
+@REM bcdedit /set TESTSIGNING OFF
+@REM bcdedit /set NOINTEGRITYCHECKS OFF
+@REM bcdedit /set hypervisorlaunchtype auto
+
+@REM @REM ##########################
+@REM @REM powercfg
+@REM @REM ##########################
+
+@REM powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFBOOSTMODE 1
+@REM powercfg -setdcvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFBOOSTMODE 1
+@REM powercfg -setactive SCHEME_CURRENT
 
 if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
 
