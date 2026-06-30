@@ -1,10 +1,10 @@
 @echo off
-if /I not "%SCRIPT_LOWPRIO%"=="1" (
-    set "SCRIPT_LOWPRIO=1"
-    @REM start "" /b /wait /low /min cmd /s /c ""%~f0" %*"
-    start "" /b /wait /min cmd /s /c ""%~f0" %*"
-    exit /b %errorlevel%
-)
+@REM Process priority relaunch is kept commented because spawning cmd.exe here creates another console window in the Task Scheduler chain.
+@REM if /I not "%SCRIPT_LOWPRIO%"=="1" (
+@REM     set "SCRIPT_LOWPRIO=1"
+@REM     start "" /b /wait /low /min cmd /s /c ""%~f0" %*"
+@REM     exit /b %errorlevel%
+@REM )
 setlocal EnableExtensions
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
 
@@ -125,11 +125,11 @@ if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
 
 :NOPROGRAMS
 
-@REM Finally, run common.bat (in a new window), wait, and capture its exit code
+@REM Finally, run common.bat in the current console, wait, and capture its exit code.
 if exist "%downloadDir%\common.bat" (
-    @REM Use START /WAIT with cmd /c so we get the real ERRORLEVEL from the child .bat
+    @REM Process priority relaunch is kept commented because START /WAIT with cmd.exe creates another console window.
     @REM start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
-    start "" /wait /min cmd /c "%downloadDir%\common.bat"
+    call "%downloadDir%\common.bat"
     set "rc=%errorlevel%"
 ) else (
     echo *** ERROR: common.bat not found! ***
