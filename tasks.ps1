@@ -538,95 +538,97 @@ else {
 
 # scheduled tasks: disable non-Microsoft Exec tasks
 $DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 5
-$ScheduledTaskMode = if ($DO_SCHEDULED_TASKS) { 'Disable' } else { 'Report' } # Report | Disable # | Unregister
+if ($DO_SCHEDULED_TASKS) {
+	$ScheduledTaskMode = 'Disable' # Report | Disable # | Unregister
 
-$scheduledTasks = Get-ScheduledTask
+	$scheduledTasks = Get-ScheduledTask
 
-$nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
-	if ($task.TaskPath -like '\Microsoft\*') {
-		continue
-	}
-
-	$xmlText = $null
-	$xml = $null
-
-	try {
-		$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
-		$xml = [xml]$xmlText
-	}
-	catch {
-		Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName): $_"
-		continue
-	}
-
-	$author = $xml.Task.RegistrationInfo.Author
-
-	if ($author -match '^\s*(Microsoft|Microsoft Corporation|Windows)\b') {
-		continue
-	}
-
-	$commands = @(Get-TaskExecCommandsFromXml -Xml $xml)
-
-	if (-not $commands) {
-		continue
-	}
-
-	$resolvedCommands = @($commands | ForEach-Object { Resolve-TaskCommandPath $_ })
-
-	$hasWindowsCommand = $false
-	$hasMicrosoftSignedCommand = $false
-
-	foreach ($cmdPath in $resolvedCommands) {
-		if (Test-UnderWindows -Path $cmdPath) {
-			$hasWindowsCommand = $true
+	$nonMicrosoftTasks = foreach ($task in $scheduledTasks) {
+		if ($task.TaskPath -like '\Microsoft\*') {
+			continue
 		}
 
-		if (Test-MicrosoftSignedFile -Path $cmdPath) {
-			$hasMicrosoftSignedCommand = $true
+		$xmlText = $null
+		$xml = $null
+
+		try {
+			$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
+			$xml = [xml]$xmlText
 		}
-	}
+		catch {
+			Write-Warning "Could not export scheduled task: $($task.TaskPath)$($task.TaskName): $_"
+			continue
+		}
 
-	if ($hasWindowsCommand -or $hasMicrosoftSignedCommand) {
-		continue
-	}
+		$author = $xml.Task.RegistrationInfo.Author
 
-	[pscustomobject]@{
-		TaskName = $task.TaskName
-		TaskPath = $task.TaskPath
-		State    = $task.State
-		Author   = $author
-		Command  = ($resolvedCommands -join ' | ')
-		Task     = $task
-	}
-}
+		if ($author -match '^\s*(Microsoft|Microsoft Corporation|Windows)\b') {
+			continue
+		}
 
-if (-not $nonMicrosoftTasks) {
-	Write-Host "No non-Microsoft scheduled task candidates found."
-}
-else {
-	$nonMicrosoftTasks |
-	Select-Object TaskPath, TaskName, State, Author, Command |
-	Format-Table -AutoSize
+		$commands = @(Get-TaskExecCommandsFromXml -Xml $xml)
 
-	foreach ($item in $nonMicrosoftTasks) {
-		$fullName = "$($item.TaskPath)$($item.TaskName)"
+		if (-not $commands) {
+			continue
+		}
 
-		switch ($ScheduledTaskMode) {
-			'Report' {
-				Write-Host "Candidate scheduled task: $fullName"
+		$resolvedCommands = @($commands | ForEach-Object { Resolve-TaskCommandPath $_ })
+
+		$hasWindowsCommand = $false
+		$hasMicrosoftSignedCommand = $false
+
+		foreach ($cmdPath in $resolvedCommands) {
+			if (Test-UnderWindows -Path $cmdPath) {
+				$hasWindowsCommand = $true
 			}
 
-			'Disable' {
-				if (Invoke-ShouldProcess -Target $fullName -Action 'Disable scheduled task') {
-					Disable-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath | Out-Null
+			if (Test-MicrosoftSignedFile -Path $cmdPath) {
+				$hasMicrosoftSignedCommand = $true
+			}
+		}
+
+		if ($hasWindowsCommand -or $hasMicrosoftSignedCommand) {
+			continue
+		}
+
+		[pscustomobject]@{
+			TaskName = $task.TaskName
+			TaskPath = $task.TaskPath
+			State    = $task.State
+			Author   = $author
+			Command  = ($resolvedCommands -join ' | ')
+			Task     = $task
+		}
+	}
+
+	if (-not $nonMicrosoftTasks) {
+		Write-Host "No non-Microsoft scheduled task candidates found."
+	}
+	else {
+		$nonMicrosoftTasks |
+		Select-Object TaskPath, TaskName, State, Author, Command |
+		Format-Table -AutoSize
+
+		foreach ($item in $nonMicrosoftTasks) {
+			$fullName = "$($item.TaskPath)$($item.TaskName)"
+
+			switch ($ScheduledTaskMode) {
+				'Report' {
+					Write-Host "Candidate scheduled task: $fullName"
 				}
-			}
 
-			# 'Unregister' {
-			# 	if (Invoke-ShouldProcess -Target $fullName -Action 'Unregister scheduled task') {
-			# 		Unregister-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath -Confirm:$false
-			# 	}
-			# }
+				'Disable' {
+					if (Invoke-ShouldProcess -Target $fullName -Action 'Disable scheduled task') {
+						Disable-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath | Out-Null
+					}
+				}
+
+				# 'Unregister' {
+				# 	if (Invoke-ShouldProcess -Target $fullName -Action 'Unregister scheduled task') {
+				# 		Unregister-ScheduledTask -TaskName $item.TaskName -TaskPath $item.TaskPath -Confirm:$false
+				# 	}
+				# }
+			}
 		}
 	}
 }
@@ -818,7 +820,6 @@ Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
 # Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
 # Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
 # Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
-# Get-StoreAppPackages -ProductId '9nblggh5r558' # Microsoft To Do.
 Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
 Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
 Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
