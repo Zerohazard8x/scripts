@@ -69,7 +69,7 @@ where python >nul 2>&1 && (
         @REM where nvidia-smi >nul 2>&1 && python3.12 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
         python3.12 -m pip install -U pip whisperx
     ) else (
-        @REM where nvidia-smi >nul 2>&1 && python3.12 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+        @REM where nvidia-smi >nul 2>&1 && python3.12 -m pip install "torch==2.8.0" "torchvision==0.23.0" "torchaudio==2.8.0" -U --index-url https://download.pytorch.org/whl/cu128
         python3.12 -m pip install -U pip whisperx
     )
 
