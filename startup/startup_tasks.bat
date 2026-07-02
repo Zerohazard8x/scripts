@@ -53,8 +53,8 @@ where choco >nul 2>&1 && (
 
 @REM If python in PATH, purge cache and upgrade packages
 where python >nul 2>&1 && (
-    python -m pip cache purge
-    python -m pip install --upgrade pip setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+    python -m pip install --upgrade pip
+    python -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
 
     @REM Ensure Python 3.12 exists, using uv when available
     where python3.12 >nul 2>&1
@@ -66,12 +66,11 @@ where python >nul 2>&1 && (
             uv python install 3.12
             uv python update-shell
         )
-        @REM where nvidia-smi >nul 2>&1 && python3.12 -m pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-        python3.12 -m pip install -U pip whisperx
-    ) else (
-        @REM where nvidia-smi >nul 2>&1 && python3.12 -m pip install "torch==2.8.0" "torchvision==0.23.0" "torchaudio==2.8.0" -U --index-url https://download.pytorch.org/whl/cu128
-        python3.12 -m pip install -U pip whisperx
     )
+
+    python3.12 -m pip install --upgrade pip
+    python3.12 -m pip install whisperx demucs
+    where nvidia-smi >nul 2>&1 && python3.12 -m pip install "torch==2.8.0" "torchvision==0.23.0" "torchaudio==2.8.0" --index-url https://download.pytorch.org/whl/cu128
 
     @REM Install VapourSynth plugins if vsrepo script found
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
@@ -87,6 +86,11 @@ where python >nul 2>&1 && (
         @REM     call :UpgradeFrozenRequirements python3.12
         @REM )
     )
+
+    @REM @REM packages not dependencies of any other package
+    @REM python -m pip install pipdeptree
+    @REM python -m pipdeptree --warn silence
+    @REM findstr /R "^[A-Za-z0-9_-]"
 )
 
 if /I "%STARTUP_ADMIN_STAGE%"=="python" endlocal & exit /b %errorlevel%
@@ -173,20 +177,51 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin
 exit /b %errorlevel%
 
 :UpgradeFrozenRequirements
-@REM Freeze installed packages, loosen pins, upgrade, and clean temp file
 set "SCRIPT_PYTHON_EXE=%~1"
-set "SCRIPT_REQUIREMENTS_FILE=%TEMP%\requirements-%RANDOM%-%RANDOM%.txt"
-%SCRIPT_PYTHON_EXE% -m pip freeze > "%SCRIPT_REQUIREMENTS_FILE%"
+set "SCRIPT_ID=%RANDOM%-%RANDOM%"
+set "SCRIPT_PACKAGES_JSON=%TEMP%\packages-%SCRIPT_ID%.json"
+set "SCRIPT_UPGRADE_FILE=%TEMP%\requirements-upgrade-%SCRIPT_ID%.txt"
+set "SCRIPT_REPORT_FILE=%TEMP%\pip-upgrade-report-%SCRIPT_ID%.json"
+
+@REM Build package>=current-version requirements from installed distributions.
+@REM Exclude editables and bootstrap packaging tools from the bulk upgrade.
+"%SCRIPT_PYTHON_EXE%" -m pip list --format=json --exclude-editable --exclude pip --exclude setuptools --exclude wheel --exclude distribute > "%SCRIPT_PACKAGES_JSON%"
 if errorlevel 1 (
-    del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
-    exit /b 1
+    set "SCRIPT_UPGRADE_RC=1"
+    goto :UpgradeFrozenRequirementsCleanup
 )
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$r = $env:SCRIPT_REQUIREMENTS_FILE; (Get-Content -LiteralPath $r) -replace '==', '>=' | Set-Content -LiteralPath $r -Encoding ASCII"
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
+  "$j = Get-Content -Raw -LiteralPath $env:SCRIPT_PACKAGES_JSON | ConvertFrom-Json; " ^
+  "$j | ForEach-Object { '{0}>={1}' -f $_.name, $_.version } | Set-Content -LiteralPath $env:SCRIPT_UPGRADE_FILE -Encoding ASCII"
+
 if errorlevel 1 (
-    del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
-    exit /b 1
+    set "SCRIPT_UPGRADE_RC=1"
+    goto :UpgradeFrozenRequirementsCleanup
 )
-%SCRIPT_PYTHON_EXE% -m pip install --upgrade -r "%SCRIPT_REQUIREMENTS_FILE%"
+
+@REM First resolve without installing.
+"%SCRIPT_PYTHON_EXE%" -m pip install --dry-run --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%" --report "%SCRIPT_REPORT_FILE%"
+if errorlevel 1 (
+    set "SCRIPT_UPGRADE_RC=1"
+    goto :UpgradeFrozenRequirementsCleanup
+)
+
+@REM Install the resolved-compatible upgrade set.
+"%SCRIPT_PYTHON_EXE%" -m pip install --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%"
+
+@REM Final declared-dependency compatibility gate.
+"%SCRIPT_PYTHON_EXE%" -m pip check
 set "SCRIPT_UPGRADE_RC=%errorlevel%"
-del /q /f "%SCRIPT_REQUIREMENTS_FILE%" 2>nul
+if "%SCRIPT_UPGRADE_RC%"=="0" (
+    goto :UpgradeFrozenRequirementsCleanup
+)
+
+:UpgradeFrozenRequirementsCleanup
+del /q /f "%SCRIPT_PACKAGES_JSON%" 2>nul
+del /q /f "%SCRIPT_UPGRADE_FILE%" 2>nul
+del /q /f "%SCRIPT_REPORT_FILE%" 2>nul
+
+"%SCRIPT_PYTHON_EXE%" -m pip cache purge
+
 exit /b %SCRIPT_UPGRADE_RC%
