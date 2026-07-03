@@ -256,8 +256,10 @@ if not errorlevel 1 (
 @REM @REM powercfg
 @REM @REM ##########################
 
-@REM powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFINCTHRESHOLD 30
-@REM powercfg -setdcvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFINCTHRESHOLD 30
+@REM powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFEPP 0
+@REM powercfg -setdcvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFEPP 0
+@REM powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFEPP1 0
+@REM powercfg -setdcvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFEPP1 0
 @REM powercfg -setactive SCHEME_CURRENT
 
 if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
