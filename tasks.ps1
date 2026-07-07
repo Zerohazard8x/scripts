@@ -449,47 +449,63 @@ $PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
 Write-Host ""
 
 # set processes to lowest priority
-$processNames = @(
-	'MSIAfterburner',
-	'HWiNFO64',
-	'RTSS',
-	'steam',
-	'steamwebhelper',
-	'RiotClientServices',
-	'EpicGamesLauncher',
-	'EpicWebHelper',
-	'RazerCortex',
-	'SteelSeriesGG',
-	'OverwolfLauncher',
-	'Overwolf',
-	'XboxPcAppFT',
-	'XboxPcApp',
-	'FanControl',
-	'voicemeeterpro_x64',
-	'voicemeeter8x64',
-	'voicemeeterpro',
-	'voicemeeter8',
-	'thunderbird',
-	'OneDrive',
-	'OneDrive.Sync.Service',
-	'MEGAsync',
-	'WinStore.App',
-	'StoreDesktopExtension'
-)
+$DO_SET_LOW_PRIORITY = Prompt-YesNoDefaultN -Message "Set processes to lowest priority? (Y/N)" -TimeoutSeconds 5
+if ($DO_SET_LOW_PRIORITY) {
+	# set processes to lowest priority
+	$processNames = @(
+		'MSIAfterburner',
+		'HWiNFO64',
+		'RTSS',
+		'RTSSHooksLoader64',
+		'steam',
+		'steamwebhelper',
+		'RiotClientServices',
+		'EpicGamesLauncher',
+		'EpicWebHelper',
+		'RazerCortex',
+		'SteelSeriesGG',
+		'OverwolfLauncher',
+		'Overwolf',
+		'FanControl',
+		'voicemeeterpro_x64',
+		'voicemeeter8x64',
+		'voicemeeterpro',
+		'voicemeeter8',
+		'thunderbird',
+		'OneDrive',
+		'OneDrive.Sync.Service',
+		'MEGAsync'
+	)
 
-foreach ($name in $processNames) {
-	Get-Process -Name $name -ErrorAction SilentlyContinue |
-	ForEach-Object {
-		try {
-			$_.PriorityClass = 'Idle'
-		}
-		catch {
-			# Ignore processes that cannot be changed
+	$packages = @(
+		'Microsoft.GamingApp'
+		'Microsoft.WindowsStore'
+	)
+
+	foreach ($package in $packages) {
+		Get-AppxPackage $package -ErrorAction SilentlyContinue |
+		ForEach-Object {
+			if ($_.InstallLocation) {
+				$processNames += Get-ChildItem $_.InstallLocation -Filter *.exe -File |
+					ForEach-Object BaseName
+			}
 		}
 	}
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
-	reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
+
+	foreach ($name in $processNames) {
+		Get-Process -Name $name -ErrorAction SilentlyContinue |
+		ForEach-Object {
+			try {
+				$_.PriorityClass = 'Idle'
+			}
+			catch {
+				# Ignore processes that cannot be changed
+			}
+		}
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
+		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
+	}
 }
 
 # set non-stock services to manual start
@@ -784,76 +800,80 @@ catch {
 	Write-Warning "Error during bulk uninstall: $_"
 }
 
-# chocolatey
-try {
-	if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
-		Write-Host "Chocolatey not detected. Installing..."
+# # chocolatey
+# try {
+# 	if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+# 		Write-Host "Chocolatey not detected. Installing..."
 
-		Remove-Item -Force -r -v C:\ProgramData\chocolatey
-		[Net.ServicePointManager]::SecurityProtocol =
-		[Net.ServicePointManager]::SecurityProtocol -bor 3072
-		Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
-				'https://community.chocolatey.org/install.ps1'))
-	}
+# 		Remove-Item -Force -r -v C:\ProgramData\chocolatey
+# 		[Net.ServicePointManager]::SecurityProtocol =
+# 		[Net.ServicePointManager]::SecurityProtocol -bor 3072
+# 		Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
+# 				'https://community.chocolatey.org/install.ps1'))
+# 	}
+# }
+# catch {
+# 	Write-Warning "Chocolatey install failed (continuing): $_"
+# }
+
+$DO_INSTALL_MAYBEREQUIRED_APPS = Prompt-YesNoDefaultN -Message "Install apps which might break Windows if removed? (Y/N)" -TimeoutSeconds 5
+if ($DO_INSTALL_MAYBEREQUIRED_APPS) {
+	Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
+
+	# codecs
+	Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
+	Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
+	Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
+	Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+	Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
+	Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
+	Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
+
+	Get-StoreAppPackages -ProductId '9N5TDP8VCMHS' # Web Media
+	Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
+	Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
+	Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
+
+	# Get-StoreAppPackages -ProductId '9NHT9RB2F4HD' # copilot
+	# Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
+	# Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
+	# Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
+	Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
+	Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
+	Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
+	Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
+	Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
+	Get-StoreAppPackages -ProductId '9N0DX20HK701'
+	Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
+	Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
+	Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
+	Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
+	Get-StoreAppPackages -ProductId '9NC184TX90WZ'
+	Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
+	Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
+	Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
+	Get-StoreAppPackages -ProductId '9NZBF4GT040C'
+	Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar).
+	Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay).
+	Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera.
+	Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
+	Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
+	Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
+	Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
+	Get-StoreAppPackages -ProductId '9PLJQ12FQ3CV'
+	Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider.
+	Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator.
+	Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
+	Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
+	Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
+
+	# https://github.com/SimonCropp/WinDebloat
+
+	Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
 }
-catch {
-	Write-Warning "Chocolatey install failed (continuing): $_"
-}
-
-Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
-
-# codecs
-Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
-Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
-Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
-Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
-Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
-Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
-Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
-
-Get-StoreAppPackages -ProductId '9N5TDP8VCMHS' # Web Media
-Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
-Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
-Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
-
-# Get-StoreAppPackages -ProductId '9NHT9RB2F4HD' # copilot
-# Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
-# Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
-# Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
-Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
-Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
-Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
-Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
-Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
-Get-StoreAppPackages -ProductId '9N0DX20HK701'
-Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
-Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
-Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
-Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
-Get-StoreAppPackages -ProductId '9NC184TX90WZ'
-Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
-Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
-Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
-Get-StoreAppPackages -ProductId '9NZBF4GT040C'
-Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar).
-Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay).
-Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera.
-Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
-Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
-Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
-Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
-Get-StoreAppPackages -ProductId '9PLJQ12FQ3CV'
-Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider.
-Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator.
-Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
-Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
-Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
-
-# https://github.com/SimonCropp/WinDebloat
 
 # winget upgrade
 Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
-Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
 # Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
@@ -893,14 +913,15 @@ if ($DO_CONFIGURE_DNS) {
 else {
 	Write-Host "Skipping DNS configuration."
 }
-# Windows Defender
-try {
-	Set-MpPreference -DisableRealtimeMonitoring $false
-	Set-MpPreference -EnableControlledFolderAccess Disabled
-}
-catch {
-	Write-Warning "Error: $_"
-}
+
+# # Windows Defender
+# try {
+# 	Set-MpPreference -DisableRealtimeMonitoring $false
+# 	Set-MpPreference -EnableControlledFolderAccess Disabled
+# }
+# catch {
+# 	Write-Warning "Error: $_"
+# }
 
 # Windows Update
 try {
