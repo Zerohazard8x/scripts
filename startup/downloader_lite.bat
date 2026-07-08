@@ -37,7 +37,7 @@ if exist "import_private.ps1" (
 @REM Download common.bat, preferring curl then wget then aria2c
 where curl >nul 2>&1
 if not errorlevel 1 (
-    curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
+    curl -f --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
 ) else (
     where wget >nul 2>&1
     if not errorlevel 1 (
@@ -57,7 +57,7 @@ if exist "%downloadDir%\common.bat" (
         @REM Download startup_tasks_lite.bat with the same tool fallback order
         where curl >nul 2>&1
         if not errorlevel 1 (
-            curl --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks_lite.bat"
+            curl -f --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks_lite.bat"
         ) else (
             where wget >nul 2>&1
             if not errorlevel 1 (
@@ -90,7 +90,7 @@ del /s /q /f "%downloadDir%\startup_tasks_lite.bat" 2>nul
 del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 del /s /q /f "%downloadDir%\import.ps1" 2>nul
 del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
-endlocal & exit %rc%
+endlocal & exit /b %rc%
 
 :WaitForStartupIdle
 @REM Wait for low CPU samples; disable by setting max seconds to 0
