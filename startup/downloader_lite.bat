@@ -25,6 +25,10 @@ if /I not "%SCRIPT_STARTUP_IDLE_DONE%"=="1" (
 @REM Use Downloads as the temporary staging folder
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
+
+@REM set "github=https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup"
+set "github=https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/startup"
+
 @REM Remove stale downloaded startup scripts before fetching fresh copies
 del /s /q /f "%downloadDir%\common.bat"
 del /s /q /f "%downloadDir%\startup_tasks_lite.bat"
@@ -35,42 +39,17 @@ if exist "import_private.ps1" (
 )
 
 @REM Download common.bat, preferring curl then wget then aria2c
-where curl >nul 2>&1
-if not errorlevel 1 (
-    curl -f --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
-) else (
-    where wget >nul 2>&1
-    if not errorlevel 1 (
-        wget -c --timestamping -O "%downloadDir%\common.bat" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
-    ) else (
-        where aria2c >nul 2>&1
-        if not errorlevel 1 (
-            aria2c -R --allow-overwrite=true -d "%downloadDir%" -o "common.bat" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/common.bat"
-        )
-    )
-)
+call :Download common.bat
 
 @REM Verify common.bat marker text before downloading startup_tasks_lite.bat
 if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
         @REM Download startup_tasks_lite.bat with the same tool fallback order
-        where curl >nul 2>&1
-        if not errorlevel 1 (
-            curl -f --remote-time -C - -L --output-dir "%downloadDir%" -O "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks_lite.bat"
-        ) else (
-            where wget >nul 2>&1
-            if not errorlevel 1 (
-                wget -c --timestamping -O "%downloadDir%\startup_tasks_lite.bat" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks_lite.bat"
-            ) else (
-                where aria2c >nul 2>&1
-                if not errorlevel 1 (
-                    aria2c -R --allow-overwrite=true -d "%downloadDir%" -o "startup_tasks_lite.bat" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/startup/startup_tasks_lite.bat"
-                )
-            )
-        )
-
-        @REM Verify startup_tasks_lite.bat marker text before running it
+        call :Download startup_tasks_lite.bat
+        
+        ```
+        @REM Verify startup_tasks.bat marker text before running it
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks_lite.bat" >nul 2>&1
         if not errorlevel 1 (
             call "%downloadDir%\startup_tasks_lite.bat"
@@ -78,6 +57,8 @@ if exist "%downloadDir%\common.bat" (
             goto :cleanup
         )
     )
+    ```
+    
 )
 
 @REM Treat missing or unverified downloads as failure
@@ -91,6 +72,23 @@ del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 del /s /q /f "%downloadDir%\import.ps1" 2>nul
 del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
 endlocal & exit /b %rc%
+
+:Download
+where curl >nul 2>&1
+if not errorlevel 1 (
+    curl -f --remote-time -C - -L --output-dir "%downloadDir%" -O "%github%/%~1"
+    ) else (
+    where wget >nul 2>&1
+    if not errorlevel 1 (
+        wget -c --timestamping -O "%downloadDir%%~1" "%github%/%~1"
+        ) else (
+        where aria2c >nul 2>&1
+        if not errorlevel 1 (
+            aria2c -R --allow-overwrite=true -d "%downloadDir%" -o "%~1" "%github%/%~1"
+        )
+    )
+)
+exit /b
 
 :WaitForStartupIdle
 @REM Wait for low CPU samples; disable by setting max seconds to 0

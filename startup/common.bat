@@ -197,20 +197,20 @@ if not errorlevel 1 (
 	@REM Download latest tasks.ps1
 	where curl >nul 2>&1
 	if not errorlevel 1 (
-		curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+		@REM curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+		curl -L -o "%downloadDir%\tasks.ps1" "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/tasks.ps1"
 	) 
 	@REM else if exist "%ProgramFiles%\Unix\wget.exe" (
-	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+	@REM 	@REM "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
+	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/tasks.ps1"
 	@REM )
 
 	@REM Download latest import.ps1
 	where curl >nul 2>&1
 	if not errorlevel 1 (
-		curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
-	) 
-	@REM else if exist "%ProgramFiles%\Unix\wget.exe" (
-	@REM 	"%ProgramFiles%\Unix\wget.exe" -O import.ps1 "https://raw.githubusercontent.com/Zerohazard8x/wifi/main/import.ps1"
-	@REM )
+		@REM curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/ _ "
+		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/src/branch/main/wifi/import.ps1"
+	)
 
 	@REM Run tasks.ps1 if present
 	if exist "%downloadDir%\tasks.ps1" (
