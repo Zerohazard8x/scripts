@@ -1,0 +1,46 @@
+name: Mirror to Codeberg
+
+on:
+    push:
+    workflow_dispatch:
+    schedule:
+        - cron: "17 */6 * * *"
+
+permissions:
+    contents: read
+
+jobs:
+    mirror:
+        runs-on: ubuntu-latest
+
+        env:
+            CODEBERG_OWNER: "Zerohazard8x"
+            CODEBERG_REPO: "scripts"
+            GH_TOKEN: ${{ github.token }}
+            CODEBERG_USERNAME: ${{ secrets.CODEBERG_USERNAME }}
+            CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
+
+        steps:
+            - name: Mirror GitHub repository to Codeberg
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  cat > ~/.netrc <<EOF
+                  machine github.com
+                  login x-access-token
+                  password ${GH_TOKEN}
+                  machine codeberg.org
+                  login ${CODEBERG_USERNAME}
+                  password ${CODEBERG_TOKEN}
+                  EOF
+
+                  chmod 600 ~/.netrc
+
+                  git clone --mirror "https://github.com/${GITHUB_REPOSITORY}.git" repo.git
+
+                  cd repo.git
+
+                  git remote add codeberg "https://codeberg.org/${CODEBERG_OWNER}/${CODEBERG_REPO}.git"
+
+                  git push --mirror codeberg
