@@ -37,10 +37,15 @@ jobs:
 
                   chmod 600 ~/.netrc
 
-                  git clone --mirror "https://github.com/${GITHUB_REPOSITORY}.git" repo.git
+                  git clone --mirror \
+                    "https://github.com/${GITHUB_REPOSITORY}.git" \
+                    repo.git
 
                   cd repo.git
 
-                  git remote add codeberg "https://codeberg.org/${CODEBERG_OWNER}/${CODEBERG_REPO}.git"
+                  git remote add codeberg \
+                    "https://codeberg.org/${CODEBERG_OWNER}/${CODEBERG_REPO}.git"
 
-                  git push --mirror codeberg
+                  git push --force --prune codeberg \
+                    "refs/heads/*:refs/heads/*" \
+                    "refs/tags/*:refs/tags/*"
