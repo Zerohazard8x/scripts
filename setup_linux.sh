@@ -219,6 +219,42 @@ partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
 #     echo 1 >/sys/module/usbhid/parameters/jspoll
 # fi
 
+# ------------------------------------
+# schedulers
+# ------------------------------------
+
+grep -qw simple_ondemand /sys/kernel/gpu/gpu_available_governors 2>/dev/null &&
+	echo simple_ondemand >/sys/kernel/gpu/gpu_governor
+
+for cpu_folder in $(find /sys/devices/system/cpu/cpu* -type d -maxdepth 0 | sort); do
+	echo "1" >"$cpu_folder"/online
+
+	cpufreq="$cpu_folder"/cpufreq
+	[ -d "$cpufreq" ] || continue
+
+	scaling_driver=$(cat "$cpufreq"/scaling_driver)
+	governors=$(cat "$cpufreq"/scaling_available_governors)
+
+	if grep -qw schedutil <<<"$governors"; then
+		governor=schedutil
+	elif [[ "$scaling_driver" == *pstate* ]] && grep -qw powersave <<<"$governors"; then
+		governor=powersave
+	elif grep -qw ondemand <<<"$governors"; then
+		governor=ondemand
+	else
+		governor=performance
+	fi
+
+	cat "$cpufreq"/cpuinfo_min_freq >"$cpufreq"/scaling_min_freq
+	cat "$cpufreq"/cpuinfo_max_freq >"$cpufreq"/scaling_max_freq
+	echo "$governor" >"$cpufreq"/scaling_governor
+
+	if [ -w "$cpufreq"/energy_performance_preference ]; then
+		grep -qw balance_performance "$cpufreq"/energy_performance_available_preferences &&
+			echo balance_performance >"$cpufreq"/energy_performance_preference
+	fi
+done
+
 # Install Homebrew if needed
 echo "Checking for package managers..."
 if ! command -v brew &>/dev/null && command -v curl &>/dev/null; then
