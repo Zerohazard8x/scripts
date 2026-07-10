@@ -48,7 +48,6 @@ if exist "%downloadDir%\common.bat" (
         @REM Download startup_tasks.bat with the same tool fallback order
         call :Download startup_tasks.bat
         
-        ```
         @REM Verify startup_tasks.bat marker text before running it
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
         if not errorlevel 1 (
@@ -57,8 +56,6 @@ if exist "%downloadDir%\common.bat" (
             goto :cleanup
         )
     )
-    ```
-    
 )
 
 @REM Treat missing or unverified downloads as failure
