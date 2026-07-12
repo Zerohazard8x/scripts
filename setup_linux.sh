@@ -11,11 +11,11 @@ corePkgs="curl firefox ffmpeg git jq mpv nomacs peazip powershell phantomjs vlc"
 # plusPkgs="7zip aria2 adb dos2unix nano scrcpy vscode thunderbird"
 # otherPkgs="audacious audacity alacritty blender chromium darktable discord doomsday exiftool filezilla fluent-reader foobar2000 ioquake3 jdownloader kdenlive kodi krokiet libreoffice meld microsoft-edge miktex neovim obsidian obs-studio okular openvpn opera parsec pdfsam picard pinta qbittorrent quiterss retroarch rsync shfmt smplayer steam-client tesseract tor-browser unison vscodium wezterm"
 
-# Clean up current directory
-if [ -d "./" ]; then
-	rm -f ./*.aria2
-	rm -f ./*.py
-fi
+# # Clean up current directory
+# if [ -d "./" ]; then
+# 	rm -f ./*.aria2
+# 	rm -f ./*.py
+# fi
 
 # Python installation and setup function
 pyInstall() {
@@ -72,14 +72,14 @@ pyInstall() {
 		# Remove background - demucs --two-stems=vocals input.mp3 output.mp3 # --two-stems=drums, --two-stems=bass
 		# Synchronize subtitles - ffsubsync - ffs video.mp4 -i unsynchronized.srt -o synchronized.srt
 
-		# Update packages
-		echo "Updating all Python packages..."
-		python -m pip freeze >requirements.txt
-		if [ -f "requirements.txt" ]; then
-			sed -i 's/==/>=/g' requirements.txt
-			python -m pip install -r requirements.txt --upgrade
-			rm -f requirements.txt
-		fi
+		# # Update packages
+		# echo "Updating all Python packages..."
+		# python -m pip freeze >requirements.txt
+		# if [ -f "requirements.txt" ]; then
+		# 	sed -i 's/==/>=/g' requirements.txt
+		# 	python -m pip install -r requirements.txt --upgrade
+		# 	rm -f requirements.txt
+		# fi
 	else
 		echo "Python not found after installation attempt"
 	fi
@@ -148,9 +148,12 @@ done
 #     /etc/init.d/nscd restart
 # fi
 
-# List all disks and store them in an array
-echo "Identifying disk partitions..."
-disks=($(lsblk -d -o name | tail -n +2))
+# # ------------------------------------
+# # gpt conversion
+# # ------------------------------------
+# # List all disks and store them in an array
+# echo "Identifying disk partitions..."
+# disks=($(lsblk -d -o name | tail -n +2))
 
 # # Convert each disk to GPT format
 # for disk in "${disks[@]}"; do
@@ -163,8 +166,11 @@ disks=($(lsblk -d -o name | tail -n +2))
 # EOF
 # done
 
-# Store all partition names in an array
-partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
+# # ------------------------------------
+# # partition repairing
+# # ------------------------------------
+# # Store all partition names in an array
+# partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
 
 # # Iterate over each partition for checking and repairing
 # for part in "${partitions[@]}"; do
@@ -200,7 +206,9 @@ partitions=($(lsblk -l -o name,type | grep part | awk '{print $1}'))
 #     fi
 # done
 
+# # ------------------------------------
 # # polling rates
+# # ------------------------------------
 # if ! < /etc/modprobe.d/usbhid.conf grep -e "options usbhid mousepoll=1"; then
 #     echo "options usbhid mousepoll=1" >>/etc/modprobe.d/usbhid.conf
 #     echo "options usbhid kbpoll=1" >>/etc/modprobe.d/usbhid.conf
