@@ -34,6 +34,8 @@ ping 127.0.0.1 -n 2 >nul
 choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
 if errorlevel 2 goto NOPYTHON
 
+for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
+
 @REM Elevate the full Python section once if needed
 call :IsAdmin
 if "%errorlevel%"=="0" goto ADMIN_PYTHON_TASKS
@@ -48,20 +50,34 @@ goto NOPYTHON
 :ADMIN_PYTHON_TASKS
 @REM If Chocolatey exists, upgrade Python via choco
 where choco >nul 2>&1 && (
-    choco uninstall python2 python -y && choco upgrade python3 -y
+    choco uninstall python2 python -y
 )
 
 @REM If python in PATH, purge cache and upgrade packages
-where python >nul 2>&1 && (
-    python -m pip install --upgrade pip
-    python -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+if exist "%PYEXE%" (
+    "%PYEXE%" -m pip install --upgrade pip
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+
     @REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
-        call :UpgradeFrozenRequirements python
+        call :UpgradeFrozenRequirements "%PYEXE%"
+    )
+
+    @REM @REM packages not dependencies of any other package
+    @REM python -m pip install pipdeptree
+    @REM python -m pipdeptree --warn silence
+    @REM findstr /R "^[A-Za-z0-9_-]"
+) else (
+    @REM If Chocolatey exists, upgrade Python via choco
+    where choco >nul 2>&1 && (
+        choco upgrade python3 -y --skip-if-not-installed
     )
 )
 
-if /I "%STARTUP_ADMIN_STAGE%"=="python" endlocal & exit /b %errorlevel%
+set "rc=%errorlevel%"
+if /I not "%STARTUP_ADMIN_STAGE%"=="python" goto NOPYTHON
+if not "%rc%"=="0" pause
+endlocal & exit /b %rc%
 
 :NOPYTHON
 
@@ -135,7 +151,7 @@ if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %STARTUP_ELEVATE_STAGE% tasks...
 set "STARTUP_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', [char]34 + $target + [char]34 + ' ' + $stageArg) -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = [char]34 + $target + [char]34 + ' ' + $stageArg; if ($stageArg -eq '--admin-python') { $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & ' + $cmdLine }; $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%
 
 :UpgradeFrozenRequirements
@@ -155,7 +171,7 @@ if errorlevel 1 (
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
   "$j = Get-Content -Raw -LiteralPath $env:SCRIPT_PACKAGES_JSON | ConvertFrom-Json; " ^
-  "$j | ForEach-Object { '{0}>={1}' -f $_.name, $_.version } | Set-Content -LiteralPath $env:SCRIPT_UPGRADE_FILE -Encoding ASCII"
+  "$j | Where-Object { $_.version -notmatch '\+' } | ForEach-Object { '{0}>={1}' -f $_.name, $_.version } | Set-Content -LiteralPath $env:SCRIPT_UPGRADE_FILE -Encoding ASCII"
 
 if errorlevel 1 (
     set "SCRIPT_UPGRADE_RC=1"
