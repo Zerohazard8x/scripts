@@ -3,6 +3,11 @@ param(
 	[switch]$IncludeRunningServices
 )
 
+# Reuse winget resolved from the initiating user before Administrator Protection elevation.
+if ($env:STARTUP_WINGET_EXE -and (Test-Path -LiteralPath $env:STARTUP_WINGET_EXE)) {
+	Set-Alias -Name winget -Value $env:STARTUP_WINGET_EXE -Scope Script
+}
+
 # function Set-LowestProcessPriority {
 # 	$signature = @"
 # using System;

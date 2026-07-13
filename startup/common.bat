@@ -6,6 +6,9 @@
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
 
+@REM Preserve the initiating user's winget path across Administrator Protection elevation
+if not defined STARTUP_WINGET_EXE for /f "delims=" %%I in ('where winget 2^>nul') do if not defined STARTUP_WINGET_EXE set "STARTUP_WINGET_EXE=%%I"
+
 @REM Elevated stage entry points
 set "COMMON_ADMIN_STAGE="
 if /I "%~1"=="--admin-powershell" set "COMMON_ADMIN_STAGE=powershell"
