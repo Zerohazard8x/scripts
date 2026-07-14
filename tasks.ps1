@@ -1,11 +1,13 @@
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
-	[switch]$IncludeRunningServices
+	[switch]$IncludeRunningServices,
+	[string]$WingetExe = $env:STARTUP_WINGET_EXE,
+	[switch]$AdminPhase
 )
 
 # Reuse winget resolved from the initiating user before Administrator Protection elevation.
-if ($env:STARTUP_WINGET_EXE -and (Test-Path -LiteralPath $env:STARTUP_WINGET_EXE)) {
-	Set-Alias -Name winget -Value $env:STARTUP_WINGET_EXE -Scope Script
+if ($WingetExe -and (Test-Path -LiteralPath $WingetExe)) {
+	Set-Alias -Name winget -Value $WingetExe -Scope Script
 }
 
 # function Set-LowestProcessPriority {
@@ -49,6 +51,10 @@ function Start-ElevatedSelf {
 
 	$escapedScriptPath = $PSCommandPath.Replace('"', '\"')
 	$argumentLine = '-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $escapedScriptPath
+	if ($WingetExe) {
+		$escapedWingetExe = $WingetExe.Replace('"', '\"')
+		$argumentLine += ' -WingetExe "{0}"' -f $escapedWingetExe
+	}
 	if ($args.Count -gt 0) {
 		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
 	}
@@ -306,7 +312,7 @@ function Get-StoreAppPackages {
 
 	# Check if installed
 	try {
-		$existing = Get-AppxPackage -AllUsers | Where-Object {
+		$existing = Get-AppxPackage | Where-Object {
 			($_.Name -like "*$ProductId*") -or
 			($_.PackageFamilyName -like "*$ProductId*")
 		}
@@ -433,8 +439,190 @@ function Get-StoreAppPackages {
 	return "Installed $($pkgInfo.Name) and cleaned up temporary files."
 }
 
+function Invoke-UserPhase {
+	$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 5
+
+	try {
+		if ($DO_UNINSTALL) {
+			$appsToRemove = @(
+				# 3D / legacy inbox apps
+				"3D Viewer", "Microsoft 3D Viewer",
+				"Paint 3D",
+				"Print 3D",
+
+				# Clipchamp naming variants
+				"Clipchamp", "Microsoft Clipchamp", "Clipchamp - Video Editor",
+
+				# Feedback Hub
+				"Feedback Hub", "Windows Feedback Hub",
+
+				# HP OEM helper
+				"HPHelp", "HP Help", "HP Help and Support",
+
+				# Wallet / Pay
+				"Microsoft Pay", "Microsoft Wallet", "Wallet",
+
+				# People
+				"Microsoft People", "People",
+
+				# Photos
+				"Microsoft Photos", "Photos", "Microsoft Photos Legacy",
+
+				# Solitaire
+				"Microsoft Solitaire Collection", "Solitaire & Casual Games",
+
+				# Sticky Notes
+				"Microsoft Sticky Notes", "Sticky Notes",
+
+				# Tips (often “Tips”, sometimes under “Microsoft Tips”)
+				"Microsoft Tips", "Tips",
+
+				# Mixed Reality
+				"Mixed Reality Portal", "Windows Mixed Reality",
+
+				# Movies & TV
+				"Movies & TV", "Films & TV",
+
+				# News
+				"News", "Microsoft News",
+
+				"OneNote for Windows 10",
+
+				# Power Automate
+				"Power Automate", "Power Automate Desktop",
+
+				# Skype
+				"Skype",
+
+				# Maps
+				"Windows Maps", "Maps",
+
+				# Media Player / audio-video app branding drift
+				"Media Player", "Windows Media Player", "Groove Music",
+
+				# Voice recorder naming drift (Win10 commonly “Windows Voice Recorder”)
+				"Sound Recorder", "Windows Voice Recorder",
+
+				# Family Safety=
+				"Family", "Microsoft Family Safety",
+
+				# Quick Assist
+				"Quick Assist",
+
+				# Outlook
+				"Outlook", "Outlook for Windows", "Outlook for Windows (New)", "Microsoft Outlook",
+
+				# Translator
+				"Translator", "Microsoft Translator",
+
+				# Teams
+				"Microsoft Teams", "Microsoft Teams (work or school)", "Microsoft Teams (free)", "Microsoft Teams classic"
+			)
+
+			foreach ($app in $appsToRemove) {
+				Safe-Invoke -Command "winget" -Args @("uninstall", "--name", $app, "--exact")
+			}
+
+			$idsToRemove = @(
+				"9P7BP5VNWKX5", "9PDJDJS743XF", "9WZDNCRFHWKN", "9nblggh5r558"
+			)
+
+			foreach ($app in $idsToRemove) {
+				Safe-Invoke -Command "winget" -Args @("uninstall", "--id", $app)
+			}
+		}
+		else {
+			Write-Host "Skipping app uninstallations."
+		}
+	}
+	catch {
+		Write-Warning "Error during bulk uninstall: $_"
+	}
+
+	# # chocolatey
+	# try {
+	# 	if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+	# 		Write-Host "Chocolatey not detected. Installing..."
+
+	# 		Remove-Item -Force -r -v C:\ProgramData\chocolatey
+	# 		[Net.ServicePointManager]::SecurityProtocol =
+	# 		[Net.ServicePointManager]::SecurityProtocol -bor 3072
+	# 		Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
+	# 				'https://community.chocolatey.org/install.ps1'))
+	# 	}
+	# }
+	# catch {
+	# 	Write-Warning "Chocolatey install failed (continuing): $_"
+	# }
+
+	$DO_INSTALL_MAYBEREQUIRED_APPS = Prompt-YesNoDefaultN -Message "Install apps which might break Windows if removed? (Y/N)" -TimeoutSeconds 5
+	if ($DO_INSTALL_MAYBEREQUIRED_APPS) {
+		Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
+
+		# codecs
+		Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
+		Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
+		Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
+		Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
+		Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
+		Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
+		Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
+
+		Get-StoreAppPackages -ProductId '9N5TDP8VCMHS' # Web Media
+		Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
+		Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
+		Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
+
+		# Get-StoreAppPackages -ProductId '9NHT9RB2F4HD' # copilot
+		# Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
+		# Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
+		# Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
+		Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
+		Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
+		Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
+		Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
+		Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
+		Get-StoreAppPackages -ProductId '9N0DX20HK701'
+		Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
+		Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
+		Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
+		Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
+		Get-StoreAppPackages -ProductId '9NC184TX90WZ'
+		Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
+		Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
+		Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
+		Get-StoreAppPackages -ProductId '9NZBF4GT040C'
+		Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar).
+		Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay).
+		Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera.
+		Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
+		Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
+		Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
+		Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
+		Get-StoreAppPackages -ProductId '9PLJQ12FQ3CV'
+		Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider.
+		Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator.
+		Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
+		Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
+		Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
+
+		# https://github.com/SimonCropp/WinDebloat
+
+		Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
+	}
+
+	# winget upgrade
+	Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
+	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
+}
+
 # Ensure the script runs with administrative privileges. 
 # If it was launched from a non-elevated scheduled task, ask Windows for elevation instead of failing.
+if (-not $AdminPhase) {
+	Invoke-UserPhase
+	Start-ElevatedSelf -AdminPhase
+}
+
 if (-not (Test-IsAdministrator)) {
 	Write-Warning 'Requesting administrator approval for tasks.ps1...'
 	try {
@@ -492,7 +680,7 @@ if ($DO_SET_LOW_PRIORITY) {
 		ForEach-Object {
 			if ($_.InstallLocation) {
 				$processNames += Get-ChildItem $_.InstallLocation -Filter *.exe -File |
-					ForEach-Object BaseName
+				ForEach-Object BaseName
 			}
 		}
 	}
@@ -706,180 +894,6 @@ else {
 	Write-Host "Skipping disconnected device and driver removal."
 }
 
-$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 5
-
-try {
-	if ($DO_UNINSTALL) {
-		$appsToRemove = @(
-			# 3D / legacy inbox apps
-			"3D Viewer", "Microsoft 3D Viewer",
-			"Paint 3D",
-			"Print 3D",
-
-			# Clipchamp naming variants
-			"Clipchamp", "Microsoft Clipchamp", "Clipchamp - Video Editor",
-
-			# Feedback Hub
-			"Feedback Hub", "Windows Feedback Hub",
-
-			# HP OEM helper
-			"HPHelp", "HP Help", "HP Help and Support",
-
-			# Wallet / Pay
-			"Microsoft Pay", "Microsoft Wallet", "Wallet",
-
-			# People
-			"Microsoft People", "People",
-
-			# Photos
-			"Microsoft Photos", "Photos", "Microsoft Photos Legacy",
-
-			# Solitaire
-			"Microsoft Solitaire Collection", "Solitaire & Casual Games",
-
-			# Sticky Notes
-			"Microsoft Sticky Notes", "Sticky Notes",
-
-			# Tips (often “Tips”, sometimes under “Microsoft Tips”)
-			"Microsoft Tips", "Tips",
-
-			# Mixed Reality
-			"Mixed Reality Portal", "Windows Mixed Reality",
-
-			# Movies & TV
-			"Movies & TV", "Films & TV",
-
-			# News
-			"News", "Microsoft News",
-
-			"OneNote for Windows 10",
-
-			# Power Automate
-			"Power Automate", "Power Automate Desktop",
-
-			# Skype
-			"Skype",
-
-			# Maps
-			"Windows Maps", "Maps",
-
-			# Media Player / audio-video app branding drift
-			"Media Player", "Windows Media Player", "Groove Music",
-
-			# Voice recorder naming drift (Win10 commonly “Windows Voice Recorder”)
-			"Sound Recorder", "Windows Voice Recorder",
-
-			# Family Safety=
-			"Family", "Microsoft Family Safety",
-
-			# Quick Assist
-			"Quick Assist",
-
-			# Outlook
-			"Outlook", "Outlook for Windows", "Outlook for Windows (New)", "Microsoft Outlook",
-
-			# Translator
-			"Translator", "Microsoft Translator",
-
-			# Teams
-			"Microsoft Teams", "Microsoft Teams (work or school)", "Microsoft Teams (free)", "Microsoft Teams classic"
-		)
-
-		foreach ($app in $appsToRemove) {
-			Safe-Invoke -Command "winget" -Args @("uninstall", "--name", $app, "--exact")
-		}
-
-		$idsToRemove = @(
-			"9P7BP5VNWKX5", "9PDJDJS743XF", "9WZDNCRFHWKN", "9nblggh5r558"
-		)
-
-		foreach ($app in $idsToRemove) {
-			Safe-Invoke -Command "winget" -Args @("uninstall", "--id", $app)
-		}
-	}
-	else {
-		Write-Host "Skipping app uninstallations."
-	}
-}
-catch {
-	Write-Warning "Error during bulk uninstall: $_"
-}
-
-# # chocolatey
-# try {
-# 	if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
-# 		Write-Host "Chocolatey not detected. Installing..."
-
-# 		Remove-Item -Force -r -v C:\ProgramData\chocolatey
-# 		[Net.ServicePointManager]::SecurityProtocol =
-# 		[Net.ServicePointManager]::SecurityProtocol -bor 3072
-# 		Invoke-Expression ((New-Object System.Net.WebClient).DownloadString(
-# 				'https://community.chocolatey.org/install.ps1'))
-# 	}
-# }
-# catch {
-# 	Write-Warning "Chocolatey install failed (continuing): $_"
-# }
-
-$DO_INSTALL_MAYBEREQUIRED_APPS = Prompt-YesNoDefaultN -Message "Install apps which might break Windows if removed? (Y/N)" -TimeoutSeconds 5
-if ($DO_INSTALL_MAYBEREQUIRED_APPS) {
-	Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
-
-	# codecs
-	Get-StoreAppPackages -ProductId '9MVZQVXJBQ9V' # AV1
-	Get-StoreAppPackages -ProductId '9N4D0MSMP0PT' # VP9
-	Get-StoreAppPackages -ProductId '9n4wgh0z6vhq' # HEVC (OEM)
-	Get-StoreAppPackages -ProductId '9n95q1zzpmh4' # MPEG-2
-	Get-StoreAppPackages -ProductId '9nmzlz57r3t7' # HEVC
-	Get-StoreAppPackages -ProductId '9NVJQJBDKN97' # Dolby Plus (OEM)
-	Get-StoreAppPackages -ProductId '9PB0TRCNRHFX' # AVC
-
-	Get-StoreAppPackages -ProductId '9N5TDP8VCMHS' # Web Media
-	Get-StoreAppPackages -ProductId '9NCTDW2W1BH8' # Raw Image
-	Get-StoreAppPackages -ProductId '9PG2DK419DRG' # WebP Image
-	Get-StoreAppPackages -ProductId '9PMMSR1CGPWG' # HEIF Image
-
-	# Get-StoreAppPackages -ProductId '9NHT9RB2F4HD' # copilot
-	# Get-StoreAppPackages -ProductId '9p7bp5vnwkx5' # microsoft news
-	# Get-StoreAppPackages -ProductId '9wzdncrd29v9' # m365 copilot
-	# Get-StoreAppPackages -ProductId '9wzdncrfj3q2' # msn weather
-	Get-StoreAppPackages -ProductId '9MSMLRH6LZF3'
-	Get-StoreAppPackages -ProductId '9mssgkg348sp' # Windows Web Experience Pack (Widgets / Web Experience Pack).
-	Get-StoreAppPackages -ProductId '9mv0b5hzvk9z' # Xbox (the Xbox app / Xbox PC app).
-	Get-StoreAppPackages -ProductId '9MWPM2CQNLHN'
-	Get-StoreAppPackages -ProductId '9MZ95KL8MR0L'
-	Get-StoreAppPackages -ProductId '9N0DX20HK701'
-	Get-StoreAppPackages -ProductId '9N3RK8ZV2ZR8'
-	Get-StoreAppPackages -ProductId '9N8MHTPHNGVV'
-	Get-StoreAppPackages -ProductId '9nblggh1j27h' # Xbox Console Companion (Beta / Console Companion).
-	Get-StoreAppPackages -ProductId '9NBLGGH4NNS1'
-	Get-StoreAppPackages -ProductId '9NC184TX90WZ'
-	Get-StoreAppPackages -ProductId '9nknc0ld5nn6' # Xbox TCUI.
-	Get-StoreAppPackages -ProductId '9NMPJ99VJBWV'
-	Get-StoreAppPackages -ProductId '9NTXGKQ8P7N0'
-	Get-StoreAppPackages -ProductId '9NZBF4GT040C'
-	Get-StoreAppPackages -ProductId '9nzkpstsnw4p' # Xbox Game Bar (also named Xbox Gaming Overlay / Game Bar).
-	Get-StoreAppPackages -ProductId '9p086nhdnb9w' # Xbox Game Speech Window (Microsoft.XboxSpeechToTextOverlay).
-	Get-StoreAppPackages -ProductId '9P9TQF7MRM4R' # Windows Camera.
-	Get-StoreAppPackages -ProductId '9PC1H9VN18CM'
-	Get-StoreAppPackages -ProductId '9PCFS5B6T72H'
-	Get-StoreAppPackages -ProductId '9PCSD6N03BKV'
-	Get-StoreAppPackages -ProductId '9PKDZBMV1H3T'
-	Get-StoreAppPackages -ProductId '9PLJQ12FQ3CV'
-	Get-StoreAppPackages -ProductId '9wzdncrd1hkw' # Xbox Identity Provider.
-	Get-StoreAppPackages -ProductId '9wzdncrfhvn5' # Windows Calculator.
-	Get-StoreAppPackages -ProductId '9wzdncrfj1p3' # OneDrive.
-	Get-StoreAppPackages -ProductId '9wzdncrfj3pr'
-	Get-StoreAppPackages -ProductId '9wzdncrfjbbg' # Windows Camera.
-
-	# https://github.com/SimonCropp/WinDebloat
-
-	Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
-}
-
-# winget upgrade
-Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
-# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 
 # configure dns
 $DO_CONFIGURE_DNS = Prompt-YesNoDefaultN `
@@ -967,4 +981,5 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 # 	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
 # }
 
-exit
+# exit
+Read-Host "Press Enter to continue"
