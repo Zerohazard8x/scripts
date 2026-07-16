@@ -141,7 +141,8 @@ goto NOPROGRAMS
 
 :ADMIN_PROGRAM_TASKS
 @REM Upgrade Chocolatey packages
-where choco >nul 2>&1 || (
+where choco >nul 2>&1
+if errorlevel 1 (
     echo Chocolatey was not found in the elevated process PATH.
     pause
 ) else (
@@ -155,7 +156,7 @@ where choco >nul 2>&1 || (
 @REM     wsl --update
 @REM )
 
-if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
+if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b 0
 
 :NOPROGRAMS
 
