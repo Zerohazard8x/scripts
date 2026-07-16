@@ -10,6 +10,7 @@
 
 setlocal EnableExtensions EnableDelayedExpansion
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
+set "USER_PATH=%PATH%"
 
 @REM Elevated stage entry points
 set "STARTUP_ADMIN_STAGE="
@@ -49,19 +50,21 @@ if not "%rc%"=="0" (
 goto NOPYTHON
 
 :ADMIN_PYTHON_TASKS
-for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
+if not defined PYEXE for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 if not exist "%PYEXE%" (
     @REM If Chocolatey exists, upgrade Python via choco
     where choco >nul 2>&1 && (
         choco upgrade python3 -y||pause
-        call refreshenv >nul
+        for /f "delims=" %%I in ('set "PATH=!USER_PATH!" ^& python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
     )
 
-    echo Python executable was not found after the Chocolatey upgrade.
-    pause
+    if not exist "!PYEXE!" (
+        echo Python executable was not found after the Chocolatey upgrade.
+        pause
+    )
 )
 
-for /f "delims=" %%I in ('python3.12 -c "import sys;print(sys.executable)" 2^>nul') do set "PY312EXE=%%I"
+if not defined PY312EXE for /f "delims=" %%I in ('python3.12 -c "import sys;print(sys.executable)" 2^>nul') do set "PY312EXE=%%I"
 
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
@@ -157,12 +160,12 @@ if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
 :NOPROGRAMS
 
 @REM Finally, run common.bat in the current console, wait, and capture its exit code.
-if exist "%downloadDir%\common.bat" (
+if exist "%~dp0common.bat" (
     @REM Process priority relaunch
     @REM kept commented bc START /WAIT with cmd.exe creates another console window
     @REM start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
 
-    call "%downloadDir%\common.bat"
+    call "%~dp0common.bat"
     set "rc=%errorlevel%"
 ) else (
     echo *** ERROR: common.bat not found! ***
@@ -198,7 +201,7 @@ if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %STARTUP_ELEVATE_STAGE% tasks...
 set "STARTUP_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
 exit /b %errorlevel%
 
 :UpgradeFrozenRequirements
