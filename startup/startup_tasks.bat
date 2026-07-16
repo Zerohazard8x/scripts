@@ -57,9 +57,14 @@ if not exist "%PYEXE%" (
         call refreshenv >nul
     )
 
-    echo Python executable was not found.
+    echo Python executable was not found after the Chocolatey upgrade.
     pause
-) else (
+)
+
+for /f "delims=" %%I in ('python3.12 -c "import sys;print(sys.executable)" 2^>nul') do set "PY312EXE=%%I"
+
+@REM If python in PATH, purge cache and upgrade packages
+if exist "%PYEXE%" (
     "%PYEXE%" -m pip install --upgrade pip||pause
     "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen||pause
 
@@ -69,7 +74,7 @@ if not exist "%PYEXE%" (
         if errorlevel 1 (
             "%PYEXE%" -m pip install uv||pause
         )
-        
+
         "%PYEXE%" -m uv python install 3.12||pause
         "%PYEXE%" -m uv python update-shell||pause
 
@@ -92,8 +97,6 @@ if not exist "%PYEXE%" (
     @REM python -m pipdeptree --warn silence
     @REM findstr /R "^[A-Za-z0-9_-]"
 )
-
-for /f "delims=" %%I in ('python3.12 -c "import sys;print(sys.executable)" 2^>nul') do set "PY312EXE=%%I"
 
 @REM If python3.12 in PATH, purge cache and upgrade packages
 if exist "%PY312EXE%" (
@@ -128,16 +131,20 @@ if "%errorlevel%"=="0" goto ADMIN_PROGRAM_TASKS
 call :RunElevatedStage programs
 set "rc=%errorlevel%"
 if not "%rc%"=="0" (
-    endlocal & exit /b %rc%
+    echo Programs stage exited with code %rc%.
+    pause
 )
 goto NOPROGRAMS
 
 :ADMIN_PROGRAM_TASKS
 @REM Upgrade Chocolatey packages
-where choco >nul 2>&1 && (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
-    choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y
-    choco upgrade all -y
+where choco >nul 2>&1 || (
+    echo Chocolatey was not found in the elevated process PATH.
+    pause
+) else (
+    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
+    choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
+    choco upgrade all -y||pause
 )
 
 @REM where wsl >nul 2>&1 && (
@@ -162,7 +169,7 @@ if exist "%downloadDir%\common.bat" (
     set "rc=1"
 )
 
-@REM If common.bat failed, keep console open
+@REM If common.bat failed
 if not "%rc%"=="0" (
     echo.
     echo common.bat exited with code %rc%. Writing to %~dp0startup_tasks.log and closing.
@@ -191,7 +198,7 @@ if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %STARTUP_ELEVATE_STAGE% tasks...
 set "STARTUP_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = [char]34 + $target + [char]34 + ' ' + $stageArg; if ($stageArg -eq '--admin-python') { $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & ' + $cmdLine }; $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
 exit /b %errorlevel%
 
 :UpgradeFrozenRequirements

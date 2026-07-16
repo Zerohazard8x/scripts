@@ -8,7 +8,7 @@
 @REM     exit /b %errorlevel%
 @REM )
 
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
 
 @REM Elevated stage entry points
@@ -48,29 +48,26 @@ if not "%rc%"=="0" (
 goto NOPYTHON
 
 :ADMIN_PYTHON_TASKS
+for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
+if not exist "%PYEXE%" (
 @REM If Chocolatey exists, upgrade Python via choco
 where choco >nul 2>&1 && (
-    choco uninstall python2 python -y
+        choco upgrade python3 -y||pause
+        call refreshenv >nul
+    )
+
+    echo Python executable was not found after the Chocolatey upgrade.
+    pause
 )
 
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
-    "%PYEXE%" -m pip install --upgrade pip
-    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+    "%PYEXE%" -m pip install --upgrade pip||pause
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen||pause
 
     @REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
-        call :UpgradeFrozenRequirements "%PYEXE%"
-    )
-
-    @REM @REM packages not dependencies of any other package
-    @REM python -m pip install pipdeptree
-    @REM python -m pipdeptree --warn silence
-    @REM findstr /R "^[A-Za-z0-9_-]"
-) else (
-    @REM If Chocolatey exists, upgrade Python via choco
-    where choco >nul 2>&1 && (
-        choco upgrade python3 -y --skip-if-not-installed
+        call :UpgradeFrozenRequirements "%PYEXE%"||pause
     )
 )
 
@@ -95,15 +92,20 @@ if "%errorlevel%"=="0" goto ADMIN_PROGRAM_TASKS
 call :RunElevatedStage programs
 set "rc=%errorlevel%"
 if not "%rc%"=="0" (
-    endlocal & exit /b %rc%
+    echo Programs stage exited with code %rc%.
+    pause
 )
 goto NOPROGRAMS
 
 :ADMIN_PROGRAM_TASKS
 @REM Upgrade Chocolatey packages
-where choco >nul 2>&1 && (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y
-    choco upgrade all -y
+where choco >nul 2>&1 || (
+    echo Chocolatey was not found in the elevated process PATH.
+    pause
+) else (
+    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
+    choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
+    choco upgrade all -y||pause
 )
 
 if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b %errorlevel%
@@ -123,11 +125,12 @@ if exist "%downloadDir%\common.bat" (
     set "rc=1"
 )
 
-@REM If common.bat failed, keep console open
+@REM If common.bat failed
 if not "%rc%"=="0" (
     echo.
     echo common.bat exited with code %rc%. Writing to %~dp0startup_tasks.log and closing.
     >>"%~dp0startup_tasks.log" echo [%date% %time%] common.bat exited with code %rc%
+    pause
     endlocal & exit /b %rc%
 )
 
@@ -151,7 +154,7 @@ if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %STARTUP_ELEVATE_STAGE% tasks...
 set "STARTUP_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = [char]34 + $target + [char]34 + ' ' + $stageArg; if ($stageArg -eq '--admin-python') { $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & ' + $cmdLine }; $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
 exit /b %errorlevel%
 
 :UpgradeFrozenRequirements
