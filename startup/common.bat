@@ -336,5 +336,5 @@ if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %COMMON_ELEVATE_STAGE% tasks...
 set "SCRIPT_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $target = $env:SCRIPT_ELEVATE_TARGET; $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/s', '/c', [char]34 + $target + [char]34 + ' ' + $stageArg) -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $target = $env:SCRIPT_ELEVATE_TARGET; $p = Start-Process -FilePath $target -ArgumentList $stageArg -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%
