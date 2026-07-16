@@ -218,6 +218,7 @@ if not errorlevel 1 (
 	@REM Run tasks.ps1 if present
 	if exist "%downloadDir%\tasks.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
+		if errorlevel 1 pause
 	)
 
 	@REM Run import.ps1 if present

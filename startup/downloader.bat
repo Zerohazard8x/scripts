@@ -68,6 +68,7 @@ del /s /q /f "%downloadDir%\startup_tasks.bat" 2>nul
 del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 del /s /q /f "%downloadDir%\import.ps1" 2>nul
 del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
+if not "%rc%"=="0" pause
 endlocal & exit /b %rc%
 
 :Download

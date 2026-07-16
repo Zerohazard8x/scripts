@@ -8,7 +8,7 @@
 @REM     exit /b %errorlevel%
 @REM )
 
-setlocal EnableExtensions
+setlocal EnableExtensions EnableDelayedExpansion
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
 
 @REM Elevated stage entry points
@@ -49,58 +49,61 @@ if not "%rc%"=="0" (
 goto NOPYTHON
 
 :ADMIN_PYTHON_TASKS
-@REM If Chocolatey exists, upgrade Python via choco
-where choco >nul 2>&1 && (
-    choco uninstall python2 python -y
-)
+for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
+if not exist "%PYEXE%" (
+    @REM If Chocolatey exists, upgrade Python via choco
+    where choco >nul 2>&1 && (
+        choco upgrade python3 -y||pause
+        call refreshenv >nul
+    )
 
-@REM If python in PATH, purge cache and upgrade packages
-if exist "%PYEXE%" (
-    "%PYEXE%" -m pip install --upgrade pip
-    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen
+    echo Python executable was not found.
+    pause
+) else (
+    "%PYEXE%" -m pip install --upgrade pip||pause
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen||pause
 
     @REM Ensure Python 3.12 exists, using uv when available
     if not exist "%PY312EXE%" (
         where uv >nul 2>&1
         if errorlevel 1 (
-            "%PYEXE%" -m pip install uv
-        ) else (
-            uv python install 3.12
-            uv python update-shell
+            "%PYEXE%" -m pip install uv||pause
         )
+        
+        "%PYEXE%" -m uv python install 3.12||pause
+        "%PYEXE%" -m uv python update-shell||pause
+
+        for /f "delims=" %%I in ('"%PYEXE%" -m uv python find 3.12 2^>nul') do set "PY312EXE=%%I"
     )
 
 
     @REM Install VapourSynth plugins if vsrepo script found
     if exist "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" (
-        "%PYEXE%" "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas
+        "%PYEXE%" "%ProgramFiles%\vapoursynth\vsrepo\vsrepo.py" install havsfunc mvsfunc vsrife lsmas||pause
     )
 
     @REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
-        call :UpgradeFrozenRequirements "%PYEXE%"
+        call :UpgradeFrozenRequirements "%PYEXE%"||pause
     )
 
     @REM @REM packages not dependencies of any other package
     @REM python -m pip install pipdeptree
     @REM python -m pipdeptree --warn silence
     @REM findstr /R "^[A-Za-z0-9_-]"
-) else (
-    @REM If Chocolatey exists, upgrade Python via choco
-    where choco >nul 2>&1 && (
-        choco upgrade python3 -y --skip-if-not-installed
-    )
 )
+
+for /f "delims=" %%I in ('python3.12 -c "import sys;print(sys.executable)" 2^>nul') do set "PY312EXE=%%I"
 
 @REM If python3.12 in PATH, purge cache and upgrade packages
 if exist "%PY312EXE%" (
-    "%PY312EXE%" -m pip install --upgrade pip
-    "%PY312EXE%" -m pip install whisperx demucs
-    where nvidia-smi >nul 2>&1 && "%PY312EXE%" -m pip install "torch==2.8.0" "torchvision==0.23.0" "torchaudio==2.8.0" --index-url https://download.pytorch.org/whl/cu128
+    "%PY312EXE%" -m pip install --upgrade pip||pause
+    "%PY312EXE%" -m pip install whisperx demucs||pause
+    where nvidia-smi >nul 2>&1 && "%PY312EXE%" -m pip install "torch==2.8.0" "torchvision==0.23.0" "torchaudio==2.8.0" --index-url https://download.pytorch.org/whl/cu128||pause
 
     @REM Regenerate requirements and upgrade via PowerShell
     where powershell >nul 2>&1 && (
-        call :UpgradeFrozenRequirements "%PY312EXE%"
+        call :UpgradeFrozenRequirements "%PY312EXE%"||pause
     )
 )
 
@@ -164,6 +167,7 @@ if not "%rc%"=="0" (
     echo.
     echo common.bat exited with code %rc%. Writing to %~dp0startup_tasks.log and closing.
     >>"%~dp0startup_tasks.log" echo [%date% %time%] common.bat exited with code %rc%
+    pause
     endlocal & exit /b %rc%
 )
 
