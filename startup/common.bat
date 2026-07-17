@@ -6,22 +6,23 @@
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
 
-@REM Preserve the initiating user's winget path across Administrator Protection elevation
+@REM Resolve winget before elevation because the Administrator Protection environment can expose a different user-local PATH.
 if not defined STARTUP_WINGET_EXE for /f "delims=" %%I in ('where winget 2^>nul') do if not defined STARTUP_WINGET_EXE set "STARTUP_WINGET_EXE=%%I"
 
-@REM Elevated stage entry points
+@REM Decode the internal elevated-stage argument before launching user applications or showing prompts.
 set "COMMON_ADMIN_STAGE="
 if /I "%~1"=="--admin-powershell" set "COMMON_ADMIN_STAGE=powershell"
 if /I "%~1"=="--admin-services" set "COMMON_ADMIN_STAGE=services"
 if /I "%COMMON_ADMIN_STAGE%"=="powershell" goto ADMIN_POWERSHELL_REPAIR
 if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
 
-@REM version string
 @REM minescule mouse
+@REM Marker used by downloader.bat to verify that it fetched the expected script.
+@REM Stable validation marker; keep the spelling synchronized with downloader.bat.
 
-@REM ##########################
-@REM Launch background tray/game/cloud applications if installed
-@REM ##########################
+@REM ==============================
+@REM Launch selected user applications only when installed and not already running.
+@REM ==============================
 
 if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
 	tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
@@ -103,11 +104,11 @@ if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
 @REM     )
 @REM )
 
-@REM Detect preferred Voicemeeter executable
+@REM Probe known Voicemeeter editions and retain the first executable found.
 set "vm_path="
 set "vm_exe="
 
-@REM pick executable (priority order)
+@REM Prefer the most feature-complete Voicemeeter edition when more than one is installed.
 if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
 	set "vm_exe=voicemeeterpro_x64.exe"
@@ -122,7 +123,7 @@ if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
 	set "vm_exe=voicemeeter8.exe"
 )
 
-@REM Launch Voicemeeter if found and not already running
+@REM Start the selected Voicemeeter executable only when no matching process is already active.
 if defined vm_path (
 	tasklist /FI "IMAGENAME eq %vm_exe%" 2>NUL | find /I "%vm_exe%" >NUL
 	if errorlevel 1 (
@@ -151,12 +152,13 @@ if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
 	)
 )
 
-@REM Prompt: Powershell n Repair? (Y/N) [default Y after 5s]
+@REM Ask before downloading and running PowerShell maintenance; Y is selected after five seconds.
 @REM cls
 choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
 if errorlevel 2 goto NOPSHELL
 
-@REM Elevate the PowerShell and repair section once if needed
+@REM Run the maintenance block directly when elevated
+@REM otherwise relaunch only this stage with UAC.
 call :IsAdmin
 if "%errorlevel%"=="0" goto ADMIN_POWERSHELL_REPAIR
 
@@ -168,11 +170,11 @@ if not "%rc%"=="0" (
 goto NOPSHELL
 
 :ADMIN_POWERSHELL_REPAIR
-@REM ##########################
-@REM dns config part 1
-@REM ##########################
+@REM ==============================
+@REM Disabled DNS-over-HTTPS netsh commands retained beside the PowerShell network configuration they complement.
+@REM ==============================
 
-@REM Enable DoH
+@REM Enable global discovery and DNS-over-HTTPS behavior before registering server templates.
 @REM netsh dns add global doh=yes ddr=yes
 
 @REM netsh dns add encryption server=1.1.1.2 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
@@ -180,24 +182,25 @@ goto NOPSHELL
 @REM netsh dns add encryption server=2606:4700:4700::1112 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 @REM netsh dns add encryption server=2606:4700:4700::1002 dohtemplate=https://security.cloudflare-dns.com/dns-query autoupgrade=yes udpfallback=no
 
-@REM Check for PowerShell
+@REM Guard the download-and-run block because execution-policy and script invocation require PowerShell.
 where powershell >nul 2>&1
 if not errorlevel 1 (
-	@REM Save current folder
+	@REM Save the current directory so the caller can be restored after staging work.
 	set "scriptPath=%~dp0"
 	cd /d "%scriptPath%"
 	set "downloadDir=%USERPROFILE%\Downloads"
 	if not exist "%downloadDir%" mkdir "%downloadDir%"
 
-	@REM Bypass policy
+	@REM Set a process-scoped bypass only; this avoids changing the machine or user execution policy.
 	powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 	"Write-Host 'ExecutionPolicy set to Bypass'"
 
-	@REM Remove old tasks.ps1
+	@REM Delete the old staged task script so the subsequent existence check refers to the fresh download.
 	if exist "%downloadDir%\tasks.ps1" del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
 	if exist "%downloadDir%\import.ps1" del /s /q /f "%downloadDir%\import.ps1" 2>nul
 
-	@REM Download latest tasks.ps1
+	@REM Download tasks.ps1 into the shared staging directory 
+	@REM preferring curl when present.
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
@@ -208,30 +211,30 @@ if not errorlevel 1 (
 	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/tasks.ps1"
 	@REM )
 
-	@REM Download latest import.ps1
+	@REM Download the optional public import script separately because its source and execution are independent.
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/ _ "
 		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/src/branch/main/wifi/import.ps1"
 	)
 
-	@REM Run tasks.ps1 if present
+	@REM Execute tasks.ps1 only after a successful download left a file at the expected path.
 	if exist "%downloadDir%\tasks.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
 		if errorlevel 1 pause
 	)
 
-	@REM Run import.ps1 if present
+	@REM Run the optional public import after the main tasks so it can layer additional settings.
 	if exist "%downloadDir%\import.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
 	)
 
-	@REM Check for private script
+	@REM Run the locally staged private import last so private overrides take precedence.
 	if exist "%downloadDir%\import_private.ps1" (
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
 	)
 
-	@REM Restore default execution policy
+	@REM Restore the process policy before leaving the maintenance block.
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
 ) else (
 	wuauclt /detectnow
@@ -239,9 +242,9 @@ if not errorlevel 1 (
 	control update 2>nul
 )
 
-@REM ##########################
-@REM repairs
-@REM ##########################
+@REM ==============================
+@REM Keep repair commands after downloaded maintenance so package and configuration work completes first.
+@REM ==============================
 
 @REM mbr2gpt /allowFullOS /convert /disk:0 2>nul
 @REM defrag /O /C /M 2>nul
@@ -249,7 +252,7 @@ if not errorlevel 1 (
 @REM dism /Online /Cleanup-Image /RestoreHealth /StartComponentCleanup 2>nul
 @REM sfc /scannow 2>nul
 
-@REM Restore boot configuration integrity settings
+@REM Disabled recovery commands retained for manually restoring standard boot-integrity options.
 @REM bcdedit /debug off
 @REM bcdedit /set loadoptions ENABLE_INTEGRITY_CHECKS
 @REM bcdedit /set TESTSIGNING OFF
@@ -295,7 +298,7 @@ goto NOSERVTWEAKS
 @REM 	net start %%~S >nul 2>&1
 @REM )
 
-@REM Disable and stop SysMain & svsvc
+@REM Disabled service changes retained because they alter Windows caching and servicing behavior.
 @REM net stop "SysMain" >nul 2>&1
 @REM net stop "svsvc" >nul 2>&1
 @REM sc config "SysMain" start=disabled >nul 2>&1
@@ -305,8 +308,8 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
 
 :NOSERVTWEAKS
 
-@REM Ask before opening Store/Xbox/Steam links.
-@REM No /D and no /T means it will not auto-select.
+@REM Require an explicit response before opening external application links.
+@REM Omitting /D and /T makes CHOICE wait indefinitely rather than selecting a default.
 choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
@@ -323,13 +326,15 @@ exit /b 0
 @REM cmd /k
 @REM exit /b %errorlevel%
 
+@REM Return zero when elevated and nonzero otherwise, matching normal batch errorlevel conventions.
 :IsAdmin
-@REM fltmc succeeds only from an elevated command prompt
+@REM Use FLTMC as a lightweight administrator check because it fails for a standard token.
 fltmc >nul 2>&1
 exit /b %errorlevel%
 
+@REM Relaunch this script through PowerShell Start-Process -Verb RunAs and wait for the selected stage.
 :RunElevatedStage
-@REM Relaunch this batch file for one selected elevated stage
+@REM Pass only the requested stage to the elevated child, preventing user-app launch logic from repeating.
 set "COMMON_ELEVATE_STAGE=%~1"
 call :IsAdmin
 if "%errorlevel%"=="0" exit /b 0

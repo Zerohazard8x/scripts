@@ -5,7 +5,7 @@ param(
 	[switch]$AdminPhase
 )
 
-# Reuse winget resolved from the initiating user before Administrator Protection elevation.
+# Reuse the initiating user's resolved winget executable because Administrator Protection elevation can change PATH and app-execution aliases.
 if ($WingetExe -and (Test-Path -LiteralPath $WingetExe)) {
 	Set-Alias -Name winget -Value $WingetExe -Scope Script
 }
@@ -37,6 +37,8 @@ if ($WingetExe -and (Test-Path -LiteralPath $WingetExe)) {
 # }
 
 # Set-LowestProcessPriority
+
+# Return whether the current Windows identity belongs to the built-in Administrators group.
 function Test-IsAdministrator {
 	$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
 	$currentPrincipal = [Security.Principal.WindowsPrincipal] $currentIdentity
@@ -44,6 +46,7 @@ function Test-IsAdministrator {
 	return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
+# Relaunch this script once with UAC, forwarding the resolved winget path and original arguments.
 function Start-ElevatedSelf {
 	if ([string]::IsNullOrWhiteSpace($PSCommandPath)) {
 		throw 'Cannot relaunch the current script because PSCommandPath is empty.'
@@ -67,6 +70,7 @@ function Start-ElevatedSelf {
 	exit 0
 }
 
+# Invoke an optional external command without terminating the remaining maintenance work on absence or failure.
 function Safe-Invoke {
 	param(
 		[Parameter(Mandatory)] [string] $Command,
@@ -85,13 +89,14 @@ function Safe-Invoke {
 	}
 }
 
+# Read Y interactively until the deadline and choose No for timeout or a noninteractive host.
 function Prompt-YesNoDefaultN {
 	param(
 		[string]$Message = "App uninstallations? (Y/N)",
 		[int]$TimeoutSeconds = 5
 	)
 
-	# If there is no interactive console, just default to No.
+	# Return the safe default immediately when RawUI is unavailable, such as under a scheduled task.
 	if (-not $Host.UI -or -not $Host.UI.RawUI) {
 		return $false
 	}
@@ -113,6 +118,7 @@ function Prompt-YesNoDefaultN {
 	return $false   # default N
 }
 
+# Extract the executable token from a service command line after expanding environment variables.
 function Get-ExePathFromServicePath {
 	param([string]$PathName)
 
@@ -131,6 +137,7 @@ function Get-ExePathFromServicePath {
 	return $expanded
 }
 
+# Classify a service executable by a case-insensitive prefix comparison with the Windows directory.
 function Test-IsUnderWindowsDirectory {
 	param([string]$ExePath)
 
@@ -142,6 +149,7 @@ function Test-IsUnderWindowsDirectory {
 	return $full.StartsWith($winDir, [System.StringComparison]::OrdinalIgnoreCase)
 }
 
+# Query sc.exe because Win32_Service.StartMode does not distinguish delayed automatic startup.
 function Get-ScStartType {
 	param([string]$ServiceName)
 
@@ -160,6 +168,7 @@ function Get-ScStartType {
 	return 'Unknown'
 }
 
+# Route destructive actions through the script cmdlet ShouldProcess contract when available.
 function Invoke-ShouldProcess {
 	param(
 		[string]$Target,
@@ -173,6 +182,7 @@ function Invoke-ShouldProcess {
 	return $true
 }
 
+# Read Exec action command nodes with the Task Scheduler XML namespace explicitly registered.
 function Get-TaskExecCommandsFromXml {
 	param(
 		[xml]$Xml
@@ -190,6 +200,7 @@ function Get-TaskExecCommandsFromXml {
 	Where-Object { $_ }
 }
 
+# Expand and resolve a scheduled-task command so path and signature checks inspect the actual executable.
 function Resolve-TaskCommandPath {
 	param(
 		[string]$Command
@@ -213,6 +224,7 @@ function Resolve-TaskCommandPath {
 	return $expanded
 }
 
+# Accept only an existing file with a valid Authenticode signature issued under recognized Microsoft subjects.
 function Test-MicrosoftSignedFile {
 	param(
 		[string]$Path
@@ -231,6 +243,7 @@ function Test-MicrosoftSignedFile {
 	$sig.SignerCertificate.Subject -match 'CN=Microsoft (Windows|Corporation|Code Signing PCA|Publisher)'
 }
 
+# Resolve a path defensively and test whether it is contained beneath the Windows directory.
 function Test-UnderWindows {
 	param(
 		[string]$Path
@@ -260,6 +273,7 @@ function Test-UnderWindows {
 	}
 }
 
+# Convert blank-line-delimited pnputil text into normalized objects using caller-supplied field mappings.
 function Parse-PnpUtilBlocks {
 	param(
 		[string[]]$Lines,
@@ -293,7 +307,7 @@ function Parse-PnpUtilBlocks {
 		}
 	}
 
-	# pnputil output does not always end with a blank line
+	# Flush the final record explicitly because pnputil does not always terminate its output with a blank separator.
 	if ($current[$RequiredKey]) {
 		$items += [pscustomobject]$current
 	}
@@ -301,8 +315,9 @@ function Parse-PnpUtilBlocks {
 	$items
 }
 
+# Install a Store product through winget first, then fall back to direct package discovery and Appx installation.
 function Get-StoreAppPackages {
-	# Derived from https://christitus.com/installing-appx-without-msstore/ by LLM
+	# Fallback Store-package retrieval adapted from https://christitus.com/installing-appx-without-msstore/ by LLM; winget remains the preferred path.
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory)][string] $ProductId,
@@ -310,7 +325,7 @@ function Get-StoreAppPackages {
 		[string] $Lang = 'en-US'
 	)
 
-	# Check if installed
+	# Avoid a duplicate installation by checking both package name and package-family name first.
 	try {
 		$existing = Get-AppxPackage | Where-Object {
 			($_.Name -like "*$ProductId*") -or
@@ -327,7 +342,7 @@ function Get-StoreAppPackages {
 		return "Already installed: $ProductId"
 	}
 
-	# 1. Try winget first
+	# Try winget first because it handles Store acquisition, dependencies, and package registration.
 	Write-Verbose "Attempting winget install for $ProductId"
 	if (Get-Command winget -ErrorAction SilentlyContinue) {
 		try {
@@ -347,7 +362,7 @@ function Get-StoreAppPackages {
 		Write-Verbose "winget not available; skipping to API download."
 	}
 
-	# 2. Determine preferred architecture
+	# Prefer the native OS architecture and retain the other architecture only as a compatibility fallback.
 	$is64 = [Environment]::Is64BitOperatingSystem
 	if ($is64) {
 		$preferredArch = 'x64'; $fallbackArch = 'x86'
@@ -357,7 +372,7 @@ function Get-StoreAppPackages {
 	}
 	Write-Verbose "OS is $([Environment]::OSVersion); preferring $preferredArch"
 
-	# 3. Set up download directory
+	# Create an isolated temporary directory so downloaded Appx artifacts can be removed as one unit.
 	$apiUrl = 'https://store.rg-adguard.net/api/GetFiles'
 	$productUrl = "https://www.microsoft.com/store/productId/$ProductId"
 	$downloadDir = Join-Path $env:TEMP "StoreDownloads\$ProductId"
@@ -365,7 +380,7 @@ function Get-StoreAppPackages {
 		New-Item -Path $downloadDir -ItemType Directory -Force | Out-Null
 	}
 
-	# 4. Query RG-AdGuard API
+	# Query the package-link service only after winget fails, posting the Store product identifier and release ring.
 	$body = @{ type = 'url'; url = $productUrl; ring = $Ring; lang = $Lang }
 	try {
 		$response = Invoke-RestMethod -Method Post -Uri $apiUrl `
@@ -377,11 +392,11 @@ function Get-StoreAppPackages {
 		return
 	}
 
-	# 5. Parse all candidate URLs
+	# Extract direct package URLs from the returned HTML before applying architecture and package-type filters.
 	$pattern = '<tr style.*?<a href="(?<url>[^"]+)"[^>]*>(?<name>[^<]+)</a>'
 	$matches = [regex]::Matches($response, $pattern)
 
-	# 6. Filter into buckets
+	# Separate bundles, architecture-specific packages, and dependencies so selection order is deterministic.
 	$byArch = @{ Preferred = @(); Neutral = @(); Fallback = @() }
 	foreach ($m in $matches) {
 		$url = $m.Groups['url'].Value
@@ -395,7 +410,7 @@ function Get-StoreAppPackages {
 		}
 	}
 
-	# 7. Choose the first available in preference order
+	# Prefer a bundle, then the native architecture, then the fallback architecture.
 	$chosen = $byArch.Preferred + $byArch.Neutral + $byArch.Fallback
 	if (-not $chosen) {
 		Write-Warning "No suitable package found for $ProductId"
@@ -404,7 +419,7 @@ function Get-StoreAppPackages {
 	$pkgInfo = $chosen[0]
 	$outFile = Join-Path $downloadDir $pkgInfo.Name
 
-	# 8. Download chosen package if not already present
+	# Reuse an existing artifact by filename; otherwise download exactly the selected package URL.
 	if (-not (Test-Path $outFile)) {
 		try {
 			Write-Verbose "Downloading $($pkgInfo.Name)"
@@ -416,7 +431,7 @@ function Get-StoreAppPackages {
 		}
 	}
 
-	# 9. Install the .appx/.appxbundle
+	# Register the selected Appx artifact after download rather than executing it as a conventional installer.
 	try {
 		Write-Verbose "Installing $outFile"
 		Add-AppxPackage -Path $outFile -ForceApplicationShutdown -Confirm:$false
@@ -426,7 +441,7 @@ function Get-StoreAppPackages {
 		Write-Warning "Installation failed for $($pkgInfo.Name): $_"
 	}
 
-	# 10. Cleanup
+	# Remove the temporary package directory after installation to avoid retaining stale Store artifacts.
 	try {
 		Write-Verbose "Removing directory $downloadDir"
 		Remove-Item -Path $downloadDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -616,8 +631,8 @@ function Invoke-UserPhase {
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 }
 
-# Ensure the script runs with administrative privileges. 
-# If it was launched from a non-elevated scheduled task, ask Windows for elevation instead of failing.
+# Require elevation before certain changes.
+# Relaunch through UAC when needed so a non-elevated interactive or scheduled invocation can continue.
 if (-not $AdminPhase) {
 	Invoke-UserPhase
 	Start-ElevatedSelf -AdminPhase
@@ -634,17 +649,17 @@ if (-not (Test-IsAdministrator)) {
 	}
 }
 
-# --- Error handling defaults ---
+# Use nonterminating defaults globally, then apply local try/catch blocks where continuation behavior matters.
 $ErrorActionPreference = 'Continue'
 $ProgressPreference = 'SilentlyContinue'
 $PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
 
 Write-Host ""
 
-# set processes to lowest priority
+# Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
 $DO_SET_LOW_PRIORITY = Prompt-YesNoDefaultN -Message "Set processes to lowest priority? (Y/N)" -TimeoutSeconds 5
 if ($DO_SET_LOW_PRIORITY) {
-	# set processes to lowest priority
+	# Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
 	$processNames = @(
 		'MSIAfterburner',
 		'HWiNFO64',
@@ -701,7 +716,7 @@ if ($DO_SET_LOW_PRIORITY) {
 	}
 }
 
-# set non-stock services to manual start
+# Optionally set non-driver services outside the Windows directory to Manual and apply low resource priorities.
 $DO_SET_NONSTOCK_SERVICES = Prompt-YesNoDefaultN -Message "Set non-stock services to Manual startup? (Y/N)" -TimeoutSeconds 5
 
 if ($DO_SET_NONSTOCK_SERVICES) {
@@ -733,7 +748,7 @@ if ($DO_SET_NONSTOCK_SERVICES) {
 				Set-Service -Name $svc.Name -StartupType Manual
 			}
 
-			# priority
+			# Apply Image File Execution Options by executable name so future service processes inherit low CPU, I/O, and page priorities.
 			$exeName = [IO.Path]::GetFileName($svc.ExePath)
 			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 1 /f
 			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v IoPriority /t REG_DWORD /d 0 /f
@@ -745,7 +760,7 @@ else {
 	Write-Host "Skipping non-stock service startup changes."
 }
 
-# scheduled tasks: disable non-Microsoft Exec tasks
+# Optionally inspect non-Microsoft Exec tasks and disable only those without Windows paths or valid Microsoft signatures.
 $DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 5
 if ($DO_SCHEDULED_TASKS) {
 	$ScheduledTaskMode = 'Disable' # Report | Disable # | Unregister
@@ -842,7 +857,7 @@ if ($DO_SCHEDULED_TASKS) {
 	}
 }
 
-# remove disconnected devices as in device manager
+# Optionally remove disconnected devices, then uninstall associated driver packages unless the provider is exactly Microsoft.
 $DO_REMOVE_DRIVERS = Prompt-YesNoDefaultN -Message "Remove disconnected devices and non-Microsoft drivers? (Y/N)" -TimeoutSeconds 5
 
 if ($DO_REMOVE_DRIVERS) {
@@ -879,7 +894,7 @@ if ($DO_REMOVE_DRIVERS) {
 
 			$driver = $driverByInf[$device.DriverName]
 
-			# Only exact "Microsoft" is treated as protected
+			# Protect only the canonical Microsoft provider string; other providers remain eligible for package deletion.
 			if ($driver -and $driver.ProviderName -notmatch '^\s*Microsoft\s*$') {
 				Write-Host "Deleting driver package: $($device.DriverName)"
 				pnputil /delete-driver "$($device.DriverName)" /uninstall
@@ -895,14 +910,14 @@ else {
 }
 
 
-# configure dns
+# Optionally configure active adapters with Cloudflare malware-blocking DNS and register per-interface DoH flags.
 $DO_CONFIGURE_DNS = Prompt-YesNoDefaultN `
 	-Message "Configure DNS? (Y/N)" `
 	-TimeoutSeconds 5
 
 if ($DO_CONFIGURE_DNS) {
 	try {
-		# Set DNS servers on all "Up" adapters
+		# Limit changes to active adapters, then assign the same IPv4 and IPv6 resolver set to each.
 		$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
 		$ipv4 = @("1.1.1.2", "1.0.0.2")
 		$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
@@ -942,7 +957,7 @@ else {
 # 	Write-Warning "Error: $_"
 # }
 
-# Windows Update
+# Run PSWindowsUpdate when available, installing the module first and retaining wuauclt as a legacy fallback.
 try {
 	if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
 		Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
@@ -963,8 +978,8 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 			Get-WindowsUpdate -Install  -AcceptAll -IgnoreReboot -Confirm:$false
 		}
 		else {
-			# PSWindowsUpdate module is still not available
-			# use the wuauclt command as a fallback
+			# Use the legacy Windows Update client only when the module remains unavailable after installation.
+			# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
 			wuauclt /detectnow
 			wuauclt /updatenow
 		}
@@ -981,5 +996,6 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 # 	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
 # }
 
-# exit
-Read-Host "Press Enter to continue"
+exit
+# so final prompt remains reachable during interactive runs.
+# Read-Host "Press Enter to continue"
