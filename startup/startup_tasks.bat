@@ -156,6 +156,9 @@ if errorlevel 1 (
     choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
     choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
     choco upgrade all -y||pause
+
+    @REM to update choco version without installing
+    @REM choco upgrade <program> --skip-powershell
 )
 
 @REM where wsl >nul 2>&1 && (
