@@ -38,7 +38,7 @@ if exist "import_private.ps1" (
     copy .\import_private.ps1 "%downloadDir%\import_private.ps1"
 )
 
-@REM Fetch common.bat first because startup_tasks.bat calls it later; :Download selects the first available downloader.
+@REM Fetch common.bat first because startup_tasks_lite.bat calls it later; :Download selects the first available downloader.
 call :Download common.bat
 
 @REM Require both marker strings before continuing, which rejects missing, empty, or unrelated downloads.
@@ -46,10 +46,10 @@ if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
         @REM Fetch the next script only after common.bat passes validation.
-        call :Download startup_tasks.bat
+        call :Download startup_tasks_lite.bat
         
         @REM Validate the second staged script before CALL transfers control while retaining this batch context.
-        findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks.bat" >nul 2>&1
+        findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks_lite.bat" >nul 2>&1
         if not errorlevel 1 (
             call "%downloadDir%\startup_tasks_lite.bat"
             set "rc=%errorlevel%"

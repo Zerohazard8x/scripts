@@ -153,8 +153,12 @@ if errorlevel 1 (
     echo Chocolatey was not found in the elevated process PATH.
     pause
 ) else (
-    choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
-    choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
+    choice /C YN /N /D Y /T 5 /M "Upgrade primary Chocolatey packages? (Y/N)"
+    if not errorlevel 2 (
+        choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
+        choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
+    )
+    
     choco upgrade all -y||pause
 
     @REM to update choco version without installing
