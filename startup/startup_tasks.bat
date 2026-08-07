@@ -9,6 +9,7 @@
 @REM )
 
 setlocal EnableExtensions EnableDelayedExpansion
+call :Status "startup task setup"
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
 set "USER_PATH=%PATH%"
 
@@ -53,6 +54,7 @@ goto NOPYTHON
 
 @REM Elevated Python stage begins here; direct GOTO avoids replaying the initial prompt.
 :ADMIN_PYTHON_TASKS
+call :Status "Python maintenance"
 if not defined PYEXE for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 if not exist "%PYEXE%" (
     @REM If Chocolatey exists, upgrade Python via choco
@@ -125,6 +127,7 @@ if not "%rc%"=="0" (
 endlocal & exit /b %rc%
 
 :NOPYTHON
+call :Status "program installation prompt"
 
 @REM @REM Clear screen
 @REM cls
@@ -147,6 +150,7 @@ goto NOPROGRAMS
 
 @REM Elevated program-upgrade stage begins here; package managers generally require administrator rights.
 :ADMIN_PROGRAM_TASKS
+call :Status "program upgrades"
 @REM Upgrade Chocolatey itself before upgrading its installed packages.
 where choco >nul 2>&1
 if errorlevel 1 (
@@ -173,6 +177,7 @@ if errorlevel 1 (
 if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b 0
 
 :NOPROGRAMS
+call :Status "common startup tasks"
 
 @REM Call common.bat in the current console so execution waits and its exit status can be propagated.
 if exist "%~dp0common.bat" (
@@ -223,6 +228,7 @@ exit /b %errorlevel%
 
 @REM Upgrade an interpreter from its current package inventory while preserving dependency compatibility.
 :UpgradeFrozenRequirements
+call :Status "Python dependency upgrades"
 set "SCRIPT_PYTHON_EXE=%~1"
 set "SCRIPT_ID=%RANDOM%-%RANDOM%"
 set "SCRIPT_PACKAGES_JSON=%TEMP%\packages-%SCRIPT_ID%.json"
@@ -271,3 +277,9 @@ del /q /f "%SCRIPT_REPORT_FILE%" 2>nul
 "%SCRIPT_PYTHON_EXE%" -m pip cache purge
 
 exit /b %SCRIPT_UPGRADE_RC%
+
+:Status
+title Now running: %~1
+echo.
+echo === Now running: %~1 ===
+exit /b 0
