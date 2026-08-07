@@ -5,6 +5,16 @@ param(
 	[switch]$AdminPhase
 )
 
+$VerbosePreference = 'Continue'
+$ProgressPreference = 'Continue'
+
+function Write-Section([string]$Name) {
+	$Host.UI.RawUI.WindowTitle = "Now running: $Name"
+	Write-Host "`n=== Now running: $Name ==="
+}
+
+Write-Section "PowerShell setup"
+
 # Reuse the initiating user's resolved winget executable because Administrator Protection elevation can change PATH and app-execution aliases.
 if ($WingetExe -and (Test-Path -LiteralPath $WingetExe)) {
 	Set-Alias -Name winget -Value $WingetExe -Scope Script
@@ -78,6 +88,7 @@ function Safe-Invoke {
 	)
 	if (Get-Command $Command -ErrorAction SilentlyContinue) {
 		try {
+			Write-Host "Running: $Command $($Args -join ' ')"
 			& $Command @Args
 		}
 		catch {
@@ -455,10 +466,12 @@ function Get-StoreAppPackages {
 }
 
 function Invoke-UserPhase {
+	Write-Section "app removal"
 	$DO_UNINSTALL = Prompt-YesNoDefaultN -TimeoutSeconds 5
 
 	try {
 		if ($DO_UNINSTALL) {
+			Write-Host "Checking installed apps and removing requested matches..."
 			$appsToRemove = @(
 				# 3D / legacy inbox apps
 				"3D Viewer", "Microsoft 3D Viewer",
@@ -570,8 +583,10 @@ function Invoke-UserPhase {
 	# 	Write-Warning "Chocolatey install failed (continuing): $_"
 	# }
 
+	Write-Section "app installation and upgrades"
 	$DO_INSTALL_MAYBEREQUIRED_APPS = Prompt-YesNoDefaultN -Message "Install apps which might break Windows if removed? (Y/N)" -TimeoutSeconds 5
 	if ($DO_INSTALL_MAYBEREQUIRED_APPS) {
+		Write-Host "Checking and installing optional Store apps..."
 		Get-StoreAppPackages -ProductId '9WZDNCRFJBMP' # Microsoft Store
 
 		# codecs
@@ -625,8 +640,12 @@ function Invoke-UserPhase {
 
 		Safe-Invoke -Command "winget" -Args @("install", "Microsoft.PowerShell", "--accept-source-agreements", "--accept-package-agreements")
 	}
+	else {
+		Write-Host "Skipping optional Store app installation."
+	}
 
 	# winget upgrade
+	Write-Host "Checking all winget packages for upgrades..."
 	Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 }
@@ -651,14 +670,16 @@ if (-not (Test-IsAdministrator)) {
 
 # Use nonterminating defaults globally, then apply local try/catch blocks where continuation behavior matters.
 $ErrorActionPreference = 'Continue'
-$ProgressPreference = 'SilentlyContinue'
+$ProgressPreference = 'Continue'
 $PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
 
 Write-Host ""
 
 # Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
+Write-Section "process priorities"
 $DO_SET_LOW_PRIORITY = Prompt-YesNoDefaultN -Message "Set processes to lowest priority? (Y/N)" -TimeoutSeconds 5
 if ($DO_SET_LOW_PRIORITY) {
+	Write-Host "Finding eligible processes and applying low priorities..."
 	# Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
 	$processNames = @(
 		'MSIAfterburner',
@@ -715,11 +736,16 @@ if ($DO_SET_LOW_PRIORITY) {
 		reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$name.exe\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 	}
 }
+else {
+	Write-Host "Skipping process priority changes."
+}
 
 # Optionally set non-driver services outside the Windows directory to Manual and apply low resource priorities.
+Write-Section "services"
 $DO_SET_NONSTOCK_SERVICES = Prompt-YesNoDefaultN -Message "Set non-stock services to Manual startup? (Y/N)" -TimeoutSeconds 5
 
 if ($DO_SET_NONSTOCK_SERVICES) {
+	Write-Host "Inspecting non-Windows services..."
 	$services = Get-CimInstance Win32_Service | ForEach-Object {
 		$exePath = Get-ExePathFromServicePath $_.PathName
 		$scType = Get-ScStartType $_.Name
@@ -755,14 +781,19 @@ if ($DO_SET_NONSTOCK_SERVICES) {
 			reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$exeName\PerfOptions" /v PagePriority /t REG_DWORD /d 1 /f
 		}
 	}
+	else {
+		Write-Host "No eligible non-Windows services found."
+	}
 }
 else {
 	Write-Host "Skipping non-stock service startup changes."
 }
 
 # Optionally inspect non-Microsoft Exec tasks and disable only those without Windows paths or valid Microsoft signatures.
+Write-Section "scheduled tasks"
 $DO_SCHEDULED_TASKS = Prompt-YesNoDefaultN -Message "Disable non-Microsoft scheduled tasks? (Y/N)" -TimeoutSeconds 5
 if ($DO_SCHEDULED_TASKS) {
+	Write-Host "Inspecting scheduled tasks and command signatures..."
 	$ScheduledTaskMode = 'Disable' # Report | Disable # | Unregister
 
 	$scheduledTasks = Get-ScheduledTask
@@ -856,11 +887,16 @@ if ($DO_SCHEDULED_TASKS) {
 		}
 	}
 }
+else {
+	Write-Host "Skipping scheduled task changes."
+}
 
 # Optionally remove disconnected devices, then uninstall associated driver packages unless the provider is exactly Microsoft.
+Write-Section "devices and drivers"
 $DO_REMOVE_DRIVERS = Prompt-YesNoDefaultN -Message "Remove disconnected devices and non-Microsoft drivers? (Y/N)" -TimeoutSeconds 5
 
 if ($DO_REMOVE_DRIVERS) {
+	Write-Host "Enumerating disconnected devices and driver packages..."
 	$devices = Parse-PnpUtilBlocks `
 		-Lines (pnputil /enum-devices /disconnected /drivers) `
 		-RequiredKey InstanceId `
@@ -911,14 +947,17 @@ else {
 
 
 # Optionally configure active adapters with Cloudflare malware-blocking DNS and register per-interface DoH flags.
+Write-Section "DNS"
 $DO_CONFIGURE_DNS = Prompt-YesNoDefaultN `
 	-Message "Configure DNS? (Y/N)" `
 	-TimeoutSeconds 5
 
 if ($DO_CONFIGURE_DNS) {
+	Write-Host "Configuring DNS and DNS-over-HTTPS on active adapters..."
 	try {
 		# Limit changes to active adapters, then assign the same IPv4 and IPv6 resolver set to each.
 		$ifaces = Get-NetAdapter | Where-Object Status -eq "Up"
+		if (-not $ifaces) { Write-Host "No active network adapters found." }
 		$ipv4 = @("1.1.1.2", "1.0.0.2")
 		$ipv6 = @("2606:4700:4700::1112", "2606:4700:4700::1002")
 
@@ -958,6 +997,8 @@ else {
 # }
 
 # Run PSWindowsUpdate when available, installing the module first and retaining wuauclt as a legacy fallback.
+Write-Section "Windows Update"
+Write-Host "Checking for Windows updates and the PSWindowsUpdate module..."
 try {
 	if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
 		Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
