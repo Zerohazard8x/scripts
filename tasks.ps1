@@ -627,8 +627,7 @@ function Invoke-UserPhase {
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 }
 
-if (-not ("MemoryLimitedLauncher" -as [type]))
-{
+if (-not ("MemoryLimitedLauncher" -as [type])) {
 	Add-Type -TypeDefinition @'
 using System;
 using System.Collections.Generic;
@@ -1114,8 +1113,7 @@ public static class MemoryLimitedLauncher
 }
 
 
-function Start-MemoryLimitedApp
-{
+function Start-MemoryLimitedApp {
 	[CmdletBinding()]
 	param
 	(
@@ -1142,13 +1140,11 @@ function Start-MemoryLimitedApp
 			Test-Path `
 				-LiteralPath $exePath `
 				-PathType Leaf
-    ))
-    {
+		)) {
 		throw "Executable not found: $exePath"
 	}
 
-    if ($MemoryLimitGiB -le 0)
-    {
+	if ($MemoryLimitGiB -le 0) {
 		throw "MemoryLimitGiB must be greater than zero."
 	}
 
@@ -1178,8 +1174,7 @@ function Start-MemoryLimitedApp
 			-Name $processName `
 			-ErrorAction SilentlyContinue |
 		Where-Object {
-            try
-            {
+			try {
 				$_.Path -and
 				(
 					[IO.Path]::GetFullPath(
@@ -1187,16 +1182,14 @@ function Start-MemoryLimitedApp
 					) -ieq $exePath
 				)
 			}
-            catch
-            {
+			catch {
 				$false
 			}
 		}
 	)
 
 
-    if ($alreadyRunning.Count -gt 0)
-    {
+	if ($alreadyRunning.Count -gt 0) {
 		Write-Host (
 			"Found {0} existing {1} process(es)." -f
 			$alreadyRunning.Count,
@@ -1212,10 +1205,8 @@ function Start-MemoryLimitedApp
 		$failed = @()
 
 
-        foreach ($process in $alreadyRunning)
-        {
-            try
-            {
+		foreach ($process in $alreadyRunning) {
+			try {
 				[MemoryLimitedLauncher]::Attach(
 					[uint32]$process.Id,
 					$jobName,
@@ -1229,8 +1220,7 @@ function Start-MemoryLimitedApp
 					$process.Id
 				)
 			}
-            catch
-            {
+			catch {
 				$failed +=
 				[pscustomobject]@{
 					Process = $process
@@ -1254,8 +1244,7 @@ function Start-MemoryLimitedApp
 				-Name $processName `
 				-ErrorAction SilentlyContinue |
 			Where-Object {
-                try
-                {
+				try {
 					$_.Path -and
 					(
 						[IO.Path]::GetFullPath(
@@ -1263,26 +1252,22 @@ function Start-MemoryLimitedApp
 						) -ieq $exePath
 					)
 				}
-                catch
-                {
+				catch {
 					$false
 				}
 			}
 		)
 
 
-        foreach ($process in $secondPass)
-        {
+		foreach ($process in $secondPass) {
 			if (
 				$attached.Id -contains
 				$process.Id
-            )
-            {
+			) {
 				continue
 			}
 
-            try
-            {
+			try {
 				[MemoryLimitedLauncher]::Attach(
 					[uint32]$process.Id,
 					$jobName,
@@ -1296,8 +1281,7 @@ function Start-MemoryLimitedApp
 					$process.Id
 				)
 			}
-            catch
-            {
+			catch {
 				Write-Warning (
 					"Could not attach newly found PID {0}: {1}" -f
 					$process.Id,
@@ -1315,8 +1299,7 @@ function Start-MemoryLimitedApp
 		)
 
 
-        if ($failed.Count -gt 0)
-        {
+		if ($failed.Count -gt 0) {
 			Write-Warning @"
 One or more existing processes could not be attached.
 "@
@@ -1344,36 +1327,34 @@ One or more existing processes could not be attached.
 	)
 
 
-    try
-    {
-	$processId =
-	[MemoryLimitedLauncher]::Start(
-		$exePath,
-		$jobName,
-		$memoryLimitBytes
-	)
-    }
-    catch
-    {
-        Write-Warning (
-            "CreateProcess launch failed; retrying through ShellExecute: {0}" -f
-            $_.Exception.GetBaseException().Message
-        )
+	try {
+		$processId =
+		[MemoryLimitedLauncher]::Start(
+			$exePath,
+			$jobName,
+			$memoryLimitBytes
+		)
+	}
+	catch {
+		Write-Warning (
+			"CreateProcess launch failed; retrying through ShellExecute: {0}" -f
+			$_.Exception.GetBaseException().Message
+		)
 
-        $process =
-            Start-Process `
-                -FilePath $exePath `
-                -Verb RunAs `
-                -PassThru
+		$process =
+		Start-Process `
+			-FilePath $exePath `
+			-Verb RunAs `
+			-PassThru
 
-        [MemoryLimitedLauncher]::Attach(
-            [uint32]$process.Id,
-            $jobName,
-            $memoryLimitBytes
-        )
+		[MemoryLimitedLauncher]::Attach(
+			[uint32]$process.Id,
+			$jobName,
+			$memoryLimitBytes
+		)
 
-        $processId = $process.Id
-    }
+		$processId = $process.Id
+	}
 
 
 	Write-Host ""
@@ -1428,27 +1409,19 @@ Write-Host ""
 # ==============================
 
 if (Test-Path "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe") {
-	if (-not (Get-Process -Name "MSIAfterburner" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe"
 }
 
 if (Test-Path "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE") {
-	if (-not (Get-Process -Name "HWiNFO64" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE"
-	}
+	Start-MemoryLimitedApp "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE"
 }
 
 if (Test-Path "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe") {
-	if (-not (Get-Process -Name "RTSS" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
 }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
-	if (-not (Get-Process -Name "steamwebhelper" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
 }
 
 # if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
@@ -1458,19 +1431,14 @@ if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
 # }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe") {
-	if (-not (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
-	}
-} elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
-	if (-not (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
 }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
-	if (-not (Get-Process -Name "RazerCortex" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe"
 }
 
 # if (Test-Path "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe") {
@@ -1480,9 +1448,7 @@ if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
 # }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe") {
-	if (-not (Get-Process -Name "Overwolf" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
-	}
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
 }
 
 # if (-not (Get-Process -Name "XboxPcAppFT" -ErrorAction SilentlyContinue)) {
@@ -1503,40 +1469,35 @@ $vm_exe = ""
 if (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe") {
 	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe"
 	$vm_exe = "voicemeeterpro_x64"
-} elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe") {
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe") {
 	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe"
 	$vm_exe = "voicemeeter8x64"
-} elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe") {
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe") {
 	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe"
 	$vm_exe = "voicemeeterpro"
-} elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe") {
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe") {
 	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe"
 	$vm_exe = "voicemeeter8"
 }
 
 # Start the selected Voicemeeter executable only when no matching process is already active.
 if ($vm_path) {
-	if (-not (Get-Process -Name $vm_exe -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp $vm_path
-	}
+	Start-MemoryLimitedApp $vm_path
 }
 
 if (Test-Path "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe") {
-	if (-not (Get-Process -Name "thunderbird" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe"
-	}
+	Start-MemoryLimitedApp "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe"
 }
 
 if (Test-Path "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe") {
-	if (-not (Get-Process -Name "OneDrive" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
-	}
+	Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
 }
 
 if (Test-Path "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe") {
-	if (-not (Get-Process -Name "MEGAsync" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
-	}
+	Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
 }
 Write-Host "Finished checking startup applications."
 
