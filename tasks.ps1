@@ -638,480 +638,462 @@ using System.Text;
 
 public static class MemoryLimitedLauncher
 {
-    private const uint JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200;
+	private const uint JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200;
+
+	private const int JobObjectExtendedLimitInformation = 9;
 
-    private const int JobObjectExtendedLimitInformation = 9;
-
-    private const uint CREATE_SUSPENDED = 0x00000004;
-
-    private const uint PROCESS_TERMINATE = 0x0001;
-    private const uint PROCESS_SET_QUOTA = 0x0100;
-    private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
-
-    /*
-        Keep handles open for the lifetime of this PowerShell process.
-    */
-    private static readonly Dictionary<string, IntPtr> Jobs =
-        new Dictionary<string, IntPtr>(
-            StringComparer.OrdinalIgnoreCase
-        );
-
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct JOBOBJECT_BASIC_LIMIT_INFORMATION
-    {
-        public long PerProcessUserTimeLimit;
-        public long PerJobUserTimeLimit;
-
-        public uint LimitFlags;
-
-        public UIntPtr MinimumWorkingSetSize;
-        public UIntPtr MaximumWorkingSetSize;
-
-        public uint ActiveProcessLimit;
-
-        public UIntPtr Affinity;
-
-        public uint PriorityClass;
-        public uint SchedulingClass;
-    }
-
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct IO_COUNTERS
-    {
-        public ulong ReadOperationCount;
-        public ulong WriteOperationCount;
-        public ulong OtherOperationCount;
-
-        public ulong ReadTransferCount;
-        public ulong WriteTransferCount;
-        public ulong OtherTransferCount;
-    }
-
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION
-    {
-        public JOBOBJECT_BASIC_LIMIT_INFORMATION
-            BasicLimitInformation;
-
-        public IO_COUNTERS IoInfo;
-
-        public UIntPtr ProcessMemoryLimit;
-        public UIntPtr JobMemoryLimit;
-
-        public UIntPtr PeakProcessMemoryUsed;
-        public UIntPtr PeakJobMemoryUsed;
-    }
-
-
-    [StructLayout(
-        LayoutKind.Sequential,
-        CharSet = CharSet.Unicode
-    )]
-    private struct STARTUPINFO
-    {
-        public int cb;
-
-        public string lpReserved;
-        public string lpDesktop;
-        public string lpTitle;
-
-        public uint dwX;
-        public uint dwY;
-        public uint dwXSize;
-        public uint dwYSize;
-
-        public uint dwXCountChars;
-        public uint dwYCountChars;
-
-        public uint dwFillAttribute;
-        public uint dwFlags;
-
-        public short wShowWindow;
-        public short cbReserved2;
-
-        public IntPtr lpReserved2;
-
-        public IntPtr hStdInput;
-        public IntPtr hStdOutput;
-        public IntPtr hStdError;
-    }
-
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct PROCESS_INFORMATION
-    {
-        public IntPtr hProcess;
-        public IntPtr hThread;
-
-        public uint dwProcessId;
-        public uint dwThreadId;
-    }
-
-
-    [DllImport(
-        "kernel32.dll",
-        CharSet = CharSet.Unicode,
-        SetLastError = true
-    )]
-    private static extern IntPtr CreateJobObjectW(
-        IntPtr lpJobAttributes,
-        string lpName
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        SetLastError = true
-    )]
-    private static extern bool SetInformationJobObject(
-        IntPtr hJob,
-        int JobObjectInformationClass,
-        IntPtr lpJobObjectInformation,
-        uint cbJobObjectInformationLength
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        SetLastError = true
-    )]
-    private static extern bool AssignProcessToJobObject(
-        IntPtr hJob,
-        IntPtr hProcess
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        SetLastError = true
-    )]
-    private static extern IntPtr OpenProcess(
-        uint dwDesiredAccess,
-        bool bInheritHandle,
-        uint dwProcessId
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        CharSet = CharSet.Unicode,
-        SetLastError = true
-    )]
-    private static extern bool CreateProcessW(
-        string lpApplicationName,
-        StringBuilder lpCommandLine,
-        IntPtr lpProcessAttributes,
-        IntPtr lpThreadAttributes,
-        bool bInheritHandles,
-        uint dwCreationFlags,
-        IntPtr lpEnvironment,
-        string lpCurrentDirectory,
-        ref STARTUPINFO lpStartupInfo,
-        out PROCESS_INFORMATION lpProcessInformation
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        SetLastError = true
-    )]
-    private static extern uint ResumeThread(
-        IntPtr hThread
-    );
-
-
-    [DllImport(
-        "kernel32.dll",
-        SetLastError = true
-    )]
-    private static extern bool TerminateProcess(
-        IntPtr hProcess,
-        uint uExitCode
-    );
-
-
-    [DllImport("kernel32.dll")]
-    private static extern bool CloseHandle(
-        IntPtr hObject
-    );
-
-
-    private static IntPtr GetOrCreateJob(
-        string jobName,
-        ulong memoryLimitBytes
-    )
-    {
-        lock (Jobs)
-        {
-            IntPtr existing;
-
-            if (Jobs.TryGetValue(
-                jobName,
-                out existing
-            ))
-            {
-                ConfigureJob(
-                    existing,
-                    memoryLimitBytes
-                );
-
-                return existing;
-            }
-
-            /*
-                CreateJobObject also opens an existing named
-                Job Object if one with the same name already exists.
-            */
-            IntPtr job = CreateJobObjectW(
-                IntPtr.Zero,
-                jobName
-            );
-
-            if (job == IntPtr.Zero)
-            {
-                throw new Win32Exception(
-                    Marshal.GetLastWin32Error(),
-                    "CreateJobObject failed."
-                );
-            }
-
-            try
-            {
-                ConfigureJob(
-                    job,
-                    memoryLimitBytes
-                );
-
-                Jobs[jobName] = job;
-
-                return job;
-            }
-            catch
-            {
-                CloseHandle(job);
-                throw;
-            }
-        }
-    }
-
-
-    private static void ConfigureJob(
-        IntPtr job,
-        ulong memoryLimitBytes
-    )
-    {
-        JOBOBJECT_EXTENDED_LIMIT_INFORMATION info =
-            new JOBOBJECT_EXTENDED_LIMIT_INFORMATION();
-
-        info.BasicLimitInformation.LimitFlags =
-            JOB_OBJECT_LIMIT_JOB_MEMORY;
-
-        info.JobMemoryLimit =
-            new UIntPtr(memoryLimitBytes);
-
-        int size =
-            Marshal.SizeOf(
-                typeof(
-                    JOBOBJECT_EXTENDED_LIMIT_INFORMATION
-                )
-            );
-
-        IntPtr ptr =
-            Marshal.AllocHGlobal(size);
-
-        try
-        {
-            Marshal.StructureToPtr(
-                info,
-                ptr,
-                false
-            );
-
-            if (!SetInformationJobObject(
-                job,
-                JobObjectExtendedLimitInformation,
-                ptr,
-                (uint)size
-            ))
-            {
-                throw new Win32Exception(
-                    Marshal.GetLastWin32Error(),
-                    "SetInformationJobObject failed."
-                );
-            }
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(ptr);
-        }
-    }
-
-
-    public static uint Start(
-        string exePath,
-        string jobName,
-        ulong memoryLimitBytes
-    )
-    {
-        IntPtr job =
-            GetOrCreateJob(
-                jobName,
-                memoryLimitBytes
-            );
-
-        STARTUPINFO startup =
-            new STARTUPINFO();
-
-        startup.cb =
-            Marshal.SizeOf(
-                typeof(STARTUPINFO)
-            );
-
-        PROCESS_INFORMATION processInfo;
-
-        StringBuilder commandLine =
-            new StringBuilder(
-                "\"" + exePath + "\""
-            );
-
-        bool created =
-            CreateProcessW(
-                exePath,
-                commandLine,
-                IntPtr.Zero,
-                IntPtr.Zero,
-                false,
-                CREATE_SUSPENDED,
-                IntPtr.Zero,
-                Path.GetDirectoryName(exePath),
-                ref startup,
-                out processInfo
-            );
-
-        if (!created)
-        {
-            throw new Win32Exception(
-                Marshal.GetLastWin32Error(),
-                "CreateProcess failed."
-            );
-        }
-
-        try
-        {
-            if (!AssignProcessToJobObject(
-                job,
-                processInfo.hProcess
-            ))
-            {
-                int error =
-                    Marshal.GetLastWin32Error();
-
-                TerminateProcess(
-                    processInfo.hProcess,
-                    1
-                );
-
-                throw new Win32Exception(
-                    error,
-                    "AssignProcessToJobObject failed."
-                );
-            }
-
-            uint result =
-                ResumeThread(
-                    processInfo.hThread
-                );
-
-            if (result == 0xFFFFFFFF)
-            {
-                int error =
-                    Marshal.GetLastWin32Error();
-
-                TerminateProcess(
-                    processInfo.hProcess,
-                    1
-                );
-
-                throw new Win32Exception(
-                    error,
-                    "ResumeThread failed."
-                );
-            }
-
-            return processInfo.dwProcessId;
-        }
-        finally
-        {
-            CloseHandle(
-                processInfo.hThread
-            );
-
-            CloseHandle(
-                processInfo.hProcess
-            );
-        }
-    }
-
-
-    public static void Attach(
-        uint processId,
-        string jobName,
-        ulong memoryLimitBytes
-    )
-    {
-        IntPtr job =
-            GetOrCreateJob(
-                jobName,
-                memoryLimitBytes
-            );
-
-        uint access =
-            PROCESS_SET_QUOTA |
-            PROCESS_TERMINATE |
-            PROCESS_QUERY_LIMITED_INFORMATION;
-
-        IntPtr process =
-            OpenProcess(
-                access,
-                false,
-                processId
-            );
-
-        if (process == IntPtr.Zero)
-        {
-            throw new Win32Exception(
-                Marshal.GetLastWin32Error(),
-                "OpenProcess failed for PID " +
-                processId + "."
-            );
-        }
-
-        try
-        {
-            if (!AssignProcessToJobObject(
-                job,
-                process
-            ))
-            {
-                throw new Win32Exception(
-                    Marshal.GetLastWin32Error(),
-                    "AssignProcessToJobObject failed for PID " +
-                    processId + "."
-                );
-            }
-        }
-        finally
-        {
-            CloseHandle(process);
-        }
-    }
+	private const uint CREATE_SUSPENDED = 0x00000004;
+
+	private const uint PROCESS_TERMINATE = 0x0001;
+	private const uint PROCESS_SET_QUOTA = 0x0100;
+	private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+
+	/*
+		Keep handles open for the lifetime of this PowerShell process.
+	*/
+	private static readonly Dictionary<string, IntPtr> Jobs =
+		new Dictionary<string, IntPtr>(
+			StringComparer.OrdinalIgnoreCase
+		);
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct JOBOBJECT_BASIC_LIMIT_INFORMATION
+	{
+		public long PerProcessUserTimeLimit;
+		public long PerJobUserTimeLimit;
+
+		public uint LimitFlags;
+
+		public UIntPtr MinimumWorkingSetSize;
+		public UIntPtr MaximumWorkingSetSize;
+
+		public uint ActiveProcessLimit;
+
+		public UIntPtr Affinity;
+
+		public uint PriorityClass;
+		public uint SchedulingClass;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct IO_COUNTERS
+	{
+		public ulong ReadOperationCount;
+		public ulong WriteOperationCount;
+		public ulong OtherOperationCount;
+
+		public ulong ReadTransferCount;
+		public ulong WriteTransferCount;
+		public ulong OtherTransferCount;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+	{
+		public JOBOBJECT_BASIC_LIMIT_INFORMATION
+			BasicLimitInformation;
+
+		public IO_COUNTERS IoInfo;
+
+		public UIntPtr ProcessMemoryLimit;
+		public UIntPtr JobMemoryLimit;
+
+		public UIntPtr PeakProcessMemoryUsed;
+		public UIntPtr PeakJobMemoryUsed;
+	}
+
+	[StructLayout(
+		LayoutKind.Sequential,
+		CharSet = CharSet.Unicode
+	)]
+	private struct STARTUPINFO
+	{
+		public int cb;
+
+		public string lpReserved;
+		public string lpDesktop;
+		public string lpTitle;
+
+		public uint dwX;
+		public uint dwY;
+		public uint dwXSize;
+		public uint dwYSize;
+
+		public uint dwXCountChars;
+		public uint dwYCountChars;
+
+		public uint dwFillAttribute;
+		public uint dwFlags;
+
+		public short wShowWindow;
+		public short cbReserved2;
+
+		public IntPtr lpReserved2;
+
+		public IntPtr hStdInput;
+		public IntPtr hStdOutput;
+		public IntPtr hStdError;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct PROCESS_INFORMATION
+	{
+		public IntPtr hProcess;
+		public IntPtr hThread;
+
+		public uint dwProcessId;
+		public uint dwThreadId;
+	}
+
+	[DllImport(
+		"kernel32.dll",
+		CharSet = CharSet.Unicode,
+		SetLastError = true
+	)]
+	private static extern IntPtr CreateJobObjectW(
+		IntPtr lpJobAttributes,
+		string lpName
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		SetLastError = true
+	)]
+	private static extern bool SetInformationJobObject(
+		IntPtr hJob,
+		int JobObjectInformationClass,
+		IntPtr lpJobObjectInformation,
+		uint cbJobObjectInformationLength
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		SetLastError = true
+	)]
+	private static extern bool AssignProcessToJobObject(
+		IntPtr hJob,
+		IntPtr hProcess
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		SetLastError = true
+	)]
+	private static extern IntPtr OpenProcess(
+		uint dwDesiredAccess,
+		bool bInheritHandle,
+		uint dwProcessId
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		CharSet = CharSet.Unicode,
+		SetLastError = true
+	)]
+	private static extern bool CreateProcessW(
+		string lpApplicationName,
+		StringBuilder lpCommandLine,
+		IntPtr lpProcessAttributes,
+		IntPtr lpThreadAttributes,
+		bool bInheritHandles,
+		uint dwCreationFlags,
+		IntPtr lpEnvironment,
+		string lpCurrentDirectory,
+		ref STARTUPINFO lpStartupInfo,
+		out PROCESS_INFORMATION lpProcessInformation
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		SetLastError = true
+	)]
+	private static extern uint ResumeThread(
+		IntPtr hThread
+	);
+
+	[DllImport(
+		"kernel32.dll",
+		SetLastError = true
+	)]
+	private static extern bool TerminateProcess(
+		IntPtr hProcess,
+		uint uExitCode
+	);
+
+	[DllImport("kernel32.dll")]
+	private static extern bool CloseHandle(
+		IntPtr hObject
+	);
+
+	private static IntPtr GetOrCreateJob(
+		string jobName,
+		ulong memoryLimitBytes
+	)
+	{
+		lock (Jobs)
+		{
+			IntPtr existing;
+
+			if (Jobs.TryGetValue(
+				jobName,
+				out existing
+			))
+			{
+				ConfigureJob(
+					existing,
+					memoryLimitBytes
+				);
+
+				return existing;
+			}
+
+			/*
+				CreateJobObject also opens an existing named
+				Job Object if one with the same name already exists.
+			*/
+			IntPtr job = CreateJobObjectW(
+				IntPtr.Zero,
+				jobName
+			);
+
+			if (job == IntPtr.Zero)
+			{
+				throw new Win32Exception(
+					Marshal.GetLastWin32Error(),
+					"CreateJobObject failed."
+				);
+			}
+
+			try
+			{
+				ConfigureJob(
+					job,
+					memoryLimitBytes
+				);
+
+				Jobs[jobName] = job;
+
+				return job;
+			}
+			catch
+			{
+				CloseHandle(job);
+				throw;
+			}
+		}
+	}
+
+	private static void ConfigureJob(
+		IntPtr job,
+		ulong memoryLimitBytes
+	)
+	{
+		JOBOBJECT_EXTENDED_LIMIT_INFORMATION info =
+			new JOBOBJECT_EXTENDED_LIMIT_INFORMATION();
+
+		info.BasicLimitInformation.LimitFlags =
+			JOB_OBJECT_LIMIT_JOB_MEMORY;
+
+		info.JobMemoryLimit =
+			new UIntPtr(memoryLimitBytes);
+
+		int size =
+			Marshal.SizeOf(
+				typeof(
+					JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+				)
+			);
+
+		IntPtr ptr =
+			Marshal.AllocHGlobal(size);
+
+		try
+		{
+			Marshal.StructureToPtr(
+				info,
+				ptr,
+				false
+			);
+
+			if (!SetInformationJobObject(
+				job,
+				JobObjectExtendedLimitInformation,
+				ptr,
+				(uint)size
+			))
+			{
+				throw new Win32Exception(
+					Marshal.GetLastWin32Error(),
+					"SetInformationJobObject failed."
+				);
+			}
+		}
+		finally
+		{
+			Marshal.FreeHGlobal(ptr);
+		}
+	}
+
+	public static uint Start(
+		string exePath,
+		string jobName,
+		ulong memoryLimitBytes
+	)
+	{
+		IntPtr job =
+			GetOrCreateJob(
+				jobName,
+				memoryLimitBytes
+			);
+
+		STARTUPINFO startup =
+			new STARTUPINFO();
+
+		startup.cb =
+			Marshal.SizeOf(
+				typeof(STARTUPINFO)
+			);
+
+		PROCESS_INFORMATION processInfo;
+
+		StringBuilder commandLine =
+			new StringBuilder(
+				"\"" + exePath + "\""
+			);
+
+		bool created =
+			CreateProcessW(
+				exePath,
+				commandLine,
+				IntPtr.Zero,
+				IntPtr.Zero,
+				false,
+				CREATE_SUSPENDED,
+				IntPtr.Zero,
+				Path.GetDirectoryName(exePath),
+				ref startup,
+				out processInfo
+			);
+
+		if (!created)
+		{
+			throw new Win32Exception(
+				Marshal.GetLastWin32Error(),
+				"CreateProcess failed."
+			);
+		}
+
+		try
+		{
+			if (!AssignProcessToJobObject(
+				job,
+				processInfo.hProcess
+			))
+			{
+				int error =
+					Marshal.GetLastWin32Error();
+
+				TerminateProcess(
+					processInfo.hProcess,
+					1
+				);
+
+				throw new Win32Exception(
+					error,
+					"AssignProcessToJobObject failed."
+				);
+			}
+
+			uint result =
+				ResumeThread(
+					processInfo.hThread
+				);
+
+			if (result == 0xFFFFFFFF)
+			{
+				int error =
+					Marshal.GetLastWin32Error();
+
+				TerminateProcess(
+					processInfo.hProcess,
+					1
+				);
+
+				throw new Win32Exception(
+					error,
+					"ResumeThread failed."
+				);
+			}
+
+			return processInfo.dwProcessId;
+		}
+		finally
+		{
+			CloseHandle(
+				processInfo.hThread
+			);
+
+			CloseHandle(
+				processInfo.hProcess
+			);
+		}
+	}
+
+	public static void Attach(
+		uint processId,
+		string jobName,
+		ulong memoryLimitBytes
+	)
+	{
+		IntPtr job =
+			GetOrCreateJob(
+				jobName,
+				memoryLimitBytes
+			);
+
+		uint access =
+			PROCESS_SET_QUOTA |
+			PROCESS_TERMINATE |
+			PROCESS_QUERY_LIMITED_INFORMATION;
+
+		IntPtr process =
+			OpenProcess(
+				access,
+				false,
+				processId
+			);
+
+		if (process == IntPtr.Zero)
+		{
+			throw new Win32Exception(
+				Marshal.GetLastWin32Error(),
+				"OpenProcess failed for PID " +
+				processId + "."
+			);
+		}
+
+		try
+		{
+			if (!AssignProcessToJobObject(
+				job,
+				process
+			))
+			{
+				throw new Win32Exception(
+					Marshal.GetLastWin32Error(),
+					"AssignProcessToJobObject failed for PID " +
+					processId + "."
+				);
+			}
+		}
+		finally
+		{
+			CloseHandle(process);
+		}
+	}
 }
 '@
 }
-
 
 function Start-MemoryLimitedApp {
 	[CmdletBinding()]
@@ -1148,18 +1130,15 @@ function Start-MemoryLimitedApp {
 		throw "MemoryLimitGiB must be greater than zero."
 	}
 
-
 	$memoryLimitBytes =
 	[uint64](
 		$MemoryLimitGiB * 1GB
 	)
 
-
 	$processName =
 	[IO.Path]::GetFileNameWithoutExtension(
 		$exePath
 	)
-
 
 	$normalizedJobPart =
 	$exePath `
@@ -1167,7 +1146,6 @@ function Start-MemoryLimitedApp {
 
 	$jobName =
 	"Local\MemoryLimited_$normalizedJobPart"
-
 
 	$alreadyRunning = @(
 		Get-Process `
@@ -1188,7 +1166,6 @@ function Start-MemoryLimitedApp {
 		}
 	)
 
-
 	if ($alreadyRunning.Count -gt 0) {
 		Write-Host (
 			"Found {0} existing {1} process(es)." -f
@@ -1203,7 +1180,6 @@ function Start-MemoryLimitedApp {
 
 		$attached = @()
 		$failed = @()
-
 
 		foreach ($process in $alreadyRunning) {
 			try {
@@ -1235,9 +1211,7 @@ function Start-MemoryLimitedApp {
 			}
 		}
 
-
 		Start-Sleep -Milliseconds 500
-
 
 		$secondPass = @(
 			Get-Process `
@@ -1257,7 +1231,6 @@ function Start-MemoryLimitedApp {
 				}
 			}
 		)
-
 
 		foreach ($process in $secondPass) {
 			if (
@@ -1290,7 +1263,6 @@ function Start-MemoryLimitedApp {
 			}
 		}
 
-
 		Write-Host ""
 
 		Write-Host (
@@ -1298,23 +1270,19 @@ function Start-MemoryLimitedApp {
 			$attached.Count
 		)
 
-
 		if ($failed.Count -gt 0) {
 			Write-Warning @"
 One or more existing processes could not be attached.
 "@
 		}
 
-
 		Write-Host (
 			"Combined memory limit: {0:N1} GiB" -f
 			$MemoryLimitGiB
 		)
 
-
 		return $attached
 	}
-
 
 	Write-Host (
 		"{0} is not currently running." -f
@@ -1325,7 +1293,6 @@ One or more existing processes could not be attached.
 		"Starting it with a combined {0:N1} GiB memory limit..." -f
 		$MemoryLimitGiB
 	)
-
 
 	try {
 		$processId =
@@ -1356,7 +1323,6 @@ One or more existing processes could not be attached.
 		$processId = $process.Id
 	}
 
-
 	Write-Host ""
 
 	Write-Host (
@@ -1373,7 +1339,6 @@ One or more existing processes could not be attached.
 		"Combined Job Object memory limit: {0:N1} GiB" -f
 		$MemoryLimitGiB
 	)
-
 
 	Get-Process `
 		-Id $processId `
@@ -1623,7 +1588,6 @@ if ($DO_SCHEDULED_TASKS) {
 			continue
 		}
 
-
 		try {
 			$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
 			$xml = [xml]$xmlText
@@ -1761,7 +1725,6 @@ if ($DO_REMOVE_DRIVERS) {
 else {
 	Write-Host "Skipping disconnected device and driver removal."
 }
-
 
 # Optionally configure active adapters with Cloudflare malware-blocking DNS and register per-interface DoH flags.
 Write-Section "DNS"
