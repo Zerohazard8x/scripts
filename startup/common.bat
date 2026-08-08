@@ -21,6 +21,140 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
 @REM Marker used by downloader.bat to verify that it fetched the expected script.
 @REM Stable validation marker; keep the spelling synchronized with downloader.bat.
 
+@REM ==============================
+@REM Launch selected user applications only when installed and not already running.
+@REM ==============================
+
+if exist "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe" (
+	tasklist /FI "IMAGENAME eq MSIAfterburner.exe" 2>NUL | find /I /N "MSIAfterburner.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\MSI Afterburner\MSIAfterburner.exe"
+	)
+)
+
+if exist "%ProgramFiles%\HWiNFO64\HWiNFO64.EXE" (
+	tasklist /FI "IMAGENAME eq HWiNFO64.EXE" 2>NUL | find /I /N "HWiNFO64.EXE" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles%\HWiNFO64\HWiNFO64.EXE"
+	)
+)
+
+if exist "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe" (
+	tasklist /FI "IMAGENAME eq RTSS.exe" 2>NUL | find /I /N "RTSS.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\RivaTuner Statistics Server\RTSS.exe"
+	)
+)
+
+if exist "%ProgramFiles(x86)%\Steam\steam.exe" (
+	tasklist /FI "IMAGENAME eq steamwebhelper.exe" 2>NUL | find /I /N "steamwebhelper.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\Steam\steam.exe"
+	)
+)
+
+@REM if exist "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk" (
+@REM     tasklist /FI "IMAGENAME eq RiotClientServices.exe" 2>NUL | find /I /N "RiotClientServices.exe">NUL
+@REM     if errorlevel 1 (
+@REM         start "" /min "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+@REM     )
+@REM )
+
+if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" (
+	tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+	)
+) else if exist "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" (
+	tasklist /FI "IMAGENAME eq EpicWebHelper.exe" 2>NUL | find /I /N "EpicWebHelper.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+	)
+)
+
+if exist "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe" (
+	tasklist /FI "IMAGENAME eq RazerCortex.exe" 2>NUL | find /I /N "RazerCortex.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\Razer\Razer Cortex\RazerCortex.exe"
+	)
+)
+
+@REM if exist "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe" (
+@REM     tasklist /FI "IMAGENAME eq SteelSeriesGG.exe" 2>NUL | find /I /N "SteelSeriesGG.exe">NUL
+@REM     if errorlevel 1 (
+@REM         start "" "%ProgramFiles%\SteelSeries\GG\SteelSeriesGG.exe"
+@REM     )
+@REM )
+
+if exist "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe" (
+	tasklist /FI "IMAGENAME eq Overwolf.exe" 2>NUL | find /I /N "Overwolf.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles(x86)%\Overwolf\OverwolfLauncher.exe"
+	)
+)
+
+@REM tasklist /FI "IMAGENAME eq XboxPcAppFT.exe" 2>NUL | find /I /N "XboxPcAppFT.exe" >NUL
+@REM if errorlevel 1 (
+@REM     start "" "msxbox://"
+@REM )
+
+@REM if exist "%ProgramFiles(x86)%\FanControl\FanControl.exe" (
+@REM     tasklist /FI "IMAGENAME eq FanControl.exe" 2>NUL | find /I /N "FanControl.exe" >NUL
+@REM     if errorlevel 1 (
+@REM         start "" "%ProgramFiles(x86)%\FanControl\FanControl.exe"
+@REM     )
+@REM )
+
+@REM Probe known Voicemeeter editions and retain the first executable found.
+set "vm_path="
+set "vm_exe="
+
+@REM Prefer the most feature-complete Voicemeeter edition when more than one is installed.
+if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro_x64.exe"
+	set "vm_exe=voicemeeterpro_x64.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8x64.exe"
+	set "vm_exe=voicemeeter8x64.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeterpro.exe"
+	set "vm_exe=voicemeeterpro.exe"
+) else if exist "%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8.exe" (
+	set "vm_path=%ProgramFiles(x86)%\VB\Voicemeeter\voicemeeter8.exe"
+	set "vm_exe=voicemeeter8.exe"
+)
+
+@REM Start the selected Voicemeeter executable only when no matching process is already active.
+if defined vm_path (
+	tasklist /FI "IMAGENAME eq %vm_exe%" 2>NUL | find /I "%vm_exe%" >NUL
+	if errorlevel 1 (
+		start "" /min "%vm_path%"
+	)
+)
+
+if exist "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe" (
+	tasklist /FI "IMAGENAME eq thunderbird.exe" 2>NUL | find /I /N "thunderbird.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles%\Mozilla Thunderbird\thunderbird.exe"
+	)
+)
+
+if exist "%ProgramFiles%\Microsoft OneDrive\OneDrive.exe" (
+	tasklist /FI "IMAGENAME eq OneDrive.exe" 2>NUL | find /I /N "OneDrive.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%ProgramFiles%\Microsoft OneDrive\OneDrive.exe"
+	)
+)
+
+if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
+	tasklist /FI "IMAGENAME eq MEGAsync.exe" 2>NUL | find /I /N "MEGAsync.exe" >NUL
+	if errorlevel 1 (
+		start "" /min "%localappdata%\MEGAsync\MEGAsync.exe"
+	)
+)
+
+echo Finished checking startup applications.
+
 @REM Ask before downloading and running PowerShell maintenance; Y is selected after five seconds.
 @REM cls
 choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
@@ -58,7 +192,7 @@ if not errorlevel 1 (
 	@REM Save the current directory so the caller can be restored after staging work.
 	set "scriptPath=%~dp0"
 	cd /d "%scriptPath%"
-	set "downloadDir=%USERPROFILE%\Downloads"
+	if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
 	if not exist "%downloadDir%" mkdir "%downloadDir%"
 
 	@REM Set a process-scoped bypass only; this avoids changing the machine or user execution policy.
@@ -66,8 +200,8 @@ if not errorlevel 1 (
 	"Write-Host 'ExecutionPolicy set to Bypass'"
 
 	@REM Delete the old staged task script so the subsequent existence check refers to the fresh download.
-	if exist "%downloadDir%\tasks.ps1" del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
-	if exist "%downloadDir%\import.ps1" del /s /q /f "%downloadDir%\import.ps1" 2>nul
+	if exist "%downloadDir%\tasks.ps1" del /q /f "%downloadDir%\tasks.ps1" 2>nul
+	if exist "%downloadDir%\import.ps1" del /q /f "%downloadDir%\import.ps1" 2>nul
 
 	@REM Download tasks.ps1 into the shared staging directory 
 	@REM preferring curl when present.
@@ -85,7 +219,7 @@ if not errorlevel 1 (
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/ _ "
-		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/src/branch/main/wifi/import.ps1"
+		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/wifi/import.ps1"
 	)
 
 	@REM Execute tasks.ps1 only after a successful download left a file at the expected path.
@@ -222,6 +356,8 @@ call :IsAdmin
 if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %COMMON_ELEVATE_STAGE% tasks...
+echo The elevated tasks will open in another window; this window will wait for them to finish.
+call :Status "waiting for elevated %COMMON_ELEVATE_STAGE% tasks"
 set "SCRIPT_ELEVATE_TARGET=%~f0"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $target = $env:SCRIPT_ELEVATE_TARGET; $p = Start-Process -FilePath $target -ArgumentList $stageArg -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%
