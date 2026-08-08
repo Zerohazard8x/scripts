@@ -72,14 +72,8 @@ function Start-ElevatedSelf {
 		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
 	}
 
-	Write-Section "waiting for elevated maintenance"
-	Write-Host "Requesting administrator approval; this window will wait while maintenance runs in the elevated window."
-	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -WindowStyle Normal -Wait -PassThru
-	if ($null -ne $process.ExitCode) {
-		exit $process.ExitCode
-	}
-
-	exit 0
+	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -Wait -PassThru
+	exit $process.ExitCode
 }
 
 # Invoke an optional external command without terminating the remaining maintenance work on absence or failure.
@@ -160,25 +154,6 @@ function Test-IsUnderWindowsDirectory {
 	$full = [Environment]::ExpandEnvironmentVariables($ExePath)
 
 	return $full.StartsWith($winDir, [System.StringComparison]::OrdinalIgnoreCase)
-}
-
-# Query sc.exe because Win32_Service.StartMode does not distinguish delayed automatic startup.
-function Get-ScStartType {
-	param([string]$ServiceName)
-
-	$out = sc.exe qc $ServiceName 2>$null
-	if (-not $out) { return $null }
-
-	$text = $out | Out-String
-
-	if ($text -match 'DELAYED_AUTO_START') { return 'AutomaticDelayedStart' }
-	if ($text -match 'AUTO_START') { return 'Automatic' }
-	if ($text -match 'DEMAND_START') { return 'Manual' }
-	if ($text -match 'DISABLED') { return 'Disabled' }
-	if ($text -match 'BOOT_START') { return 'Boot' }
-	if ($text -match 'SYSTEM_START') { return 'System' }
-
-	return 'Unknown'
 }
 
 # Route destructive actions through the script cmdlet ShouldProcess contract when available.
@@ -652,6 +627,759 @@ function Invoke-UserPhase {
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 }
 
+if (-not ("MemoryLimitedLauncher" -as [type])) {
+	Add-Type -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+
+public static class MemoryLimitedLauncher
+{
+    private const uint JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200;
+
+    private const int JobObjectExtendedLimitInformation = 9;
+
+    private const uint CREATE_SUSPENDED = 0x00000004;
+
+    private const uint PROCESS_TERMINATE = 0x0001;
+    private const uint PROCESS_SET_QUOTA = 0x0100;
+    private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+
+    /*
+        Keep handles open for the lifetime of this PowerShell process.
+    */
+    private static readonly Dictionary<string, IntPtr> Jobs =
+        new Dictionary<string, IntPtr>(
+            StringComparer.OrdinalIgnoreCase
+        );
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct JOBOBJECT_BASIC_LIMIT_INFORMATION
+    {
+        public long PerProcessUserTimeLimit;
+        public long PerJobUserTimeLimit;
+
+        public uint LimitFlags;
+
+        public UIntPtr MinimumWorkingSetSize;
+        public UIntPtr MaximumWorkingSetSize;
+
+        public uint ActiveProcessLimit;
+
+        public UIntPtr Affinity;
+
+        public uint PriorityClass;
+        public uint SchedulingClass;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct IO_COUNTERS
+    {
+        public ulong ReadOperationCount;
+        public ulong WriteOperationCount;
+        public ulong OtherOperationCount;
+
+        public ulong ReadTransferCount;
+        public ulong WriteTransferCount;
+        public ulong OtherTransferCount;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+    {
+        public JOBOBJECT_BASIC_LIMIT_INFORMATION
+            BasicLimitInformation;
+
+        public IO_COUNTERS IoInfo;
+
+        public UIntPtr ProcessMemoryLimit;
+        public UIntPtr JobMemoryLimit;
+
+        public UIntPtr PeakProcessMemoryUsed;
+        public UIntPtr PeakJobMemoryUsed;
+    }
+
+
+    [StructLayout(
+        LayoutKind.Sequential,
+        CharSet = CharSet.Unicode
+    )]
+    private struct STARTUPINFO
+    {
+        public int cb;
+
+        public string lpReserved;
+        public string lpDesktop;
+        public string lpTitle;
+
+        public uint dwX;
+        public uint dwY;
+        public uint dwXSize;
+        public uint dwYSize;
+
+        public uint dwXCountChars;
+        public uint dwYCountChars;
+
+        public uint dwFillAttribute;
+        public uint dwFlags;
+
+        public short wShowWindow;
+        public short cbReserved2;
+
+        public IntPtr lpReserved2;
+
+        public IntPtr hStdInput;
+        public IntPtr hStdOutput;
+        public IntPtr hStdError;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct PROCESS_INFORMATION
+    {
+        public IntPtr hProcess;
+        public IntPtr hThread;
+
+        public uint dwProcessId;
+        public uint dwThreadId;
+    }
+
+
+    [DllImport(
+        "kernel32.dll",
+        CharSet = CharSet.Unicode,
+        SetLastError = true
+    )]
+    private static extern IntPtr CreateJobObjectW(
+        IntPtr lpJobAttributes,
+        string lpName
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        SetLastError = true
+    )]
+    private static extern bool SetInformationJobObject(
+        IntPtr hJob,
+        int JobObjectInformationClass,
+        IntPtr lpJobObjectInformation,
+        uint cbJobObjectInformationLength
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        SetLastError = true
+    )]
+    private static extern bool AssignProcessToJobObject(
+        IntPtr hJob,
+        IntPtr hProcess
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        SetLastError = true
+    )]
+    private static extern IntPtr OpenProcess(
+        uint dwDesiredAccess,
+        bool bInheritHandle,
+        uint dwProcessId
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        CharSet = CharSet.Unicode,
+        SetLastError = true
+    )]
+    private static extern bool CreateProcessW(
+        string lpApplicationName,
+        StringBuilder lpCommandLine,
+        IntPtr lpProcessAttributes,
+        IntPtr lpThreadAttributes,
+        bool bInheritHandles,
+        uint dwCreationFlags,
+        IntPtr lpEnvironment,
+        string lpCurrentDirectory,
+        ref STARTUPINFO lpStartupInfo,
+        out PROCESS_INFORMATION lpProcessInformation
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        SetLastError = true
+    )]
+    private static extern uint ResumeThread(
+        IntPtr hThread
+    );
+
+
+    [DllImport(
+        "kernel32.dll",
+        SetLastError = true
+    )]
+    private static extern bool TerminateProcess(
+        IntPtr hProcess,
+        uint uExitCode
+    );
+
+
+    [DllImport("kernel32.dll")]
+    private static extern bool CloseHandle(
+        IntPtr hObject
+    );
+
+
+    private static IntPtr GetOrCreateJob(
+        string jobName,
+        ulong memoryLimitBytes
+    )
+    {
+        lock (Jobs)
+        {
+            IntPtr existing;
+
+            if (Jobs.TryGetValue(
+                jobName,
+                out existing
+            ))
+            {
+                ConfigureJob(
+                    existing,
+                    memoryLimitBytes
+                );
+
+                return existing;
+            }
+
+            /*
+                CreateJobObject also opens an existing named
+                Job Object if one with the same name already exists.
+            */
+            IntPtr job = CreateJobObjectW(
+                IntPtr.Zero,
+                jobName
+            );
+
+            if (job == IntPtr.Zero)
+            {
+                throw new Win32Exception(
+                    Marshal.GetLastWin32Error(),
+                    "CreateJobObject failed."
+                );
+            }
+
+            try
+            {
+                ConfigureJob(
+                    job,
+                    memoryLimitBytes
+                );
+
+                Jobs[jobName] = job;
+
+                return job;
+            }
+            catch
+            {
+                CloseHandle(job);
+                throw;
+            }
+        }
+    }
+
+
+    private static void ConfigureJob(
+        IntPtr job,
+        ulong memoryLimitBytes
+    )
+    {
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION info =
+            new JOBOBJECT_EXTENDED_LIMIT_INFORMATION();
+
+        info.BasicLimitInformation.LimitFlags =
+            JOB_OBJECT_LIMIT_JOB_MEMORY;
+
+        info.JobMemoryLimit =
+            new UIntPtr(memoryLimitBytes);
+
+        int size =
+            Marshal.SizeOf(
+                typeof(
+                    JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+                )
+            );
+
+        IntPtr ptr =
+            Marshal.AllocHGlobal(size);
+
+        try
+        {
+            Marshal.StructureToPtr(
+                info,
+                ptr,
+                false
+            );
+
+            if (!SetInformationJobObject(
+                job,
+                JobObjectExtendedLimitInformation,
+                ptr,
+                (uint)size
+            ))
+            {
+                throw new Win32Exception(
+                    Marshal.GetLastWin32Error(),
+                    "SetInformationJobObject failed."
+                );
+            }
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(ptr);
+        }
+    }
+
+
+    public static uint Start(
+        string exePath,
+        string jobName,
+        ulong memoryLimitBytes
+    )
+    {
+        IntPtr job =
+            GetOrCreateJob(
+                jobName,
+                memoryLimitBytes
+            );
+
+        STARTUPINFO startup =
+            new STARTUPINFO();
+
+        startup.cb =
+            Marshal.SizeOf(
+                typeof(STARTUPINFO)
+            );
+
+        PROCESS_INFORMATION processInfo;
+
+        StringBuilder commandLine =
+            new StringBuilder(
+                "\"" + exePath + "\""
+            );
+
+        bool created =
+            CreateProcessW(
+                exePath,
+                commandLine,
+                IntPtr.Zero,
+                IntPtr.Zero,
+                false,
+                CREATE_SUSPENDED,
+                IntPtr.Zero,
+                Path.GetDirectoryName(exePath),
+                ref startup,
+                out processInfo
+            );
+
+        if (!created)
+        {
+            throw new Win32Exception(
+                Marshal.GetLastWin32Error(),
+                "CreateProcess failed."
+            );
+        }
+
+        try
+        {
+            if (!AssignProcessToJobObject(
+                job,
+                processInfo.hProcess
+            ))
+            {
+                int error =
+                    Marshal.GetLastWin32Error();
+
+                TerminateProcess(
+                    processInfo.hProcess,
+                    1
+                );
+
+                throw new Win32Exception(
+                    error,
+                    "AssignProcessToJobObject failed."
+                );
+            }
+
+            uint result =
+                ResumeThread(
+                    processInfo.hThread
+                );
+
+            if (result == 0xFFFFFFFF)
+            {
+                int error =
+                    Marshal.GetLastWin32Error();
+
+                TerminateProcess(
+                    processInfo.hProcess,
+                    1
+                );
+
+                throw new Win32Exception(
+                    error,
+                    "ResumeThread failed."
+                );
+            }
+
+            return processInfo.dwProcessId;
+        }
+        finally
+        {
+            CloseHandle(
+                processInfo.hThread
+            );
+
+            CloseHandle(
+                processInfo.hProcess
+            );
+        }
+    }
+
+
+    public static void Attach(
+        uint processId,
+        string jobName,
+        ulong memoryLimitBytes
+    )
+    {
+        IntPtr job =
+            GetOrCreateJob(
+                jobName,
+                memoryLimitBytes
+            );
+
+        uint access =
+            PROCESS_SET_QUOTA |
+            PROCESS_TERMINATE |
+            PROCESS_QUERY_LIMITED_INFORMATION;
+
+        IntPtr process =
+            OpenProcess(
+                access,
+                false,
+                processId
+            );
+
+        if (process == IntPtr.Zero)
+        {
+            throw new Win32Exception(
+                Marshal.GetLastWin32Error(),
+                "OpenProcess failed for PID " +
+                processId + "."
+            );
+        }
+
+        try
+        {
+            if (!AssignProcessToJobObject(
+                job,
+                process
+            ))
+            {
+                throw new Win32Exception(
+                    Marshal.GetLastWin32Error(),
+                    "AssignProcessToJobObject failed for PID " +
+                    processId + "."
+                );
+            }
+        }
+        finally
+        {
+            CloseHandle(process);
+        }
+    }
+}
+'@
+}
+
+
+function Start-MemoryLimitedApp {
+	[CmdletBinding()]
+	param
+	(
+		[Parameter(
+			Mandatory = $true,
+			Position = 0
+		)]
+		[string]$Path,
+
+		[double]$MemoryLimitGiB = 16
+	)
+
+	$exePath =
+	[Environment]::ExpandEnvironmentVariables(
+		$Path
+	)
+
+	$exePath =
+	[IO.Path]::GetFullPath(
+		$exePath
+	)
+
+	if (-not (
+			Test-Path `
+				-LiteralPath $exePath `
+				-PathType Leaf
+		)) {
+		throw "Executable not found: $exePath"
+	}
+
+	if ($MemoryLimitGiB -le 0) {
+		throw "MemoryLimitGiB must be greater than zero."
+	}
+
+
+	$memoryLimitBytes =
+	[uint64](
+		$MemoryLimitGiB * 1GB
+	)
+
+
+	$processName =
+	[IO.Path]::GetFileNameWithoutExtension(
+		$exePath
+	)
+
+
+	$normalizedJobPart =
+	$exePath `
+		-replace '[^A-Za-z0-9_.-]', '_'
+
+	$jobName =
+	"Local\MemoryLimited_$normalizedJobPart"
+
+
+	$alreadyRunning = @(
+		Get-Process `
+			-Name $processName `
+			-ErrorAction SilentlyContinue |
+		Where-Object {
+			try {
+				$_.Path -and
+				(
+					[IO.Path]::GetFullPath(
+						$_.Path
+					) -ieq $exePath
+				)
+			}
+			catch {
+				$false
+			}
+		}
+	)
+
+
+	if ($alreadyRunning.Count -gt 0) {
+		Write-Host (
+			"Found {0} existing {1} process(es)." -f
+			$alreadyRunning.Count,
+			$processName
+		)
+
+		Write-Host (
+			"Applying a combined {0:N1} GiB Job Object memory limit..." -f
+			$MemoryLimitGiB
+		)
+
+		$attached = @()
+		$failed = @()
+
+
+		foreach ($process in $alreadyRunning) {
+			try {
+				[MemoryLimitedLauncher]::Attach(
+					[uint32]$process.Id,
+					$jobName,
+					$memoryLimitBytes
+				)
+
+				$attached += $process
+
+				Write-Host (
+					"Attached PID {0}" -f
+					$process.Id
+				)
+			}
+			catch {
+				$failed +=
+				[pscustomobject]@{
+					Process = $process
+					Error   = $_.Exception.Message
+				}
+
+				Write-Warning (
+					"Could not attach PID {0}: {1}" -f
+					$process.Id,
+					$_.Exception.Message
+				)
+			}
+		}
+
+
+		Start-Sleep -Milliseconds 500
+
+
+		$secondPass = @(
+			Get-Process `
+				-Name $processName `
+				-ErrorAction SilentlyContinue |
+			Where-Object {
+				try {
+					$_.Path -and
+					(
+						[IO.Path]::GetFullPath(
+							$_.Path
+						) -ieq $exePath
+					)
+				}
+				catch {
+					$false
+				}
+			}
+		)
+
+
+		foreach ($process in $secondPass) {
+			if (
+				$attached.Id -contains
+				$process.Id
+			) {
+				continue
+			}
+
+			try {
+				[MemoryLimitedLauncher]::Attach(
+					[uint32]$process.Id,
+					$jobName,
+					$memoryLimitBytes
+				)
+
+				$attached += $process
+
+				Write-Host (
+					"Attached newly found PID {0}" -f
+					$process.Id
+				)
+			}
+			catch {
+				Write-Warning (
+					"Could not attach newly found PID {0}: {1}" -f
+					$process.Id,
+					$_.Exception.Message
+				)
+			}
+		}
+
+
+		Write-Host ""
+
+		Write-Host (
+			"Attached {0} existing process(es)." -f
+			$attached.Count
+		)
+
+
+		if ($failed.Count -gt 0) {
+			Write-Warning @"
+One or more existing processes could not be attached.
+"@
+		}
+
+
+		Write-Host (
+			"Combined memory limit: {0:N1} GiB" -f
+			$MemoryLimitGiB
+		)
+
+
+		return $attached
+	}
+
+
+	Write-Host (
+		"{0} is not currently running." -f
+		$processName
+	)
+
+	Write-Host (
+		"Starting it with a combined {0:N1} GiB memory limit..." -f
+		$MemoryLimitGiB
+	)
+
+
+	try {
+		$processId =
+		[MemoryLimitedLauncher]::Start(
+			$exePath,
+			$jobName,
+			$memoryLimitBytes
+		)
+	}
+	catch {
+		Write-Warning (
+			"CreateProcess launch failed; retrying through ShellExecute: {0}" -f
+			$_.Exception.GetBaseException().Message
+		)
+
+		$process =
+		Start-Process `
+			-FilePath $exePath `
+			-Verb RunAs `
+			-PassThru
+
+		[MemoryLimitedLauncher]::Attach(
+			[uint32]$process.Id,
+			$jobName,
+			$memoryLimitBytes
+		)
+
+		$processId = $process.Id
+	}
+
+
+	Write-Host ""
+
+	Write-Host (
+		"Started {0}" -f
+		$exePath
+	)
+
+	Write-Host (
+		"PID: {0}" -f
+		$processId
+	)
+
+	Write-Host (
+		"Combined Job Object memory limit: {0:N1} GiB" -f
+		$MemoryLimitGiB
+	)
+
+
+	Get-Process `
+		-Id $processId `
+		-ErrorAction SilentlyContinue
+}
+
 # Require elevation before certain changes.
 # Relaunch through UAC when needed so a non-elevated interactive or scheduled invocation can continue.
 if (-not $AdminPhase) {
@@ -672,10 +1400,106 @@ if (-not (Test-IsAdministrator)) {
 
 # Use nonterminating defaults globally, then apply local try/catch blocks where continuation behavior matters.
 $ErrorActionPreference = 'Continue'
-$ProgressPreference = 'Continue'
 $PSDefaultParameterValues['*:ErrorAction'] = 'Continue'
 
 Write-Host ""
+
+# ==============================
+# Launch selected user applications only when installed and not already running.
+# ==============================
+
+if (Test-Path "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe"
+}
+
+if (Test-Path "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE") {
+	Start-MemoryLimitedApp "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE"
+}
+
+if (Test-Path "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
+}
+
+if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
+}
+
+# if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
+# 	if (-not (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue)) {
+# 		Start-MemoryLimitedApp "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+# 	}
+# }
+
+if (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+}
+
+if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe"
+}
+
+# if (Test-Path "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe") {
+# 	if (-not (Get-Process -Name "SteelSeriesGG" -ErrorAction SilentlyContinue)) {
+# 		Start-MemoryLimitedApp "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe"
+# 	}
+# }
+
+if (Test-Path "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe") {
+	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
+}
+
+# if (-not (Get-Process -Name "XboxPcAppFT" -ErrorAction SilentlyContinue)) {
+# 	Start-MemoryLimitedApp "msxbox://"
+# }
+
+# if (Test-Path "${env:ProgramFiles(x86)}\FanControl\FanControl.exe") {
+# 	if (-not (Get-Process -Name "FanControl" -ErrorAction SilentlyContinue)) {
+# 		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\FanControl\FanControl.exe"
+# 	}
+# }
+
+# Probe known Voicemeeter editions and retain the first executable found.
+$vm_path = ""
+$vm_exe = ""
+
+# Prefer the most feature-complete Voicemeeter edition when more than one is installed.
+if (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe") {
+	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe"
+	$vm_exe = "voicemeeterpro_x64"
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe") {
+	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe"
+	$vm_exe = "voicemeeter8x64"
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe") {
+	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe"
+	$vm_exe = "voicemeeterpro"
+}
+elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe") {
+	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe"
+	$vm_exe = "voicemeeter8"
+}
+
+# Start the selected Voicemeeter executable only when no matching process is already active.
+if ($vm_path) {
+	Start-MemoryLimitedApp $vm_path
+}
+
+if (Test-Path "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe") {
+	Start-MemoryLimitedApp "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe"
+}
+
+if (Test-Path "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe") {
+	Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
+}
+
+if (Test-Path "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe") {
+	Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
+}
+Write-Host "Finished checking startup applications."
 
 # Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
 Write-Section "process priorities"
@@ -750,17 +1574,11 @@ if ($DO_SET_NONSTOCK_SERVICES) {
 	Write-Host "Inspecting non-Windows services..."
 	$services = Get-CimInstance Win32_Service | ForEach-Object {
 		$exePath = Get-ExePathFromServicePath $_.PathName
-		$scType = Get-ScStartType $_.Name
 
 		[PSCustomObject]@{
 			Name         = $_.Name
-			DisplayName  = $_.DisplayName
-			State        = $_.State
 			ServiceType  = $_.ServiceType
-			PathName     = $_.PathName
 			ExePath      = $exePath
-			Win32Start   = $_.StartMode
-			ActualStart  = $scType
 			UnderWindows = Test-IsUnderWindowsDirectory $exePath
 		}
 	}
@@ -805,8 +1623,6 @@ if ($DO_SCHEDULED_TASKS) {
 			continue
 		}
 
-		$xmlText = $null
-		$xml = $null
 
 		try {
 			$xmlText = Export-ScheduledTask -TaskName $task.TaskName -TaskPath $task.TaskPath -ErrorAction Stop
@@ -854,7 +1670,6 @@ if ($DO_SCHEDULED_TASKS) {
 			State    = $task.State
 			Author   = $author
 			Command  = ($resolvedCommands -join ' | ')
-			Task     = $task
 		}
 	}
 
@@ -1008,6 +1823,8 @@ try {
 	}
 	else {
 		Install-Module PSWindowsUpdate -Force -Confirm:$false
+		Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
+		Get-WindowsUpdate -Install  -AcceptAll -IgnoreReboot -Confirm:$false
 	}
 }
 catch {
@@ -1016,16 +1833,10 @@ catch {
 
 if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 	try {
-		if (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue) {
-			Get-WindowsUpdate -Download -AcceptAll -Confirm:$false
-			Get-WindowsUpdate -Install  -AcceptAll -IgnoreReboot -Confirm:$false
-		}
-		else {
-			# Use the legacy Windows Update client only when the module remains unavailable after installation.
-			# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
-			wuauclt /detectnow
-			wuauclt /updatenow
-		}
+		# Use the legacy Windows Update client only when the module remains unavailable after installation.
+		# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
+		wuauclt /detectnow
+		wuauclt /updatenow
 	}
 	catch {
 		Write-Warning "Error: $_"
