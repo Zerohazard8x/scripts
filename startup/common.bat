@@ -5,6 +5,7 @@
 @REM 	exit %errorlevel%
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
+call :Status "launching startup applications"
 
 @REM Resolve winget before elevation because the Administrator Protection environment can expose a different user-local PATH.
 if not defined STARTUP_WINGET_EXE for /f "delims=" %%I in ('where winget 2^>nul') do if not defined STARTUP_WINGET_EXE set "STARTUP_WINGET_EXE=%%I"
@@ -152,6 +153,8 @@ if exist "%localappdata%\MEGAsync\MEGAsync.exe" (
 	)
 )
 
+echo Finished checking startup applications.
+
 @REM Ask before downloading and running PowerShell maintenance; Y is selected after five seconds.
 @REM cls
 choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
@@ -170,6 +173,7 @@ if not "%rc%"=="0" (
 goto NOPSHELL
 
 :ADMIN_POWERSHELL_REPAIR
+call :Status "downloading maintenance scripts"
 @REM ==============================
 @REM Disabled DNS-over-HTTPS netsh commands retained beside the PowerShell network configuration they complement.
 @REM ==============================
@@ -188,7 +192,7 @@ if not errorlevel 1 (
 	@REM Save the current directory so the caller can be restored after staging work.
 	set "scriptPath=%~dp0"
 	cd /d "%scriptPath%"
-	set "downloadDir=%USERPROFILE%\Downloads"
+	if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
 	if not exist "%downloadDir%" mkdir "%downloadDir%"
 
 	@REM Set a process-scoped bypass only; this avoids changing the machine or user execution policy.
@@ -196,8 +200,8 @@ if not errorlevel 1 (
 	"Write-Host 'ExecutionPolicy set to Bypass'"
 
 	@REM Delete the old staged task script so the subsequent existence check refers to the fresh download.
-	if exist "%downloadDir%\tasks.ps1" del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
-	if exist "%downloadDir%\import.ps1" del /s /q /f "%downloadDir%\import.ps1" 2>nul
+	if exist "%downloadDir%\tasks.ps1" del /q /f "%downloadDir%\tasks.ps1" 2>nul
+	if exist "%downloadDir%\import.ps1" del /q /f "%downloadDir%\import.ps1" 2>nul
 
 	@REM Download tasks.ps1 into the shared staging directory 
 	@REM preferring curl when present.
@@ -215,24 +219,27 @@ if not errorlevel 1 (
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/ _ "
-		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/src/branch/main/wifi/import.ps1"
+		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/wifi/import.ps1"
 	)
 
 	@REM Execute tasks.ps1 only after a successful download left a file at the expected path.
 	if exist "%downloadDir%\tasks.ps1" (
+		call :Status "PowerShell maintenance"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
 		if errorlevel 1 pause
-	)
+	) else echo Skipping PowerShell maintenance: tasks.ps1 was not downloaded.
 
 	@REM Run the optional public import after the main tasks so it can layer additional settings.
 	if exist "%downloadDir%\import.ps1" (
+		call :Status "WiFi import"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
-	)
+	) else echo Skipping public WiFi import: import.ps1 was not downloaded.
 
 	@REM Run the locally staged private import last so private overrides take precedence.
 	if exist "%downloadDir%\import_private.ps1" (
+		call :Status "private WiFi import"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
-	)
+	) else echo Skipping private WiFi import: import_private.ps1 was not found.
 
 	@REM Restore the process policy before leaving the maintenance block.
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
@@ -272,6 +279,7 @@ if not errorlevel 1 (
 if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
 
 :NOPSHELL
+call :Status "service tweaks prompt"
 
 @REM cls
 choice /C YN /N /D N /T 5 /M "Service tweaks? (Y/N)"
@@ -289,6 +297,7 @@ if not "%rc%"=="0" (
 goto NOSERVTWEAKS
 
 :ADMIN_SERVICE_TWEAKS
+call :Status "service tweaks"
 @REM @REM Configure and start key services (automatic)
 @REM for %%S in (
 @REM 	"Dnscache" "EntAppSvc" "FrameServer"
@@ -307,6 +316,7 @@ goto NOSERVTWEAKS
 if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
 
 :NOSERVTWEAKS
+call :Status "update windows prompt"
 
 @REM Require an explicit response before opening external application links.
 @REM Omitting /D and /T makes CHOICE wait indefinitely rather than selecting a default.
@@ -332,6 +342,12 @@ exit /b 0
 fltmc >nul 2>&1
 exit /b %errorlevel%
 
+:Status
+title Now running: %~1
+echo.
+echo === Now running: %~1 ===
+exit /b 0
+
 @REM Relaunch this script through PowerShell Start-Process -Verb RunAs and wait for the selected stage.
 :RunElevatedStage
 @REM Pass only the requested stage to the elevated child, preventing user-app launch logic from repeating.
@@ -340,6 +356,8 @@ call :IsAdmin
 if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %COMMON_ELEVATE_STAGE% tasks...
+echo The elevated tasks will open in another window; this window will wait for them to finish.
+call :Status "waiting for elevated %COMMON_ELEVATE_STAGE% tasks"
 set "SCRIPT_ELEVATE_TARGET=%~f0"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $target = $env:SCRIPT_ELEVATE_TARGET; $p = Start-Process -FilePath $target -ArgumentList $stageArg -Verb RunAs -WindowStyle Minimized -Wait -PassThru; exit $p.ExitCode"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:COMMON_ELEVATE_STAGE; $target = $env:SCRIPT_ELEVATE_TARGET; $p = Start-Process -FilePath $target -ArgumentList $stageArg -Verb RunAs -WindowStyle Normal -Wait -PassThru; exit $p.ExitCode"
 exit /b %errorlevel%
