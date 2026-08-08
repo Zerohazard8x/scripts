@@ -1105,7 +1105,7 @@ function Start-MemoryLimitedApp {
 		)]
 		[string]$Path,
 
-		[double]$MemoryLimitGiB = 16
+		[double]$MemoryLimitGiB = 8
 	)
 
 	$exePath =
