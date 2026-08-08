@@ -1105,8 +1105,11 @@ function Start-MemoryLimitedApp {
 		)]
 		[string]$Path,
 
-		[double]$MemoryLimitGiB = 8
+		[double]$MemoryLimitGiB = 8,
+		[switch]$Running
 	)
+
+	if ($Running) { $Path = (Get-Process ([IO.Path]::GetFileNameWithoutExtension($Path)) -ea Stop)[0].Path }
 
 	$exePath =
 	[Environment]::ExpandEnvironmentVariables(
@@ -1383,23 +1386,39 @@ if (Test-Path "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE") {
 
 if (Test-Path "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe") {
 	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
+	if (Get-Process -Name "RTSSHooksLoader64" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "RTSSHooksLoader64.exe" -Running
+	}
 }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
 	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
+	if (Get-Process -Name "steamwebhelper" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "steamwebhelper.exe" -Running
+	}
 }
 
-# if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
-# 	if (-not (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue)) {
-# 		Start-MemoryLimitedApp "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
-# 	}
-# }
+if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
+	if (-not (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue)) {
+		Start-MemoryLimitedApp "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+	}
+
+	if (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "RiotClientServices.exe" -Running
+	}
+}
 
 if (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe") {
 	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+	if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+	}
 }
 elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
 	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+	if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+	}
 }
 
 if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
@@ -1414,11 +1433,10 @@ if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
 
 if (Test-Path "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe") {
 	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
+	if (Get-Process -Name "Overwolf" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "Overwolf.exe" -Running
+	}
 }
-
-# if (-not (Get-Process -Name "XboxPcAppFT" -ErrorAction SilentlyContinue)) {
-# 	Start-MemoryLimitedApp "msxbox://"
-# }
 
 # if (Test-Path "${env:ProgramFiles(x86)}\FanControl\FanControl.exe") {
 # 	if (-not (Get-Process -Name "FanControl" -ErrorAction SilentlyContinue)) {
@@ -1459,11 +1477,29 @@ if (Test-Path "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe") {
 
 if (Test-Path "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe") {
 	Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
+	if (Get-Process -Name "OneDrive.Sync.Service" -ErrorAction SilentlyContinue) {
+		Start-MemoryLimitedApp "OneDrive.Sync.Service.exe" -Running
+	}
 }
 
 if (Test-Path "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe") {
 	Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
 }
+
+# packages
+foreach ($p in 'Microsoft.GamingApp', 'Microsoft.WindowsStore') {
+	Get-AppxPackage $p -ea 0 | % {
+		if ($_.InstallLocation) {
+			Get-ChildItem $_.InstallLocation -Filter *.exe -File | % BaseName | % {
+				try {
+					Start-MemoryLimitedApp $_ -Running
+				}
+				catch {}
+			}
+		}
+	}
+}
+
 Write-Host "Finished checking startup applications."
 
 # Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
