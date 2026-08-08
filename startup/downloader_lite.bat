@@ -33,8 +33,8 @@ if not exist "%downloadDir%" mkdir "%downloadDir%"
 set "github=https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/startup"
 
 @REM Delete stale staged copies so marker validation applies only to the newly downloaded files.
-del /s /q /f "%downloadDir%\common.bat"
-del /s /q /f "%downloadDir%\startup_tasks_lite.bat"
+if exist "%downloadDir%\common.bat" del /q /f "%downloadDir%\common.bat"
+if exist "%downloadDir%\startup_tasks_lite.bat" del /q /f "%downloadDir%\startup_tasks_lite.bat"
 
 @REM Copy the optional private import beside the downloaded scripts because common.bat resolves it from the staging directory.
 if exist "import_private.ps1" (
@@ -73,11 +73,11 @@ set "rc=1"
 :cleanup
 call :Status "cleaning up"
 @REM Remove every staged public or private script on both success and failure.
-del /s /q /f "%downloadDir%\common.bat" 2>nul
-del /s /q /f "%downloadDir%\startup_tasks_lite.bat" 2>nul
-del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
-del /s /q /f "%downloadDir%\import.ps1" 2>nul
-del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
+del /q /f "%downloadDir%\common.bat" 2>nul
+del /q /f "%downloadDir%\startup_tasks_lite.bat" 2>nul
+del /q /f "%downloadDir%\tasks.ps1" 2>nul
+del /q /f "%downloadDir%\import.ps1" 2>nul
+del /q /f "%downloadDir%\import_private.ps1" 2>nul
 if not "%rc%"=="0" pause
 endlocal & exit /b %rc%
 
