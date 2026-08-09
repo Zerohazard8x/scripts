@@ -72,7 +72,10 @@ function Start-ElevatedSelf {
 		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
 	}
 
-	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -Wait -PassThru
+	Write-Section "waiting for elevated maintenance"
+	Write-Host "Requesting administrator approval; this window will wait while maintenance runs in the elevated window."
+	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -WindowStyle Minimized -Wait -PassThru
+	
 	exit $process.ExitCode
 }
 
@@ -623,7 +626,8 @@ function Invoke-UserPhase {
 
 	# winget upgrade
 	Write-Host "Checking all winget packages for upgrades..."
-	Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements")
+	Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "--silent", "--disable-interactivity")
+	Write-Host "winget upgrade processing finished; continuing startup tasks."
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
 }
 
@@ -1832,10 +1836,10 @@ catch {
 
 if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 	try {
-		# Use the legacy Windows Update client only when the module remains unavailable after installation.
-		# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
-		wuauclt /detectnow
-		wuauclt /updatenow
+			# Use the legacy Windows Update client only when the module remains unavailable after installation.
+			# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
+			wuauclt /detectnow
+			wuauclt /updatenow
 	}
 	catch {
 		Write-Warning "Error: $_"

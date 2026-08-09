@@ -6,6 +6,8 @@
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
 call :Status "launching startup applications"
+if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
+if not exist "%downloadDir%" mkdir "%downloadDir%"
 
 @REM Resolve winget before elevation because the Administrator Protection environment can expose a different user-local PATH.
 if not defined STARTUP_WINGET_EXE for /f "delims=" %%I in ('where winget 2^>nul') do if not defined STARTUP_WINGET_EXE set "STARTUP_WINGET_EXE=%%I"
@@ -55,11 +57,8 @@ call :Status "downloading maintenance scripts"
 @REM Guard the download-and-run block because execution-policy and script invocation require PowerShell.
 where powershell >nul 2>&1
 if not errorlevel 1 (
-	@REM Save the current directory so the caller can be restored after staging work.
-	set "scriptPath=%~dp0"
-	cd /d "%scriptPath%"
-	if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
-	if not exist "%downloadDir%" mkdir "%downloadDir%"
+	@REM Enter the script directory before staging work.
+	cd /d "%~dp0"
 
 	@REM Set a process-scoped bypass only; this avoids changing the machine or user execution policy.
 	powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
