@@ -9,6 +9,7 @@
 @REM )
 
 setlocal EnableExtensions EnableDelayedExpansion
+call :Status "startup task setup"
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
 set "USER_PATH=%PATH%"
 
@@ -19,7 +20,7 @@ if /I "%~1"=="--admin-programs" set "STARTUP_ADMIN_STAGE=programs"
 if /I "%STARTUP_ADMIN_STAGE%"=="python" goto ADMIN_PYTHON_TASKS
 if /I "%STARTUP_ADMIN_STAGE%"=="programs" goto ADMIN_PROGRAM_TASKS
 
-set "downloadDir=%USERPROFILE%\Downloads"
+if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
 
 @REM minescule mouse
@@ -52,6 +53,7 @@ goto NOPYTHON
 
 @REM Elevated Python stage begins here; direct GOTO avoids replaying the initial prompt.
 :ADMIN_PYTHON_TASKS
+call :Status "Python maintenance"
 if not defined PYEXE for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 if not exist "%PYEXE%" (
 @REM If Chocolatey exists, upgrade Python via choco
@@ -86,6 +88,7 @@ if not "%rc%"=="0" (
 endlocal & exit /b %rc%
 
 :NOPYTHON
+call :Status "program installation prompt"
 
 @REM @REM Clear screen
 @REM cls
@@ -108,6 +111,7 @@ goto NOPROGRAMS
 
 @REM Elevated program-upgrade stage begins here; package managers generally require administrator rights.
 :ADMIN_PROGRAM_TASKS
+call :Status "program upgrades"
 @REM Upgrade Chocolatey itself before upgrading its installed packages.
 where choco >nul 2>&1
 if errorlevel 1 (
@@ -125,6 +129,7 @@ if errorlevel 1 (
 if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b 0
 
 :NOPROGRAMS
+call :Status "common startup tasks"
 
 @REM Call common.bat in the current console so execution waits and its exit status can be propagated.
 if exist "%~dp0common.bat" (
@@ -169,12 +174,15 @@ call :IsAdmin
 if "%errorlevel%"=="0" exit /b 0
 
 echo Requesting administrator approval for %STARTUP_ELEVATE_STAGE% tasks...
+echo The elevated tasks will open in another window; this window will wait for them to finish.
+call :Status "waiting for elevated %STARTUP_ELEVATE_STAGE% tasks"
 set "STARTUP_ELEVATE_TARGET=%~f0"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
 exit /b %errorlevel%
 
 @REM Upgrade an interpreter from its current package inventory while preserving dependency compatibility.
 :UpgradeFrozenRequirements
+call :Status "Python dependency upgrades"
 set "SCRIPT_PYTHON_EXE=%~1"
 set "SCRIPT_ID=%RANDOM%-%RANDOM%"
 set "SCRIPT_PACKAGES_JSON=%TEMP%\packages-%SCRIPT_ID%.json"
@@ -223,3 +231,9 @@ del /q /f "%SCRIPT_REPORT_FILE%" 2>nul
 "%SCRIPT_PYTHON_EXE%" -m pip cache purge
 
 exit /b %SCRIPT_UPGRADE_RC%
+
+:Status
+title Now running: %~1
+echo.
+echo === Now running: %~1 ===
+exit /b 0

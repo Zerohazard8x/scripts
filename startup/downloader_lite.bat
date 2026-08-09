@@ -6,6 +6,7 @@
 @REM     exit %errorlevel%
 @REM )
 setlocal EnableExtensions
+call :Status "waiting for startup idle"
 
 @REM Set overridable idle-detection defaults before any network or download work begins.
 if not defined SCRIPT_STARTUP_IDLE_MAX_SECONDS set "SCRIPT_STARTUP_IDLE_MAX_SECONDS=600"
@@ -16,13 +17,15 @@ if not defined SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS set "SCRIPT_STARTUP_IDLE_SAMPL
 @REM Gate startup once per inherited environment; the flag prevents a relaunch or nested call from waiting twice.
 if /I not "%SCRIPT_STARTUP_IDLE_DONE%"=="1" (
     set "SCRIPT_STARTUP_IDLE_DONE=1"
-    echo Startup tasks will wait for idle. Press N to stop, or wait to continue.
-    choice /c YN /t 5 /d Y /m "Continue"
-    if errorlevel 2 endlocal & exit /b 0
     call :WaitForStartupIdle
+    if errorlevel 2 (
+        echo Startup tasks cancelled.
+        endlocal & exit /b 0
+    )
 )
 
 @REM Use the user Downloads directory as a writable staging area shared by each script in the chain.
+call :Status "preparing downloads"
 set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
 
@@ -30,8 +33,8 @@ if not exist "%downloadDir%" mkdir "%downloadDir%"
 set "github=https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/startup"
 
 @REM Delete stale staged copies so marker validation applies only to the newly downloaded files.
-del /s /q /f "%downloadDir%\common.bat"
-del /s /q /f "%downloadDir%\startup_tasks_lite.bat"
+if exist "%downloadDir%\common.bat" del /q /f "%downloadDir%\common.bat"
+if exist "%downloadDir%\startup_tasks_lite.bat" del /q /f "%downloadDir%\startup_tasks_lite.bat"
 
 @REM Copy the optional private import beside the downloaded scripts because common.bat resolves it from the staging directory.
 if exist "import_private.ps1" (
@@ -39,6 +42,7 @@ if exist "import_private.ps1" (
 )
 
 @REM Fetch common.bat first because startup_tasks_lite.bat calls it later; :Download selects the first available downloader.
+call :Status "downloading common.bat"
 call :Download common.bat
 
 @REM Require both marker strings before continuing, which rejects missing, empty, or unrelated downloads.
@@ -46,11 +50,13 @@ if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
         @REM Fetch the next script only after common.bat passes validation.
+        call :Status "downloading startup_tasks_lite.bat"
         call :Download startup_tasks_lite.bat
         
         @REM Validate the second staged script before CALL transfers control while retaining this batch context.
         findstr /C:"minescule" /C:"mouse" "%downloadDir%\startup_tasks_lite.bat" >nul 2>&1
         if not errorlevel 1 (
+            call :Status "running startup_task_lite.bat"
             call "%downloadDir%\startup_tasks_lite.bat"
             set "rc=%errorlevel%"
             goto :cleanup
@@ -58,17 +64,20 @@ if exist "%downloadDir%\common.bat" (
     )
 )
 
+echo Download or validation failed; startup tasks cannot continue.
+
 @REM Use a nonzero default result when either download or marker check failed.
 set "rc=1"
 
 @REM Centralize cleanup so every success and failure path removes staged scripts before returning.
 :cleanup
+call :Status "cleaning up"
 @REM Remove every staged public or private script on both success and failure.
-del /s /q /f "%downloadDir%\common.bat" 2>nul
-del /s /q /f "%downloadDir%\startup_tasks_lite.bat" 2>nul
-del /s /q /f "%downloadDir%\tasks.ps1" 2>nul
-del /s /q /f "%downloadDir%\import.ps1" 2>nul
-del /s /q /f "%downloadDir%\import_private.ps1" 2>nul
+del /q /f "%downloadDir%\common.bat" 2>nul
+del /q /f "%downloadDir%\startup_tasks_lite.bat" 2>nul
+del /q /f "%downloadDir%\tasks.ps1" 2>nul
+del /q /f "%downloadDir%\import.ps1" 2>nul
+del /q /f "%downloadDir%\import_private.ps1" 2>nul
 if not "%rc%"=="0" pause
 endlocal & exit /b %rc%
 
@@ -85,7 +94,7 @@ if not errorlevel 1 (
         where aria2c >nul 2>&1
         if not errorlevel 1 (
             aria2c -R --allow-overwrite=true -d "%downloadDir%" -o "%~1" "%github%/%~1"
-        )
+        ) else echo No supported downloader found for %~1.
     )
 )
 exit /b
@@ -98,10 +107,17 @@ if "%SCRIPT_STARTUP_IDLE_MAX_SECONDS%"=="0" exit /b 0
 @REM Use TIMEOUT as a bounded fallback because CPU sampling below depends on PowerShell and CIM.
 where powershell >nul 2>&1
 if errorlevel 1 (
-    timeout /t %SCRIPT_STARTUP_IDLE_MAX_SECONDS% /nobreak >nul
-    exit /b 0
+    choice /C NY /N /T %SCRIPT_STARTUP_IDLE_MAX_SECONDS% /D Y /M "Startup tasks will wait for idle. Press N to stop, or wait to continue."
+    if errorlevel 2 exit /b 0
+    exit /b 2
 )
 
 @REM Average all processor load samples and require consecutive below-threshold readings to avoid reacting to one transient dip.
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$max=[Math]::Max(0,[int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS); $threshold=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT); $needed=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES); $sleep=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS); $deadline=(Get-Date).AddSeconds($max); $stable=0; while((Get-Date) -lt $deadline) { try { $values=@(Get-CimInstance Win32_Processor | ForEach-Object { $_.LoadPercentage }); if ($values.Count -gt 0) { $cpu=($values | Measure-Object -Average).Average } else { $cpu=100 } } catch { $cpu=100 }; if ($cpu -le $threshold) { $stable++ } else { $stable=0 }; if ($stable -ge $needed) { exit 0 }; Start-Sleep -Seconds $sleep }; exit 0"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$max=[Math]::Max(0,[int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS); $threshold=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT); $needed=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES); $sleep=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS); $deadline=(Get-Date).AddSeconds($max); $stable=0; $cancel={ try { if ($Host.UI.RawUI.KeyAvailable) { return $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character -eq 'n' } } catch {}; return $false }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status 'Checking CPU...'; while((Get-Date) -lt $deadline) { if (&$cancel) { exit 2 }; try { $values=@(Get-CimInstance Win32_Processor | ForEach-Object { $_.LoadPercentage }); if ($values.Count -gt 0) { $cpu=($values | Measure-Object -Average).Average } else { $cpu=100 } } catch { $cpu=100 }; if ($cpu -le $threshold) { $stable++ } else { $stable=0 }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status ('CPU {0:N0}%%; idle sample {1}/{2}; checking again in {3}s' -f $cpu,$stable,$needed,$sleep); if ($stable -ge $needed) { exit 0 }; $next=(Get-Date).AddSeconds($sleep); while((Get-Date) -lt $next) { if (&$cancel) { exit 2 }; Start-Sleep -Milliseconds 100 } }; exit 0"
+exit /b %errorlevel%
+
+:Status
+title Now running: %~1
+echo.
+echo === Now running: %~1 ===
 exit /b 0
