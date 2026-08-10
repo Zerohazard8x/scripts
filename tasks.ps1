@@ -58,6 +58,7 @@ function Test-IsAdministrator {
 
 # Relaunch this script once with UAC, forwarding the resolved winget path and original arguments.
 function Start-ElevatedSelf {
+	if (Test-IsAdministrator) { return }
 	if ([string]::IsNullOrWhiteSpace($PSCommandPath)) {
 		throw 'Cannot relaunch the current script because PSCommandPath is empty.'
 	}
@@ -657,9 +658,7 @@ function Invoke-UserPhase {
 # Relaunch through UAC when needed so a non-elevated interactive or scheduled invocation can continue.
 if (-not $AdminPhase) {
 	Invoke-UserPhase
-	if (-not (Test-IsAdministrator)) {
-		Start-ElevatedSelf -AdminPhase
-	}
+	Start-ElevatedSelf -AdminPhase
 }
 
 if (-not (Test-IsAdministrator)) {
