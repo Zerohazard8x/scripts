@@ -74,8 +74,9 @@ function Start-ElevatedSelf {
 
 	Write-Section "waiting for elevated maintenance"
 	Write-Host "Requesting administrator approval; this window will wait while maintenance runs in the elevated window."
-	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -WindowStyle Minimized -Wait -PassThru
+	$process = Start-Process -FilePath 'powershell.exe' -ArgumentList $argumentLine -Verb RunAs -WindowStyle Minimized -PassThru
 	
+	$process.WaitForExit()
 	exit $process.ExitCode
 }
 
