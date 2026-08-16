@@ -1505,7 +1505,19 @@ foreach ($p in 'Microsoft.GamingApp', 'Microsoft.WindowsStore') {
 	}
 }
 
-Write-Host "Finished checking startup applications."
+# Get all Windows services and process each one.
+Get-CimInstance Win32_Service | ForEach-Object {
+	# Extract the executable path from the service command line.
+	$exePath = Get-ExePathFromServicePath $_.PathName
+
+	# Get only the executable file name.
+	$exeName = [IO.Path]::GetFileName($exePath)
+
+	# Apply the memory limit if the application is currently running.
+	Start-MemoryLimitedApp $exeName -Running
+}
+
+Write-Host "Finished checking applications which can be memory limited."
 
 # Optionally lower eligible non-Windows processes after elevation so maintenance work remains responsive.
 Write-Section "process priorities"

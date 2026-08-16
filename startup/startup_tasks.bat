@@ -74,7 +74,7 @@ if not defined PY312EXE for /f "delims=" %%I in ('python3.12 -c "import sys;prin
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
     "%PYEXE%" -m pip install --upgrade pip||pause
-    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] mutagen||pause
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] curl-cffi>=0.15.0 mutagen||pause
 
     @REM Install and resolve Python 3.12 through uv because WhisperX and Demucs are isolated to that interpreter.
     if not exist "%PY312EXE%" (
@@ -157,7 +157,7 @@ if errorlevel 1 (
     echo Chocolatey was not found in the elevated process PATH.
     pause
 ) else (
-    choice /C YN /N /D Y /T 5 /M "Upgrade primary Chocolatey packages? (Y/N)"
+    choice /C YN /N /D N /T 5 /M "Upgrade primary Chocolatey packages? (Y/N)"
     if not errorlevel 2 (
         choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
         choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
