@@ -51,6 +51,7 @@ pyInstall() {
 			python3.12 -m pip install -U pip whisperx
 			# python3.12 -m pip install -U openai-whisper
 			# python3.12 -m pip install -U stable-ts faster-whisper demucs
+			# python3.12 -m pip install -U qwen-asr
 		else
 			echo "Python 3.12 not found, installing using uv..."
 			if command -v uv &>/dev/null; then
