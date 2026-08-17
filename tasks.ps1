@@ -68,6 +68,9 @@ function Start-ElevatedSelf {
 		$escapedWingetExe = $WingetExe.Replace('"', '\"')
 		$argumentLine += ' -WingetExe "{0}"' -f $escapedWingetExe
 	}
+
+	if ($IncludeRunningServices) { $argumentLine += ' -IncludeRunningServices' }
+	
 	if ($args.Count -gt 0) {
 		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
 	}
@@ -141,6 +144,10 @@ function Get-ExePathFromServicePath {
 		return $matches[1]
 	}
 
+	if ($expanded -match '^\s*(.+?\.exe)(?:\s|$)') {
+		return $matches[1]
+	}
+
 	if ($expanded -match '^\s*([^\s]+)') {
 		return $matches[1]
 	}
@@ -157,7 +164,7 @@ function Test-IsUnderWindowsDirectory {
 	$winDir = [Environment]::GetFolderPath('Windows')
 	$full = [Environment]::ExpandEnvironmentVariables($ExePath)
 
-	return $full.StartsWith($winDir, [System.StringComparison]::OrdinalIgnoreCase)
+	return $full.StartsWith(($winDir + '\'), [System.StringComparison]::OrdinalIgnoreCase)
 }
 
 # Route destructive actions through the script cmdlet ShouldProcess contract when available.
@@ -1114,7 +1121,13 @@ function Start-MemoryLimitedApp {
 		[switch]$Running
 	)
 
-	if ($Running) { $Path = (Get-Process ([IO.Path]::GetFileNameWithoutExtension($Path)) -ea Stop)[0].Path }
+	if ($Running -and -not ([IO.Path]::IsPathRooted($Path))) { 
+		$Path = (Get-Process ([IO.Path]::GetFileNameWithoutExtension($Path)) -ea 0)[0].Path
+		
+		if (-not $Path) { 
+			return 
+		} 
+	}
 
 	$exePath =
 	[Environment]::ExpandEnvironmentVariables(
@@ -1292,6 +1305,10 @@ One or more existing processes could not be attached.
 		return $attached
 	}
 
+	if ($Running) { 
+		return 
+	}
+
 	Write-Host (
 		"{0} is not currently running." -f
 		$processName
@@ -1319,7 +1336,6 @@ One or more existing processes could not be attached.
 		$process =
 		Start-Process `
 			-FilePath $exePath `
-			-Verb RunAs `
 			-PassThru
 
 		[MemoryLimitedLauncher]::Attach(
@@ -1357,13 +1373,12 @@ One or more existing processes could not be attached.
 # Relaunch through UAC when needed so a non-elevated interactive or scheduled invocation can continue.
 if (-not $AdminPhase) {
 	Invoke-UserPhase
-	Start-ElevatedSelf -AdminPhase
 }
 
-if (-not (Test-IsAdministrator)) {
+if ($AdminPhase -and -not (Test-IsAdministrator)) {
 	Write-Warning 'Requesting administrator approval for tasks.ps1...'
 	try {
-		Start-ElevatedSelf @args
+		Start-ElevatedSelf -AdminPhase @args
 	}
 	catch {
 		Write-Error "Could not relaunch tasks.ps1 as administrator: $_"
@@ -1381,140 +1396,164 @@ Write-Host ""
 # Launch selected user applications only when installed and not already running.
 # ==============================
 
-if (Test-Path "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe"
-}
-
-if (Test-Path "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE") {
-	Start-MemoryLimitedApp "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE"
-}
-
-if (Test-Path "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
-	if (Get-Process -Name "RTSSHooksLoader64" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "RTSSHooksLoader64.exe" -Running
-	}
-}
-
-if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
-	if (Get-Process -Name "steamwebhelper" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "steamwebhelper.exe" -Running
-	}
-}
-
-if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
-	if (-not (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue)) {
-		Start-MemoryLimitedApp "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
+if (-not $AdminPhase) {
+	if (Test-Path "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\MSI Afterburner\MSIAfterburner.exe"
 	}
 
-	if (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "RiotClientServices.exe" -Running
+	if (Test-Path "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE") {
+		Start-MemoryLimitedApp "$env:ProgramFiles\HWiNFO64\HWiNFO64.EXE"
 	}
-}
 
-if (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
-	if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+	if (Test-Path "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\RivaTuner Statistics Server\RTSS.exe"
+		if (Get-Process -Name "RTSSHooksLoader64" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "RTSSHooksLoader64.exe" -Running
+		}
 	}
-}
-elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
-	if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+
+	if (Test-Path "${env:ProgramFiles(x86)}\Steam\steam.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Steam\steam.exe"
+		if (Get-Process -Name "steamwebhelper" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "steamwebhelper.exe" -Running
+		}
 	}
-}
 
-if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe"
-}
+	if (Test-Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk") {
+		if (-not (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue)) {
+			Start-Process "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Riot Games\Riot Client.lnk"
 
-# if (Test-Path "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe") {
-# 	if (-not (Get-Process -Name "SteelSeriesGG" -ErrorAction SilentlyContinue)) {
-# 		Start-MemoryLimitedApp "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe"
-# 	}
-# }
+			for ($i = 0; $i -lt 50 -and -not (Get-Process RiotClientServices -ea 0); $i++) { 
+				Start-Sleep -Milliseconds 100 
+			}
+		}
 
-if (Test-Path "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe") {
-	Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
-	if (Get-Process -Name "Overwolf" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "Overwolf.exe" -Running
+		if (Get-Process -Name "RiotClientServices" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "RiotClientServices.exe" -Running
+		}
 	}
-}
 
-# if (Test-Path "${env:ProgramFiles(x86)}\FanControl\FanControl.exe") {
-# 	if (-not (Get-Process -Name "FanControl" -ErrorAction SilentlyContinue)) {
-# 		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\FanControl\FanControl.exe"
-# 	}
-# }
-
-# Probe known Voicemeeter editions and retain the first executable found.
-$vm_path = ""
-$vm_exe = ""
-
-# Prefer the most feature-complete Voicemeeter edition when more than one is installed.
-if (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe") {
-	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe"
-	$vm_exe = "voicemeeterpro_x64"
-}
-elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe") {
-	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe"
-	$vm_exe = "voicemeeter8x64"
-}
-elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe") {
-	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe"
-	$vm_exe = "voicemeeterpro"
-}
-elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe") {
-	$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe"
-	$vm_exe = "voicemeeter8"
-}
-
-# Start the selected Voicemeeter executable only when no matching process is already active.
-if ($vm_path) {
-	Start-MemoryLimitedApp $vm_path
-}
-
-if (Test-Path "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe") {
-	Start-MemoryLimitedApp "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe"
-}
-
-if (Test-Path "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe") {
-	Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
-	if (Get-Process -Name "OneDrive.Sync.Service" -ErrorAction SilentlyContinue) {
-		Start-MemoryLimitedApp "OneDrive.Sync.Service.exe" -Running
+	if (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe"
+		if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+		}
 	}
-}
+	elseif (Test-Path "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Epic Games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe"
+		if (Get-Process -Name "EpicWebHelper" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "EpicWebHelper.exe" -Running
+		}
+	}
 
-if (Test-Path "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe") {
-	Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
-}
+	if (Test-Path "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Razer\Razer Cortex\RazerCortex.exe"
+	}
 
-# packages
-foreach ($p in 'Microsoft.GamingApp', 'Microsoft.WindowsStore') {
-	Get-AppxPackage $p -ea 0 | % {
-		if ($_.InstallLocation) {
-			Get-ChildItem $_.InstallLocation -Filter *.exe -File | % BaseName | % {
-				try {
-					Start-MemoryLimitedApp $_ -Running
+	# if (Test-Path "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe") {
+	# 	if (-not (Get-Process -Name "SteelSeriesGG" -ErrorAction SilentlyContinue)) {
+	# 		Start-MemoryLimitedApp "$env:ProgramFiles\SteelSeries\GG\SteelSeriesGG.exe"
+	# 	}
+	# }
+
+	if (Test-Path "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe") {
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\Overwolf\OverwolfLauncher.exe"
+		if (Get-Process -Name "Overwolf" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "Overwolf.exe" -Running
+		}
+	}
+
+	# if (Test-Path "${env:ProgramFiles(x86)}\FanControl\FanControl.exe") {
+	# 	if (-not (Get-Process -Name "FanControl" -ErrorAction SilentlyContinue)) {
+	# 		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\FanControl\FanControl.exe"
+	# 	}
+	# }
+
+	# Probe known Voicemeeter editions and retain the first executable found.
+	$vm_path = ""
+	$vm_exe = ""
+
+	# Prefer the most feature-complete Voicemeeter edition when more than one is installed.
+	if (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe") {
+		$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro_x64.exe"
+		$vm_exe = "voicemeeterpro_x64"
+	}
+	elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe") {
+		$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8x64.exe"
+		$vm_exe = "voicemeeter8x64"
+	}
+	elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe") {
+		$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeterpro.exe"
+		$vm_exe = "voicemeeterpro"
+	}
+	elseif (Test-Path "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe") {
+		$vm_path = "${env:ProgramFiles(x86)}\VB\Voicemeeter\voicemeeter8.exe"
+		$vm_exe = "voicemeeter8"
+	}
+
+	# Start the selected Voicemeeter executable only when no matching process is already active.
+	if ($vm_path) {
+		Start-MemoryLimitedApp $vm_path
+	}
+
+	if (Test-Path "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe") {
+		Start-MemoryLimitedApp "$env:ProgramFiles\Mozilla Thunderbird\thunderbird.exe"
+	}
+
+	if (Test-Path "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe") {
+		Start-MemoryLimitedApp "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
+		if (Get-Process -Name "OneDrive.Sync.Service" -ErrorAction SilentlyContinue) {
+			Start-MemoryLimitedApp "OneDrive.Sync.Service.exe" -Running
+		}
+	}
+
+	if (Test-Path "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe") {
+		Start-MemoryLimitedApp "$env:LOCALAPPDATA\MEGAsync\MEGAsync.exe"
+	}
+
+	# packages
+	foreach ($p in 'Microsoft.GamingApp', 'Microsoft.WindowsStore') {
+		Get-AppxPackage $p -ea 0 | % {
+			if ($_.InstallLocation) {
+				Get-ChildItem $_.InstallLocation -Filter *.exe -File | % BaseName | % {
+					try {
+						Start-MemoryLimitedApp $_ -Running
+					}
+					catch {}
 				}
-				catch {}
 			}
 		}
 	}
 }
 
-# Get all Windows services and process each one.
-Get-CimInstance Win32_Service | ForEach-Object {
-	# Extract the executable path from the service command line.
+if (-not $AdminPhase) {
+	Start-ElevatedSelf -AdminPhase
+}
+
+$services = Get-CimInstance Win32_Service | Where-Object State -eq Running | ForEach-Object {
 	$exePath = Get-ExePathFromServicePath $_.PathName
 
-	# Get only the executable file name.
-	$exeName = [IO.Path]::GetFileName($exePath)
+	[PSCustomObject]@{
+		Name         = $_.Name
+		ServiceType  = $_.ServiceType
+		ExePath      = $exePath
+		UnderWindows = Test-IsUnderWindowsDirectory $exePath
+	}
+}
 
-	# Apply the memory limit if the application is currently running.
-	Start-MemoryLimitedApp $exeName -Running
+$nonSystemServices = $services | Where-Object {
+	$_.ExePath -and
+	$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
+	-not $_.UnderWindows
+}
+
+if ($IncludeRunningServices -and $nonSystemServices) {
+	foreach ($svc in $nonSystemServices) {
+		Start-MemoryLimitedApp $svc.ExePath -Running
+	}
+}
+elseif ($IncludeRunningServices) {
+	Write-Host "No running non-Windows services eligible for memory limitation were found."
 }
 
 Write-Host "Finished checking applications which can be memory limited."
@@ -1602,6 +1641,7 @@ if ($DO_SET_NONSTOCK_SERVICES) {
 	}
 
 	$nonSystemServices = $services | Where-Object {
+		$_.ExePath -and
 		$_.ServiceType -notmatch 'Kernel Driver|File System Driver' -and
 		-not $_.UnderWindows
 	}
@@ -1849,10 +1889,10 @@ catch {
 
 if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 	try {
-			# Use the legacy Windows Update client only when the module remains unavailable after installation.
-			# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
-			wuauclt /detectnow
-			wuauclt /updatenow
+		# Use the legacy Windows Update client only when the module remains unavailable after installation.
+		# Trigger update detection and installation through wuauclt without treating it as a feature-equivalent replacement.
+		wuauclt /detectnow
+		wuauclt /updatenow
 	}
 	catch {
 		Write-Warning "Error: $_"
