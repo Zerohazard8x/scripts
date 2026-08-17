@@ -59,56 +59,68 @@ where powershell >nul 2>&1
 if not errorlevel 1 (
 	@REM Enter the script directory before staging work.
 	cd /d "%~dp0"
-
+	
 	@REM Set a process-scoped bypass only; this avoids changing the machine or user execution policy.
 	powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 	"Write-Host 'ExecutionPolicy set to Bypass'"
-
+	
 	@REM Delete the old staged task script so the subsequent existence check refers to the fresh download.
 	if exist "%downloadDir%\tasks.ps1" del /q /f "%downloadDir%\tasks.ps1" 2>nul
 	if exist "%downloadDir%\import.ps1" del /q /f "%downloadDir%\import.ps1" 2>nul
-
-	@REM Download tasks.ps1 into the shared staging directory 
+	
+	@REM Download tasks.ps1 into the shared staging directory
 	@REM preferring curl when present.
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\tasks.ps1" "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
 		curl -L -o "%downloadDir%\tasks.ps1" "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/tasks.ps1"
-	) 
+	)
 	@REM else if exist "%ProgramFiles%\Unix\wget.exe" (
 	@REM 	@REM "%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://raw.githubusercontent.com/Zerohazard8x/scripts/main/tasks.ps1"
 	@REM 	"%ProgramFiles%\Unix\wget.exe" -O tasks.ps1 "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/tasks.ps1"
 	@REM )
-
+	
 	@REM Download the optional public import script separately because its source and execution are independent.
 	where curl >nul 2>&1
 	if not errorlevel 1 (
 		@REM curl -L -o "%downloadDir%\import.ps1" "https://raw.githubusercontent.com/ _ "
 		curl -L -o "%downloadDir%\import.ps1" "https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/wifi/import.ps1"
 	)
-
+	
 	@REM Execute tasks.ps1 only after a successful download left a file at the expected path.
 	if exist "%downloadDir%\tasks.ps1" (
 		call :Status "PowerShell maintenance"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
 		if errorlevel 1 pause
-	) else echo Skipping PowerShell maintenance: tasks.ps1 was not downloaded.
-
+		) else (
+		echo Skipping PowerShell maintenance: tasks.ps1 was not downloaded.
+	)
+	
 	@REM Run the optional public import after the main tasks so it can layer additional settings.
+	choice /C YN /N /D N /T 5 /M "Run public WiFi import? (Y/N)"
+	if errorlevel 2 goto NOWIFIIMPORT
 	if exist "%downloadDir%\import.ps1" (
 		call :Status "WiFi import"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
-	) else echo Skipping public WiFi import: import.ps1 was not downloaded.
-
+		) else (
+		echo Skipping public WiFi import: import.ps1 was not downloaded.
+	)
+	:NOWIFIIMPORT
+	
 	@REM Run the locally staged private import last so private overrides take precedence.
+	choice /C YN /N /D N /T 5 /M "Run private WiFi import? (Y/N)"
+	if errorlevel 2 goto NOPRIVATEWIFIIMPORT
 	if exist "%downloadDir%\import_private.ps1" (
 		call :Status "private WiFi import"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
-	) else echo Skipping private WiFi import: import_private.ps1 was not found.
-
+		) else (
+		echo Skipping private WiFi import: import_private.ps1 was not found.
+	)
+	:NOPRIVATEWIFIIMPORT
+	
 	@REM Restore the process policy before leaving the maintenance block.
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
-) else (
+	) else (
 	wuauclt /detectnow
 	wuauclt /updatenow
 	control update 2>nul
