@@ -1530,6 +1530,7 @@ if (-not $AdminPhase) {
 	Start-ElevatedSelf -AdminPhase
 }
 
+# services
 $services = Get-CimInstance Win32_Service | Where-Object State -eq Running | ForEach-Object {
 	$exePath = Get-ExePathFromServicePath $_.PathName
 
@@ -1552,7 +1553,7 @@ if ($IncludeRunningServices -and $nonSystemServices) {
 		Start-MemoryLimitedApp $svc.ExePath -Running
 	}
 }
-elseif ($IncludeRunningServices) {
+else {
 	Write-Host "No running non-Windows services eligible for memory limitation were found."
 }
 
