@@ -109,7 +109,7 @@ if exist "%PYEXE%" (
 @REM If python3.12 in PATH, purge cache and upgrade packages
 if exist "%PY312EXE%" (
     "%PY312EXE%" -m pip install --upgrade pip||pause
-    "%PY312EXE%" -m pip install whisperx demucs||pause
+    "%PY312EXE%" -m pip install whisperx demucs ffsubsync||pause
     where nvidia-smi >nul 2>&1 && "%PY312EXE%" -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128||pause
 
     @REM Freeze installed top-level packages, resolve compatible upgrades, then enforce pip dependency consistency.
