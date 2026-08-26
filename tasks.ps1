@@ -70,7 +70,7 @@ function Start-ElevatedSelf {
 	}
 
 	if ($IncludeRunningServices) { $argumentLine += ' -IncludeRunningServices' }
-	
+
 	if ($args.Count -gt 0) {
 		$argumentLine = $argumentLine + ' ' + ($args -join ' ')
 	}

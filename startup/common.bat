@@ -153,7 +153,7 @@ if not errorlevel 1 (
 @REM powercfg -setdcvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFEPP1 0
 @REM powercfg -setactive SCHEME_CURRENT
 
-if /I "%COMMON_ADMIN_STAGE%"=="powershell" endlocal & exit /b %errorlevel%
+if /I "%COMMON_ADMIN_STAGE%"=="powershell" (endlocal & exit /b %errorlevel%)
 
 :NOPSHELL
 call :Status "service tweaks prompt"
@@ -190,7 +190,7 @@ call :Status "service tweaks"
 @REM sc config "SysMain" start=disabled >nul 2>&1
 @REM sc config "svsvc" start=disabled >nul 2>&1
 
-if /I "%COMMON_ADMIN_STAGE%"=="services" endlocal & exit /b %errorlevel%
+if /I "%COMMON_ADMIN_STAGE%"=="services" (endlocal & exit /b %errorlevel%)
 
 :NOSERVTWEAKS
 call :Status "update windows prompt"
