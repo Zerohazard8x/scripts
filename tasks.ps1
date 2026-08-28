@@ -1527,7 +1527,14 @@ if (-not $AdminPhase) {
 }
 
 if (-not $AdminPhase) {
-	Start-ElevatedSelf -AdminPhase
+	if (Test-IsAdministrator) {
+		# common.bat may have elevated the whole PowerShell-maintenance stage already.
+		# Continue here so Task Scheduler does not have to follow a second UAC child window.
+		Write-Section "administrator maintenance"
+	}
+	else {
+		Start-ElevatedSelf -AdminPhase
+	}
 }
 
 # services
