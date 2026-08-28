@@ -126,7 +126,7 @@ if errorlevel 1 (
     choco upgrade all -y||pause
 )
 
-if /I "%STARTUP_ADMIN_STAGE%"=="programs" endlocal & exit /b 0
+if /I "%STARTUP_ADMIN_STAGE%"=="programs" (endlocal & exit /b 0)
 
 :NOPROGRAMS
 call :Status "common startup tasks"
