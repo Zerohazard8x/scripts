@@ -105,6 +105,10 @@ if not errorlevel 1 (
 		) else (
 		echo Skipping public WiFi import: import.ps1 was not downloaded.
 	)
+
+	@REM disposable label to fix parsing
+	@REM bc labels inside parenthesized block can make cmd.exe parsing fail
+	:_
 	:NOWIFIIMPORT
 	
 	@REM Run the locally staged private import last so private overrides take precedence.
@@ -116,6 +120,9 @@ if not errorlevel 1 (
 		) else (
 		echo Skipping private WiFi import: import_private.ps1 was not found.
 	)
+	
+	@REM disposable label to fix parsing
+	:_
 	:NOPRIVATEWIFIIMPORT
 	
 	@REM Restore the process policy before leaving the maintenance block.
