@@ -76,7 +76,7 @@ if exist "%PYEXE%" (
     "%PYEXE%" -m pip install --upgrade pip||pause
     "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] curl-cffi>=0.15.0 mutagen||pause
 
-    @REM Install and resolve Python 3.12 through uv because WhisperX and Demucs are isolated to that interpreter.
+    @REM Install and resolve Python 3.12 through uv
     if not exist "%PY312EXE%" (
         where uv >nul 2>&1
         if errorlevel 1 (
@@ -110,7 +110,13 @@ if exist "%PYEXE%" (
 if exist "%PY312EXE%" (
     "%PY312EXE%" -m pip install --upgrade pip||pause
     "%PY312EXE%" -m pip install whisperx demucs ffsubsync||pause
-    where nvidia-smi >nul 2>&1 && "%PY312EXE%" -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128||pause
+
+    where nvidia-smi >nul 2>&1 && (
+        "%PY312EXE%" -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128||pause
+        "%PY312EXE%" -m pip install audio-separator[gpu]
+    ) else (
+        "%PY312EXE%" -m pip install audio-separator
+    )
 
     @REM Freeze installed top-level packages, resolve compatible upgrades, then enforce pip dependency consistency.
     where powershell >nul 2>&1 && (
