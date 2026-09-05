@@ -35,7 +35,8 @@ ping 127.0.0.1 -n 2 >nul
 
 @REM Ask before Python maintenance; CHOICE returns 1 for Y and 2 for N, with Y selected after five seconds.
 choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
-if errorlevel 2 goto NOPYTHON
+@REM CHOICE can return 255 when Task Scheduler supplies no console input; treat that as the documented default.
+if errorlevel 2 if not errorlevel 3 goto NOPYTHON
 
 for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 
@@ -95,7 +96,7 @@ call :Status "program installation prompt"
 
 @REM Ask before package-manager upgrades; N skips directly to the shared startup stage.
 choice /C YN /N /D Y /T 5 /M "Install programs? (Y/N)"
-if errorlevel 2 goto NOPROGRAMS
+if errorlevel 2 if not errorlevel 3 goto NOPROGRAMS
 
 @REM Keep all package-manager changes in one elevated child instead of prompting for each command.
 call :IsAdmin
