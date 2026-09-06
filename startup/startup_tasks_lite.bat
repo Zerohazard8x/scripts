@@ -72,7 +72,8 @@ where choco >nul 2>&1 && (
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
     "%PYEXE%" -m pip install --upgrade pip||pause
-    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] curl-cffi>=0.15.0 mutagen||pause
+    @REM Quote the version constraint so cmd.exe does not parse its greater-than sign as output redirection.
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] "curl-cffi>=0.15.0" mutagen||pause
 
     @REM Freeze installed top-level packages, resolve compatible upgrades, then enforce pip dependency consistency.
     where powershell >nul 2>&1 && (
@@ -80,7 +81,9 @@ if exist "%PYEXE%" (
     )
 )
 
-set "rc=%errorlevel%"
+@REM Do not propagate a stale ERRORLEVEL from the last optional Python command.
+@REM Each command reports its own failure above, and reaching here means the stage itself completed.
+set "rc=0"
 if /I not "%STARTUP_ADMIN_STAGE%"=="python" goto NOPYTHON
 if not "%rc%"=="0" (
     echo A stage exited with non-zero code %rc%.

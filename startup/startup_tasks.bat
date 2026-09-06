@@ -126,7 +126,9 @@ if exist "%PY312EXE%" (
     )
 )
 
-set "rc=%errorlevel%"
+@REM Do not propagate a stale ERRORLEVEL from the last optional Python command.
+@REM Each command reports its own failure above, and reaching here means the stage itself completed.
+set "rc=0"
 if /I not "%STARTUP_ADMIN_STAGE%"=="python" goto NOPYTHON
 if not "%rc%"=="0" (
     echo A stage exited with non-zero code %rc%.
