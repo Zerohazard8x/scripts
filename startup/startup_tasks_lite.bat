@@ -35,7 +35,8 @@ ping 127.0.0.1 -n 2 >nul
 
 @REM Ask before Python maintenance; CHOICE returns 1 for Y and 2 for N, with Y selected after five seconds.
 choice /C YN /N /D Y /T 5 /M "Python? (Y/N)"
-if errorlevel 2 goto NOPYTHON
+@REM CHOICE can return 255 when Task Scheduler supplies no console input; treat that as the documented default.
+if errorlevel 2 if not errorlevel 3 goto NOPYTHON
 
 for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 
@@ -71,7 +72,8 @@ where choco >nul 2>&1 && (
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
     "%PYEXE%" -m pip install --upgrade pip||pause
-    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] curl-cffi>=0.15.0 mutagen||pause
+    @REM Quote the version constraint so cmd.exe does not parse its greater-than sign as output redirection.
+    "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] "curl-cffi>=0.15.0" mutagen||pause
 
     @REM Freeze installed top-level packages, resolve compatible upgrades, then enforce pip dependency consistency.
     where powershell >nul 2>&1 && (
@@ -79,7 +81,9 @@ if exist "%PYEXE%" (
     )
 )
 
-set "rc=%errorlevel%"
+@REM Do not propagate a stale ERRORLEVEL from the last optional Python command.
+@REM Each command reports its own failure above, and reaching here means the stage itself completed.
+set "rc=0"
 if /I not "%STARTUP_ADMIN_STAGE%"=="python" goto NOPYTHON
 if not "%rc%"=="0" (
     echo A stage exited with non-zero code %rc%.
@@ -95,7 +99,7 @@ call :Status "program installation prompt"
 
 @REM Ask before package-manager upgrades; N skips directly to the shared startup stage.
 choice /C YN /N /D Y /T 5 /M "Install programs? (Y/N)"
-if errorlevel 2 goto NOPROGRAMS
+if errorlevel 2 if not errorlevel 3 goto NOPROGRAMS
 
 @REM Keep all package-manager changes in one elevated child instead of prompting for each command.
 call :IsAdmin

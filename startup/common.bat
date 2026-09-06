@@ -26,7 +26,8 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" goto ADMIN_SERVICE_TWEAKS
 @REM Ask before downloading and running PowerShell maintenance; Y is selected after five seconds.
 @REM cls
 choice /C YN /N /D Y /T 5 /M "Powershell n Repair? (Y/N)"
-if errorlevel 2 goto NOPSHELL
+@REM CHOICE can return 255 when Task Scheduler supplies no console input; treat that as the documented default.
+if errorlevel 2 if not errorlevel 3 goto NOPSHELL
 
 @REM Run the maintenance block directly when elevated
 @REM otherwise relaunch only this stage with UAC.
@@ -202,15 +203,15 @@ if /I "%COMMON_ADMIN_STAGE%"=="services" (endlocal & exit /b %errorlevel%)
 :NOSERVTWEAKS
 call :Status "update windows prompt"
 
-@REM Require an explicit response before opening external application links.
-@REM Omitting /D and /T makes CHOICE wait indefinitely rather than selecting a default.
+@REM Require an explicit response for this final prompt; it intentionally has no timeout or default.
 choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
-control update
-start "" /min "ms-windows-store://downloadsandupdates"
-start "" /min "msxbox://installs"
-start "" /min "steam://open/downloads"
+@REM START each target independently because cmd.exe waits for GUI programs invoked directly from a batch file.
+start "" control.exe /name Microsoft.WindowsUpdate
+start "" "ms-windows-store://downloadsandupdates"
+start "" "msxbox://installs"
+start "" "steam://open/downloads"
 
 :SKIP_DOWNLOAD_LINKS
 endlocal

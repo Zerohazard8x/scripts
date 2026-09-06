@@ -9,7 +9,15 @@ $VerbosePreference = 'Continue'
 $ProgressPreference = 'Continue'
 
 function Write-Section([string]$Name) {
-	$Host.UI.RawUI.WindowTitle = "Now running: $Name"
+	# Scheduled tasks can have a host object without an interactive RawUI implementation.
+	try {
+		if ($Host.UI -and $Host.UI.RawUI) {
+			$Host.UI.RawUI.WindowTitle = "Now running: $Name"
+		}
+	}
+	catch {
+		Write-Verbose "The current host does not expose a writable window title."
+	}
 	Write-Host "`n=== Now running: $Name ==="
 }
 
@@ -110,8 +118,12 @@ function Prompt-YesNoDefaultN {
 		[int]$TimeoutSeconds = 5
 	)
 
-	# Return the safe default immediately when RawUI is unavailable, such as under a scheduled task.
-	if (-not $Host.UI -or -not $Host.UI.RawUI) {
+	# Probe RawUI inside a guard because redirected and scheduled hosts can throw while accessing KeyAvailable.
+	try {
+		$rawUI = $Host.UI.RawUI
+		$null = $rawUI.KeyAvailable
+	}
+	catch {
 		return $false
 	}
 
@@ -120,8 +132,8 @@ function Prompt-YesNoDefaultN {
 	$deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
 
 	while ([DateTime]::UtcNow -lt $deadline) {
-		if ($Host.UI.RawUI.KeyAvailable) {
-			$key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").Character
+		if ($rawUI.KeyAvailable) {
+			$key = $rawUI.ReadKey("NoEcho,IncludeKeyDown").Character
 			Write-Host ""  # newline after keypress
 			return ($key.ToString().ToUpperInvariant() -eq 'Y')
 		}
