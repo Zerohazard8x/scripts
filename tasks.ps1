@@ -1926,6 +1926,7 @@ if (-not (Get-Command Get-WindowsUpdate -ErrorAction SilentlyContinue)) {
 # 	Set-ItemProperty -Path $item.Replace('HKEY_LOCAL_MACHINE', 'HKLM:') -Name 'Attributes' -Value 2 -Force
 # }
 
-exit
+# Do not leak a native command's LASTEXITCODE to common.bat, where it would keep an unattended launcher open.
+exit 0
 # so final prompt remains reachable during interactive runs.
 # Read-Host "Press Enter to continue"

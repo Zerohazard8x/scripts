@@ -92,7 +92,7 @@ if not errorlevel 1 (
 	if exist "%downloadDir%\tasks.ps1" (
 		call :Status "PowerShell maintenance"
 		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\tasks.ps1"
-		if errorlevel 1 pause
+		if errorlevel 1 echo PowerShell maintenance reported an error; continuing unattended startup.
 		) else (
 		echo Skipping PowerShell maintenance: tasks.ps1 was not downloaded.
 	)
@@ -207,11 +207,11 @@ call :Status "update windows prompt"
 choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
-@REM START each target independently because cmd.exe waits for GUI programs invoked directly from a batch file.
+@REM Route protocol URIs through the interactive Explorer shell so scheduled or elevated callers can activate user apps.
 start "" control.exe /name Microsoft.WindowsUpdate
-start "" "ms-windows-store://downloadsandupdates"
-start "" "msxbox://installs"
-start "" "steam://open/downloads"
+start "" "%SystemRoot%\explorer.exe" "ms-windows-store://downloadsandupdates"
+start "" "%SystemRoot%\explorer.exe" "msxbox://installs"
+start "" "%SystemRoot%\explorer.exe" "steam://open/downloads"
 
 :SKIP_DOWNLOAD_LINKS
 endlocal
