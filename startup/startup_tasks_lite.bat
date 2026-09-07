@@ -46,10 +46,10 @@ if "%errorlevel%"=="0" goto ADMIN_PYTHON_TASKS
 
 call :RunElevatedStage python
 set "rc=%errorlevel%"
-if not "%rc%"=="0" (
-    echo Python stage exited with code %rc%.
-    pause
-)
+if "%rc%"=="255" (
+    echo Python maintenance could not obtain an elevated interactive process.
+    echo Configure the scheduled task to run with highest privileges, then run it while the user is logged on.
+) else if not "%rc%"=="0" echo Python stage exited with code %rc%.
 goto NOPYTHON
 
 @REM Elevated Python stage begins here; direct GOTO avoids replaying the initial prompt.

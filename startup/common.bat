@@ -99,32 +99,29 @@ if not errorlevel 1 (
 	
 	@REM Run the optional public import after the main tasks so it can layer additional settings.
 	choice /C YN /N /D N /T 5 /M "Run public WiFi import? (Y/N)"
-	if errorlevel 2 goto NOWIFIIMPORT
-	if exist "%downloadDir%\import.ps1" (
-		call :Status "WiFi import"
-		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
+	if errorlevel 2 (
+		echo Skipping public WiFi import.
 		) else (
-		echo Skipping public WiFi import: import.ps1 was not downloaded.
+		if exist "%downloadDir%\import.ps1" (
+			call :Status "WiFi import"
+			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
+			) else (
+			echo Skipping public WiFi import: import.ps1 was not downloaded.
+		)
 	)
-
-	@REM disposable label to fix parsing
-	@REM bc labels inside parenthesized block can make cmd.exe parsing fail
-	:_
-	:NOWIFIIMPORT
 	
 	@REM Run the locally staged private import last so private overrides take precedence.
 	choice /C YN /N /D N /T 5 /M "Run private WiFi import? (Y/N)"
-	if errorlevel 2 goto NOPRIVATEWIFIIMPORT
-	if exist "%downloadDir%\import_private.ps1" (
-		call :Status "private WiFi import"
-		powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
+	if errorlevel 2 (
+		echo Skipping private WiFi import.
 		) else (
-		echo Skipping private WiFi import: import_private.ps1 was not found.
+		if exist "%downloadDir%\import_private.ps1" (
+			call :Status "private WiFi import"
+			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
+			) else (
+			echo Skipping private WiFi import: import_private.ps1 was not found.
+		)
 	)
-
-	@REM disposable label to fix parsing
-	:_
-	:NOPRIVATEWIFIIMPORT
 	
 	@REM Restore the process policy before leaving the maintenance block.
 	powershell.exe -NoProfile -Command "Write-Host 'ExecutionPolicy restored'"
