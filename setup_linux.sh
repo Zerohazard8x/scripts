@@ -49,9 +49,9 @@ pyInstall() {
 		echo "Updating Python 3.12 packages..."
 		if command -v python3.12 &>/dev/null; then
 			python3.12 -m pip install -U pip whisperx
-			# python3.12 -m pip install -U openai-whisper
 			# python3.12 -m pip install -U stable-ts faster-whisper demucs
 			# python3.12 -m pip install -U qwen-asr
+			# python3.12 -m pip install transformers accelerate "mistral-common[audio]" bitsandbytes
 		else
 			echo "Python 3.12 not found, installing using uv..."
 			if command -v uv &>/dev/null; then
@@ -65,13 +65,13 @@ pyInstall() {
 
 		# python -m pip install -U git+https://github.com/martinetd/samloader.git
 		# python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] ffsubsync
-		# python -m pip install -U stable-ts faster-whisper demucs ffsubsync
+		# python -m pip install -U stable-ts faster-whisper demucs qwen-asr audio-separator[gpu] ffsubsync
 
 		# ocrmypdf input.pdf output.pdf
 		# Remove background - rembg i input.png output.png
 		# Transcribe - stable-ts --faster-whisper --task translate --denoiser demucs --vad=True audio.mp3 -o audio.srt
 		# Remove background - demucs --two-stems=vocals input.mp3 output.mp3 # --two-stems=drums, --two-stems=bass
-		# Synchronize subtitles - ffsubsync - ffs video.mp4 -i unsynchronized.srt -o synchronized.srt
+		# Synchronize subtitles - ffsubsync video.mp4 -i unsynchronized.srt -o synchronized.srt
 
 		# # Update packages
 		# echo "Updating all Python packages..."
