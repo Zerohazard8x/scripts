@@ -1476,9 +1476,7 @@ if (-not $AdminPhase) {
 	}
 
 	if (Test-Path "${env:ProgramFiles(x86)}\FanControl\FanControl.exe") {
-		if (-not (Get-Process -Name "FanControl" -ErrorAction SilentlyContinue)) {
-			Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\FanControl\FanControl.exe"
-		}
+		Start-MemoryLimitedApp "${env:ProgramFiles(x86)}\FanControl\FanControl.exe"
 	}
 
 	# Probe known Voicemeeter editions and retain the first executable found.
