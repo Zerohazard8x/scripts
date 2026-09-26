@@ -1,0 +1,2 @@
+# Keep CRLF bytes in batch-script blobs so raw downloads are directly usable by cmd.exe.
+*.bat -text
