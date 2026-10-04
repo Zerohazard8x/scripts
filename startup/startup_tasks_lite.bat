@@ -71,6 +71,9 @@ where choco >nul 2>&1 && (
 
 @REM If python in PATH, purge cache and upgrade packages
 if exist "%PYEXE%" (
+    call :EnsurePip "%PYEXE%"
+    if errorlevel 1 goto PRIMARY_PYTHON_DONE
+
     "%PYEXE%" -m pip install --upgrade pip||pause
     @REM Quote the version constraint so cmd.exe does not parse its greater-than sign as output redirection.
     "%PYEXE%" -m pip install setuptools pyreadline3 yt-dlp[default,curl-cffi] "curl-cffi>=0.15.0" mutagen||pause
@@ -81,6 +84,7 @@ if exist "%PYEXE%" (
     )
 )
 
+:PRIMARY_PYTHON_DONE
 @REM Do not propagate a stale ERRORLEVEL from the last optional Python command.
 @REM Each command reports its own failure above, and reaching here means the stage itself completed.
 set "rc=0"
@@ -183,6 +187,25 @@ call :Status "waiting for elevated %STARTUP_ELEVATE_STAGE% tasks"
 set "STARTUP_ELEVATE_TARGET=%~f0"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$stageArg = '--admin-' + $env:STARTUP_ELEVATE_STAGE; $target = $env:STARTUP_ELEVATE_TARGET; $cmdLine = 'set ' + [char]34 + 'PYEXE=' + $env:PYEXE + [char]34 + ' & set ' + [char]34 + 'PY312EXE=' + $env:PY312EXE + [char]34 + ' & call ' + [char]34 + $target + [char]34 + ' ' + $stageArg; try { $p = Start-Process -FilePath $env:ComSpec -ArgumentList @('/d', '/c', $cmdLine) -Verb RunAs -WindowStyle Minimized -Wait -PassThru -ErrorAction Stop; exit $p.ExitCode } catch { Write-Host $_.Exception.Message; exit 1 }"
 exit /b %errorlevel%
+
+@REM Bootstrap pip for Python installations that omitted it, then verify it before package maintenance.
+:EnsurePip
+"%~1" -m pip --version >nul 2>&1
+if not errorlevel 1 exit /b 0
+
+echo pip was not found for %~1. Bootstrapping it with ensurepip...
+"%~1" -m ensurepip --upgrade
+if errorlevel 1 (
+    echo pip could not be installed for %~1. Skipping package maintenance for this interpreter.
+    exit /b 1
+)
+
+"%~1" -m pip --version >nul 2>&1
+if errorlevel 1 (
+    echo pip is still unavailable for %~1. Skipping package maintenance for this interpreter.
+    exit /b 1
+)
+exit /b 0
 
 @REM Upgrade an interpreter from its current package inventory while preserving dependency compatibility.
 :UpgradeFrozenRequirements
