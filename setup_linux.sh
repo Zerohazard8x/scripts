@@ -49,9 +49,6 @@ pyInstall() {
 		echo "Updating Python 3.12 packages..."
 		if command -v python3.12 &>/dev/null; then
 			python3.12 -m pip install -U pip whisperx
-			# python3.12 -m pip install -U stable-ts faster-whisper demucs
-			# python3.12 -m pip install -U qwen-asr
-			# python3.12 -m pip install transformers accelerate "mistral-common[audio]" bitsandbytes
 		else
 			echo "Python 3.12 not found, installing using uv..."
 			if command -v uv &>/dev/null; then
@@ -65,7 +62,11 @@ pyInstall() {
 
 		# python -m pip install -U git+https://github.com/martinetd/samloader.git
 		# python -m pip install -U ocrmypdf pymusiclooper spleeter notebook rembg[gpu,cli] ffsubsync
-		# python -m pip install -U stable-ts faster-whisper demucs qwen-asr audio-separator[gpu] ffsubsync
+		# python3.12 -m pip install -U audio-separator[gpu]
+
+		# python3.12 -m pip install -U stable-ts faster-whisper demucs
+		# python3.12 -m pip install -U qwen-asr
+		# python3.12 -m pip install "mistral-common[audio]" transformers accelerate bitsandbytes
 
 		# ocrmypdf input.pdf output.pdf
 		# Remove background - rembg i input.png output.png
@@ -81,6 +82,12 @@ pyInstall() {
 		# 	python -m pip install -r requirements.txt --upgrade
 		# 	rm -f requirements.txt
 		# fi
+
+		# # packages not dependencies of any other package
+		# python -m pip install pipdeptree
+		# python -m pipdeptree --warn silence
+		# findstr /R "^[A-Za-z0-9_-]" # TODO: find linux equiv.
+)
 	else
 		echo "Python not found after installation attempt"
 	fi
