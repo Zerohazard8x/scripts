@@ -51,3 +51,8 @@ Windows Registry Editor Version 5.00
 "UIBranch"="ReleasePreview"
 "UIContentType"="Mainline"
 "UIRing"="External"
+
+; ================================
+; Stable
+; ================================
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost]
