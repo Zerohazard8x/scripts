@@ -667,6 +667,7 @@ public static class MemoryLimitedLauncher
 	private const int JobObjectExtendedLimitInformation = 9;
 
 	private const uint CREATE_SUSPENDED = 0x00000004;
+	private const uint DETACHED_PROCESS = 0x00000008;
 
 	private const uint PROCESS_TERMINATE = 0x0001;
 	private const uint PROCESS_SET_QUOTA = 0x0100;
@@ -985,6 +986,15 @@ public static class MemoryLimitedLauncher
 				"\"" + exePath + "\""
 			);
 
+		/*
+			GUI applications must not remain attached to the maintenance
+			console.  A console host can otherwise keep the scheduled task's
+			window and its waiting parent alive until the GUI application exits.
+		*/
+		uint creationFlags =
+			CREATE_SUSPENDED |
+			DETACHED_PROCESS;
+
 		bool created =
 			CreateProcessW(
 				exePath,
@@ -992,7 +1002,7 @@ public static class MemoryLimitedLauncher
 				IntPtr.Zero,
 				IntPtr.Zero,
 				false,
-				CREATE_SUSPENDED,
+				creationFlags,
 				IntPtr.Zero,
 				Path.GetDirectoryName(exePath),
 				ref startup,
