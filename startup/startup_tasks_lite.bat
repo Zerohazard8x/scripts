@@ -146,9 +146,9 @@ if exist "%~dp0common.bat" (
     @REM start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
 
     call "%~dp0common.bat"
-    set "rc=%errorlevel%"
+    set "rc=!errorlevel!"
 ) else (
-    echo *** ERROR: common.bat not found! ***
+    echo \*\*\* ERROR: common.bat not found! \*\*\*
     set "rc=1"
 )
 

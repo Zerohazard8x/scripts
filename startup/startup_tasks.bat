@@ -83,7 +83,7 @@ if exist "%PYEXE%" (
 
     @REM Install and resolve Python 3.12 through uv
     if not exist "%PY312EXE%" (
-        where uv >nul 2>&1
+        "%PYEXE%" -m uv -V >nul 2>&1
         if errorlevel 1 (
             "%PYEXE%" -m pip install uv||pause
         )
@@ -202,9 +202,9 @@ if exist "%~dp0common.bat" (
     @REM start "" /wait /low /min cmd /c "%downloadDir%\common.bat"
 
     call "%~dp0common.bat"
-    set "rc=%errorlevel%"
+    set "rc=!errorlevel!"
 ) else (
-    echo *** ERROR: common.bat not found! ***
+    echo \*\*\* ERROR: common.bat not found! \*\*\*
     set "rc=1"
 )
 
