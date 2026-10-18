@@ -273,7 +273,6 @@ set "SCRIPT_PYTHON_EXE=%~1"
 set "SCRIPT_ID=%RANDOM%-%RANDOM%"
 set "SCRIPT_PACKAGES_JSON=%TEMP%\packages-%SCRIPT_ID%.json"
 set "SCRIPT_UPGRADE_FILE=%TEMP%\requirements-upgrade-%SCRIPT_ID%.txt"
-set "SCRIPT_REPORT_FILE=%TEMP%\pip-upgrade-report-%SCRIPT_ID%.json"
 set "SCRIPT_UPGRADE_RC=0"
 
 @REM Generate lower-bounded requirements from installed versions so upgrades never intentionally downgrade packages.
@@ -294,7 +293,7 @@ if errorlevel 1 (
 )
 
 @REM Resolve dependencies and install
-"%SCRIPT_PYTHON_EXE%" -m pip install --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%" --report "%SCRIPT_REPORT_FILE%"
+"%SCRIPT_PYTHON_EXE%" -m pip install --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%"
 if errorlevel 1 (
     set "SCRIPT_UPGRADE_RC=!errorlevel!"
     goto :UpgradeFrozenRequirementsCleanup
@@ -307,7 +306,6 @@ set "SCRIPT_UPGRADE_RC=%errorlevel%"
 :UpgradeFrozenRequirementsCleanup
 del /q /f "%SCRIPT_PACKAGES_JSON%" 2>nul
 del /q /f "%SCRIPT_UPGRADE_FILE%" 2>nul
-del /q /f "%SCRIPT_REPORT_FILE%" 2>nul
 
 exit /b %SCRIPT_UPGRADE_RC%
 
