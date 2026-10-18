@@ -11,6 +11,8 @@
 setlocal EnableExtensions EnableDelayedExpansion
 call :Status "startup task setup"
 set "PIP_BREAK_SYSTEM_PACKAGES=1"
+set "PIP_NO_CACHE_DIR=1"
+set "UV_NO_CACHE=1"
 set "USER_PATH=%PATH%"
 
 @REM Decode the internal stage argument before normal prompts so an elevated child runs only its assigned section.
@@ -57,8 +59,8 @@ goto NOPYTHON
 call :Status "Python maintenance"
 if not defined PYEXE for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 if not exist "%PYEXE%" (
-@REM If Chocolatey exists, upgrade Python via choco
-where choco >nul 2>&1 && (
+    @REM If Chocolatey exists, upgrade Python via choco
+    where choco >nul 2>&1 && (
         choco upgrade python3 -y||pause
         for /f "delims=" %%I in ('set "PATH=!USER_PATH!" ^& python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
     )
@@ -216,47 +218,40 @@ set "SCRIPT_ID=%RANDOM%-%RANDOM%"
 set "SCRIPT_PACKAGES_JSON=%TEMP%\packages-%SCRIPT_ID%.json"
 set "SCRIPT_UPGRADE_FILE=%TEMP%\requirements-upgrade-%SCRIPT_ID%.txt"
 set "SCRIPT_REPORT_FILE=%TEMP%\pip-upgrade-report-%SCRIPT_ID%.json"
+set "SCRIPT_UPGRADE_RC=0"
 
 @REM Generate lower-bounded requirements from installed versions so upgrades never intentionally downgrade packages.
 @REM Exclude editable installs and packaging bootstrap tools because they need separate ownership and upgrade handling.
 "%SCRIPT_PYTHON_EXE%" -m pip list --format=json --exclude-editable --exclude pip --exclude setuptools --exclude wheel --exclude distribute > "%SCRIPT_PACKAGES_JSON%"
 if errorlevel 1 (
-    set "SCRIPT_UPGRADE_RC=1"
+    set "SCRIPT_UPGRADE_RC=!errorlevel!"
     goto :UpgradeFrozenRequirementsCleanup
 )
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-  "$j = Get-Content -Raw -LiteralPath $env:SCRIPT_PACKAGES_JSON | ConvertFrom-Json; " ^
-  "$j | Where-Object { $_.version -notmatch '\+' } | ForEach-Object { '{0}>={1}' -f $_.name, $_.version } | Set-Content -LiteralPath $env:SCRIPT_UPGRADE_FILE -Encoding ASCII"
+    "$j = Get-Content -Raw -LiteralPath $env:SCRIPT_PACKAGES_JSON | ConvertFrom-Json; " ^
+    "$j | Where-Object { $_.version -notmatch '\+' } | ForEach-Object { '{0}>={1}' -f $_.name, $_.version } | Set-Content -LiteralPath $env:SCRIPT_UPGRADE_FILE -Encoding ASCII"
 
 if errorlevel 1 (
-    set "SCRIPT_UPGRADE_RC=1"
+    set "SCRIPT_UPGRADE_RC=!errorlevel!"
     goto :UpgradeFrozenRequirementsCleanup
 )
 
-@REM Run pip in dry-run mode first so dependency conflicts are detected before modifying the environment.
-"%SCRIPT_PYTHON_EXE%" -m pip install --dry-run --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%" --report "%SCRIPT_REPORT_FILE%"
+@REM Resolve dependencies and install
+"%SCRIPT_PYTHON_EXE%" -m pip install --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%" --report "%SCRIPT_REPORT_FILE%"
 if errorlevel 1 (
-    set "SCRIPT_UPGRADE_RC=1"
+    set "SCRIPT_UPGRADE_RC=!errorlevel!"
     goto :UpgradeFrozenRequirementsCleanup
 )
-
-@REM Install only after the resolver accepts the generated requirement set.
-"%SCRIPT_PYTHON_EXE%" -m pip install --upgrade --upgrade-strategy eager -r "%SCRIPT_UPGRADE_FILE%"
 
 @REM Run pip check last because a successful install can still leave incompatible declared dependencies.
 "%SCRIPT_PYTHON_EXE%" -m pip check
 set "SCRIPT_UPGRADE_RC=%errorlevel%"
-if "%SCRIPT_UPGRADE_RC%"=="0" (
-    goto :UpgradeFrozenRequirementsCleanup
-)
 
 :UpgradeFrozenRequirementsCleanup
 del /q /f "%SCRIPT_PACKAGES_JSON%" 2>nul
 del /q /f "%SCRIPT_UPGRADE_FILE%" 2>nul
 del /q /f "%SCRIPT_REPORT_FILE%" 2>nul
-
-"%SCRIPT_PYTHON_EXE%" -m pip cache purge
 
 exit /b %SCRIPT_UPGRADE_RC%
 
