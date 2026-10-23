@@ -14,7 +14,7 @@ param(
 $C1 = [Convert]::ToUInt32("74161A4E", 16)
 $C2 = [Convert]::ToUInt32("8FB23D4F", 16)
 $C3 = [Convert]::ToUInt32("833EA8FF", 16)
-$Mask32 = [UInt64]0xFFFFFFFF
+$Mask32 = [Convert]::ToUInt64("FFFFFFFF", 16)
 
 function Swap-Bytes32 {
     param(
