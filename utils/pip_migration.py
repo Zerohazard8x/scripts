@@ -202,9 +202,6 @@ def isDistRepackable(pkg):
         # beneath that root.
         if root not in resolved.parents and root != resolved:
             return (False, 'files outside site-packages', tag)
-        
-    if tag not in ('py3-none-any', 'py2.py3-none-any'):
-        return (False, 'wheel is not universally Python 3 compatible', tag)
     
     return (True, 'true wheel', tag)
 
