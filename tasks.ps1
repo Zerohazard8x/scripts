@@ -306,7 +306,7 @@ function Parse-PnpUtilBlocks {
 
 		foreach ($label in $Map.Keys) {
 			if ($line -match "^\s*$([regex]::Escape($label))\s*:\s*(.+)$") {
-				$value = $matches[1].Trim()
+				$value = $matches[2].Trim()
 
 				if ($label -in 'Instance ID', 'Published Name', 'Driver Name') {
 					$value = $value.ToLowerInvariant()
@@ -649,6 +649,20 @@ function Invoke-UserPhase {
 	Safe-Invoke -Command "winget" -Args @("upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "--silent", "--disable-interactivity")
 	Write-Host "winget upgrade processing finished; continuing startup tasks."
 	# Safe-Invoke -Command "winget" -Args @("upgrade","--all","--accept-source-agreements","--accept-package-agreements","--include-unknown")
+}
+
+function Is-Excluded([string]$Name) {
+    foreach ($item in $Exceptions) {
+        if ($Name -like "*$item*") { return $true }
+    }
+    return $false
+}
+
+function Set-DWord($Path, $Name, $Value) {
+    if (!(Test-Path $Path)) { New-Item -Path $Path -Force | Out-Null }
+    New-ItemProperty -Path $Path -Name $Name `
+        -Value $Value -PropertyType DWord -Force |
+        Out-Null
 }
 
 if (-not ("MemoryLimitedLauncher" -as [type])) {
@@ -1845,6 +1859,75 @@ if ($DO_REMOVE_DRIVERS) {
 }
 else {
 	Write-Host "Skipping disconnected device and driver removal."
+}
+
+# Set UWP apps not to run in background and not to run at startup
+Write-Section "UWP apps"
+$DO_UWP_APPS = Prompt-YesNoDefaultN `
+	-Message "Configure UWP apps? (Y/N)" `
+	-TimeoutSeconds 5
+
+if ($DO_UWP_APPS) {
+	$Exceptions = @(
+    'TelegramMessengerLLP.TelegramDesktop_t4vj0pshhgkwm',
+    'Microsoft.WindowsStore_8wekyb3d8bbwe',
+    'Microsoft.PowerShell_8wekyb3d8bbwe',
+    'Microsoft.WindowsTerminal_8wekyb3d8bbwe',
+    'Microsoft.GamingApp_8wekyb3d8bbwe',
+    'Microsoft.WindowsAlarms_8wekyb3d8bbwe'
+	)
+
+# Packaged apps - background permissions
+$bgRoot = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications'
+
+foreach ($pkg in Get-AppxPackage) {
+    if (Is-Excluded "$($pkg.Name) $($pkg.PackageFamilyName)") {
+        continue
+    }
+
+    $path = Join-Path $bgRoot $pkg.PackageFamilyName
+
+    Write-Host "BACKGROUND NEVER: $($pkg.Name)"
+    Set-DWord $path 'Disabled' 1
+    Set-DWord $path 'DisabledByUser' 1
+}
+
+# Existing packaged-app background registry entries
+if (Test-Path $bgRoot) {
+    Get-ChildItem $bgRoot | ForEach-Object {
+        if (-not (Is-Excluded $_.PSChildName)) {
+            Write-Host "BACKGROUND NEVER: $($_.PSChildName)"
+            Set-DWord $_.PSPath 'Disabled' 1
+            Set-DWord $_.PSPath 'DisabledByUser' 1
+        }
+    }
+}
+
+# Packaged app startup tasks
+$appRoot = 'HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData'
+if (Test-Path $appRoot) {
+    Get-ChildItem $appRoot | ForEach-Object {
+        $package = $_
+
+        if (Is-Excluded $package.PSChildName) {
+            return
+        }
+
+        Get-ChildItem $package.PSPath | ForEach-Object {
+            $task = $_
+            $state = Get-ItemProperty -LiteralPath $task.PSPath `
+                -Name State -ErrorAction SilentlyContinue
+
+            if ($null -ne $state.State) {
+                Write-Host "STARTUP OFF: $($package.PSChildName)\$($task.PSChildName)"
+                Set-DWord $task.PSPath 'State' 1
+            }
+        }
+    }
+}
+}
+else {
+	Write-Host "Skipping UWP app background configuration."
 }
 
 # Optionally configure active adapters with Cloudflare malware-blocking DNS and register per-interface DoH flags.
