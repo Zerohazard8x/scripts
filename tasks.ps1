@@ -1971,14 +1971,30 @@ else {
 	Write-Host "Skipping DNS configuration."
 }
 
-# # Windows Defender
-# try {
-# 	Set-MpPreference -DisableRealtimeMonitoring $false
-# 	Set-MpPreference -EnableControlledFolderAccess Disabled
-# }
-# catch {
-# 	Write-Warning "Error: $_"
-# }
+# Windows Defender
+Write-Section "Windows Defender"
+$DO_CONFIGURE_DEFENDER = Prompt-YesNoDefaultN `
+	-Message "Configure Windows Defender? (Y/N)" `
+	-TimeoutSeconds 5
+
+if ($DO_CONFIGURE_DEFENDER) {
+	Write-Host "Setting Windows Defender preferences..."
+	try {
+		Set-MpPreference -DisableRealtimeMonitoring $false
+		Set-MpPreference -EnableControlledFolderAccess Disabled
+
+		Set-MpPreference -ScanAvgCPULoadFactor 5 # default: Set-MpPreference -ScanAvgCPULoadFactor 50
+		Set-MpPreference -DisableCpuThrottleOnIdleScans $false # default: Set-MpPreference -DisableCpuThrottleOnIdleScans $true
+
+		& "$env:ProgramFiles\Windows Defender\MpCmdRun.exe" -Scan -Cancel
+	}
+	catch {
+		Write-Warning "Error: $_"
+	}
+}
+else {
+	Write-Host "Skipping Windows Defender configuration."
+}
 
 # Run PSWindowsUpdate when available, installing the module first and retaining wuauclt as a legacy fallback.
 Write-Section "Windows Update"
