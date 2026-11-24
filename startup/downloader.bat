@@ -11,6 +11,8 @@ call :Status "waiting for startup idle"
 @REM Set overridable idle-detection defaults before any network or download work begins.
 if not defined SCRIPT_STARTUP_IDLE_MAX_SECONDS set "SCRIPT_STARTUP_IDLE_MAX_SECONDS=600"
 if not defined SCRIPT_STARTUP_IDLE_CPU_PERCENT set "SCRIPT_STARTUP_IDLE_CPU_PERCENT=25"
+@REM Maximum average physical-disk queue length. Set to 0 for an especially quiet disk.
+if not defined SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX set "SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX=1"
 if not defined SCRIPT_STARTUP_IDLE_STABLE_SAMPLES set "SCRIPT_STARTUP_IDLE_STABLE_SAMPLES=3"
 if not defined SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS set "SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS=10"
 
@@ -101,10 +103,11 @@ exit /b
 
 @REM Keep idle-wait implementation in a subroutine so the main download flow remains linear.
 :WaitForStartupIdle
-@REM Return immediately when the configured maximum is zero; otherwise wait for sustained low CPU or the deadline.
+@REM Return immediately if disabled; otherwise wait for sustained low CPU AND disk queue, or the deadline.
 if "%SCRIPT_STARTUP_IDLE_MAX_SECONDS%"=="0" exit /b 0
 
-@REM Use TIMEOUT as a bounded fallback because CPU sampling below depends on PowerShell and CIM.
+@REM Use CHOICE as a bounded fallback if PowerShell is unavailable
+@REM that means there is no CPU or disk sampling though
 where powershell >nul 2>&1
 if errorlevel 1 (
     choice /C NY /N /T %SCRIPT_STARTUP_IDLE_MAX_SECONDS% /D Y /M "Startup tasks will wait for idle. Press N to stop, or wait to continue."
@@ -112,8 +115,10 @@ if errorlevel 1 (
     exit /b 2
 )
 
-@REM Average all processor load samples and require consecutive below-threshold readings to avoid reacting to one transient dip.
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$max=[Math]::Max(0,[int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS); $threshold=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT); $needed=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES); $sleep=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS); $deadline=(Get-Date).AddSeconds($max); $stable=0; $cancel={ try { if ($Host.UI.RawUI.KeyAvailable) { return $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character -eq 'n' } } catch {}; return $false }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status 'Checking CPU...'; while((Get-Date) -lt $deadline) { if (&$cancel) { exit 2 }; try { $values=@(Get-CimInstance Win32_Processor | ForEach-Object { $_.LoadPercentage }); if ($values.Count -gt 0) { $cpu=($values | Measure-Object -Average).Average } else { $cpu=100 } } catch { $cpu=100 }; if ($cpu -le $threshold) { $stable++ } else { $stable=0 }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status ('CPU {0:N0}%%; idle sample {1}/{2}; checking again in {3}s' -f $cpu,$stable,$needed,$sleep); if ($stable -ge $needed) { exit 0 }; $next=(Get-Date).AddSeconds($sleep); while((Get-Date) -lt $next) { if (&$cancel) { exit 2 }; Start-Sleep -Milliseconds 100 } }; exit 0"
+@REM Require consecutive samples where both CPU and physical-disk queue length are low.
+@REM The WMI formatted performance counter avoids locale-dependent Get-Counter names.
+@REM If disk counters are unavailable, warn once and retain the existing CPU-only gate.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$max=[Math]::Max(0,[int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS); $threshold=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT); $queueMax=[Math]::Max(0,[double]$env:SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX); $needed=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES); $sleep=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS); $deadline=(Get-Date).AddSeconds($max); $stable=0; $diskAvailable=$true; $cancel={ try { if ($Host.UI.RawUI.KeyAvailable) { return $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character -eq 'n' } } catch {}; return $false }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status 'Checking CPU and disk queue...'; while ((Get-Date) -lt $deadline) { if (&$cancel) { exit 2 }; try { $values=@(Get-CimInstance Win32_Processor -ErrorAction Stop | ForEach-Object { $_.LoadPercentage }); if ($values.Count -gt 0) { $cpu=($values | Measure-Object -Average).Average } else { $cpu=100 } } catch { $cpu=100 }; $diskOk=$true; $queueText='unavailable'; if ($diskAvailable) { try { $disk=Get-CimInstance Win32_PerfFormattedData_PerfDisk_PhysicalDisk -ErrorAction Stop | Where-Object { $_.Name -eq '_Total' }; if ($null -eq $disk) { throw 'Missing _Total disk counter' }; $queue=[double]$disk.AvgDiskQueueLength; $diskOk=($queue -le $queueMax); $queueText=('{0:N0}/{1:N0}' -f $queue,$queueMax) } catch { $diskAvailable=$false; Write-Warning 'Disk queue counter unavailable; checking CPU only.' } }; if ($cpu -le $threshold -and $diskOk) { $stable++ } else { $stable=0 }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status ('CPU {0:N0}%%; disk queue {1}; idle sample {2}/{3}; checking again in {4}s' -f $cpu,$queueText,$stable,$needed,$sleep); if ($stable -ge $needed) { exit 0 }; $next=(Get-Date).AddSeconds($sleep); while ((Get-Date) -lt $next) { if (&$cancel) { exit 2 }; Start-Sleep -Milliseconds 100 } }; exit 0"
 exit /b %errorlevel%
 
 :Status
