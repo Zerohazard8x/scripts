@@ -58,7 +58,7 @@ goto NOPYTHON
 @REM Elevated Python stage begins here; direct GOTO avoids replaying the initial prompt.
 :ADMIN_PYTHON_TASKS
 call :Status "Python maintenance"
-call :WaitForDiskIdle
+call :WaitForIdle
 if not defined PYEXE for /f "delims=" %%I in ('python -c "import sys;print(sys.executable)" 2^>nul') do set "PYEXE=%%I"
 if not exist "%PYEXE%" (
     @REM If Chocolatey exists, upgrade Python via choco
@@ -178,12 +178,12 @@ if errorlevel 1 (
 ) else (
     choice /C YN /N /D N /T 5 /M "Upgrade primary Chocolatey packages? (Y/N)"
     if not errorlevel 2 (
-        call :WaitForDiskIdle
+        call :WaitForIdle
         choco upgrade chocolatey curl firefox ffmpeg git jq mpv nomacs peazip phantomjs vlc -y||pause
         choco upgrade 7zip aria2 adb dos2unix nano scrcpy vscode thunderbird -y||pause
     )
     
-    call :WaitForDiskIdle
+    call :WaitForIdle
     choco upgrade all -y||pause
 
     @REM to update choco version without installing
@@ -230,9 +230,9 @@ endlocal & exit /b 0
 @REM endlocal & exit /b %errorlevel%
 
 @REM Older staged copies of common.bat ignore the switch and would run the full menu.
-:WaitForDiskIdle
-findstr /X /L /C:":WaitForDiskIdle" "%~dp0common.bat" >nul 2>&1
-if not errorlevel 1 call "%~dp0common.bat" --wait-for-disk
+:WaitForIdle
+findstr /X /L /C:":WaitForIdle" "%~dp0common.bat" >nul 2>&1
+if not errorlevel 1 call "%~dp0common.bat" --wait-for-idle
 exit /b 0
 
 @REM Return zero when elevated and nonzero otherwise, matching normal batch errorlevel conventions.
