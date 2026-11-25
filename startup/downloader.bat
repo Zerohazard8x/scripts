@@ -6,25 +6,6 @@
 @REM     exit %errorlevel%
 @REM )
 setlocal EnableExtensions
-call :Status "waiting for startup idle"
-
-@REM Set overridable idle-detection defaults before any network or download work begins.
-if not defined SCRIPT_STARTUP_IDLE_MAX_SECONDS set "SCRIPT_STARTUP_IDLE_MAX_SECONDS=600"
-if not defined SCRIPT_STARTUP_IDLE_CPU_PERCENT set "SCRIPT_STARTUP_IDLE_CPU_PERCENT=25"
-@REM Maximum average physical-disk queue length. Set to 0 for an especially quiet disk.
-if not defined SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX set "SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX=1"
-if not defined SCRIPT_STARTUP_IDLE_STABLE_SAMPLES set "SCRIPT_STARTUP_IDLE_STABLE_SAMPLES=3"
-if not defined SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS set "SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS=10"
-
-@REM Gate startup once per inherited environment; the flag prevents a relaunch or nested call from waiting twice.
-if /I not "%SCRIPT_STARTUP_IDLE_DONE%"=="1" (
-    set "SCRIPT_STARTUP_IDLE_DONE=1"
-    call :WaitForStartupIdle
-    if errorlevel 2 (
-        echo Startup tasks cancelled.
-        endlocal & exit /b 0
-    )
-)
 
 @REM Use the user Downloads directory as a writable staging area shared by each script in the chain.
 call :Status "preparing downloads"
@@ -51,6 +32,16 @@ call :Download common.bat
 if exist "%downloadDir%\common.bat" (
     findstr /C:"minescule" /C:"mouse" "%downloadDir%\common.bat" >nul 2>&1
     if not errorlevel 1 (
+        @REM Gate startup once per inherited environment using the same check as the later task stages.
+        if /I not "%SCRIPT_STARTUP_IDLE_DONE%"=="1" (
+            findstr /X /L /C:":WaitForIdle" "%downloadDir%\common.bat" >nul 2>&1
+            if not errorlevel 1 (
+                call "%downloadDir%\common.bat" --wait-for-idle --allow-cancel
+                if errorlevel 2 goto :cancelled
+            )
+            set "SCRIPT_STARTUP_IDLE_DONE=1"
+        )
+
         @REM Fetch the next script only after common.bat passes validation.
         call :Status "downloading startup_tasks.bat"
         call :Download startup_tasks.bat
@@ -70,6 +61,11 @@ echo Download or validation failed; startup tasks cannot continue.
 
 @REM Use a nonzero default result when either download or marker check failed.
 set "rc=1"
+goto :cleanup
+
+:cancelled
+echo Startup tasks cancelled.
+set "rc=0"
 
 @REM Centralize cleanup so every success and failure path removes staged scripts before returning.
 :cleanup
@@ -100,26 +96,6 @@ if not errorlevel 1 (
     )
 )
 exit /b
-
-@REM Keep idle-wait implementation in a subroutine so the main download flow remains linear.
-:WaitForStartupIdle
-@REM Return immediately if disabled; otherwise wait for sustained low CPU AND disk queue, or the deadline.
-if "%SCRIPT_STARTUP_IDLE_MAX_SECONDS%"=="0" exit /b 0
-
-@REM Use CHOICE as a bounded fallback if PowerShell is unavailable
-@REM that means there is no CPU or disk sampling though
-where powershell >nul 2>&1
-if errorlevel 1 (
-    choice /C NY /N /T %SCRIPT_STARTUP_IDLE_MAX_SECONDS% /D Y /M "Startup tasks will wait for idle. Press N to stop, or wait to continue."
-    if errorlevel 2 exit /b 0
-    exit /b 2
-)
-
-@REM Require consecutive samples where both CPU and physical-disk queue length are low.
-@REM The WMI formatted performance counter avoids locale-dependent Get-Counter names.
-@REM If disk counters are unavailable, warn once and retain the existing CPU-only gate.
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$max=[Math]::Max(0,[int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS); $threshold=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT); $queueMax=[Math]::Max(0,[double]$env:SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX); $needed=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES); $sleep=[Math]::Max(1,[int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS); $deadline=(Get-Date).AddSeconds($max); $stable=0; $diskAvailable=$true; $cancel={ try { if ($Host.UI.RawUI.KeyAvailable) { return $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character -eq 'n' } } catch {}; return $false }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status 'Checking CPU and disk queue...'; while ((Get-Date) -lt $deadline) { if (&$cancel) { exit 2 }; try { $values=@(Get-CimInstance Win32_Processor -ErrorAction Stop | ForEach-Object { $_.LoadPercentage }); if ($values.Count -gt 0) { $cpu=($values | Measure-Object -Average).Average } else { $cpu=100 } } catch { $cpu=100 }; $diskOk=$true; $queueText='unavailable'; if ($diskAvailable) { try { $disk=Get-CimInstance Win32_PerfFormattedData_PerfDisk_PhysicalDisk -ErrorAction Stop | Where-Object { $_.Name -eq '_Total' }; if ($null -eq $disk) { throw 'Missing _Total disk counter' }; $queue=[double]$disk.AvgDiskQueueLength; $diskOk=($queue -le $queueMax); $queueText=('{0:N0}/{1:N0}' -f $queue,$queueMax) } catch { $diskAvailable=$false; Write-Warning 'Disk queue counter unavailable; checking CPU only.' } }; if ($cpu -le $threshold -and $diskOk) { $stable++ } else { $stable=0 }; Write-Progress -Activity 'Startup tasks will wait for idle. Press N to stop, or wait to continue.' -Status ('CPU {0:N0}%%; disk queue {1}; idle sample {2}/{3}; checking again in {4}s' -f $cpu,$queueText,$stable,$needed,$sleep); if ($stable -ge $needed) { exit 0 }; $next=(Get-Date).AddSeconds($sleep); while ((Get-Date) -lt $next) { if (&$cancel) { exit 2 }; Start-Sleep -Milliseconds 100 } }; exit 0"
-exit /b %errorlevel%
 
 :Status
 title Now running: %~1

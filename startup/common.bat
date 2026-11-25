@@ -5,6 +5,10 @@
 @REM 	exit %errorlevel%
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
+if /I "%~1"=="--wait-for-idle" (
+    call :WaitForIdle "%~2"
+    exit /b !errorlevel!
+)
 call :Status "launching startup applications"
 if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
@@ -43,6 +47,7 @@ goto NOPSHELL
 
 :ADMIN_POWERSHELL_REPAIR
 call :Status "downloading maintenance scripts"
+call :WaitForIdle
 @REM ==============================
 @REM Disabled DNS-over-HTTPS netsh commands retained beside the PowerShell network configuration they complement.
 @REM ==============================
@@ -104,6 +109,7 @@ if not errorlevel 1 (
 		) else (
 		if exist "%downloadDir%\import.ps1" (
 			call :Status "WiFi import"
+			call :WaitForIdle
 			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
 			) else (
 			echo Skipping public WiFi import: import.ps1 was not downloaded.
@@ -117,6 +123,7 @@ if not errorlevel 1 (
 		) else (
 		if exist "%downloadDir%\import_private.ps1" (
 			call :Status "private WiFi import"
+			call :WaitForIdle
 			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
 			) else (
 			echo Skipping private WiFi import: import_private.ps1 was not found.
@@ -179,6 +186,7 @@ if not "%rc%"=="0" (
 goto NOSERVTWEAKS
 
 :ADMIN_SERVICE_TWEAKS
+call :WaitForIdle
 call :Status "service tweaks"
 @REM @REM Configure and start key services (automatic)
 @REM for %%S in (
@@ -204,6 +212,8 @@ call :Status "update windows prompt"
 choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
+call :WaitForIdle
+
 @REM Route protocol URIs through the interactive Explorer shell so scheduled or elevated callers can activate user apps.
 start "" control.exe /name Microsoft.WindowsUpdate
 start "" "%SystemRoot%\explorer.exe" "ms-windows-store://downloadsandupdates"
@@ -217,6 +227,96 @@ endlocal
 exit /b 0
 @REM cmd /k
 @REM exit /b %errorlevel%
+
+@REM Check CPU, average physical-disk queue length, and average disk transfer time in the same sampling loop.
+@REM Raw disk samples preserve fractional queue length and subsecond transfer times.
+:WaitForIdle
+setlocal EnableExtensions
+if not defined SCRIPT_STARTUP_IDLE_MAX_SECONDS set "SCRIPT_STARTUP_IDLE_MAX_SECONDS=%SCRIPT_STARTUP_DISK_WAIT_MAX_SECONDS%"
+if not defined SCRIPT_STARTUP_IDLE_MAX_SECONDS set "SCRIPT_STARTUP_IDLE_MAX_SECONDS=600"
+if "%SCRIPT_STARTUP_IDLE_MAX_SECONDS%"=="0" (endlocal & exit /b 0)
+if not defined SCRIPT_STARTUP_IDLE_CPU_PERCENT set "SCRIPT_STARTUP_IDLE_CPU_PERCENT=25"
+if not defined SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX set "SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX=1"
+if not defined SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS set "SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS=20"
+if not defined SCRIPT_STARTUP_IDLE_STABLE_SAMPLES set "SCRIPT_STARTUP_IDLE_STABLE_SAMPLES=2"
+if not defined SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS set "SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS=2"
+
+@REM Only the launch wait reads N, so task waits do not consume input for the next prompt.
+set "SCRIPT_STARTUP_IDLE_ALLOW_CANCEL="
+if /I "%~1"=="--allow-cancel" set "SCRIPT_STARTUP_IDLE_ALLOW_CANCEL=1"
+
+where powershell.exe >nul 2>&1
+if errorlevel 1 (
+    echo PowerShell is unavailable. CPU and disk sampling are unavailable.
+    if defined SCRIPT_STARTUP_IDLE_ALLOW_CANCEL (
+        choice /C NY /N /T %SCRIPT_STARTUP_IDLE_MAX_SECONDS% /D Y /M "Startup tasks will wait. Press N to stop, or wait to continue."
+        if not errorlevel 2 (endlocal & exit /b 2)
+    )
+    endlocal & exit /b 0
+)
+
+powershell.exe -NoProfile -Command ^
+    "$maxMs = [Math]::Max(0, [int]$env:SCRIPT_STARTUP_IDLE_MAX_SECONDS) * 1000L;" ^
+    "if ($maxMs -eq 0) { exit 0 };" ^
+    "$cpuMax = [Math]::Max(1, [int]$env:SCRIPT_STARTUP_IDLE_CPU_PERCENT);" ^
+    "$queueMax = [Math]::Max(0, [double]$env:SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX);" ^
+    "$responseMax = [Math]::Max(0, [double]$env:SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS);" ^
+    "$needed = [Math]::Max(1, [int]$env:SCRIPT_STARTUP_IDLE_STABLE_SAMPLES);" ^
+    "$sampleMs = [Math]::Max(1, [int]$env:SCRIPT_STARTUP_IDLE_SAMPLE_SECONDS) * 1000L;" ^
+    "$allowCancel = $env:SCRIPT_STARTUP_IDLE_ALLOW_CANCEL -eq '1';" ^
+    "$cancel = { if ($allowCancel) { try { if ($Host.UI.RawUI.KeyAvailable) { return $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').Character -eq 'n' } } catch {} }; return $false };" ^
+    "$activity = 'Waiting for CPU and disk idle';" ^
+    "if ($allowCancel) { $activity += '. Press N to stop startup' };" ^
+    "Write-Host ($activity + '...');" ^
+    "$timer = [Diagnostics.Stopwatch]::StartNew(); $previous = $null; $stable = 0; $diskAvailable = $true;" ^
+    "while ($timer.ElapsedMilliseconds -lt $maxMs) {" ^
+    "    if (& $cancel) { exit 2 };" ^
+    "    $cpu = $null;" ^
+    "    try { $cpu = (Get-CimInstance Win32_Processor -OperationTimeoutSec 3 -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average).Average } catch {};" ^
+    "    $cpuStatus = 'CPU unavailable';" ^
+    "    if ($null -ne $cpu) { $cpuStatus = 'CPU {0:N0}/{1} percent' -f $cpu,$cpuMax };" ^
+    "    $diskOk = -not $diskAvailable; $diskStatus = 'disk counters unavailable';" ^
+    "    if ($diskAvailable) {" ^
+    "        try {" ^
+    "            $disk = Get-CimInstance Win32_PerfRawData_PerfDisk_PhysicalDisk -OperationTimeoutSec 3 -ErrorAction Stop | Where-Object Name -eq '_Total';" ^
+    "            if ($null -eq $disk -or $disk.Frequency_PerfTime -le 0) { throw 'Missing physical disk counters' };" ^
+    "        } catch {" ^
+    "            $diskAvailable = $false; $diskOk = $true;" ^
+    "            Write-Warning 'Disk counters are unavailable. Checking CPU only.';" ^
+    "        };" ^
+    "    };" ^
+    "    if ($diskAvailable) {" ^
+    "        $diskStatus = 'collecting disk samples';" ^
+    "        if ($null -ne $previous) {" ^
+    "            $elapsed = [decimal]$disk.Timestamp_Sys100NS - [decimal]$previous.Timestamp_Sys100NS;" ^
+    "            $queueTicks = [decimal]$disk.AvgDiskQueueLength - [decimal]$previous.AvgDiskQueueLength;" ^
+    "            $transferTicks = [decimal]$disk.AvgDiskSecPerTransfer - [decimal]$previous.AvgDiskSecPerTransfer;" ^
+    "            $transfers = [long]$disk.AvgDiskSecPerTransfer_Base - [long]$previous.AvgDiskSecPerTransfer_Base;" ^
+    "            if ($elapsed -gt 0 -and $queueTicks -ge 0 -and $transferTicks -ge 0 -and $transfers -ge 0) {" ^
+    "                $queue = $queueTicks / $elapsed; $responseMs = 0;" ^
+    "                if ($transfers -gt 0) { $responseMs = 1000 * $transferTicks / [decimal]$disk.Frequency_PerfTime / $transfers };" ^
+    "                $diskOk = $queue -le $queueMax -and $responseMs -le $responseMax;" ^
+    "                $diskStatus = 'disk queue {0:N2}/{1:N2}, response {2:N1}/{3:N1} ms' -f $queue,$queueMax,$responseMs,$responseMax;" ^
+    "            };" ^
+    "        };" ^
+    "        $previous = $disk;" ^
+    "    };" ^
+    "    if (& $cancel) { exit 2 };" ^
+    "    if ($null -ne $cpu -and $cpu -le $cpuMax -and $diskOk) { $stable++ } else { $stable = 0 };" ^
+    "    if ($stable -ge $needed) { exit 0 };" ^
+    "    Write-Progress -Activity $activity -Status ('{0}, {1}, idle samples {2}/{3}' -f $cpuStatus,$diskStatus,$stable,$needed);" ^
+    "    $next = [Math]::Min($maxMs, $timer.ElapsedMilliseconds + $sampleMs);" ^
+    "    while (($remaining = $next - $timer.ElapsedMilliseconds) -gt 0) {" ^
+    "        if (& $cancel) { exit 2 };" ^
+    "        $delay = [Math]::Min([long][int]::MaxValue, $remaining);" ^
+    "        if ($allowCancel) { $delay = [Math]::Min(100L, $delay) };" ^
+    "        Start-Sleep -Milliseconds ([int]$delay);" ^
+    "    };" ^
+    "};" ^
+    "Write-Warning 'Timed out waiting for CPU and disk idle. Continuing startup.'"
+if "%errorlevel%"=="2" (endlocal & exit /b 2)
+if errorlevel 1 echo Idle sampling failed. Continuing startup.
+endlocal & exit /b 0
 
 @REM Return zero when elevated and nonzero otherwise, matching normal batch errorlevel conventions.
 :IsAdmin
