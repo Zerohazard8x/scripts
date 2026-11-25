@@ -13,10 +13,10 @@ valid_pin() {
 	}
 }
 
-fetch_arguments() {
+fetch_environment() {
 	[[ -n ${SETUP_LINUX_COMMIT:-}${SETUP_LINUX_SHA256:-} ]] || return 0
 	valid_pin || return
-	printf ' --fetch %s %s' "$SETUP_LINUX_COMMIT" "$SETUP_LINUX_SHA256"
+	printf 'Environment=SETUP_LINUX_COMMIT=%s SETUP_LINUX_SHA256=%s' "$SETUP_LINUX_COMMIT" "$SETUP_LINUX_SHA256"
 }
 
 # Replace the launcher and units atomically so active jobs can keep reading their copies.
@@ -43,7 +43,7 @@ install_unit() {
 install_login() {
 	local directory=${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user
 	local launcher=${user_script_relative%/*}/downloader.sh fetch
-	fetch=$(fetch_arguments) || return
+	fetch=$(fetch_environment) || return
 	install_script "${script_path%/*}/downloader.sh" "$HOME/$launcher" &&
 		install -d -m 0755 -- "$directory" || return
 	install_unit "$directory/$unit_name.service" <<UNIT || return
@@ -55,7 +55,8 @@ PartOf=graphical-session.target
 Type=exec
 RemainAfterExit=yes
 Nice=10
-ExecStart=/bin/bash "%h/$launcher"$fetch --login --non-interactive ${login_args[*]}
+ExecStart=/bin/bash "%h/$launcher"
+$fetch
 
 [Install]
 WantedBy=graphical-session.target
@@ -66,7 +67,7 @@ UNIT
 install_system() {
 	local directory=/etc/systemd/system
 	local launcher=${system_script%/*}/downloader.sh fetch
-	fetch=$(fetch_arguments) || return
+	fetch=$(fetch_environment) || return
 	install_script "${script_path%/*}/downloader.sh" "$launcher" || return
 	install_unit "$directory/$unit_name.service" <<UNIT || return
 [Unit]
@@ -77,7 +78,8 @@ After=network-online.target
 [Service]
 Type=oneshot
 Nice=10
-ExecStart=/bin/bash "$launcher"$fetch --system --non-interactive ${system_args[*]}
+ExecStart=/bin/bash "$launcher"
+$fetch
 UNIT
 	install_unit "$directory/$unit_name.timer" <<UNIT || return
 [Unit]
@@ -132,51 +134,42 @@ download_setup() {
 	rm -f -- "$setup" &&
 		curl --disable --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
 			--retry 2 --max-time 60 --output "$setup" "$1" &&
-		grep -Fq -- '--login) run_login ;;' "$setup"
+		grep -Fxq -- '# Linux startup and maintenance instructions for downloader.sh' "$setup"
 }
 
 [[ ${BASH_SOURCE[0]} == "$0" ]] || return 0
 set -uo pipefail
 launcher=$(realpath -- "$0") || exit
 setup=${launcher%/*}/setup_linux.sh
-pin=
-if [[ ${1:-} == --fetch ]]; then
-	SETUP_LINUX_COMMIT=${2:-} SETUP_LINUX_SHA256=${3:-}
-	valid_pin || exit 1
-	shift 3
-	case ${1:-} in
-		--install-login|--install-system) export SETUP_LINUX_COMMIT SETUP_LINUX_SHA256 ;;
-		--login|--system) pin=$SETUP_LINUX_COMMIT ;;
-		*) printf 'Use --fetch with --login, --system, or either install mode.\n' >&2; exit 1 ;;
+if (($#)); then
+	case $1 in
+		--install-login|--install-system|--remove-login|--remove-system)
+			exec /bin/bash "$setup" "$@"
+			;;
+		*) printf 'Error: Unknown option %s.\n' "$1" >&2; exit 1 ;;
 	esac
-elif (($# == 0)); then
-	if (( EUID == 0 )); then set -- --system; else set -- --login; fi
 fi
-case $1 in
-	--login|--system)
-		# Remove snapshots left by the earlier installer, keeping the checkout intact.
-		for installed in "$system_script" "${HOME:-}/$user_script_relative"; do
-			if [[ $launcher -ef ${installed%/*}/downloader.sh ]]; then rm -f -- "$installed" || exit; fi
-		done
-		staging=$(mktemp -d) || exit
-		trap 'rm -rf -- "$staging"' EXIT
-		trap 'exit 130' INT
-		trap 'exit 143' TERM
-		setup=$staging/setup_linux.sh
-		github=https://raw.githubusercontent.com/Zerohazard8x/scripts
-		if [[ -n $pin ]]; then
-			download_setup "$github/$pin/setup_linux.sh" || exit 1
-			if ! matches_pin "$setup"; then
-				printf 'Downloaded setup_linux.sh failed SHA-256 verification.\n' >&2
-				exit 1
-			fi
-		elif ! download_setup https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/setup_linux.sh &&
-			! download_setup "$github/main/setup_linux.sh"; then
-			printf 'Could not download a compatible setup_linux.sh.\n' >&2
-			exit 1
-		fi
-		/bin/bash -n "$setup" && /bin/bash "$setup" "$@"
-		exit
-		;;
-esac
-exec /bin/bash "$setup" "$@"
+if [[ -n ${SETUP_LINUX_COMMIT:-}${SETUP_LINUX_SHA256:-} ]]; then valid_pin || exit 1; fi
+# Remove snapshots left by the earlier installer, keeping the checkout intact.
+for installed in "$system_script" "${HOME:-}/$user_script_relative"; do
+	if [[ $launcher -ef ${installed%/*}/downloader.sh ]]; then rm -f -- "$installed" || exit; fi
+done
+staging=$(mktemp -d) || exit
+trap 'rm -rf -- "$staging"' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+setup=$staging/setup_linux.sh
+github=https://raw.githubusercontent.com/Zerohazard8x/scripts
+printf '\n=== Now running: downloading setup_linux.sh ===\n'
+if [[ -n ${SETUP_LINUX_COMMIT:-} ]]; then
+	download_setup "$github/$SETUP_LINUX_COMMIT/setup_linux.sh" || exit 1
+	if ! matches_pin "$setup"; then
+		printf 'Downloaded setup_linux.sh failed SHA-256 verification.\n' >&2
+		exit 1
+	fi
+elif ! download_setup https://codeberg.org/Zerohazard8x/scripts/raw/branch/main/setup_linux.sh &&
+	! download_setup "$github/main/setup_linux.sh"; then
+	printf 'Could not download a compatible setup_linux.sh.\n' >&2
+	exit 1
+fi
+/bin/bash -n "$setup" && /bin/bash "$setup"
