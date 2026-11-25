@@ -5,6 +5,7 @@
 @REM 	exit %errorlevel%
 @REM )
 setlocal EnableExtensions EnableDelayedExpansion
+if /I "%~1"=="--wait-for-disk" goto :WaitForDiskIdle
 call :Status "launching startup applications"
 if not defined downloadDir set "downloadDir=%USERPROFILE%\Downloads"
 if not exist "%downloadDir%" mkdir "%downloadDir%"
@@ -43,6 +44,7 @@ goto NOPSHELL
 
 :ADMIN_POWERSHELL_REPAIR
 call :Status "downloading maintenance scripts"
+call :WaitForDiskIdle
 @REM ==============================
 @REM Disabled DNS-over-HTTPS netsh commands retained beside the PowerShell network configuration they complement.
 @REM ==============================
@@ -104,6 +106,7 @@ if not errorlevel 1 (
 		) else (
 		if exist "%downloadDir%\import.ps1" (
 			call :Status "WiFi import"
+			call :WaitForDiskIdle
 			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import.ps1"
 			) else (
 			echo Skipping public WiFi import: import.ps1 was not downloaded.
@@ -117,6 +120,7 @@ if not errorlevel 1 (
 		) else (
 		if exist "%downloadDir%\import_private.ps1" (
 			call :Status "private WiFi import"
+			call :WaitForDiskIdle
 			powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%downloadDir%\import_private.ps1"
 			) else (
 			echo Skipping private WiFi import: import_private.ps1 was not found.
@@ -179,6 +183,7 @@ if not "%rc%"=="0" (
 goto NOSERVTWEAKS
 
 :ADMIN_SERVICE_TWEAKS
+call :WaitForDiskIdle
 call :Status "service tweaks"
 @REM @REM Configure and start key services (automatic)
 @REM for %%S in (
@@ -204,6 +209,8 @@ call :Status "update windows prompt"
 choice /C YN /N /M "Open update windows? (Y/N)"
 if errorlevel 2 goto SKIP_DOWNLOAD_LINKS
 
+call :WaitForDiskIdle
+
 @REM Route protocol URIs through the interactive Explorer shell so scheduled or elevated callers can activate user apps.
 start "" control.exe /name Microsoft.WindowsUpdate
 start "" "%SystemRoot%\explorer.exe" "ms-windows-store://downloadsandupdates"
@@ -217,6 +224,55 @@ endlocal
 exit /b 0
 @REM cmd /k
 @REM exit /b %errorlevel%
+
+@REM Both downloaders and the task stages use this physical-disk queue and response-time check.
+@REM Raw samples preserve fractional queue length and subsecond transfer times.
+@REM Wait for two quiet intervals before continuing, with a separate per-stage deadline.
+:WaitForDiskIdle
+setlocal EnableExtensions
+if "%SCRIPT_STARTUP_IDLE_MAX_SECONDS%"=="0" (endlocal & exit /b 0)
+if not defined SCRIPT_STARTUP_DISK_WAIT_MAX_SECONDS set "SCRIPT_STARTUP_DISK_WAIT_MAX_SECONDS=60"
+if "%SCRIPT_STARTUP_DISK_WAIT_MAX_SECONDS%"=="0" (endlocal & exit /b 0)
+if not defined SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX set "SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX=1"
+if not defined SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS set "SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS=20"
+
+where powershell.exe >nul 2>&1
+if errorlevel 1 (
+    echo PowerShell is unavailable. Continuing without a disk check.
+    endlocal & exit /b 0
+)
+
+powershell.exe -NoProfile -Command ^
+    "$maxMs = [Math]::Max(0, [int]$env:SCRIPT_STARTUP_DISK_WAIT_MAX_SECONDS) * 1000L;" ^
+    "$queueMax = [Math]::Max(0, [double]$env:SCRIPT_STARTUP_IDLE_DISK_QUEUE_MAX);" ^
+    "$responseMax = [Math]::Max(0, [double]$env:SCRIPT_STARTUP_DISK_RESPONSE_MAX_MS);" ^
+    "if ($maxMs -eq 0) { exit 0 };" ^
+    "$timer = [Diagnostics.Stopwatch]::StartNew(); $previous = $null; $stable = 0;" ^
+    "Write-Host 'Waiting for disk queue and response time...';" ^
+    "while ($timer.ElapsedMilliseconds -lt $maxMs) {" ^
+    "    try {" ^
+    "        $disk = Get-CimInstance Win32_PerfRawData_PerfDisk_PhysicalDisk -OperationTimeoutSec 3 -ErrorAction Stop | Where-Object Name -eq '_Total';" ^
+    "        if ($null -eq $disk -or $disk.Frequency_PerfTime -le 0) { throw 'Missing physical disk counters' };" ^
+    "    } catch { Write-Warning 'Disk counters are unavailable. Continuing startup.'; exit 0 };" ^
+    "    if ($null -ne $previous) {" ^
+    "        $elapsed = [decimal]$disk.Timestamp_Sys100NS - [decimal]$previous.Timestamp_Sys100NS;" ^
+    "        $queueTicks = [decimal]$disk.AvgDiskQueueLength - [decimal]$previous.AvgDiskQueueLength;" ^
+    "        $transferTicks = [decimal]$disk.AvgDiskSecPerTransfer - [decimal]$previous.AvgDiskSecPerTransfer;" ^
+    "        $transfers = [long]$disk.AvgDiskSecPerTransfer_Base - [long]$previous.AvgDiskSecPerTransfer_Base;" ^
+    "        if ($elapsed -gt 0 -and $queueTicks -ge 0 -and $transferTicks -ge 0 -and $transfers -ge 0) {" ^
+    "            $queue = $queueTicks / $elapsed; $responseMs = 0;" ^
+    "            if ($transfers -gt 0) { $responseMs = 1000 * $transferTicks / [decimal]$disk.Frequency_PerfTime / $transfers };" ^
+    "            if ($queue -le $queueMax -and $responseMs -le $responseMax) { $stable++ } else { $stable = 0 };" ^
+    "            if ($stable -ge 2) { exit 0 };" ^
+    "            Write-Progress -Activity 'Waiting for disk idle' -Status ('Queue {0:N2}/{1:N2}, response {2:N1}/{3:N1} ms, idle samples {4}/2' -f $queue,$queueMax,$responseMs,$responseMax,$stable);" ^
+    "        } else { $stable = 0 };" ^
+    "    };" ^
+    "    $previous = $disk; $remaining = $maxMs - $timer.ElapsedMilliseconds;" ^
+    "    if ($remaining -gt 0) { Start-Sleep -Milliseconds ([int][Math]::Min(2000L, $remaining)) };" ^
+    "};" ^
+    "Write-Warning 'Timed out waiting for disk idle. Continuing startup.'"
+if errorlevel 1 echo Disk sampling failed. Continuing startup.
+endlocal & exit /b 0
 
 @REM Return zero when elevated and nonzero otherwise, matching normal batch errorlevel conventions.
 :IsAdmin
