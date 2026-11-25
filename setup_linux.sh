@@ -150,7 +150,7 @@ select_package_manager() {
 refresh_system_packages() {
 	case $manager in
 		apt) env DEBIAN_FRONTEND=noninteractive apt-get -o APT::Update::Error-Mode=any update &&
-			env DEBIAN_FRONTEND=noninteractive apt-get -y --with-new-pkgs upgrade ;;
+			env DEBIAN_FRONTEND=noninteractive apt-get -y --with-new-pkgs upgrade && apt-get autoclean ;;
 		pacman) pacman -Syu --noconfirm ;;
 		zypper) zypper --non-interactive update ;;
 		dnf|yum) "$manager" -y upgrade ;;
@@ -195,10 +195,36 @@ install_core_packages() {
 	esac
 }
 
+# Install NVIDIA drivers if GeForce GPU is detected
+install_nvidia() {
+	if have ubuntu-drivers; then
+		ubuntu-drivers install
+	elif [[ $manager == apt ]] && apt-cache show nvidia-driver >/dev/null 2>&1; then
+		env DEBIAN_FRONTEND=noninteractive apt-get -y install nvidia-driver
+	elif [[ $manager == pacman ]] && pacman -Si nvidia >/dev/null 2>&1; then
+		pacman -S --needed nvidia
+	else
+		warn 'No supported NVIDIA driver package found in the configured repositories.'
+		return 1
+	fi
+}
+
+write_setting() {
+	printf '%s\n' "$2" > "$1"
+}
+
 configure_dns() {
-	local directory=/etc/systemd/resolved.conf.d file servers
+	local directory=/etc/systemd/resolved.conf.d file servers fallback=
 	file=$directory/90-zerohazard-startup.conf
-	servers='1.1.1.2 1.0.0.2 2606:4700:4700::1112 2606:4700:4700::1002'
+	case $1 in
+		quad9)
+			# Set IPv6 DNS server addresses
+			servers='2620:fe::11 2620:fe::fe:11'
+			# Set IPv4 DNS server addresses
+			fallback=$'FallbackDNS=9.9.9.11 149.112.112.11\n'
+			;;
+		cloudflare) servers='1.1.1.2 1.0.0.2 2606:4700:4700::1112 2606:4700:4700::1002' ;;
+	esac
 	if ! systemctl is-active --quiet systemd-resolved.service; then
 		warn 'DNS configuration requires an active systemd-resolved service.'
 		return 1
@@ -206,7 +232,7 @@ configure_dns() {
 	install -d -m 0755 -- "$directory" || return
 	local temporary
 	temporary=$(mktemp "$directory/.zerohazard.XXXXXX") || return
-	if ! printf '[Resolve]\nDNS=%s\n' "$servers" > "$temporary" ||
+	if ! printf '[Resolve]\nDNS=%s\n%s' "$servers" "$fallback" > "$temporary" ||
 		! chmod 0644 -- "$temporary" || ! mv -fT -- "$temporary" "$file"; then
 		rm -f -- "$temporary"
 		return 1
@@ -245,8 +271,60 @@ import_wifi() (
 	return 1
 )
 
+# Delete empty folders (safely)
+cleanup_empty_dirs() {
+	local directory
+	directory=$(realpath -e -- .) || return
+	[[ -d $directory && $directory != / ]] || { warn 'Choose a cleanup directory below /.'; return 1; }
+	find "$directory" -xdev -mindepth 1 -depth -type d -empty -delete
+}
+
+# ------------------------------------
+# schedulers
+# ------------------------------------
+tune_governors() {
+	local cpu policy driver governors governor value setting result=0
+	if [[ -w /sys/kernel/gpu/gpu_governor ]] &&
+		grep -qw simple_ondemand /sys/kernel/gpu/gpu_available_governors 2>/dev/null; then
+		write_setting /sys/kernel/gpu/gpu_governor simple_ondemand || result=1
+	fi
+	for cpu in /sys/devices/system/cpu/cpu[0-9]*/online; do
+		[[ -w $cpu ]] || continue
+		read -r value < "$cpu" || continue
+		[[ $value == 0 ]] || continue
+		write_setting "$cpu" 1 || result=1
+	done
+	for policy in /sys/devices/system/cpu/cpufreq/policy[0-9]*; do
+		[[ -w $policy/scaling_governor ]] || continue
+		read -r driver < "$policy/scaling_driver" || continue
+		read -r governors < "$policy/scaling_available_governors" || continue
+		case " $governors " in
+			*' schedutil '*) governor=schedutil ;;
+			*)
+				if [[ $driver == *pstate* && " $governors " == *' powersave '* ]]; then governor=powersave
+				elif [[ " $governors " == *' ondemand '* ]]; then governor=ondemand
+				elif [[ " $governors " == *' performance '* ]]; then governor=performance
+				else continue
+				fi
+				;;
+		esac
+		for setting in min max; do
+			if [[ -w $policy/scaling_${setting}_freq ]] &&
+				read -r value < "$policy/cpuinfo_${setting}_freq"; then
+				write_setting "$policy/scaling_${setting}_freq" "$value" || result=1
+			fi
+		done
+		write_setting "$policy/scaling_governor" "$governor" || result=1
+		if [[ -w $policy/energy_performance_preference ]] &&
+			grep -qw balance_performance "$policy/energy_performance_available_preferences" 2>/dev/null; then
+			write_setting "$policy/energy_performance_preference" balance_performance || result=1
+		fi
+	done
+	return "$result"
+}
+
 system_tasks() {
-	local manager upgrade_failures=$failures profile
+	local manager upgrade_failures=$failures profile dns_provider=cloudflare
 	select_package_manager
 	if confirm 'Install programs?'; then
 		step 'Distro package upgrades' refresh_system_packages
@@ -256,12 +334,19 @@ system_tasks() {
 		if have snap; then step 'Snap updates' snap refresh; fi
 		if have flatpak; then step 'System Flatpak updates' flatpak update --system --noninteractive -y; fi
 	fi
+	if have lspci && lspci | awk 'tolower($0) ~ /(vga|3d|display).*nvidia/ { found=1 } END { exit !found }' &&
+		confirm 'Install NVIDIA drivers?' N; then
+		step 'NVIDIA driver' install_nvidia
+	fi
+	if confirm 'Tune CPU and GPU governors?' N; then step 'CPU and GPU governors' tune_governors; fi
 	if have systemctl && systemctl is-active --quiet systemd-resolved.service && confirm 'Configure DNS?' N; then
-		step 'DNS configuration' configure_dns
+		if confirm 'Use Quad9 DNS?' N; then dns_provider=quad9; fi
+		step 'DNS configuration' configure_dns "$dns_provider"
 	fi
 	if have nmcli && confirm 'Run Wi-Fi import?' N && read -r -e -p 'NetworkManager profile path: ' profile; then
 		step 'Wi-Fi profile import' import_wifi "$profile"
 	fi
+	if confirm "Clean empty folders in $PWD?" N; then step 'Empty directory cleanup' cleanup_empty_dirs; fi
 	return 0
 }
 
